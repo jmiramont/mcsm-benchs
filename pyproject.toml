@@ -51,6 +51,9 @@ docs = ["Sphinx", "sphinx-rtd-theme", "nbsphinx", "sphinxcontrib-bibtex"]
 matlab_tools = ["matlabengine"]
 
 
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

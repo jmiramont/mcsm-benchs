@@ -1,7 +1,7 @@
 # from sqlite3 import DatabaseError
 import pandas as pd
 import seaborn as sns
-from benchmark_tools.Benchmark import Benchmark
+from mcsm_benchmarks.Benchmark import Benchmark
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt

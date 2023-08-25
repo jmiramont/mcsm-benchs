@@ -1,5 +1,5 @@
 import numpy as np
-from benchmark_tools.SignalBank import SignalBank, Signal
+from mcsm_benchmarks.SignalBank import SignalBank, Signal
 import pandas as pd
 import numbers
 import pickle
