@@ -243,34 +243,39 @@ class Benchmark:
 
         # Check if using_signals is a dict with testing signals
         if isinstance(using_signals,dict):    
+            signal_dic = {}
             for key in using_signals:
                 s = using_signals[key]
-                assert N == s.shape[1], "Input signal length should be N"
+                assert N == len(s), "Input signal length should be N"
+                signal_dic[key] = lambda : Signal(s)
 
-            self.signal_dic = using_signals
-
-
-        if using_signals == 'all':
-            # Generates a dictionary of signals
-            signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
-            self.tmin = signal_bank.tmin # Save initial and end times of signals.
-            self.tmax = signal_bank.tmax
-            self.signal_dic = signal_bank.signalDict
+            self.signal_dic = signal_dic
             self.signal_ids = [akey for akey in self.signal_dic]
-            if Nsub is None:
-                self.Nsub = signal_bank.Nsub
+            self.tmin = 0 # int(np.sqrt(N))
+            self.tmax = N # -int(np.sqrt(N))
 
         else:
-            # Check if list of signals are in SignalBank
-            if isinstance(using_signals,tuple) or isinstance(using_signals,list):
-                signal_bank = SignalBank(N, return_signal=True)
-                llaves = signal_bank.signalDict.keys()
-                assert all(signal_id in llaves for signal_id in using_signals) 
-            
-            self.signal_dic = signal_bank.signalDict
-            self.tmin = signal_bank.tmin # Save initial and end times of signals.
-            self.tmax = signal_bank.tmax
-            self.signal_ids = using_signals
+            if using_signals == 'all':
+                # Generates a dictionary of signals
+                signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
+                self.tmin = signal_bank.tmin # Save initial and end times of signals.
+                self.tmax = signal_bank.tmax
+                self.signal_dic = signal_bank.signalDict
+                self.signal_ids = [akey for akey in self.signal_dic]
+                if Nsub is None:
+                    self.Nsub = signal_bank.Nsub
+
+            else:
+                # Check if list of signals are in SignalBank
+                if isinstance(using_signals,tuple) or isinstance(using_signals,list):
+                    signal_bank = SignalBank(N, return_signal=True)
+                    llaves = signal_bank.signalDict.keys()
+                    assert all(signal_id in llaves for signal_id in using_signals) 
+                
+                self.signal_dic = signal_bank.signalDict
+                self.tmin = signal_bank.tmin # Save initial and end times of signals.
+                self.tmax = signal_bank.tmax
+                self.signal_ids = using_signals
 
 
        
