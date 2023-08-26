@@ -1,13 +1,7 @@
 from abc import ABC, abstractmethod
 
 class MethodTemplate(ABC):
-    """_summary_
-
-    Args:
-        ABC (_type_): _description_
-
-    Returns:
-        _type_: _description_
+    """ An abstract class for new methods to add in a benchmark.
     """
 
     @abstractmethod

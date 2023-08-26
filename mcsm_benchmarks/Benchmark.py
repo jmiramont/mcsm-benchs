@@ -53,7 +53,9 @@ class Benchmark:
                  verbosity=1,
                  parallelize = False,
                  complex_noise = False,
-                 obj_fun = None):
+                 obj_fun = None,
+                 **kwargs
+                 ):
         """ Initialize the main parameters of the test bench before running the benchmark.
 
         Args:
@@ -573,7 +575,18 @@ class Benchmark:
 
         return self.results
 
+    @staticmethod
+    def load_benchmark(filename=None):
         
+        with open(filename, 'rb') as f:
+            bench_dict = pickle.load(f)    
+
+        benchmark = Benchmark(**bench_dict)
+
+        # Results
+        benchmark.__dict__ = bench_dict
+        
+
     def save_to_file(self,filename = None):
         """Save the results to a binary file that encodes the benchmark object.
         Notice that the methods associated with the benchmark, not being pickable objects,
@@ -591,8 +604,9 @@ class Benchmark:
 
         a_copy = self
         a_copy.methods = {key:None for key in a_copy.methods}
+        
         with open(filename + '.pkl', 'wb') as f:
-            pickle.dump(a_copy, f)    
+            pickle.dump(a_copy.__dict__, f)    
 
         return True
 
