@@ -447,11 +447,13 @@ class Benchmark:
                 if self.noise_matrix is None:
                     self.noise_matrix = self.generate_noise()
                             
-                noisy_signals = self.sigmerge(self.base_signal, 
+                noisy_signals,scaled_noise = self.sigmerge(self.base_signal, 
                                             self.noise_matrix,
                                             SNR,
                                             tmin = self.tmin,
-                                            tmax = self.tmax)
+                                            tmax = self.tmax,
+                                            return_noise=True
+                                            )
 
                 # Access current noisy signals from the main loop.                                                    
                 self.noisy_signals = noisy_signals
@@ -531,10 +533,14 @@ class Benchmark:
                                     
                             # Either way, results are saved in a nested dictionary.
                             result = []
-                            for output in method_output:
+                            for i,output in enumerate(method_output):
                                 result.append(
-                                        self.objectiveFunction(self.base_signal,output,
-                                                                            **extrargs)
+                                        self.objectiveFunction(self.base_signal,
+                                                               output,
+                                                               tmin=self.tmin,
+                                                               tmax=self.tmax,
+                                                               scaled_noise=scaled_noise[i]
+                                                                )
                                             )
                             
                         
@@ -719,7 +725,7 @@ class Benchmark:
             return sig
     
     @staticmethod
-    def snr_comparison(x, x_hat, tmin=None, tmax=None):
+    def snr_comparison(x, x_hat, tmin=None, tmax=None,**kwargs):
         """
         Quality reconstruction factor for denoising performance characterization.
         """
@@ -743,11 +749,11 @@ class Benchmark:
         return qrf
 
     @staticmethod
-    def detection_perf_function(original_signal, detection_output):
+    def detection_perf_function(original_signal, detection_output,**kwargs):
         return detection_output 
 
     @staticmethod
-    def compare_qrf_block(signal, method_output, tmin=None, tmax=None):
+    def compare_qrf_block(signal, method_output, tmin=None, tmax=None,**kwargs):
         X = signal.comps
         output = []
         for Xest in method_output:
@@ -763,7 +769,7 @@ class Benchmark:
         return dict_output
 
     @staticmethod    
-    def compare_instf_block(signal, method_output, tmin=None, tmax=None):
+    def compare_instf_block(signal, method_output, tmin=None, tmax=None,**kwargs):
         X = signal.instf
         output = []
         for Xest in method_output:
