@@ -387,6 +387,8 @@ class Benchmark:
             
             # TODO Write a log here with the error. Should identify the repetition.
             
+            elapsed = np.nan
+
             if self.task == 'denoising':
                 method_output = np.empty(noisy_signal.shape)
                 method_output[:] = np.nan
