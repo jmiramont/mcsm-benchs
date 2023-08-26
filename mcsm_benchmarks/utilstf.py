@@ -13,8 +13,10 @@ Those functions are:
 import numpy as np
 import scipy.signal as sg
 from scipy.fft import fft, ifft
-from math import factorial
 from numpy import complex128, dtype, pi as pi
+
+
+
 def get_gauss_window(Nfft,L,prec=1e-6):
     l=np.floor(np.sqrt(-Nfft*np.log(prec)/pi))+1
     N = 2*l+1
@@ -392,78 +394,6 @@ def add_snr(x,snr,complex_noise=False):
     snr_out = 10 * np.log10(Px / Pn)
     print('snr_out:{}'.format(snr_out))
     return x+n,n
-
-
-def hermite_poly(t,n, return_all = False):
-    """Generates a Hermite polynomial of order n on the vector t.
-
-    Args:
-        t (ndarray, float): A real valued vector on which compute the Hermite 
-        polynomials.
-        n (int): Order of the Hermite polynomial.
-
-    Returns:
-        ndarray: Returns an array with the Hermite polynomial computed on t.
-    """
-
-    all_hp = np.zeros((n+1,len(t)))
-
-    if n == 0:
-        hp = np.ones((len(t),))
-        all_hp[0] = hp
-
-    else:
-            hp = 2*t
-            all_hp[0,:] = np.ones((len(t),))
-            all_hp[1,:] = hp
-            # if n >= 1:
-            for i in range(2,n+1):
-                # hp = 2*t*hermite_poly(t,n-1) - 2*(n-1)*hermite_poly(t,n-2)
-                hp = 2*t*all_hp[i-1] - 2*(i-1)*all_hp[i-2]
-                all_hp[i,:] = hp
-
-    if not return_all:
-        return hp
-    else:
-        return hp, all_hp
-
-
-def hermite_fun(N, q, t=None, T=None, return_all = False):
-    """Computes an Hermite function of order q, that consist in a centered Hermite 
-    polynomial multiplied by the squared-root of a centered Gaussian given by: 
-    exp(-pi(t/T)^2). The parameter T fixes the width of the Gaussian function.
-
-    Args:
-        N (int): Length of the function in samples
-        q (int): Order of the Hermite polynomial.
-        t (ndarray): Values on which compute the function. If None, uses a centered 
-        vector from -N//2 to N//2-1. Defaults to None.
-        T (float): Scale of the Gaussian involved in the Hermite function. If None,
-        N = sqrt(N). Defaults to None.
-
-    Returns:
-        _type_: _description_
-    """
-
-    if t is None:
-        t = np.arange(N)-N//2
-
-    if T is None:
-        T = np.sqrt(N)
-
-    _, all_hp = hermite_poly(np.sqrt(2*pi)*t/T, q-1,return_all=True)
-    gaussian_basic = np.exp(-pi*(t/T)**2)/np.sqrt(T)
-    hfunc = np.zeros((q,len(t)))
-
-    for i in range(q):
-        Cnorm = np.sqrt(factorial(q-1)*(2**(q-1-0.5)))
-        # gaussian_basic /= np.sum(gaussian_basic)
-        hfunc[i] = gaussian_basic*all_hp[i]/Cnorm
-    
-    if not return_all:
-        return hfunc[-1]
-    else:
-        return hfunc[-1], hfunc
         
 def sigmerge(x1, noise, ratio, return_noise=False):
     # Get signal parameters.

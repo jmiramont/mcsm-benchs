@@ -4,6 +4,15 @@ We introduce a public, open-source, Python-based toolbox for benchmarking multi-
 
 The goal of this toolbox is providing the signal-processing community with a common framework that allows researcher-independent comparisons between methods and favors reproducible research.
 
+## Documentation and Results
+
+[![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/benchmark-test/)
+
+## Related works
+
+[![EUSIPCO 2023](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
+[![Gretsi 22](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
+
 ## Modify ```matlabengine``` module version
 
 Check the version of the ```matlabengine``` module you have to install to use run the benchmarks in the next table:
