@@ -530,9 +530,13 @@ class Benchmark:
                                     elapsed.append(extime)
                                     
                             # Either way, results are saved in a nested dictionary.
-                            result =  self.objectiveFunction(self.base_signal, 
-                                                            method_output,
-                                                            **extrargs)
+                            result = []
+                            for output in method_output:
+                                result.append(
+                                        self.objectiveFunction(self.base_signal,output,
+                                                                            **extrargs)
+                                            )
+                            
                         
                             # params_dic['Params'+str(p)] = result
                             params_dic[str(params)] = result                        
