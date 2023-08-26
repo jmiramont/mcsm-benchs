@@ -686,6 +686,7 @@ class Benchmark:
         Returns:
             _type_: _description_
         """
+        np.random.seed(0)
         noise_matrix = np.random.randn(self.repetitions,self.N)
         if self.complex_noise:
             noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
