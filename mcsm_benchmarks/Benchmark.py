@@ -16,7 +16,7 @@ class Benchmark:
 
     Methods
     -------
-    input_parsing(task, methods, N, parameters, SNRin, repetitions, using_signals, verbosity, parallelize):
+    input_parsing(task, methods, N, parameters, SNRin, repetitions, signal_ids, verbosity, parallelize):
         Parse input parameters of the constructor of class Benchmark.
     
     check_methods_output(output,input):
@@ -49,7 +49,7 @@ class Benchmark:
                  parameters=None,
                  SNRin=None, 
                  repetitions=None, 
-                 using_signals='all', 
+                 signal_ids='all', 
                  verbosity=1,
                  parallelize = False,
                  complex_noise = False,
@@ -80,7 +80,7 @@ class Benchmark:
             each value of SNR. This value is the number of noise realizations that are 
             used to assess the methods. Defaults to None.
             
-            using_signals (tuple, optional): Tuple or list of the signal ids from the 
+            signal_ids (tuple, optional): Tuple or list of the signal ids from the 
             SignalBank class. Defaults to 'all'.
             
             verbosity (int, optional): Number from 0 to 4. It determines the number of 
@@ -120,7 +120,7 @@ class Benchmark:
                            parameters, 
                            SNRin, 
                            repetitions, 
-                           using_signals, 
+                           signal_ids, 
                            verbosity, 
                            parallelize,
                            complex_noise,
@@ -142,7 +142,7 @@ class Benchmark:
                     parameters, 
                     SNRin, 
                     repetitions, 
-                    using_signals, 
+                    signal_ids, 
                     verbosity, 
                     parallelize,
                     complex_noise,
@@ -164,7 +164,7 @@ class Benchmark:
             each value of SNR.
             This value is the number of noise realizations that are used to assess the 
             methods.Defaults to None.
-            using_signals (tuple, optional): Tuple or list of the signal ids from the 
+            signal_ids (tuple, optional): Tuple or list of the signal ids from the 
             SignalBank class. Defaults to 'all'.
             verbosity (int, optional): Number from 0 to 4. It determines the number of 
             messages passed to the console informing the progress of the benchmarking 
@@ -242,11 +242,11 @@ class Benchmark:
 
         # Check what to do with the signals:
 
-        # Check if using_signals is a dict with testing signals
-        if isinstance(using_signals,dict):    
+        # Check if signal_ids is a dict with testing signals
+        if isinstance(signal_ids,dict):    
             signal_dic = {}
-            for key in using_signals:
-                s = using_signals[key]
+            for key in signal_ids:
+                s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
                 signal_dic[key] = lambda : Signal(s)
 
@@ -256,7 +256,7 @@ class Benchmark:
             self.tmax = N # -int(np.sqrt(N))
 
         else:
-            if using_signals == 'all':
+            if signal_ids == 'all':
                 # Generates a dictionary of signals
                 signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
@@ -268,15 +268,15 @@ class Benchmark:
 
             else:
                 # Check if list of signals are in SignalBank
-                if isinstance(using_signals,tuple) or isinstance(using_signals,list):
+                if isinstance(signal_ids,tuple) or isinstance(signal_ids,list):
                     signal_bank = SignalBank(N, return_signal=True)
                     llaves = signal_bank.signalDict.keys()
-                    assert all(signal_id in llaves for signal_id in using_signals) 
+                    assert all(signal_id in llaves for signal_id in signal_ids) 
                 
                 self.signal_dic = signal_bank.signalDict
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
                 self.tmax = signal_bank.tmax
-                self.signal_ids = using_signals
+                self.signal_ids = signal_ids
 
         # Check if complex_noise flag is bool:
         if type(complex_noise) is bool:
