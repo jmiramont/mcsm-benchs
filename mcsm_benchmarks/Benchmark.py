@@ -100,16 +100,16 @@ class Benchmark:
         """
 
         # Objects attributes
-        self.task = None
-        self.methods = None
-        self.N = None
-        self.Nsub = None
-        self.repetitions = None
-        self.SNRin = None
-        self.results = None
-        self.verbosity = None
-        self.complex_noise = None
-        self.noise_matrix = None
+        # self.task = None
+        # self.methods = None
+        # self.N = None
+        # self.Nsub = None
+        # self.repetitions = None
+        # self.SNRin = None
+        # # self.results = None
+        # self.verbosity = None
+        # self.complex_noise = None
+        # self.noise_matrix = None
         self.methods_and_params_dic = dict()
         
         # Check input parameters and initialize the object attributes
@@ -124,7 +124,8 @@ class Benchmark:
                            verbosity, 
                            parallelize,
                            complex_noise,
-                           obj_fun)
+                           obj_fun,
+                           **kwargs)
 
         # Parallelize parameters
         if self.parallel_flag:
@@ -145,7 +146,8 @@ class Benchmark:
                     verbosity, 
                     parallelize,
                     complex_noise,
-                    obj_fun):
+                    obj_fun,
+                    **kwargs):
 
         """Parse input parameters of the constructor of class Benchmark.
 
@@ -200,13 +202,10 @@ class Benchmark:
             else:
                 raise ValueError("Parameters should be a dictionary or None.\n")
 
-        #Check both dictionaries have the same keys:
+        # Check both dictionaries have the same keys:
         if not (self.methods.keys() == self.parameters.keys()):
             # sys.stderr.write
             raise ValueError("Both methods and parameters dictionaries should have the same keys.\n")
-
-        # If we are here, this is a new benchmark, so the all the methods are new:
-        self.this_method_is_new = {method:True for method in self.methods_ids}
 
         # Check if N is an entire:
         if type(N) is int:
@@ -279,9 +278,6 @@ class Benchmark:
                 self.tmax = signal_bank.tmax
                 self.signal_ids = using_signals
 
-
-       
-
         # Check if complex_noise flag is bool:
         if type(complex_noise) is bool:
             self.complex_noise = complex_noise
@@ -316,6 +312,16 @@ class Benchmark:
                 self.objectiveFunction = obj_fun
             else:
                 raise ValueError("'obj_fun' should be a callable object.\n")
+            
+
+        # Extra arguments may be passed when opening a saved benchmark:
+        if kwargs is {}:
+            # If we are here, this is a new benchmark, so the all the methods are new:
+            self.this_method_is_new = {method:True for method in self.methods_ids}
+        else:
+            for key in kwargs:
+                if not key in self.__dict__:
+                    self.__dict__[key] = kwargs[key]
                 
 
     def check_methods_output(self, output, input):
