@@ -580,17 +580,6 @@ class Benchmark:
             self.this_method_is_new[method] = False
 
         return self.results
-
-    @staticmethod
-    def load_benchmark(filename=None):
-        
-        with open(filename, 'rb') as f:
-            bench_dict = pickle.load(f)    
-
-        benchmark = Benchmark(**bench_dict)
-
-        # Results
-        benchmark.__dict__ = bench_dict
         
 
     def save_to_file(self,filename = None):
@@ -610,6 +599,10 @@ class Benchmark:
 
         a_copy = self
         a_copy.methods = {key:None for key in a_copy.methods}
+        a_copy.base_signal = a_copy.base_signal.view(np.ndarray)
+        a_copy.signal_dic = []
+        a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
+        a_copy.objectiveFunction = []
         
         with open(filename + '.pkl', 'wb') as f:
             pickle.dump(a_copy.__dict__, f)    
