@@ -219,10 +219,10 @@ class Benchmark:
                 raise ValueError("Nsub should be an entire.\n")
 
             # Check if Nsub is lower than N:
-            if self.N > Nsub:
-                self.Nsub = Nsub
-            else:
+            if self.N < Nsub:
                 raise ValueError("Nsub should be lower than N.\n")
+
+        self.Nsub = Nsub
 
         # Check if SNRin is a tuple or list, and if so, check if there are only numerical variables.
         if (type(SNRin) is tuple) or (type(SNRin) is list):
@@ -269,7 +269,7 @@ class Benchmark:
             else:
                 # Check if list of signals are in SignalBank
                 if isinstance(signal_ids,tuple) or isinstance(signal_ids,list):
-                    signal_bank = SignalBank(N, return_signal=True)
+                    signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                     llaves = signal_bank.signalDict.keys()
                     assert all(signal_id in llaves for signal_id in signal_ids) 
                 
