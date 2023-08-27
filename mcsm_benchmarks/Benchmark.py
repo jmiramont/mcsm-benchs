@@ -303,7 +303,7 @@ class Benchmark:
             
 
         # Extra arguments may be passed when opening a saved benchmark:
-        if kwargs is {}:
+        if kwargs == {}:
             # If we are here, this is a new benchmark, so the all the methods are new:
             self.this_method_is_new = {method:True for method in self.methods_ids}
             # self.task = None
@@ -315,7 +315,7 @@ class Benchmark:
             self.results = None
             # self.verbosity = None
             # self.complex_noise = None
-            # self.noise_matrix = None
+            self.noise_matrix = None
             self.methods_and_params_dic = dict()
         
         else:
