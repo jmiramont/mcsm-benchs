@@ -99,18 +99,6 @@ class Benchmark:
 
         """
 
-        # Objects attributes
-        # self.task = None
-        # self.methods = None
-        # self.N = None
-        # self.Nsub = None
-        # self.repetitions = None
-        # self.SNRin = None
-        # # self.results = None
-        # self.verbosity = None
-        # self.complex_noise = None
-        # self.noise_matrix = None
-        # self.methods_and_params_dic = dict()
         
         # Check input parameters and initialize the object attributes
         self.input_parsing(task,
@@ -318,6 +306,18 @@ class Benchmark:
         if kwargs is {}:
             # If we are here, this is a new benchmark, so the all the methods are new:
             self.this_method_is_new = {method:True for method in self.methods_ids}
+            # self.task = None
+            # self.methods = None
+            # self.N = None
+            # self.Nsub = None
+            # self.repetitions = None
+            # self.SNRin = None
+            self.results = None
+            # self.verbosity = None
+            # self.complex_noise = None
+            # self.noise_matrix = None
+            self.methods_and_params_dic = dict()
+        
         else:
             for key in kwargs:
                 if not key in self.__dict__:
