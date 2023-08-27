@@ -110,7 +110,7 @@ class Benchmark:
         # self.verbosity = None
         # self.complex_noise = None
         # self.noise_matrix = None
-        self.methods_and_params_dic = dict()
+        # self.methods_and_params_dic = dict()
         
         # Check input parameters and initialize the object attributes
         self.input_parsing(task,
