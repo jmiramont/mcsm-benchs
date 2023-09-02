@@ -10,7 +10,7 @@ The goal of this toolbox is providing the signal-processing community with a com
 
 ## Related works
 
-[![EUSIPCO 2023](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
+[EUSIPCO 2023](https://github.com/jmiramont/benchmarks_eusipco2023)
 [![Gretsi 22](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
 
 ## Modify ```matlabengine``` module version
@@ -19,7 +19,7 @@ Check the version of the ```matlabengine``` module you have to install to use ru
 
 | Matlab Version | Python Version | ```matlabengine``` version |   |
 |----------------|----------------|----------------------------|---|
-| 2022b          | 3.8, 3.9, 3.10 | 9.13.16                    |   |
+| 2022b          | 3.8, 3.9, 3.10 | 9.13.6                    |   |
 | 2022a          | 3.8, 3.9       | 9.12.17                    |   |
 | 2021b          | 3.7, 3.8, 3.9  | 9.11.19                    |   |
 
