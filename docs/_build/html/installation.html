@@ -86,14 +86,21 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<section id="intallation">
-<h2>Intallation<a class="headerlink" href="#intallation" title="Link to this heading"></a></h2>
+<section id="installation-using-pip">
+<h2>Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installation-using-pip" title="Link to this heading"></a></h2>
+<p>Clone the repository to a local folder using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jmiramont/mcsm-benchmarks.git
+</pre></div>
+</div>
+<p>Then install the toolbox using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mcsm-benchmarks/dist/mcsm_benchmarks-0.1.0-py3-none-any.whl
+</pre></div>
+</div>
 </section>
 <section id="installation-using-poetry">
 <h2>Installation using <code class="docutils literal notranslate"><span class="pre">poetry</span></code><a class="headerlink" href="#installation-using-poetry" title="Link to this heading"></a></h2>
-<p>We use <a class="reference external" href="https://python-poetry.org/docs/"><code class="docutils literal notranslate"><span class="pre">poetry</span></code></a>, a tool for dependency management and packaging in python to install the benchmarking framework. You can install <code class="docutils literal notranslate"><span class="pre">poetry</span></code> following the steps described <a class="reference external" href="https://python-poetry.org/docs/#installation">here</a>.
-In order to install the benchmarking tool, open a terminal in the directory where you clone the benchmark (or use the console in your preferred IDE). Then, make <code class="docutils literal notranslate"><span class="pre">poetry</span></code> create a virtual environment and install all the current dependencies of the benchmark using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install
+<p>If you use <a class="reference external" href="https://python-poetry.org/docs/"><code class="docutils literal notranslate"><span class="pre">poetry</span></code></a> for management dependency and packaging in Python, you can add the toolbox to your dependencies using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>add<span class="w"> </span>git+https://github.com/jmiramont/mcsm-benchmarks.git
 </pre></div>
 </div>
 </section>
