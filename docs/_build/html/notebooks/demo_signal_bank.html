@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SignalBank Example &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="mcsm_benchmarks" href="../modules.html" />
+    <link rel="prev" title="Creating benchmarks of MCS Methods" href="demo_benchmark.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Multi-Component Signal Methods Benchmarks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Welcome to Multi-Component Signal Methods Benchmarks’s documentation!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SignalBank Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">mcsm_benchmarks</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Multi-Component Signal Methods Benchmarks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SignalBank Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/demo_signal_bank.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="SignalBank-Example">
+<h1>SignalBank Example<a class="headerlink" href="#SignalBank-Example" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.utilstf</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.SignalBank</span> <span class="kn">import</span> <span class="n">SignalBank</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">signal_bank</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">signals_dic</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">signalDict</span>
+
+<span class="n">number_of_signals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals_dic</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="c1"># nplots = int(np.ceil(np.sqrt(number_of_signals)))</span>
+<span class="c1"># print(nplots)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">signal_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">signals_dic</span><span class="p">):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">signals_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]()</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">stft</span> <span class="o">=</span> <span class="n">get_spectrogram</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">stft</span> <span class="o">=</span> <span class="n">stft</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,:]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">stft</span><span class="p">),</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;signal_id = &#39;</span><span class="o">+</span> <span class="n">signal_id</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Documents/asasda/mcsm-benchmarks/mcsm_benchmarks/SignalBank.py:1174: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Documents/asasda/mcsm-benchmarks/mcsm_benchmarks/SignalBank.py:1362: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_signal_bank_2_1.png" src="../_images/notebooks_demo_signal_bank_2_1.png" />
+</div>
+</div>
+<section id="Controlling-the-signal's-effective-length-inside-the-observation-window">
+<h2>Controlling the signal’s effective length inside the observation window<a class="headerlink" href="#Controlling-the-signal's-effective-length-inside-the-observation-window" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">signal_bank</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">signals_dic</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">signalDict</span>
+<span class="n">fmin</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">fmin</span>
+<span class="n">fmax</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">fmax</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">tmin</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">tmax</span>
+<span class="n">Nfft</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">N</span>
+
+<span class="n">signal_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;ExpChirp&#39;</span><span class="p">,</span> <span class="c1"># Single-component signals</span>
+                <span class="s1">&#39;McCrossingChirps&#39;</span><span class="p">,</span>                       <span class="c1"># Crossing-components</span>
+                <span class="s1">&#39;McMultiLinear&#39;</span><span class="p">,</span><span class="s1">&#39;McPureTones&#39;</span><span class="p">,</span>               <span class="c1"># Multi-Component Harmonic signals</span>
+                <span class="s1">&#39;McMultiCos&#39;</span><span class="p">,</span><span class="s1">&#39;McDoubleCosChirp&#39;</span><span class="p">,</span>    <span class="c1"># Multi-Component Non-Harmonic</span>
+                <span class="s1">&#39;McSyntheticMixture2&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;HermiteFunction&#39;</span><span class="p">,</span><span class="s1">&#39;HermiteElipse&#39;</span><span class="p">,</span>        <span class="c1"># Hermite type signals</span>
+                <span class="s1">&#39;ToneDamped&#39;</span><span class="p">,</span><span class="s1">&#39;ToneSharpAttack&#39;</span><span class="p">,</span>           <span class="c1"># Dumped and Sharps attacks</span>
+                <span class="s1">&#39;McOnOffTones&#39;</span><span class="p">]</span>                           <span class="c1"># Modes that born and die</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">signal_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">signal_names</span><span class="p">):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">signals_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]()</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">get_spectrogram</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># print(idx)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;signal_id = &#39;</span><span class="o">+</span> <span class="n">signal_id</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmin</span><span class="p">],[</span><span class="n">fmin</span><span class="o">*</span><span class="n">Nfft</span><span class="p">,</span> <span class="n">fmax</span><span class="o">*</span><span class="n">Nfft</span><span class="p">],</span><span class="s1">&#39;--w&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">tmax</span><span class="p">,</span> <span class="n">tmax</span><span class="p">],[</span><span class="n">fmin</span><span class="o">*</span><span class="n">Nfft</span><span class="p">,</span> <span class="n">fmax</span><span class="o">*</span><span class="n">Nfft</span><span class="p">],</span><span class="s1">&#39;--w&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">],[</span><span class="n">fmin</span><span class="o">*</span><span class="n">Nfft</span><span class="p">,</span> <span class="n">fmin</span><span class="o">*</span><span class="n">Nfft</span><span class="p">],</span><span class="s1">&#39;--w&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">],[</span><span class="n">fmax</span><span class="o">*</span><span class="n">Nfft</span><span class="p">,</span> <span class="n">fmax</span><span class="o">*</span><span class="n">Nfft</span><span class="p">],</span><span class="s1">&#39;--w&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_signal_bank_4_0.png" src="../_images/notebooks_demo_signal_bank_4_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_benchmark.html" class="btn btn-neutral float-left" title="Creating benchmarks of MCS Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules.html" class="btn btn-neutral float-right" title="mcsm_benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Juan M. Miramont.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

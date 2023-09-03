@@ -1,0 +1,10 @@
+# Intallation
+
+# Installation using ```poetry```
+
+We use [```poetry```](https://python-poetry.org/docs/), a tool for dependency management and packaging in python to install the benchmarking framework. You can install ```poetry``` following the steps described [here](https://python-poetry.org/docs/#installation). 
+In order to install the benchmarking tool, open a terminal in the directory where you clone the benchmark (or use the console in your preferred IDE). Then, make ```poetry``` create a virtual environment and install all the current dependencies of the benchmark using:
+
+```bash
+poetry install
+```

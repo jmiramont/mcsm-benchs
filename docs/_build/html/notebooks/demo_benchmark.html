@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating benchmarks of MCS Methods &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SignalBank Example" href="demo_signal_bank.html" />
+    <link rel="prev" title="Welcome to Multi-Component Signal Methods Benchmarks’s documentation!" href="../introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Multi-Component Signal Methods Benchmarks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Welcome to Multi-Component Signal Methods Benchmarks’s documentation!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">mcsm_benchmarks</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Multi-Component Signal Methods Benchmarks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Creating benchmarks of MCS Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/demo_benchmark.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Creating-benchmarks-of-MCS-Methods">
+<h1>Creating benchmarks of MCS Methods<a class="headerlink" href="#Creating-benchmarks-of-MCS-Methods" title="Link to this heading"></a></h1>
+<p>We introduce a public, open-source, Python-based toolbox for benchmarking multi-component signal analysis methods, implemented either in Python or Matlab.</p>
+<p>The goal of this toolbox is providing the signal-processing community with a common framework that allows researcher-independent comparisons between methods and favors reproducible research.</p>
+<p>With the purpose of making this toolbox more useful, the methods to compare, the tests, the signal generation code and the performance evaluation functions were conceived as different modules, so that one can modify them independently. The only restriction this pose is that the methods should satisfy some requirements regarding the shape of their input and output parameters.</p>
+<p>On the one hand, the tests and the performance evaluation functions, are encapsulated in the class <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code>. On the other hand, the signals used in this benchmark are generated by the methods in the class <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>.</p>
+<p>In order to compare different methods with possibly different parameters, we need to set up a few things before running the benchmark. A <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object receives some input parameters to configure the test: - <code class="docutils literal notranslate"><span class="pre">task</span></code>: This could be <code class="docutils literal notranslate"><span class="pre">'denoising'</span></code> or <code class="docutils literal notranslate"><span class="pre">'detection'</span></code>,<code class="docutils literal notranslate"><span class="pre">'component_denoising'</span></code> or <code class="docutils literal notranslate"><span class="pre">'inst_frequency'</span></code>. The first one compute the quality reconstruction factor (QRF) using the output of the method, whereas the second simply consist in detecting whether a signal is present or
+not. Finally, <code class="docutils literal notranslate"><span class="pre">'component_denoising'</span></code> compares the QRF component wise, and ‘<code class="docutils literal notranslate"><span class="pre">inst_frequency'</span></code> computes the mean squared error between estimations of the instantaneous frequency - <code class="docutils literal notranslate"><span class="pre">N</span></code>: The length of the simulation, i.e. how many samples should the signals have. - <code class="docutils literal notranslate"><span class="pre">methods</span></code>: A dictionary of methods. Each entry of this dictionary corresponds to the function that implements each of the desired methods. - <code class="docutils literal notranslate"><span class="pre">parameters</span></code>: A dictionary of parameters. Each entry of this dictionary corresponds to
+iterator with positional and/or keyword arguments. In order to know which parameters should be passed to each method, the keys of this dictionary should be the same as those corresponding to the individual methods in the corresponding dictionary. An example of this is showed in below. - <code class="docutils literal notranslate"><span class="pre">SNRin</span></code>: A list or tuple of values of SNR to test. - <code class="docutils literal notranslate"><span class="pre">repetitions</span></code>: The number of times the experiment should be repeated with different realizations of noise. - <code class="docutils literal notranslate"><span class="pre">signal_ids</span></code>: A list of signal ids
+(corresponding to the names of the signal in the class ‘<code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>’) can be passed here in order to test the methods on those signals. Optionally, the user can pass a dictionary where each key is used as an identifier, and the corresponding value can be a numpy array with a personalized signal.</p>
+<section id="A-dummy-test">
+<h2>A dummy test<a class="headerlink" href="#A-dummy-test" title="Link to this heading"></a></h2>
+<p>First let us define a dummy method for testing. Methods should receive a numpy array with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of time samples of the signal. Additionally, they can receive any number of positional or keyword arguments to allow testing different combinations of input parameters. The shape of the output depends on the task (signal denoising or detection). So the recommended signature of a method should be the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">a_method(noisy_signal,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code>.</p>
+<p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
+<p>After this, we need to create a <em>dictionary of methods</em> to pass the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object at the moment of instantiation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.ResultsInterpreter</span> <span class="kn">import</span> <span class="n">ResultsInterpreter</span>
+
+<span class="k">def</span> <span class="nf">a_method</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
+    <span class="c1"># *args or **kwargs and then parsed.</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">noisy_signal</span> <span class="c1"># Simply return the same noisy signals.</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">another_method</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using `params` and then parsed.</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">noisy_signal</span> <span class="c1"># Simply return the same noisy signals.</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Create a dictionary of the methods to test.</span>
+<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">a_method</span><span class="p">,</span>
+    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="n">another_method</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">params</span></code> in the example above allows us to pass some parameters to our method. This would be useful for testing a single method with several combination of input parameters. In order to do this, we should give the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object a <em>dictionary of parameters</em>. An example of this functionality is showed in the next section. For now, lets set the input parameter <code class="docutils literal notranslate"><span class="pre">parameters</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p>
+<p>Now we are ready to instantiate a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object and run a test using the proposed methods and parameters. The benchmark constructor receives a name of a task (which defines the performance function of the test), a dictionary of the methods to test, the desired length of the signals used in the simulation, a dictionary of different parameters that should be passed to the methods, an array with different values of SNR to test, and the number of repetitions that should be used for each test.
+Once the object is created, use the class method <code class="docutils literal notranslate"><span class="pre">run_test()</span></code> to start the experiments.</p>
+<p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 4 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 4`` (show each method and parameter progress)</em></p>
+<p><em>Remark 2: Parallelize the experiments is also possible by passing the parameter ``parallelize = True``.</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span>
+                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span>
+                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span>
+                        <span class="n">verbosity</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                        <span class="n">parallelize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test. my_results is a dictionary with the results for each of the variables of the simulation.</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal LinearChirp
+-- SNR: 40 dB
+--- Method: Method 1
+---- Parameters Combination: 0
+--- Method: Method 2
+---- Parameters Combination: 0
+-- SNR: 50 dB
+--- Method: Method 1
+---- Parameters Combination: 0
+--- Method: Method 2
+---- Parameters Combination: 0
+- Signal CosChirp
+-- SNR: 40 dB
+--- Method: Method 1
+---- Parameters Combination: 0
+--- Method: Method 2
+---- Parameters Combination: 0
+-- SNR: 50 dB
+--- Method: Method 1
+---- Parameters Combination: 0
+--- Method: Method 2
+---- Parameters Combination: 0
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;LinearChirp&#39;: {40: {&#39;Method 1&#39;: {&#39;((), {})&#39;: [39.94387071887242,
+     40.02312137883126,
+     39.91875700225971]},
+   &#39;Method 2&#39;: {&#39;((), {})&#39;: [-0.0004478103789425086,
+     -0.02290256210210264,
+     -0.00502045735742013]}},
+  50: {&#39;Method 1&#39;: {&#39;((), {})&#39;: [49.94387071887243,
+     50.02312137883125,
+     49.91875700225971]},
+   &#39;Method 2&#39;: {&#39;((), {})&#39;: [0.00023890148715161383,
+     -0.006882468175252176,
+     -0.0012056396087531246]}}},
+ &#39;CosChirp&#39;: {40: {&#39;Method 1&#39;: {&#39;((), {})&#39;: [39.943870718872425,
+     40.02312137883126,
+     39.91875700225971]},
+   &#39;Method 2&#39;: {&#39;((), {})&#39;: [-0.020456402253242714,
+     -0.01782904308270321,
+     -0.0014923221478426462]}},
+  50: {&#39;Method 1&#39;: {&#39;((), {})&#39;: [49.94387071887243,
+     50.02312137883127,
+     49.918757002259696]},
+   &#39;Method 2&#39;: {&#39;((), {})&#39;: [-0.006099344057743292,
+     -0.005272793423111709,
+     -8.927483440890924e-05]}}}}
+</pre></div></div>
+</div>
+<p>Now we have the results of the test in a nested dictionary called <code class="docutils literal notranslate"><span class="pre">my_results</span></code>. In order to get the results in a human-readable way using a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, and also for further analysis and reproducibility, we can use the class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
+<span class="n">results_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>40</th>
+      <th>50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>-0.020456</td>
+      <td>-0.006099</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>-0.017829</td>
+      <td>-0.005273</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>-0.001492</td>
+      <td>-0.000089</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>-0.000448</td>
+      <td>0.000239</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>-0.022903</td>
+      <td>-0.006882</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>-0.005020</td>
+      <td>-0.001206</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>As we can see, the DataFrame show the results ordered by columns. The first column corresponds to the method identification, and the values are taken from the keys of the dictionary of methods. The second column enumerates the parameters used (more on this on the next section). The third column corresponds to the signal identification, using the signal identification values from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class. The next column shows the number of repetition of the experiment. Finally, the remaining
+columns show the results obtained for the SNR values used for each experiment. Since <code class="docutils literal notranslate"><span class="pre">task</span> <span class="pre">=</span> <span class="pre">'denoising'</span></code>, these values correspond to the QRF computed as <code class="docutils literal notranslate"><span class="pre">QRF</span> <span class="pre">=</span> <span class="pre">10*np.log10(E(s)/E(s-sr))</span></code>, where <code class="docutils literal notranslate"><span class="pre">E(x)</span></code> is the energy of <code class="docutils literal notranslate"><span class="pre">x</span></code>, and <code class="docutils literal notranslate"><span class="pre">s</span></code> and <code class="docutils literal notranslate"><span class="pre">sr</span></code> are the noiseless signal and the reconstructed signal respectively.</p>
+</section>
+<section id="Passing-different-parameters-to-the-methods.">
+<h2>Passing different parameters to the methods.<a class="headerlink" href="#Passing-different-parameters-to-the-methods." title="Link to this heading"></a></h2>
+<p>It is common that a method depends on certain input parameters (thresholds, multiplicative factors, etc). Therefore, it would be useful that the tests could also be repeated with different parameters, instead of creating multiple versions of one method. We can pass an array of parameters to a method provided it parses them internally. In order to indicate the benchmark which parameters combinations should be given to each method, a dictionary of parameters can be given.</p>
+<p>Let us now create this dictionary. The parameters combinations should be given in a tuple of tuples, so that each internal tuple is passed as the additional parameter (the corresponding method, of course, should implement how to deal with the variable number of input parameters). For this to work, <strong>the keys of this dictionary should be the same as those of the methods dictionary</strong>.</p>
+<p>We can now see more in detail how to pass different parameters to our methods. For instance, let’s consider a function that depends on two thresholds <code class="docutils literal notranslate"><span class="pre">thr1</span></code> (a positional argument) and <code class="docutils literal notranslate"><span class="pre">thr2</span></code> (a keyword argument):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">a_function</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">thr1</span><span class="p">,</span> <span class="n">thr2</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="c1"># def a_function(signal, thr1, thr2):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">thr1</span><span class="p">,</span><span class="n">thr2</span><span class="p">)</span>
+    <span class="n">signal_out</span> <span class="o">=</span> <span class="n">signal</span>
+    <span class="n">signal_out</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">thr2</span><span class="o">&gt;</span><span class="n">signal</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">signal</span><span class="o">&gt;</span><span class="n">thr1</span><span class="p">))]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">signal_out</span>
+</pre></div>
+</div>
+</div>
+<p>Now let us create a method that wraps the previous function and then define the dictionary of methods for our benchmark. Notice that the method should distribute the parameters in the tuple <code class="docutils literal notranslate"><span class="pre">params</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">another_method</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># The method should distribute the parameters accordingly, for example as:</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">a_function</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="c1"># Create a dictionary of the methods to test.</span>
+<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">another_method</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Having done this, we can define the different combinations of parameters using the corresponding dictionary:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dictionary of the different combinations of thresholds to test:</span>
+<span class="n">thr1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span> <span class="c1"># Positional arguments to try.</span>
+<span class="n">thr2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="c1"># Some values for the keyword, argument.</span>
+
+<span class="n">my_parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="p">[((</span><span class="n">t1</span><span class="p">,),{</span><span class="s1">&#39;thr2&#39;</span><span class="p">:</span> <span class="n">t2</span><span class="p">,})</span> <span class="k">for</span> <span class="n">t1</span> <span class="ow">in</span> <span class="n">thr1</span> <span class="k">for</span> <span class="n">t2</span> <span class="ow">in</span> <span class="n">thr2</span><span class="p">],</span> <span class="c1"># Remember the keys of this dictionary should be same as the methods dictionary.</span>
+    <span class="c1"># &#39;Method 1&#39;: [{&#39;thr1&#39;: t1,&#39;thr2&#39;: t2,} for t1 in thr1 for t2 in thr2],</span>
+    <span class="c1"># &#39;Method 1&#39;: [(t1,t2,) for t1 in thr1 for t2 in thr2],</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">my_parameters</span><span class="p">[</span><span class="s1">&#39;Method 1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[((1.0,), {&#39;thr2&#39;: 4}), ((1.0,), {&#39;thr2&#39;: 5}), ((1.0,), {&#39;thr2&#39;: 6}), ((2.0,), {&#39;thr2&#39;: 4}), ((2.0,), {&#39;thr2&#39;: 5}), ((2.0,), {&#39;thr2&#39;: 6}), ((3.0,), {&#39;thr2&#39;: 4}), ((3.0,), {&#39;thr2&#39;: 5}), ((3.0,), {&#39;thr2&#39;: 6})]
+</pre></div></div>
+</div>
+<p>So now we have four combinations of input parameters for <code class="docutils literal notranslate"><span class="pre">another_method()</span></code>, that will be passed one by one to the method so that all the experiments will be carried out for each of the combinations. Let us set the benchmark and run a test using this new configuration of methods and parameters. After that, we can use the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code> to obtain a table with the results as before:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_p</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span>
+                         <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span>
+                         <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+                         <span class="n">parameters</span> <span class="o">=</span> <span class="n">my_parameters</span><span class="p">,</span>
+                         <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+                         <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span>
+                         <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">benchmark_p</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test. my_results is a dictionary with the results for each of the variables of the simulation.</span>
+<span class="n">results_parameters</span> <span class="o">=</span> <span class="n">benchmark_p</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
+<span class="n">results_parameters</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal LinearChirp
+1.0 4
+1.0 4
+1.0 4
+1.0 5
+1.0 5
+1.0 5
+1.0 6
+1.0 6
+1.0 6
+2.0 4
+2.0 4
+2.0 4
+2.0 5
+2.0 5
+2.0 5
+2.0 6
+2.0 6
+2.0 6
+3.0 4
+3.0 4
+3.0 4
+3.0 5
+3.0 5
+3.0 5
+3.0 6
+3.0 6
+3.0 6
+1.0 4
+1.0 4
+1.0 4
+1.0 5
+1.0 5
+1.0 5
+1.0 6
+1.0 6
+1.0 6
+2.0 4
+2.0 4
+2.0 4
+2.0 5
+2.0 5
+2.0 5
+2.0 6
+2.0 6
+2.0 6
+3.0 4
+3.0 4
+3.0 4
+3.0 5
+3.0 5
+3.0 5
+3.0 6
+3.0 6
+3.0 6
+- Signal CosChirp
+1.0 4
+1.0 4
+1.0 4
+1.0 5
+1.0 5
+1.0 5
+1.0 6
+1.0 6
+1.0 6
+2.0 4
+2.0 4
+2.0 4
+2.0 5
+2.0 5
+2.0 5
+2.0 6
+2.0 6
+2.0 6
+3.0 4
+3.0 4
+3.0 4
+3.0 5
+3.0 5
+3.0 5
+3.0 6
+3.0 6
+3.0 6
+1.0 4
+1.0 4
+1.0 4
+1.0 5
+1.0 5
+1.0 5
+1.0 6
+1.0 6
+1.0 6
+2.0 4
+2.0 4
+2.0 4
+2.0 5
+2.0 5
+2.0 5
+2.0 6
+2.0 6
+2.0 6
+3.0 4
+3.0 4
+3.0 4
+3.0 5
+3.0 5
+3.0 5
+3.0 6
+3.0 6
+3.0 6
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>40</th>
+      <th>50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>16.723409</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>16.723409</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>16.723409</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 4})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 5})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>39.943871</td>
+      <td>49.943871</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.023121</td>
+      <td>50.023121</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'thr2': 6})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>39.918757</td>
+      <td>49.918757</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>As we can see, the experiments have been repeated for every combination of parameters, listed in the second column of the table as <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>.</p>
+</section>
+<section id="Generating-plots-with-the-Results-Interpreter.">
+<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interpreter</span> <span class="o">=</span> <span class="n">ResultsInterpreter</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_summary_plots</span><span class="p">(</span><span class="n">savetofile</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+LinearChirp
+CosChirp
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Documents/asasda/mcsm-benchmarks/mcsm_benchmarks/ResultsInterpreter.py:628: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_aux.loc[indexes,&#39;Method&#39;] = method_and_params
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_benchmark_19_2.png" src="../_images/notebooks_demo_benchmark_19_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_benchmark_19_3.png" src="../_images/notebooks_demo_benchmark_19_3.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../introduction.html" class="btn btn-neutral float-left" title="Welcome to Multi-Component Signal Methods Benchmarks’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_signal_bank.html" class="btn btn-neutral float-right" title="SignalBank Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Juan M. Miramont.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
