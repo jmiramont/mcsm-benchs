@@ -6,7 +6,7 @@ The goal of this toolbox is providing the signal-processing community with a com
 
 ## Documentation and Results
 
-[![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/benchmark-test/)
+[![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/mcsm-benchmarks)
 
 ## Related works
 
