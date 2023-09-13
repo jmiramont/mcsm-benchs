@@ -16,7 +16,7 @@ class Benchmark:
 
     Methods
     -------
-    input_parsing(task, methods, N, parameters, SNRin, repetitions, using_signals, verbosity, parallelize):
+    input_parsing(task, methods, N, parameters, SNRin, repetitions, signal_ids, verbosity, parallelize):
         Parse input parameters of the constructor of class Benchmark.
     
     check_methods_output(output,input):
@@ -49,11 +49,13 @@ class Benchmark:
                  parameters=None,
                  SNRin=None, 
                  repetitions=None, 
-                 using_signals='all', 
+                 signal_ids='all', 
                  verbosity=1,
                  parallelize = False,
                  complex_noise = False,
-                 obj_fun = None):
+                 obj_fun = None,
+                 **kwargs
+                 ):
         """ Initialize the main parameters of the test bench before running the benchmark.
 
         Args:
@@ -78,7 +80,7 @@ class Benchmark:
             each value of SNR. This value is the number of noise realizations that are 
             used to assess the methods. Defaults to None.
             
-            using_signals (tuple, optional): Tuple or list of the signal ids from the 
+            signal_ids (tuple, optional): Tuple or list of the signal ids from the 
             SignalBank class. Defaults to 'all'.
             
             verbosity (int, optional): Number from 0 to 4. It determines the number of 
@@ -97,18 +99,6 @@ class Benchmark:
 
         """
 
-        # Objects attributes
-        self.task = None
-        self.methods = None
-        self.N = None
-        self.Nsub = None
-        self.repetitions = None
-        self.SNRin = None
-        self.results = None
-        self.verbosity = None
-        self.complex_noise = None
-        self.noise_matrix = None
-        self.methods_and_params_dic = dict()
         
         # Check input parameters and initialize the object attributes
         self.input_parsing(task,
@@ -118,11 +108,12 @@ class Benchmark:
                            parameters, 
                            SNRin, 
                            repetitions, 
-                           using_signals, 
+                           signal_ids, 
                            verbosity, 
                            parallelize,
                            complex_noise,
-                           obj_fun)
+                           obj_fun,
+                           **kwargs)
 
         # Parallelize parameters
         if self.parallel_flag:
@@ -139,11 +130,12 @@ class Benchmark:
                     parameters, 
                     SNRin, 
                     repetitions, 
-                    using_signals, 
+                    signal_ids, 
                     verbosity, 
                     parallelize,
                     complex_noise,
-                    obj_fun):
+                    obj_fun,
+                    **kwargs):
 
         """Parse input parameters of the constructor of class Benchmark.
 
@@ -160,7 +152,7 @@ class Benchmark:
             each value of SNR.
             This value is the number of noise realizations that are used to assess the 
             methods.Defaults to None.
-            using_signals (tuple, optional): Tuple or list of the signal ids from the 
+            signal_ids (tuple, optional): Tuple or list of the signal ids from the 
             SignalBank class. Defaults to 'all'.
             verbosity (int, optional): Number from 0 to 4. It determines the number of 
             messages passed to the console informing the progress of the benchmarking 
@@ -198,13 +190,10 @@ class Benchmark:
             else:
                 raise ValueError("Parameters should be a dictionary or None.\n")
 
-        #Check both dictionaries have the same keys:
+        # Check both dictionaries have the same keys:
         if not (self.methods.keys() == self.parameters.keys()):
             # sys.stderr.write
             raise ValueError("Both methods and parameters dictionaries should have the same keys.\n")
-
-        # If we are here, this is a new benchmark, so the all the methods are new:
-        self.this_method_is_new = {method:True for method in self.methods_ids}
 
         # Check if N is an entire:
         if type(N) is int:
@@ -218,10 +207,10 @@ class Benchmark:
                 raise ValueError("Nsub should be an entire.\n")
 
             # Check if Nsub is lower than N:
-            if self.N > Nsub:
-                self.Nsub = Nsub
-            else:
+            if self.N < Nsub:
                 raise ValueError("Nsub should be lower than N.\n")
+
+        self.Nsub = Nsub
 
         # Check if SNRin is a tuple or list, and if so, check if there are only numerical variables.
         if (type(SNRin) is tuple) or (type(SNRin) is list):
@@ -241,11 +230,11 @@ class Benchmark:
 
         # Check what to do with the signals:
 
-        # Check if using_signals is a dict with testing signals
-        if isinstance(using_signals,dict):    
+        # Check if signal_ids is a dict with testing signals
+        if isinstance(signal_ids,dict):    
             signal_dic = {}
-            for key in using_signals:
-                s = using_signals[key]
+            for key in signal_ids:
+                s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
                 signal_dic[key] = lambda : Signal(s)
 
@@ -255,7 +244,7 @@ class Benchmark:
             self.tmax = N # -int(np.sqrt(N))
 
         else:
-            if using_signals == 'all':
+            if signal_ids == 'all':
                 # Generates a dictionary of signals
                 signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
@@ -267,18 +256,15 @@ class Benchmark:
 
             else:
                 # Check if list of signals are in SignalBank
-                if isinstance(using_signals,tuple) or isinstance(using_signals,list):
-                    signal_bank = SignalBank(N, return_signal=True)
+                if isinstance(signal_ids,tuple) or isinstance(signal_ids,list):
+                    signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                     llaves = signal_bank.signalDict.keys()
-                    assert all(signal_id in llaves for signal_id in using_signals) 
+                    assert all(signal_id in llaves for signal_id in signal_ids) 
                 
                 self.signal_dic = signal_bank.signalDict
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
                 self.tmax = signal_bank.tmax
-                self.signal_ids = using_signals
-
-
-       
+                self.signal_ids = signal_ids
 
         # Check if complex_noise flag is bool:
         if type(complex_noise) is bool:
@@ -314,6 +300,28 @@ class Benchmark:
                 self.objectiveFunction = obj_fun
             else:
                 raise ValueError("'obj_fun' should be a callable object.\n")
+            
+
+        # Extra arguments may be passed when opening a saved benchmark:
+        if kwargs == {}:
+            # If we are here, this is a new benchmark, so the all the methods are new:
+            self.this_method_is_new = {method:True for method in self.methods_ids}
+            # self.task = None
+            # self.methods = None
+            # self.N = None
+            # self.Nsub = None
+            # self.repetitions = None
+            # self.SNRin = None
+            self.results = None
+            # self.verbosity = None
+            # self.complex_noise = None
+            self.noise_matrix = None
+            self.methods_and_params_dic = dict()
+        
+        else:
+            for key in kwargs:
+                if not key in self.__dict__:
+                    self.__dict__[key] = kwargs[key]
                 
 
     def check_methods_output(self, output, input):
@@ -572,17 +580,6 @@ class Benchmark:
             self.this_method_is_new[method] = False
 
         return self.results
-
-    @staticmethod
-    def load_benchmark(filename=None):
-        
-        with open(filename, 'rb') as f:
-            bench_dict = pickle.load(f)    
-
-        benchmark = Benchmark(**bench_dict)
-
-        # Results
-        benchmark.__dict__ = bench_dict
         
 
     def save_to_file(self,filename = None):
@@ -602,6 +599,10 @@ class Benchmark:
 
         a_copy = self
         a_copy.methods = {key:None for key in a_copy.methods}
+        a_copy.base_signal = a_copy.base_signal.view(np.ndarray)
+        a_copy.signal_dic = []
+        a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
+        a_copy.objectiveFunction = []
         
         with open(filename + '.pkl', 'wb') as f:
             pickle.dump(a_copy.__dict__, f)    
