@@ -90,7 +90,8 @@ class Benchmark:
             parallelize (bool, optional): If True, tries to run the process in parallel.
             Defaults to False.
 
-            complex_noise (bool, optional): If True, uses complex noise.
+            complex_noise (bool, optional): If True, uses complex noise. A function can
+            be passed to compute a new realization of noise instead.
             Defaults to False.
 
             obj_fun (callable, optional): If None, used the default objective functions
@@ -272,6 +273,7 @@ class Benchmark:
             self.complex_noise = complex_noise
         else:
             raise ValueError("'complex_noise' should be a bool.\n")
+        
             
         # Handle parallelization parameters:
         max_processes = multiprocessing.cpu_count()
@@ -552,8 +554,6 @@ class Benchmark:
                                                                 )
                                             )
                             
-                        
-                            # params_dic['Params'+str(p)] = result
                             params_dic[str(params)] = result                        
                             self.elapsed_time[method][str(params)] = elapsed
 
@@ -563,16 +563,7 @@ class Benchmark:
                         self.results[signal_id][SNR][method] = params_dic
                         self.methods_and_params_dic[method] = [key for key in params_dic] 
 
-            #   method_dic[method] = params_dic    
-                        
-           
-            #     SNR_dic[SNR] = method_dic
-            #     method_dic = dict()
 
-            # self.results[signal_id] = SNR_dic   
-            # SNR_dic = dict()
-
-        # self.results = results_dic # Save results for later.
         if self.verbosity > 0:
             print('The test has finished.')
         
@@ -695,15 +686,23 @@ class Benchmark:
         return df
 
     def generate_noise(self):
-        """_summary_
-
+        """ Generate a matrix of noise realizations of shape [self.repetitions,self.N].
+        One realization per row.
+        
         Returns:
-            _type_: _description_
+            numpy.array: Matrix with noise realizations.
         """
-        np.random.seed(0)
-        noise_matrix = np.random.randn(self.repetitions,self.N)
-        if self.complex_noise:
-            noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
+
+        if isinstance(self.complex_noise,bool):
+            np.random.seed(0)
+            noise_matrix = np.random.randn(self.repetitions,self.N)
+            if self.complex_noise:
+                noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
+
+        if callable(self.complex_noise):
+            noise_matrix = np.random.randn(self.repetitions,self.N)
+            for i in range(self.repetitions):
+                noise_matrix[i,:] = self.complex_noise(self.N) 
 
         return noise_matrix
 

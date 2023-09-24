@@ -18,7 +18,7 @@ The goal of this toolbox is providing the signal-processing community with a com
 
 
 .. toctree::
-   :caption: Notebooks:
+   :caption: Examples:
    :titlesonly:
 
 

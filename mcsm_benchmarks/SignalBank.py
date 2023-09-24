@@ -461,7 +461,7 @@ class SignalBank:
 
         phase = np.cumsum(instf)
 
-        x = np.cos(2*pi*phase+phi)*sg.tukey(Nsub,0.25) 
+        x = np.cos(2*pi*phase+phi)*sg.windows.tukey(Nsub,0.25) 
         signal = np.zeros((N,))
         signal[tmin:tmax] = x
 
@@ -583,7 +583,7 @@ class SignalBank:
             self.check_inst_freq(instf)    
 
         phase = np.cumsum(instf)
-        x = a1*np.cos(2*pi*phase)*sg.tukey(Nsub,0.25)     
+        x = a1*np.cos(2*pi*phase)*sg.windows.tukey(Nsub,0.25)     
         signal = np.zeros((N,))
         signal[tmin:tmax] = x
 
