@@ -239,7 +239,7 @@ class Benchmark:
                 signal_dic[key] = lambda : Signal(s)
 
             self.signal_dic = signal_dic
-            self.signal_ids = [akey for akey in self.signal_dic]
+            self.signal_ids = signal_ids
             self.tmin = 0 # int(np.sqrt(N))
             self.tmax = N # -int(np.sqrt(N))
 
@@ -249,6 +249,7 @@ class Benchmark:
                 signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
                 self.tmax = signal_bank.tmax
+                #TODO Don't use functions here and use arrays instead
                 self.signal_dic = signal_bank.signalDict
                 self.signal_ids = [akey for akey in self.signal_dic]
                 if Nsub is None:
@@ -301,7 +302,7 @@ class Benchmark:
             else:
                 raise ValueError("'obj_fun' should be a callable object.\n")
             
-
+        #TODO Check this list of attribute initialization
         # Extra arguments may be passed when opening a saved benchmark:
         if kwargs == {}:
             # If we are here, this is a new benchmark, so the all the methods are new:
@@ -707,6 +708,15 @@ class Benchmark:
         return noise_matrix
 
     # Static methods:
+
+    @staticmethod    
+    def load_benchmark(filename,**kwargs):
+        with open(filename + '.pkl', 'rb') as f:
+            benchmark_dict = pickle.load(f)
+        
+        return Benchmark(**benchmark_dict)
+
+
     @staticmethod
     def sigmerge(x1, noise, ratio, tmin=None, tmax=None, return_noise=False):
         # Get signal parameters.
