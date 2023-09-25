@@ -545,14 +545,22 @@ class Benchmark:
                             # Either way, results are saved in a nested dictionary.
                             result = []
                             for i,output in enumerate(method_output):
-                                result.append(
-                                        self.objectiveFunction(self.base_signal,
+                                # Computing perf metric---------------------------------------
+                                try:
+                                    perf_met_output = self.objectiveFunction(self.base_signal,
                                                                output,
                                                                tmin=self.tmin,
                                                                tmax=self.tmax,
                                                                scaled_noise=scaled_noise[i]
                                                                 )
-                                            )
+    
+                                except BaseException as err:
+                                    print(f"Unexpected error {err=}, {type(err)=} while applying performance metric. Watch out for NaN values.")
+                                    perf_met_output = np.nan
+                                    
+                                result.append(perf_met_output)
+
+                            # Saving results ------------------------------------------------
                             
                             params_dic[str(params)] = result                        
                             self.elapsed_time[method][str(params)] = elapsed
