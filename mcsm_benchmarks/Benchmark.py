@@ -272,7 +272,11 @@ class Benchmark:
         if type(complex_noise) is bool:
             self.complex_noise = complex_noise
         else:
-            raise ValueError("'complex_noise' should be a bool.\n")
+            if callable(complex_noise):
+                self.complex_noise = complex_noise
+            else:
+                if complex_noise != 'NF':        
+                    raise ValueError("'complex_noise' should be a bool or callable.\n")
         
             
         # Handle parallelization parameters:
@@ -604,6 +608,10 @@ class Benchmark:
         a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
         a_copy.objectiveFunction = []
         
+        if callable(a_copy.complex_noise):
+            a_copy.complex_noise='NF'
+
+
         with open(filename + '.pkl', 'wb') as f:
             pickle.dump(a_copy.__dict__, f)    
 
