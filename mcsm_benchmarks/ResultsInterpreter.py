@@ -195,7 +195,7 @@ class ResultsInterpreter:
         return df_std
 
 
-    def get_table_means(self, html_filename=None, csv_filename=None):
+    def get_table_means(self, html_filename=None, csv_filename=None, bars=False):
         """ Generates a table of mean results to .md file. 
         Saves a .csv file with the results per signal.
         Finally, generates an .html file with interactive plots.
@@ -313,22 +313,32 @@ class ResultsInterpreter:
                 df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
                 df3['std'] = df3_std['std']
                 # print(df3)
-                # fig = px.line(df3, x="SNRin", y="QRF", color='Method + Param', markers=True, error_x = "SNRin", error_y = "std")
-                fig = px.bar(df3, 
-                             x="SNRin", 
-                             y="QRF", 
-                             color='Method + Param', 
-                            #  markers=True,
-                             barmode='group', 
-                             error_x = "SNRin", 
-                             error_y = "std"
-                             )
+                if bars:
+                    fig = px.bar(df3, 
+                                x="SNRin", 
+                                y="QRF", 
+                                color='Method + Param', 
+                                #  markers=True,
+                                barmode='group', 
+                                error_x = "SNRin", 
+                                error_y = "std"
+                                )
+                else:
+                    fig = px.line(df3, 
+                                  x="SNRin", 
+                                  y="QRF", 
+                                  color='Method + Param', 
+                                  markers=True, 
+                                  error_x = "SNRin", 
+                                  error_y = "std"
+                                  )
+
                 f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
 
         return output_string
 
 
-    def save_report(self, filename=None, path=None):
+    def save_report(self, filename=None, path=None, bars=False):
         """ This function generates a report of the results given in the Benchmark-class
         object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
         while a .csv file is generated with the results.
@@ -372,7 +382,7 @@ class ResultsInterpreter:
             f.write('\n'.join(lines))
             # f.writelines(lines)
 
-        output_string = self.get_table_means(csv_filename=path,html_filename=path)
+        output_string = self.get_table_means(csv_filename=path,html_filename=path, bars=bars)
         
         self.save_csv_files(filename=path)
 
