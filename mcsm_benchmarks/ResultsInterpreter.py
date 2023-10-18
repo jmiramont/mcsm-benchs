@@ -57,7 +57,7 @@ class ResultsInterpreter:
 
 
     def rearrange_data_frame(self, results=None):
-        """Rearrange DataFrame table for using seaborn library. 
+        """Rearrange DataFrame table for using Seaborn library. 
 
         Args:
             results (DataFrame, optional): If not None, must receive the DataFrame 
@@ -195,8 +195,10 @@ class ResultsInterpreter:
         return df_std
 
 
-    def get_table_means(self):
+    def get_table_means(self, html_filename=None, csv_filename=None):
         """ Generates a table of mean results to .md file. 
+        Saves a .csv file with the results per signal.
+        Finally, generates an .html file with interactive plots.
 
         Returns:
             str: String containing the table.
@@ -218,8 +220,12 @@ class ResultsInterpreter:
             df2 = df[df['Signal_id']==signal_id]
             
             # Save .csv file for the signal.
-            csv_filename = os.path.join('results',self.task,'csv_files','results_'+signal_id+'.csv')
-            df2.to_csv(csv_filename)
+            if csv_filename is None:
+                filename = os.path.join('results',self.task,'csv_files','results_'+signal_id+'.csv')
+            else:
+                filename = os.path.join(csv_filename,'results_'+signal_id+'.csv')
+    
+            df2.to_csv(filename)
 
             # For each method, generates the mean and std of results, and get figures.
             for metodo in self.methods_and_params_dic:
@@ -288,29 +294,44 @@ class ResultsInterpreter:
 
 
             # Table header with links
-            csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
+            # csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
             aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/denoising/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](/results/denoising/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
             # Generate .html interactive plots files with plotly
             #TODO Make this change with the github user!
-            html_filename = os.path.join('results',self.task,'figures','html','plot_'+signal_id+'.html')
-            with open(html_filename, 'w') as f:
+             
+            if html_filename is None:
+                filename = os.path.join('results',self.task,'figures','html','plot_'+signal_id+'.html')
+            else:
+                filename = os.path.join(html_filename,'plot_'+signal_id+'.html')
+
+            with open(filename, 'w') as f:
                 df3 = df_means.set_index('Method + Param').stack().reset_index()
                 df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
                 df3_std = df_std.set_index('Method + Param').stack().reset_index()
                 df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
                 df3['std'] = df3_std['std']
                 # print(df3)
-                fig = px.line(df3, x="SNRin", y="QRF", color='Method + Param', markers=True, error_x = "SNRin", error_y = "std")
+                # fig = px.line(df3, x="SNRin", y="QRF", color='Method + Param', markers=True, error_x = "SNRin", error_y = "std")
+                fig = px.bar(df3, 
+                             x="SNRin", 
+                             y="QRF", 
+                             color='Method + Param', 
+                            #  markers=True,
+                             barmode='group', 
+                             error_x = "SNRin", 
+                             error_y = "std"
+                             )
                 f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
 
         return output_string
 
 
-    def save_report(self, filename = None):
+    def save_report(self, filename=None, path=None):
         """ This function generates a report of the results given in the Benchmark-class
-        object. The report is saved in a MardkedDown syntax to be viewed as a .md file.
+        object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
+        while a .csv file is generated with the results.
 
         Args:
             filename (str, optional): Path for saving the report. Defaults to None.
@@ -331,6 +352,7 @@ class ResultsInterpreter:
         # lines = lines + ['## Figures:\n ![Summary of results](results/../figures/plots_grid.png) \n'] 
         lines = lines + ['## Mean results tables: \n']
 
+        #! Check this part for different perf. functions
         if self.task == "denoising":
             lines = lines + ['Results shown here are the mean and standard deviation of \
                               the Quality Reconstruction Factor. \
@@ -350,9 +372,9 @@ class ResultsInterpreter:
             f.write('\n'.join(lines))
             # f.writelines(lines)
 
-        output_string = self.get_table_means()
+        output_string = self.get_table_means(csv_filename=path,html_filename=path)
         
-        self.save_csv_files()
+        self.save_csv_files(filename=path)
 
         with open(filename, 'a') as f:
           f.write(output_string)
@@ -493,69 +515,69 @@ class ResultsInterpreter:
         return barfig
 
     # ! Deprecated 07/11/22 -- JMM
-    def get_summary_grid(self, filename = None, savetofile=True):
-        """ Generates a grid of QRF plots for each signal, displaying the performance 
-        of all methods for all noise conditions.
+    # def get_summary_grid(self, filename = None, savetofile=True):
+    #     """ Generates a grid of QRF plots for each signal, displaying the performance 
+    #     of all methods for all noise conditions.
 
-        Args:
-            size (tuple, optional): Size of the figure in inches. Defaults to (3,3).
+    #     Args:
+    #         size (tuple, optional): Size of the figure in inches. Defaults to (3,3).
 
-        Returns:
-            Matplotlib.Figure: Returns a figure handle.
-        """
-        print('WARNING: Deprecated')
-        Nsignals = len(self.signal_ids)
-        df_rearr = self.rearrange_data_frame()
-        sns.set(style="ticks", rc={"lines.linewidth": 0.7})
+    #     Returns:
+    #         Matplotlib.Figure: Returns a figure handle.
+    #     """
+    #     print('WARNING: Deprecated')
+    #     Nsignals = len(self.signal_ids)
+    #     df_rearr = self.rearrange_data_frame()
+    #     sns.set(style="ticks", rc={"lines.linewidth": 0.7})
         
-        if Nsignals < 4:
-            nrows_ncols=(1,Nsignals)
-        else:
-            nrows_ncols=(int(np.ceil(Nsignals/4)),4)
+    #     if Nsignals < 4:
+    #         nrows_ncols=(1,Nsignals)
+    #     else:
+    #         nrows_ncols=(int(np.ceil(Nsignals/4)),4)
 
-        fig = plt.figure()
-        fig.subplots_adjust(wspace=0.1, hspace=0)
+    #     fig = plt.figure()
+    #     fig.subplots_adjust(wspace=0.1, hspace=0)
 
 
-        # grid = ImageGrid(fig, 111,  # similar to subplot(111)
-        #                 nrows_ncols=nrows_ncols,  # creates 2x2 grid of axes
-        #                 axes_pad=0.5,  # pad between axes in inch.
-        #                 )
+    #     # grid = ImageGrid(fig, 111,  # similar to subplot(111)
+    #     #                 nrows_ncols=nrows_ncols,  # creates 2x2 grid of axes
+    #     #                 axes_pad=0.5,  # pad between axes in inch.
+    #     #                 )
 
-        # grid = gridspec.GridSpec(nrows_ncols[0], nrows_ncols[1],
-                                    #  width_ratios=[1 for i in range(nrows_ncols[1])],
-                                    #  sharex=True)
+    #     # grid = gridspec.GridSpec(nrows_ncols[0], nrows_ncols[1],
+    #                                 #  width_ratios=[1 for i in range(nrows_ncols[1])],
+    #                                 #  sharex=True)
 
-        fig, grid = plt.subplots(nrows_ncols[0], nrows_ncols[1], constrained_layout=False, sharex=True, sharey=True)
+    #     fig, grid = plt.subplots(nrows_ncols[0], nrows_ncols[1], constrained_layout=False, sharex=True, sharey=True)
         
-        for signal_id, ax in zip(self.signal_ids, grid):
-            # sns.set_theme()
-            # ax = fig.add_subplot(subplot) 
-            df_aux = df_rearr[df_rearr['Signal_id']==signal_id]
-            indexes = df_aux['Parameter']!='None'
-            df_aux.loc[indexes,'Method'] = df_aux.loc[indexes,'Method'] +'-'+ df_aux.loc[indexes,'Parameter']  
-            # print(df_aux)
+    #     for signal_id, ax in zip(self.signal_ids, grid):
+    #         # sns.set_theme()
+    #         # ax = fig.add_subplot(subplot) 
+    #         df_aux = df_rearr[df_rearr['Signal_id']==signal_id]
+    #         indexes = df_aux['Parameter']!='None'
+    #         df_aux.loc[indexes,'Method'] = df_aux.loc[indexes,'Method'] +'-'+ df_aux.loc[indexes,'Parameter']  
+    #         # print(df_aux)
 
-            self.get_snr_plot(df_aux, x='SNRin', y='QRF', hue='Method', axis = ax)
-            # self.get_snr_plot2(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
-            # self.get_snr_plot_bars(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
-            ax.grid(linewidth = 0.5)
-            ax.set_title(signal_id)
-            # ax.set_box_aspect(1)
-            # sns.despine(offset=10, trim=True)
-            ax.legend([],[], frameon=False)
-            ax.legend(loc='upper left', frameon=False, fontsize = 'xx-small')
+    #         self.get_snr_plot(df_aux, x='SNRin', y='QRF', hue='Method', axis = ax)
+    #         # self.get_snr_plot2(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
+    #         # self.get_snr_plot_bars(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
+    #         ax.grid(linewidth = 0.5)
+    #         ax.set_title(signal_id)
+    #         # ax.set_box_aspect(1)
+    #         # sns.despine(offset=10, trim=True)
+    #         ax.legend([],[], frameon=False)
+    #         ax.legend(loc='upper left', frameon=False, fontsize = 'xx-small')
             
 
-        fig.set_size_inches((12,4*Nsignals//4))
+    #     fig.set_size_inches((12,4*Nsignals//4))
         
-        if filename is None:
-            filename = os.path.join('results','figures','plots_grid.png')
+    #     if filename is None:
+    #         filename = os.path.join('results','figures','plots_grid.png')
 
-        if savetofile:
-            fig.savefig(filename,bbox_inches='tight')# , format='svg')
+    #     if savetofile:
+    #         fig.savefig(filename,bbox_inches='tight')# , format='svg')
     
-        return fig
+    #     return fig
 
 
     def get_summary_plots(self,
@@ -676,7 +698,7 @@ class ResultsInterpreter:
             ax = None # Create new figure in the next interation of the loop.
         return list_figs
 
-    def save_csv_files(self):
+    def save_csv_files(self,filename=None):
         """Save results in .csv files.
 
         Args:
@@ -689,8 +711,14 @@ class ResultsInterpreter:
         df1 = self.get_benchmark_as_data_frame()
         df2 = self.rearrange_data_frame()
 
-        filename1 = os.path.join('results',self.task,'csv_files','denoising_results_raw.csv')
-        filename2 = os.path.join('results',self.task,'csv_files','denoising_results_rearranged.csv')
+        filename1 = os.path.join(filename,'denoising_results_raw.csv')
+        filename2 = os.path.join(filename,'denoising_results_rearranged.csv')
+
+        if filename is None:
+            filename='results'
+            filename1 = os.path.join(filename,self.task,'csv_files','denoising_results_raw.csv')
+            filename2 = os.path.join(filename,self.task,'csv_files','denoising_results_rearranged.csv')
+        
         df1.to_csv(filename1)
         df2.to_csv(filename2)
 
