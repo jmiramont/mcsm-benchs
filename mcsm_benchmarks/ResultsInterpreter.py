@@ -68,8 +68,11 @@ class ResultsInterpreter:
         Returns:
             DataFrame: Rearranged DataFrame
         """
+        if results is None:
+            df = self.benchmark.get_results_as_df()
+        else:
+            df = results
 
-        df = self.benchmark.get_results_as_df()
         aux_dic = dict()
         new_columns = df.columns.values[0:5].copy()
         new_columns[-1] = 'QRF'
@@ -524,71 +527,6 @@ class ResultsInterpreter:
             
         return barfig
 
-    # ! Deprecated 07/11/22 -- JMM
-    # def get_summary_grid(self, filename = None, savetofile=True):
-    #     """ Generates a grid of QRF plots for each signal, displaying the performance 
-    #     of all methods for all noise conditions.
-
-    #     Args:
-    #         size (tuple, optional): Size of the figure in inches. Defaults to (3,3).
-
-    #     Returns:
-    #         Matplotlib.Figure: Returns a figure handle.
-    #     """
-    #     print('WARNING: Deprecated')
-    #     Nsignals = len(self.signal_ids)
-    #     df_rearr = self.rearrange_data_frame()
-    #     sns.set(style="ticks", rc={"lines.linewidth": 0.7})
-        
-    #     if Nsignals < 4:
-    #         nrows_ncols=(1,Nsignals)
-    #     else:
-    #         nrows_ncols=(int(np.ceil(Nsignals/4)),4)
-
-    #     fig = plt.figure()
-    #     fig.subplots_adjust(wspace=0.1, hspace=0)
-
-
-    #     # grid = ImageGrid(fig, 111,  # similar to subplot(111)
-    #     #                 nrows_ncols=nrows_ncols,  # creates 2x2 grid of axes
-    #     #                 axes_pad=0.5,  # pad between axes in inch.
-    #     #                 )
-
-    #     # grid = gridspec.GridSpec(nrows_ncols[0], nrows_ncols[1],
-    #                                 #  width_ratios=[1 for i in range(nrows_ncols[1])],
-    #                                 #  sharex=True)
-
-    #     fig, grid = plt.subplots(nrows_ncols[0], nrows_ncols[1], constrained_layout=False, sharex=True, sharey=True)
-        
-    #     for signal_id, ax in zip(self.signal_ids, grid):
-    #         # sns.set_theme()
-    #         # ax = fig.add_subplot(subplot) 
-    #         df_aux = df_rearr[df_rearr['Signal_id']==signal_id]
-    #         indexes = df_aux['Parameter']!='None'
-    #         df_aux.loc[indexes,'Method'] = df_aux.loc[indexes,'Method'] +'-'+ df_aux.loc[indexes,'Parameter']  
-    #         # print(df_aux)
-
-    #         self.get_snr_plot(df_aux, x='SNRin', y='QRF', hue='Method', axis = ax)
-    #         # self.get_snr_plot2(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
-    #         # self.get_snr_plot_bars(df_aux, x='SNRin', y='SNRout', hue='Method', axis = ax)
-    #         ax.grid(linewidth = 0.5)
-    #         ax.set_title(signal_id)
-    #         # ax.set_box_aspect(1)
-    #         # sns.despine(offset=10, trim=True)
-    #         ax.legend([],[], frameon=False)
-    #         ax.legend(loc='upper left', frameon=False, fontsize = 'xx-small')
-            
-
-    #     fig.set_size_inches((12,4*Nsignals//4))
-        
-    #     if filename is None:
-    #         filename = os.path.join('results','figures','plots_grid.png')
-
-    #     if savetofile:
-    #         fig.savefig(filename,bbox_inches='tight')# , format='svg')
-    
-    #     return fig
-
 
     def get_summary_plots(self,
                         df_rearr = None, 
@@ -750,3 +688,25 @@ class ResultsInterpreter:
     #             df['std'] = dfs['std']
     #             fig = px.line(df, x="SNRin", y="QRF", color='Method', markers=True)
     #             f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
+
+
+    def elapsed_time_summary(self):
+        mydict = self.benchmark.elapsed_time
+        auxdic = {}
+
+        for k in mydict:
+            for k2 in mydict[k]:
+                auxdic[k+'-'+k2] = pd.DataFrame(mydict[k][k2])
+
+        df3 = pd.concat(auxdic,axis = 0)
+        df3 = df3.reset_index()
+        df3 = df3.drop(labels='level_1', axis=1)
+        methid = np.unique(df3['level_0'])
+        auxdic = {}
+        for i in methid:
+            auxdic[i] = (np.mean(df3[0][df3['level_0']==i]),np.std(df3[0][df3['level_0']==i]))
+
+        df = pd.DataFrame(auxdic)
+        df = df.transpose()
+        df.columns=('Mean','Std')
+        return df
