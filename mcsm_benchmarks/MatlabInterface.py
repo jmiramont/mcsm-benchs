@@ -3,8 +3,12 @@ import numpy as np
 import numbers
 
 matlab_is_present = importlib.util.find_spec('matlab')
-if matlab_is_present:
-    import matlab.engine
+try:
+    if matlab_is_present:
+        import matlab.engine
+
+except ValueError:
+    print("Matlab engine or Matlab installation not found.")
 
 # class MethodTemplate(ABC):
 #     """_summary_
