@@ -7,7 +7,7 @@ try:
     if matlab_is_present:
         import matlab.engine
 
-except ValueError:
+except RuntimeError:
     print("Matlab engine or Matlab installation not found.")
 
 # class MethodTemplate(ABC):
