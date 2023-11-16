@@ -710,3 +710,123 @@ class ResultsInterpreter:
         df = df.transpose()
         df.columns=('Mean','Std')
         return df
+    
+
+
+    def get_summary_plotlys(self, bars=True):
+        """ Generates a table of mean results to .md file. 
+        Saves a .csv file with the results per signal.
+        Finally, generates an .html file with interactive plots.
+
+        Returns:
+            str: String containing the table.
+        """
+        # if filename is None:
+            # filename = 'results'
+
+        df = self.benchmark.get_results_as_df()
+        column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
+        figs = []
+        for signal_id in self.signal_ids:
+            methods_names = list()
+            snr_out_values = np.zeros((1, len([col for col in df.columns.values[4::]])))
+            snr_out_values_std = np.zeros((1, len([col for col in df.columns.values[4::]])))
+            aux_dic_mean = dict()
+            aux_dic_std = dict()
+
+            # Generate DataFrame with only signal information
+            df2 = df[df['Signal_id']==signal_id]
+
+            # For each method, generates the mean and std of results, and get figures.
+            for metodo in self.methods_and_params_dic:
+                tag = metodo
+                aux = df2[df2['Method']==metodo]
+                if len(self.methods_and_params_dic[metodo])>1:
+                    for params in self.methods_and_params_dic[metodo]:
+                        methods_names.append(tag+'+'+params)
+                        valores = df2[(df2['Method']==metodo)&(df2['Parameter']==params)]
+                        # Computing mean
+                        valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
+                        valores_mean.resize((1,valores_mean.shape[0]))
+                        snr_out_values = np.concatenate((snr_out_values,valores_mean))
+                        # Computing std
+                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                        valores_std.resize((1,valores_std.shape[0]))
+                        snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
+                else:
+                    methods_names.append(tag)
+                    valores = df2[df2['Method']==metodo]
+                    # Computing mean
+                    valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
+                    valores_mean.resize((1,valores_mean.shape[0]))
+                    snr_out_values = np.concatenate((snr_out_values,valores_mean))
+                    # Computing std
+                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                    valores_std.resize((1,valores_std.shape[0]))
+                    snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
+
+            snr_out_values = snr_out_values[1::]
+            snr_out_values_std = snr_out_values_std[1::]
+            aux_dic_mean[column_names[0]] = methods_names
+            aux_dic_std[column_names[0]] = methods_names  
+            for i in range(1,len(column_names)):
+                # aux_dic['SNRin: '+ str(column_names[i]) + 'dB'] = snr_out_values[:,i-1]
+                aux_dic_mean[str(column_names[i])] = snr_out_values[:,i-1]
+                aux_dic_std[str(column_names[i])] = snr_out_values_std[:,i-1]
+
+            # Generate DataFrames for plotting easily
+            df_means = pd.DataFrame(aux_dic_mean)
+            df_means_aux = df_means.copy()
+            df_std = pd.DataFrame(aux_dic_std)
+
+            # # Check maxima to highlight:
+            # nparray_aux = df_means.iloc[:,1::].to_numpy()
+            # maxinds = np.argmax(nparray_aux, axis=0)
+
+            # for col, max_ind in enumerate(maxinds):
+            #     for i in range(len(df_means.loc[col+1])):
+            #         df_means_aux.iloc[i,col+1] = '{:.2f}'.format(df_means.iloc[i,col+1])
+                
+            #     df_means_aux.iloc[max_ind,col+1] =  '**' + '{:.2f}'.format(df_means.iloc[max_ind,col+1]) + '**'        
+
+
+            # Change column names to make it more human-readable
+            df_results = pd.DataFrame()
+            df_results[column_names[0]] = df_means[column_names[0]]
+            for col_ind in range(1,len(column_names)):
+                # print(column_names[col_ind])
+                # df_aux = pd.DataFrame()
+                # df_aux['QRF (mean)'] = df_means[str(column_names[col_ind])]
+                # df_aux['QRF (sd)'] = df_std[str(column_names[col_ind])]
+                # ddd['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_aux
+                df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
+                df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
+
+            df3 = df_means.set_index('Method + Param').stack().reset_index()
+            df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
+            df3_std = df_std.set_index('Method + Param').stack().reset_index()
+            df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
+            df3['std'] = df3_std['std']
+            # print(df3)
+            if bars:
+                fig = px.bar(df3, 
+                            x="SNRin", 
+                            y="QRF", 
+                            color='Method + Param', 
+                            #  markers=True,
+                            barmode='group', 
+                            error_x = "SNRin", 
+                            error_y = "std"
+                            )
+            else:
+                fig = px.line(df3, 
+                                x="SNRin", 
+                                y="QRF", 
+                                color='Method + Param', 
+                                markers=True, 
+                                error_x = "SNRin", 
+                                error_y = "std"
+                                )
+            figs.append(fig)
+
+        return figs
