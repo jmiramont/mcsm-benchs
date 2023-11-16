@@ -570,17 +570,8 @@ class ResultsInterpreter:
         if magnitude == 'difference':
             df_rearr['QRF'] = df_rearr['QRF'] - df_rearr['SNRin']
 
-
         list_figs = list()
 
-        # grid = ImageGrid(fig, 111,  # similar to subplot(111)
-        #                 nrows_ncols=(3,Nsignals//3),  # creates 2x2 grid of axes
-        #                 axes_pad=0.5,  # pad between axes in inch.
-        #                 )
-        # plt.rcParams.update({
-        #             "text.usetex": True,
-        #             "font.family": "Helvetica"
-        #                 })
         for signal_id in self.signal_ids:
             if ax is None:
                 fig, ax = plt.subplots(1,1)
@@ -672,24 +663,6 @@ class ResultsInterpreter:
 
         return True
 
-    # def save_html_plots(self):
-    #     df_means  = self.get_df_means()
-    #     df_std = self.get_df_std()
-    #     # df = df_means[0]
-    #     # df = df.set_index('Method').stack().reset_index()
-    #     # df.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
-    #     with open('p_graph.html', 'a') as f:
-    #         for df, dfs in zip(df_means,df_std):
-    #             df = df.set_index('Method').stack().reset_index()
-    #             df.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
-    #             dfs = df_std[0].set_index('Method').stack().reset_index()
-    #             dfs.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
-                
-    #             df['std'] = dfs['std']
-    #             fig = px.line(df, x="SNRin", y="QRF", color='Method', markers=True)
-    #             f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
-
-
     def elapsed_time_summary(self):
         mydict = self.benchmark.elapsed_time
         auxdic = {}
@@ -721,10 +694,9 @@ class ResultsInterpreter:
         Returns:
             str: String containing the table.
         """
-        # if filename is None:
-            # filename = 'results'
 
         df = self.benchmark.get_results_as_df()
+        reps = self.benchmark.repetitions
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         figs = []
         for signal_id in self.signal_ids:
@@ -750,7 +722,7 @@ class ResultsInterpreter:
                         valores_mean.resize((1,valores_mean.shape[0]))
                         snr_out_values = np.concatenate((snr_out_values,valores_mean))
                         # Computing std
-                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)/reps**0.5
                         valores_std.resize((1,valores_std.shape[0]))
                         snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
                 else:
@@ -761,7 +733,7 @@ class ResultsInterpreter:
                     valores_mean.resize((1,valores_mean.shape[0]))
                     snr_out_values = np.concatenate((snr_out_values,valores_mean))
                     # Computing std
-                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)/reps**0.5
                     valores_std.resize((1,valores_std.shape[0]))
                     snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
 
@@ -776,31 +748,8 @@ class ResultsInterpreter:
 
             # Generate DataFrames for plotting easily
             df_means = pd.DataFrame(aux_dic_mean)
-            df_means_aux = df_means.copy()
+            # df_means_aux = df_means.copy()
             df_std = pd.DataFrame(aux_dic_std)
-
-            # # Check maxima to highlight:
-            # nparray_aux = df_means.iloc[:,1::].to_numpy()
-            # maxinds = np.argmax(nparray_aux, axis=0)
-
-            # for col, max_ind in enumerate(maxinds):
-            #     for i in range(len(df_means.loc[col+1])):
-            #         df_means_aux.iloc[i,col+1] = '{:.2f}'.format(df_means.iloc[i,col+1])
-                
-            #     df_means_aux.iloc[max_ind,col+1] =  '**' + '{:.2f}'.format(df_means.iloc[max_ind,col+1]) + '**'        
-
-
-            # Change column names to make it more human-readable
-            df_results = pd.DataFrame()
-            df_results[column_names[0]] = df_means[column_names[0]]
-            for col_ind in range(1,len(column_names)):
-                # print(column_names[col_ind])
-                # df_aux = pd.DataFrame()
-                # df_aux['QRF (mean)'] = df_means[str(column_names[col_ind])]
-                # df_aux['QRF (sd)'] = df_std[str(column_names[col_ind])]
-                # ddd['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_aux
-                df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
-                df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
 
             df3 = df_means.set_index('Method + Param').stack().reset_index()
             df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
@@ -816,7 +765,8 @@ class ResultsInterpreter:
                             #  markers=True,
                             barmode='group', 
                             error_x = "SNRin", 
-                            error_y = "std"
+                            error_y = "std",
+                            title=signal_id
                             )
             else:
                 fig = px.line(df3, 
@@ -825,7 +775,8 @@ class ResultsInterpreter:
                                 color='Method + Param', 
                                 markers=True, 
                                 error_x = "SNRin", 
-                                error_y = "std"
+                                error_y = "std",
+                                title=signal_id
                                 )
             figs.append(fig)
 
