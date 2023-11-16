@@ -686,7 +686,7 @@ class ResultsInterpreter:
     
 
 
-    def get_summary_plotlys(self, bars=True):
+    def get_summary_plotlys(self, bars=True,difference=False):
         """ Generates a table of mean results to .md file. 
         Saves a .csv file with the results per signal.
         Finally, generates an .html file with interactive plots.
@@ -696,6 +696,13 @@ class ResultsInterpreter:
         """
 
         df = self.benchmark.get_results_as_df()
+        # print(df)
+
+        if difference:
+            for col in df.columns.values[4::]:
+                df[col] = df[col]-col    
+                # print(df[col])    
+
         reps = self.benchmark.repetitions
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         figs = []
