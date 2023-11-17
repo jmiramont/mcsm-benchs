@@ -1713,6 +1713,56 @@ class SignalBank:
         return signal       
 
 
+    def signal_mc_damped_cos_2(self):
+        """Generates a multicomponent signal with different types of components.
+
+        Returns:
+            numpy.ndarray: Returns a numpy array with the signal.
+        """
+
+        N = self.N
+        t = np.arange(N)/N
+        tmin = self.tmin
+        tmax = N-tmin
+        Nsub = tmax-tmin
+        tsub = np.arange(Nsub)
+        fmax = self.fmax
+        
+        signal = np.zeros((N,))
+        instf0 = np.zeros_like(signal)
+        instf1 = np.zeros_like(signal)
+
+        omega = 5
+        f0 = 0.3 + 0.00*tsub/Nsub
+        if0 = f0 + np.exp(np.log(0.25)*tsub/Nsub) * 0.14*np.cos(2*pi*omega*tsub/Nsub - pi*omega)
+        
+        if1 = self.fmin + 0.15*tsub/Nsub    
+
+        phase0 = np.cumsum(if0)
+        phase1 = np.cumsum(if1)
+        
+        x0 = np.zeros_like(signal)
+        x1 = np.zeros_like(signal)
+
+        a1 = 0.5 + 0.3*np.cos(1.3*pi*omega*tsub/Nsub - pi*omega)
+
+        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.tukey(len(phase0),0.25)
+        x1[tmin:tmin+len(phase1)] = a1*np.cos(2*pi*phase1)*sg.tukey(len(phase1),0.25) 
+
+        instf0[tmin:tmin+len(if0)] = if0
+        instf1[tmin:tmin+len(if1)] = if1
+
+
+        chirp0 = Signal(x0, instf=instf0)
+        chirp1 = Signal(x1, instf=instf1)
+
+        signal = chirp0+chirp1
+
+        if not self.return_signal:
+            return signal.view(np.ndarray)
+        return signal       
+
+
 
 def hermite_poly(t,n, return_all = False):
     """Generates a Hermite polynomial of order n on the vector t.
