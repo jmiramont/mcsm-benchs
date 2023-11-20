@@ -42,6 +42,8 @@ class ResultsInterpreter:
 
         # self.parameters  
 
+# --------------------------------------------------------------------------------------
+
     def get_benchmark_as_data_frame(self):
         """Returns a DataFrame with the raw data produced by the benchmark with the 
         following format:
@@ -55,6 +57,7 @@ class ResultsInterpreter:
 
         return self.benchmark.get_results_as_df()
 
+# --------------------------------------------------------------------------------------
 
     def rearrange_data_frame(self, results=None):
         """Rearrange DataFrame table for using Seaborn library. 
@@ -88,6 +91,7 @@ class ResultsInterpreter:
         df3.columns.values[0] = 'SNRin'
         return df3
 
+# --------------------------------------------------------------------------------------
 
     def get_df_means(self):
         """ Generates a DataFrame of mean results to .md file. 
@@ -99,8 +103,7 @@ class ResultsInterpreter:
             # filename = 'results'
 
         df = self.benchmark.get_results_as_df()
-        column_names = ['Method'] + [col for col in df.columns.values[4::]]
-        output_string = ''
+        column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         df_means = list()
 
         for signal_id in self.signal_ids:
@@ -148,6 +151,7 @@ class ResultsInterpreter:
 
         return df_means
 
+#---------------------------------------------------------------------------------------
     def get_df_std(self):
         """ Generates a DataFrame of std results to .md file. 
 
@@ -158,7 +162,7 @@ class ResultsInterpreter:
             # filename = 'results'
 
         df = self.benchmark.get_results_as_df()
-        column_names = ['Method'] + [col for col in df.columns.values[4::]]
+        column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
         df_std = list()
 
@@ -197,81 +201,24 @@ class ResultsInterpreter:
 
         return df_std
 
-
-    def get_table_means(self, html_filename=None, csv_filename=None, bars=False):
-        """ Generates a table of mean results to .md file. 
-        Saves a .csv file with the results per signal.
-        Finally, generates an .html file with interactive plots.
+# --------------------------------------------------------------------------------------
+    def get_table_means_and_std(self):
+        """ Generates a table of mean and std results to .md file. 
+        Highlights the best results.
 
         Returns:
             str: String containing the table.
         """
-        # if filename is None:
-            # filename = 'results'
 
         df = self.benchmark.get_results_as_df()
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
-        for signal_id in self.signal_ids:
-            methods_names = list()
-            snr_out_values = np.zeros((1, len([col for col in df.columns.values[4::]])))
-            snr_out_values_std = np.zeros((1, len([col for col in df.columns.values[4::]])))
-            aux_dic_mean = dict()
-            aux_dic_std = dict()
+        dfs_means = self.get_df_means()
+        dfs_std = self.get_df_std()
 
-            # Generate DataFrame with only signal information
-            df2 = df[df['Signal_id']==signal_id]
-            
-            # Save .csv file for the signal.
-            if csv_filename is None:
-                filename = os.path.join('results',self.task,'csv_files','results_'+signal_id+'.csv')
-            else:
-                filename = os.path.join(csv_filename,'results_'+signal_id+'.csv')
-    
-            df2.to_csv(filename)
-
-            # For each method, generates the mean and std of results, and get figures.
-            for metodo in self.methods_and_params_dic:
-                tag = metodo
-                aux = df2[df2['Method']==metodo]
-                if len(self.methods_and_params_dic[metodo])>1:
-                    for params in self.methods_and_params_dic[metodo]:
-                        methods_names.append(tag+'+'+params)
-                        valores = df2[(df2['Method']==metodo)&(df2['Parameter']==params)]
-                        # Computing mean
-                        valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
-                        valores_mean.resize((1,valores_mean.shape[0]))
-                        snr_out_values = np.concatenate((snr_out_values,valores_mean))
-                        # Computing std
-                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                        valores_std.resize((1,valores_std.shape[0]))
-                        snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
-                else:
-                    methods_names.append(tag)
-                    valores = df2[df2['Method']==metodo]
-                    # Computing mean
-                    valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
-                    valores_mean.resize((1,valores_mean.shape[0]))
-                    snr_out_values = np.concatenate((snr_out_values,valores_mean))
-                    # Computing std
-                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                    valores_std.resize((1,valores_std.shape[0]))
-                    snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
-
-            snr_out_values = snr_out_values[1::]
-            snr_out_values_std = snr_out_values_std[1::]
-            aux_dic_mean[column_names[0]] = methods_names
-            aux_dic_std[column_names[0]] = methods_names  
-            for i in range(1,len(column_names)):
-                # aux_dic['SNRin: '+ str(column_names[i]) + 'dB'] = snr_out_values[:,i-1]
-                aux_dic_mean[str(column_names[i])] = snr_out_values[:,i-1]
-                aux_dic_std[str(column_names[i])] = snr_out_values_std[:,i-1]
-
-            # Generate DataFrames for plotting easily
-            df_means = pd.DataFrame(aux_dic_mean)
+        for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
             df_means_aux = df_means.copy()
-            df_std = pd.DataFrame(aux_dic_std)
-
+    
             # Check maxima to highlight:
             nparray_aux = df_means.iloc[:,1::].to_numpy()
             maxinds = np.argmax(nparray_aux, axis=0)
@@ -282,16 +229,10 @@ class ResultsInterpreter:
                 
                 df_means_aux.iloc[max_ind,col+1] =  '**' + '{:.2f}'.format(df_means.iloc[max_ind,col+1]) + '**'        
 
-
             # Change column names to make it more human-readable
             df_results = pd.DataFrame()
             df_results[column_names[0]] = df_means[column_names[0]]
             for col_ind in range(1,len(column_names)):
-                # print(column_names[col_ind])
-                # df_aux = pd.DataFrame()
-                # df_aux['QRF (mean)'] = df_means[str(column_names[col_ind])]
-                # df_aux['QRF (sd)'] = df_std[str(column_names[col_ind])]
-                # ddd['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_aux
                 df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
                 df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
 
@@ -301,57 +242,15 @@ class ResultsInterpreter:
             aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/denoising/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](/results/denoising/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
-            # Generate .html interactive plots files with plotly
-            #TODO Make this change with the github user!
-             
-            if html_filename is None:
-                filename = os.path.join('results',self.task,'figures','html','plot_'+signal_id+'.html')
-            else:
-                filename = os.path.join(html_filename,'plot_'+signal_id+'.html')
-
-            with open(filename, 'w') as f:
-                df3 = df_means.set_index('Method + Param').stack().reset_index()
-                df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
-                df3_std = df_std.set_index('Method + Param').stack().reset_index()
-                df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
-                df3['std'] = df3_std['std']
-                # print(df3)
-                if bars:
-                    fig = px.bar(df3, 
-                                x="SNRin", 
-                                y="QRF", 
-                                color='Method + Param', 
-                                #  markers=True,
-                                barmode='group', 
-                                error_x = "SNRin", 
-                                error_y = "std"
-                                )
-                else:
-                    fig = px.line(df3, 
-                                  x="SNRin", 
-                                  y="QRF", 
-                                  color='Method + Param', 
-                                  markers=True, 
-                                  error_x = "SNRin", 
-                                  error_y = "std"
-                                  )
-
-                f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
-
         return output_string
 
+# --------------------------------------------------------------------------------------
+    def get_report_preamble(self):
+        """Creates the preamble of the .md file with a table summarizing the benchmark results.
 
-    def save_report(self, filename=None, path=None, bars=False):
-        """ This function generates a report of the results given in the Benchmark-class
-        object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
-        while a .csv file is generated with the results.
-
-        Args:
-            filename (str, optional): Path for saving the report. Defaults to None.
+        Returns:
+            str: String with the table header.
         """
-
-        # self.get_summary_grid()
-
         lines = ['# Benchmark Report' +'\n',
                 '## Configuration' + '   [Get .csv file] ' + '\n',
                 # 'Parallelize' + str(self.benchmark.parallel_flag) + '\n',
@@ -375,24 +274,39 @@ class ResultsInterpreter:
             lines = lines + ['Results shown here are the mean and standard deviation of \
                             the estimated detection power. \
                             Best performances are **bolded**. \n']
-       
+        
+        return lines
 
+# --------------------------------------------------------------------------------------
 
+    def save_report(self, filename=None, path='results', bars=False):
+
+        """ This function generates a report of the results given in the Benchmark-class
+        object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
+        while a .csv file is generated with the results.
+
+        Args:
+            filename (str, optional): Path for saving the report. Defaults to None.
+        """
         if filename is None:
-            filename = os.path.join('results','results_'+self.task+'.md')
+            filename = 'results_'+self.task+'.md'
 
-        with open(filename, 'w') as f:
+        output_path = os.path.join(path,filename)
+
+        # Generate table header:
+        lines = self.get_report_preamble()
+        with open(output_path, 'w') as f:
             f.write('\n'.join(lines))
             # f.writelines(lines)
 
-        output_string = self.get_table_means(csv_filename=path,html_filename=path, bars=bars)
-        
-        self.save_csv_files(filename=path)
+        # Append table under header
+        table_string = self.get_table_means_and_std()
+        with open(output_path, 'a') as f:
+          f.write(table_string)
 
-        with open(filename, 'a') as f:
-          f.write(output_string)
-
+        return True
     
+#-------------------------------------------------------------------------------------       
     def get_snr_plot(self, df, x=None, y=None, hue=None, axis = None):
         """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
         computed as: 
@@ -443,41 +357,10 @@ class ResultsInterpreter:
         axis.set_yticks(u)
         axis.set_xlabel(x + ' (dB)')
         axis.set_ylabel(y + ' (dB)')
-        return
 
-    def get_snr_plot2(self, df, x=None, y=None, hue=None, axis = None):
-        """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
-        computed as: 
-        QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]
-        where x is the noiseless signal and x_r is de denoised estimation of x.
+        return True
 
-        Args:
-            df (DataFrame): DataFrame with the results of the simulation.
-            x (str, optional): Column name to use as the horizontal axis. 
-            Defaults to None.
-            y (str, optional): Column name to use as the vertical axis. 
-            Defaults to None.
-            hue (str, optional): Column name with the methods' name. Defaults to None.
-            axis (matplotlib.Axes, optional): The axis object where the plot will be 
-            generated. Defaults to None.
-        """
-
-
-
-        markers = ['o','d','s','*']
-        line_style = ['--' for i in self.methods_ids]
-        sns.pointplot(x="SNRin", y="QRF", hue="Method",
-                    capsize=0.15, height=10, aspect=1.0, dodge=0.5,
-                    kind="point", data=df, errwidth = 0.7,
-                    ax = axis) #linestyles=line_style,
-
-        axis.set_xlabel('SNRin (dB)')
-
-        if self.benchmark.task == 'denoising':
-            axis.set_ylabel('QRF (dB)')
-        
-        if self.benchmark.task == 'detection':
-            axis.set_ylabel('Detection Power')
+# --------------------------------------------------------------------------------------
 
     def get_snr_plot_bars(self, 
                             df, 
@@ -532,7 +415,7 @@ class ResultsInterpreter:
                         df_rearr = None, 
                         size=(3,3), 
                         savetofile=True, 
-                        filename=None,
+                        path=None,
                         filter_crit= 'all',
                         filter_str = None,
                         errbar_fun = ('ci',95),
@@ -626,73 +509,23 @@ class ResultsInterpreter:
             
             # Save figures to file.
             if savetofile:
-                if filename is None:
-                    fig.savefig('results/figures/plot_'+ signal_id +'.pdf',
-                                bbox_inches='tight')# , format='svg')
+                if path is None:
+                    filename = os.path.join('results',self.task,'figures','plot_'+ signal_id +'.pdf')
+                    
                 else:
-                    fig.savefig(filename + signal_id +'.pdf',
-                                bbox_inches='tight')# , format='svg')
+                    filename = os.path.join(path,'plot_'+ signal_id +'.pdf')
+                
+                fig.savefig(filename, bbox_inches='tight')
 
             list_figs.append(fig)
             ax = None # Create new figure in the next interation of the loop.
         return list_figs
 
-    def save_csv_files(self,filename=None):
-        """Save results in .csv files.
-
-        Args:
-            filepath (str, optional): Path to file. Defaults to None.
-
-        Returns:
-            bool: True if the file was saved.
-        """
-        
-        df1 = self.get_benchmark_as_data_frame()
-        df2 = self.rearrange_data_frame()
-
-        filename1 = os.path.join(filename,'denoising_results_raw.csv')
-        filename2 = os.path.join(filename,'denoising_results_rearranged.csv')
-
-        if filename is None:
-            filename='results'
-            filename1 = os.path.join(filename,self.task,'csv_files','denoising_results_raw.csv')
-            filename2 = os.path.join(filename,self.task,'csv_files','denoising_results_rearranged.csv')
-        
-        df1.to_csv(filename1)
-        df2.to_csv(filename2)
-
-        return True
-
-    def elapsed_time_summary(self):
-        mydict = self.benchmark.elapsed_time
-        auxdic = {}
-
-        for k in mydict:
-            for k2 in mydict[k]:
-                auxdic[k+'-'+k2] = pd.DataFrame(mydict[k][k2])
-
-        df3 = pd.concat(auxdic,axis = 0)
-        df3 = df3.reset_index()
-        df3 = df3.drop(labels='level_1', axis=1)
-        methid = np.unique(df3['level_0'])
-        auxdic = {}
-        for i in methid:
-            auxdic[i] = (np.mean(df3[0][df3['level_0']==i]),np.std(df3[0][df3['level_0']==i]))
-
-        df = pd.DataFrame(auxdic)
-        df = df.transpose()
-        df.columns=('Mean','Std')
-        return df
-    
-
 
     def get_summary_plotlys(self, bars=True,difference=False):
-        """ Generates a table of mean results to .md file. 
-        Saves a .csv file with the results per signal.
-        Finally, generates an .html file with interactive plots.
-
-        Returns:
-            str: String containing the table.
+        """ Generates interactive plots with plotly.
+        
+            Returns a list with plotlys figures.
         """
 
         df = self.benchmark.get_results_as_df()
@@ -763,7 +596,9 @@ class ResultsInterpreter:
             df3_std = df_std.set_index('Method + Param').stack().reset_index()
             df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
             df3['std'] = df3_std['std']
-            # print(df3)
+            print(df3)
+            
+            
             if bars:
                 fig = px.bar(df3, 
                             x="SNRin", 
@@ -788,3 +623,105 @@ class ResultsInterpreter:
             figs.append(fig)
 
         return figs
+    
+    def get_html_figures(self, path=None, bars=True, difference=False):
+        """
+        Generate .html interactive plots files with plotly
+        #TODO Make this change with the github user!
+        """
+
+        figs = self.get_summary_plotlys(bars=bars, difference=difference)
+
+        for signal_id, fig in zip(self.signal_ids,figs):
+            
+            if path is None:
+                filename = os.path.join('results',self.task,'figures','html','plot_'+signal_id+'.html')
+            else:
+                filename = os.path.join(path,'plot_'+signal_id+'.html')
+
+            with open(filename, 'w') as f:
+                f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
+
+        return True
+
+    def get_csv_files(self,path):
+        """ Generates a table of mean results to .md file. 
+        Saves a .csv file with the results per signal.
+        Finally, generates an .html file with interactive plots.
+
+        Returns:
+            str: String containing the table.
+        """
+
+        df = self.benchmark.get_results_as_df()
+        for signal_id in self.signal_ids:
+            # Generate DataFrame with only signal information
+            df2 = df[df['Signal_id']==signal_id]
+            
+            # # Save .csv file for the signal.
+            if path is None:
+                filename = os.path.join('results',self.task,'csv_files','results_'+signal_id+'.csv')
+            else:
+                filename = os.path.join(path,'results_'+signal_id+'.csv')
+    
+            df2.to_csv(filename)
+
+        return True
+
+
+    def elapsed_time_summary(self):
+        mydict = self.benchmark.elapsed_time
+        auxdic = {}
+
+        for k in mydict:
+            for k2 in mydict[k]:
+                auxdic[k+'-'+k2] = pd.DataFrame(mydict[k][k2])
+
+        df3 = pd.concat(auxdic,axis = 0)
+        df3 = df3.reset_index()
+        df3 = df3.drop(labels='level_1', axis=1)
+        methid = np.unique(df3['level_0'])
+        auxdic = {}
+        for i in methid:
+            auxdic[i] = (np.mean(df3[0][df3['level_0']==i]),np.std(df3[0][df3['level_0']==i]))
+
+        df = pd.DataFrame(auxdic)
+        df = df.transpose()
+        df.columns=('Mean','Std')
+
+        return df
+    
+
+    # def get_snr_plot2(self, df, x=None, y=None, hue=None, axis = None):
+    #     """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
+    #     computed as: 
+    #     QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]
+    #     where x is the noiseless signal and x_r is de denoised estimation of x.
+
+    #     Args:
+    #         df (DataFrame): DataFrame with the results of the simulation.
+    #         x (str, optional): Column name to use as the horizontal axis. 
+    #         Defaults to None.
+    #         y (str, optional): Column name to use as the vertical axis. 
+    #         Defaults to None.
+    #         hue (str, optional): Column name with the methods' name. Defaults to None.
+    #         axis (matplotlib.Axes, optional): The axis object where the plot will be 
+    #         generated. Defaults to None.
+    #     """
+
+
+
+    #     markers = ['o','d','s','*']
+    #     line_style = ['--' for i in self.methods_ids]
+    #     sns.pointplot(x="SNRin", y="QRF", hue="Method",
+    #                 capsize=0.15, height=10, aspect=1.0, dodge=0.5,
+    #                 kind="point", data=df, errwidth = 0.7,
+    #                 ax = axis) #linestyles=line_style,
+
+    #     axis.set_xlabel('SNRin (dB)')
+
+    #     if self.benchmark.task == 'denoising':
+    #         axis.set_ylabel('QRF (dB)')
+        
+    #     if self.benchmark.task == 'detection':
+    #         axis.set_ylabel('Detection Power')

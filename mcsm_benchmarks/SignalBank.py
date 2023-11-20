@@ -1721,12 +1721,10 @@ class SignalBank:
         """
 
         N = self.N
-        t = np.arange(N)/N
         tmin = self.tmin
         tmax = N-tmin
         Nsub = tmax-tmin
         tsub = np.arange(Nsub)
-        fmax = self.fmax
         
         signal = np.zeros((N,))
         instf0 = np.zeros_like(signal)
