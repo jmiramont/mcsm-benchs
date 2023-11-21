@@ -14,9 +14,9 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -50,7 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">SignalBank Example</a></li>
@@ -88,7 +88,7 @@
            <div itemprop="articleBody">
              
   <section id="mcsm-benchmarks">
-<h1>mcsm_benchmarks<a class="headerlink" href="#mcsm-benchmarks" title="Link to this heading"></a></h1>
+<h1>mcsm_benchmarks<a class="headerlink" href="#mcsm-benchmarks" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mcsm_benchmarks.html">mcsm_benchmarks package</a><ul>
@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.get_results_as_df"><code class="docutils literal notranslate"><span class="pre">Benchmark.get_results_as_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.inner_loop"><code class="docutils literal notranslate"><span class="pre">Benchmark.inner_loop()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.input_parsing"><code class="docutils literal notranslate"><span class="pre">Benchmark.input_parsing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.load_benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark.load_benchmark()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.run_test"><code class="docutils literal notranslate"><span class="pre">Benchmark.run_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.save_to_file"><code class="docutils literal notranslate"><span class="pre">Benchmark.save_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.set_objective_function"><code class="docutils literal notranslate"><span class="pre">Benchmark.set_objective_function()</span></code></a></li>
@@ -129,17 +130,19 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mcsm_benchmarks.html#module-mcsm_benchmarks.ResultsInterpreter">mcsm_benchmarks.ResultsInterpreter module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.elapsed_time_summary"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.elapsed_time_summary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_benchmark_as_data_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_csv_files"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_csv_files()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_df_means"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_df_means()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_df_std"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_df_std()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_html_figures"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_html_figures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_report_preamble"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_report_preamble()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_snr_plot()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot2"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_snr_plot2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot_bars"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_snr_plot_bars()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_grid"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_summary_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_summary_plotlys()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_plots"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_summary_plots()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_table_means"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_table_means()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.get_table_means_and_std()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.rearrange_data_frame()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.save_csv_files"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.save_csv_files()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.save_report"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter.save_report()</span></code></a></li>
 </ul>
 </li>
@@ -170,6 +173,7 @@
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_cos_plus_tone"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_cos_plus_tone()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_crossing_chirps"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_crossing_chirps()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_damped_cos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos_2"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_damped_cos_2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_double_cos_chirp"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_double_cos_chirp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_exp_chirps"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_exp_chirps()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_impulses"><code class="docutils literal notranslate"><span class="pre">SignalBank.signal_mc_impulses()</span></code></a></li>
@@ -206,22 +210,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="mcsm_benchmarks.html#module-mcsm_benchmarks.utilstf">mcsm_benchmarks.utilstf module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.add_snr"><code class="docutils literal notranslate"><span class="pre">add_snr()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.add_snr_block"><code class="docutils literal notranslate"><span class="pre">add_snr_block()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.find_zeros_of_spectrogram"><code class="docutils literal notranslate"><span class="pre">find_zeros_of_spectrogram()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_gauss_window"><code class="docutils literal notranslate"><span class="pre">get_gauss_window()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_istft"><code class="docutils literal notranslate"><span class="pre">get_istft()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_round_window"><code class="docutils literal notranslate"><span class="pre">get_round_window()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_spectrogram"><code class="docutils literal notranslate"><span class="pre">get_spectrogram()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_stft"><code class="docutils literal notranslate"><span class="pre">get_stft()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.reconstruct_signal"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.reconstruct_signal_2"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal_2()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.reconstruct_signal_3"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal_3()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.sigmerge"><code class="docutils literal notranslate"><span class="pre">sigmerge()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.snr_comparison"><code class="docutils literal notranslate"><span class="pre">snr_comparison()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="mcsm_benchmarks.html#mcsm-benchmarks-utilstf-module">mcsm_benchmarks.utilstf module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcsm_benchmarks.html#module-mcsm_benchmarks">Module contents</a></li>
 </ul>
 </li>
