@@ -1,17 +1,11 @@
-# from sqlite3 import DatabaseError
 import pandas as pd
 import seaborn as sns
 from mcsm_benchmarks.Benchmark import Benchmark
-import pickle
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import ImageGrid
-import matplotlib.gridspec as gridspec
 import string
 import os
 import plotly.express as px
-import plotly.io as pio
-
 
 class ResultsInterpreter:
     """This class takes a Benchmark-class object to produce a series of plots and tables
@@ -93,7 +87,7 @@ class ResultsInterpreter:
 
 # --------------------------------------------------------------------------------------
 
-    def get_df_means(self):
+    def get_df_means(self,df=None):
         """ Generates a DataFrame of mean results to .md file. 
 
         Returns:
@@ -101,8 +95,9 @@ class ResultsInterpreter:
         """
         # if filename is None:
             # filename = 'results'
-
-        df = self.benchmark.get_results_as_df()
+        if df is None:
+            df = self.benchmark.get_results_as_df()
+    
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         df_means = list()
 
@@ -152,7 +147,8 @@ class ResultsInterpreter:
         return df_means
 
 #---------------------------------------------------------------------------------------
-    def get_df_std(self):
+
+    def get_df_std(self, df=None):
         """ Generates a DataFrame of std results to .md file. 
 
         Returns:
@@ -161,7 +157,9 @@ class ResultsInterpreter:
         # if filename is None:
             # filename = 'results'
 
-        df = self.benchmark.get_results_as_df()
+        if df is None:
+            df = self.benchmark.get_results_as_df()    
+
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
         df_std = list()
@@ -213,20 +211,23 @@ class ResultsInterpreter:
         df = self.benchmark.get_results_as_df()
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
+
+        # Get dataframes with means and some variability measure
         dfs_means = self.get_df_means()
         dfs_std = self.get_df_std()
 
         for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
             df_means_aux = df_means.copy()
     
-            # Check maxima to highlight:
+            # Format all floats with two decimals:
             nparray_aux = df_means.iloc[:,1::].to_numpy()
             maxinds = np.argmax(nparray_aux, axis=0)
 
             for col, max_ind in enumerate(maxinds):
-                for i in range(len(df_means.loc[col+1])):
+                for i in range(df_means_aux.shape[0]): #range(len(df_means.loc[col+1])):
                     df_means_aux.iloc[i,col+1] = '{:.2f}'.format(df_means.iloc[i,col+1])
                 
+                #  Also, highlight maxima
                 df_means_aux.iloc[max_ind,col+1] =  '**' + '{:.2f}'.format(df_means.iloc[max_ind,col+1]) + '**'        
 
             # Change column names to make it more human-readable
@@ -236,6 +237,7 @@ class ResultsInterpreter:
                 df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
                 df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
 
+            # print(df_results)
 
             # Table header with links
             # csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
@@ -385,7 +387,6 @@ class ResultsInterpreter:
             axis (matplotlib.Axes, optional): The axis object where the plot will be 
             generated. Defaults to None.
         """
-        
 
         if errbar_params is None:
            errbar_params = {'errwidth':0.1,
@@ -442,7 +443,7 @@ class ResultsInterpreter:
             plot_type (str, optional): _description_. Defaults to 'lines'.
 
         Returns:
-            _type_: _description_
+            list: A list with matplotlib figures.
         """
         
         Nsignals = len(self.signal_ids)
@@ -522,74 +523,24 @@ class ResultsInterpreter:
         return list_figs
 
 
-    def get_summary_plotlys(self, bars=True,difference=False):
+    def get_summary_plotlys(self, bars=True, difference=False):
         """ Generates interactive plots with plotly.
         
-            Returns a list with plotlys figures.
+            Returns:
+                list : A list with plotlys figures.
         """
-
         df = self.benchmark.get_results_as_df()
-        # print(df)
-
         if difference:
             for col in df.columns.values[4::]:
                 df[col] = df[col]-col    
-                # print(df[col])    
 
-        reps = self.benchmark.repetitions
-        column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         figs = []
-        for signal_id in self.signal_ids:
-            methods_names = list()
-            snr_out_values = np.zeros((1, len([col for col in df.columns.values[4::]])))
-            snr_out_values_std = np.zeros((1, len([col for col in df.columns.values[4::]])))
-            aux_dic_mean = dict()
-            aux_dic_std = dict()
 
-            # Generate DataFrame with only signal information
-            df2 = df[df['Signal_id']==signal_id]
+        # Get dataframes with means and some variability measure
+        dfs_means = self.get_df_means(df=df)
+        dfs_std = self.get_df_std(df=df)
 
-            # For each method, generates the mean and std of results, and get figures.
-            for metodo in self.methods_and_params_dic:
-                tag = metodo
-                aux = df2[df2['Method']==metodo]
-                if len(self.methods_and_params_dic[metodo])>1:
-                    for params in self.methods_and_params_dic[metodo]:
-                        methods_names.append(tag+'+'+params)
-                        valores = df2[(df2['Method']==metodo)&(df2['Parameter']==params)]
-                        # Computing mean
-                        valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
-                        valores_mean.resize((1,valores_mean.shape[0]))
-                        snr_out_values = np.concatenate((snr_out_values,valores_mean))
-                        # Computing std
-                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)/reps**0.5
-                        valores_std.resize((1,valores_std.shape[0]))
-                        snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
-                else:
-                    methods_names.append(tag)
-                    valores = df2[df2['Method']==metodo]
-                    # Computing mean
-                    valores_mean = valores.iloc[:,4::].to_numpy().mean(axis = 0)
-                    valores_mean.resize((1,valores_mean.shape[0]))
-                    snr_out_values = np.concatenate((snr_out_values,valores_mean))
-                    # Computing std
-                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)/reps**0.5
-                    valores_std.resize((1,valores_std.shape[0]))
-                    snr_out_values_std = np.concatenate((snr_out_values_std,valores_std))
-
-            snr_out_values = snr_out_values[1::]
-            snr_out_values_std = snr_out_values_std[1::]
-            aux_dic_mean[column_names[0]] = methods_names
-            aux_dic_std[column_names[0]] = methods_names  
-            for i in range(1,len(column_names)):
-                # aux_dic['SNRin: '+ str(column_names[i]) + 'dB'] = snr_out_values[:,i-1]
-                aux_dic_mean[str(column_names[i])] = snr_out_values[:,i-1]
-                aux_dic_std[str(column_names[i])] = snr_out_values_std[:,i-1]
-
-            # Generate DataFrames for plotting easily
-            df_means = pd.DataFrame(aux_dic_mean)
-            # df_means_aux = df_means.copy()
-            df_std = pd.DataFrame(aux_dic_std)
+        for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
 
             df3 = df_means.set_index('Method + Param').stack().reset_index()
             df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
@@ -670,6 +621,11 @@ class ResultsInterpreter:
 
 
     def elapsed_time_summary(self):
+        """Get a DataFrame summarizing the elapsed times of the methods.
+
+        Returns:
+            DataFrame: Pandas DataFrame with a summary of the elapsed times.
+        """
         mydict = self.benchmark.elapsed_time
         auxdic = {}
 
