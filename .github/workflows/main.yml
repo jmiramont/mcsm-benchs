@@ -68,7 +68,7 @@ jobs:
         run: poetry install --with docs
 
       - name: Install pandoc
-        run: apt install pandoc
+        run: su apt install pandoc
 
       - name: Build docs
         run: |
