@@ -13,9 +13,9 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -47,7 +47,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_signal_bank.html">SignalBank Example</a></li>
@@ -88,9 +88,7 @@
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
 
-<div class="viewcode-block" id="Signal">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal">[docs]</a>
-<span class="k">class</span> <span class="nc">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal">[docs]</a><span class="k">class</span> <span class="nc">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    A class that emulates a signal by behaving like a Numpy array for practical </span>
@@ -269,9 +267,7 @@
     <span class="k">def</span> <span class="nf">instf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instf</span>    
     
-<div class="viewcode-block" id="Signal.add_comp">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.add_comp">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_comp</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal.add_comp"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.add_comp">[docs]</a>    <span class="k">def</span> <span class="nf">add_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_comp</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new component, potentially with its instantaneous frequency. This </span>
 <span class="sd">        latter can be added later.</span>
 
@@ -284,10 +280,7 @@
         <span class="k">if</span> <span class="s1">&#39;instf&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_instf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;instf&#39;</span><span class="p">])</span></div>
 
-
-<div class="viewcode-block" id="Signal.add_instf">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.add_instf">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_instf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_instf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal.add_instf"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.add_instf">[docs]</a>    <span class="k">def</span> <span class="nf">add_instf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_instf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new instantaneous frequency.</span>
 
 <span class="sd">        Args:</span>
@@ -295,10 +288,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_instf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_instf</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="Signal.component_counter">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.component_counter">[docs]</a>
-    <span class="k">def</span> <span class="nf">component_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal.component_counter"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.component_counter">[docs]</a>    <span class="k">def</span> <span class="nf">component_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; This functions counts the number of components per time sample, and set the </span>
 <span class="sd">        corresponding attribute self._ncomps.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -311,19 +301,12 @@
                     <span class="n">cc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">_ncomps</span> <span class="o">=</span> <span class="n">cc</span></div>
 
-
-<div class="viewcode-block" id="Signal.get_info">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.get_info">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal.get_info"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;ndarray&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> 
                 <span class="s1">&#39;ncomps&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncomps</span><span class="p">,</span> 
-                <span class="s1">&#39;total_comps&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">total_comps</span><span class="p">}</span></div>
-</div>
+                <span class="s1">&#39;total_comps&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">total_comps</span><span class="p">}</span></div></div>
 
-
-<div class="viewcode-block" id="SignalBank">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank">[docs]</a>
-<span class="k">class</span> <span class="nc">SignalBank</span><span class="p">:</span>
+<div class="viewcode-block" id="SignalBank"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank">[docs]</a><span class="k">class</span> <span class="nc">SignalBank</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a bank of signals. This class encapsulates the signal generation code,</span>
 <span class="sd">    and returns different methods to generate signals as well as a dictionary of those </span>
@@ -467,9 +450,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">generate_signal_dict</span><span class="p">()</span>
 
     <span class="c1"># TODO</span>
-<div class="viewcode-block" id="SignalBank.check_inst_freq">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.check_inst_freq">[docs]</a>
-    <span class="k">def</span> <span class="nf">check_inst_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instf</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.check_inst_freq"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.check_inst_freq">[docs]</a>    <span class="k">def</span> <span class="nf">check_inst_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instf</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the instantaneous frequency (if available) of a generated signal</span>
 <span class="sd">        is withing certain margins to avoid aliasing and border effects.</span>
 
@@ -483,10 +464,7 @@
         <span class="c1">#     print(&#39;Warning: instf&lt;fmin&#39;)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.generate_signal_dict">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.generate_signal_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_signal_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.generate_signal_dict"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.generate_signal_dict">[docs]</a>    <span class="k">def</span> <span class="nf">generate_signal_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; This function is used by the class constructor to generate a dictionary of </span>
 <span class="sd">        signals. The keys of this dictionary are the name of the signals or &quot;signal_id&quot;</span>
 <span class="sd">        that is used to indicate the benchmark which signals use to compare methods. </span>
@@ -506,10 +484,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalDict</span></div>
 
 
-
-<div class="viewcode-block" id="SignalBank.get_signal_id">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.get_signal_id">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_signal_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.get_signal_id"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.get_signal_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_signal_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the keys of the dictionary of signals generated by the function </span>
 <span class="sd">        &quot;generate_signal_dict()&quot; when needed.</span>
 
@@ -519,10 +494,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SignalDict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.get_all_signals">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.get_all_signals">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_all_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.get_all_signals"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.get_all_signals">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an array of shape [K,N] where K is the number of signals generated</span>
 <span class="sd">        by this signal bank, and N is the length of the signals.</span>
 
@@ -534,7 +506,6 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signalDict</span><span class="p">):</span>
             <span class="n">signals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalDict</span><span class="p">[</span><span class="n">key</span><span class="p">]()</span>
         <span class="k">return</span> <span class="n">signals</span></div>
-
 
 
 <span class="c1"># Monocomponent signals --------------------------------------------------------</span>
@@ -574,7 +545,7 @@
 
         <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">instf</span><span class="p">)</span>
 
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="n">Nsub</span><span class="p">,</span><span class="mf">0.25</span><span class="p">)</span> 
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="n">Nsub</span><span class="p">,</span><span class="mf">0.25</span><span class="p">)</span> 
         <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,))</span>
         <span class="n">signal</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
 
@@ -696,7 +667,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">check_inst_freq</span><span class="p">(</span><span class="n">instf</span><span class="p">)</span>    
 
         <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">instf</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">a1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="n">Nsub</span><span class="p">,</span><span class="mf">0.25</span><span class="p">)</span>     
+        <span class="n">x</span> <span class="o">=</span> <span class="n">a1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="n">Nsub</span><span class="p">,</span><span class="mf">0.25</span><span class="p">)</span>     
         <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,))</span>
         <span class="n">signal</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
 
@@ -709,9 +680,7 @@
         <span class="k">return</span> <span class="n">signal</span>
 
 <span class="c1"># Output monocomponent signals -------------------------------------------------</span>
-<div class="viewcode-block" id="SignalBank.signal_linear_chirp">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_linear_chirp">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_linear_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_linear_chirp"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_linear_chirp">[docs]</a>    <span class="k">def</span> <span class="nf">signal_linear_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a linear chirp, the instantaneous frequency of which is a linear</span>
 <span class="sd">        function with slope &quot;a&quot; and initial normalized frequency &quot;b&quot;.</span>
 
@@ -732,10 +701,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_tone_damped">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_tone_damped">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_tone_damped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_tone_damped"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_tone_damped">[docs]</a>    <span class="k">def</span> <span class="nf">signal_tone_damped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a damped tone whose normalized frequency is 0.25.</span>
 
 <span class="sd">        Returns:</span>
@@ -758,10 +724,7 @@
 
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_tone_sharp_attack">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_tone_sharp_attack">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_tone_sharp_attack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_tone_sharp_attack"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_tone_sharp_attack">[docs]</a>    <span class="k">def</span> <span class="nf">signal_tone_sharp_attack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a damped tone that is modulated with a rectangular window.</span>
 
 <span class="sd">        Returns:</span>
@@ -778,10 +741,7 @@
 
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_exp_chirp">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_exp_chirp">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_exp_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">finit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">r_instf</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_exp_chirp"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_exp_chirp">[docs]</a>    <span class="k">def</span> <span class="nf">signal_exp_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">finit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">r_instf</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates an exponential chirp.</span>
 
 <span class="sd">        Args:</span>
@@ -799,10 +759,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_cos_chirp">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_cos_chirp">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_cos_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">a1</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">a2</span><span class="o">=</span><span class="mf">0.125</span><span class="p">,</span> <span class="n">checkinstf</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_cos_chirp"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_cos_chirp">[docs]</a>    <span class="k">def</span> <span class="nf">signal_cos_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">a1</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">a2</span><span class="o">=</span><span class="mf">0.125</span><span class="p">,</span> <span class="n">checkinstf</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a cosenoidal chirp, the instantenous frequency of which is given by</span>
 <span class="sd">        the formula: &quot;f0 + a1*cos(2*pi*omega)&quot;, and the maximum amplitude of which is</span>
 <span class="sd">        determined by &quot;a2&quot;.</span>
@@ -825,12 +782,9 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
 <span class="c1"># Multicomponent signals here --------------------------------------------------</span>
 
-<div class="viewcode-block" id="SignalBank.signal_mc_parallel_chirps">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_parallel_chirps">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_parallel_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_parallel_chirps"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_parallel_chirps">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_parallel_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">comp1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
         <span class="n">comp2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">comp1</span><span class="o">+</span><span class="n">comp2</span>
@@ -840,10 +794,7 @@
 
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_parallel_chirps_unbalanced">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_parallel_chirps_unbalanced">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_parallel_chirps_unbalanced</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_parallel_chirps_unbalanced"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_parallel_chirps_unbalanced">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_parallel_chirps_unbalanced</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">comp1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">comp2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">comp1</span><span class="o">+</span><span class="mf">0.2</span><span class="o">*</span><span class="n">comp2</span>
@@ -853,10 +804,7 @@
 
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_on_off_2">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_on_off_2">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_on_off_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_on_off_2"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_on_off_2">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_on_off_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">chirp1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">chirp2a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">chirp2b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_signal_linear_chirp</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">instfreq</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -917,10 +865,7 @@
 
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_crossing_chirps">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_crossing_chirps">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_crossing_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_crossing_chirps"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_crossing_chirps">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_crossing_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a multi component signal with two chirps crossing, i.e. two chirps </span>
 <span class="sd">        whose instantaneous frequency coincide in one point of the time frequency plane.</span>
 
@@ -942,7 +887,6 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">signal</span></div>
-
 
     <span class="c1"># def signal_mc_crossing_chirps_2(self):</span>
     <span class="c1">#     &quot;&quot;&quot;Returns a multi component signal with two chirps crossing, i.e. two chirps </span>
@@ -987,9 +931,7 @@
         
     <span class="c1">#     return signal        </span>
 
-<div class="viewcode-block" id="SignalBank.signal_mc_pure_tones">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_pure_tones">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_pure_tones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">a1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_pure_tones"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_pure_tones">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_pure_tones</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">a1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprising several pure tones harmonically</span>
 <span class="sd">        separated, i.e. tones are ordered from lower to higher frequency and each one</span>
 <span class="sd">        has an instantaneous frequency that is an entire multiple of that of the</span>
@@ -1044,10 +986,7 @@
         
         <span class="k">return</span> <span class="n">signal</span></div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_multi_linear">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_linear">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_multi_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_multi_linear"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_linear">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_multi_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with multiple linear chirps.</span>
 
 <span class="sd">        Args:</span>
@@ -1065,10 +1004,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>        </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_multi_linear_2">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_linear_2">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_multi_linear_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_multi_linear_2"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_linear_2">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_multi_linear_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncomps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with multiple linear chirps.</span>
 
 <span class="sd">        Args:</span>
@@ -1086,10 +1022,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>            </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_double_cos_chirp">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_double_cos_chirp">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_double_cos_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_double_cos_chirp"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_double_cos_chirp">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_double_cos_chirp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with two cosenoidal chirps.</span>
 
 <span class="sd">        Returns:</span>
@@ -1135,10 +1068,7 @@
         <span class="k">return</span> <span class="n">signal</span>        </div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_cos_plus_tone">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_cos_plus_tone">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_cos_plus_tone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_cos_plus_tone"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_cos_plus_tone">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_cos_plus_tone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprised by two cosenoidal chirps and a</span>
 <span class="sd">        single tone.</span>
 
@@ -1188,10 +1118,7 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_multi_cos">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_cos">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_multi_cos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_multi_cos"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_cos">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_multi_cos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprising three cosenoidal chirps with</span>
 <span class="sd">        different frequency modulation parameters.</span>
 
@@ -1209,10 +1136,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>        </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_multi_cos_2">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_cos_2">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_multi_cos_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_multi_cos_2"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_multi_cos_2">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_multi_cos_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprising three cosenoidal chirps with </span>
 <span class="sd">        different frequency modulation parameters.</span>
 
@@ -1230,10 +1154,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>           </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1298,10 +1219,7 @@
         <span class="k">return</span> <span class="n">signal</span>       </div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_2">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_2">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_2"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_2">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1367,10 +1285,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>           </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_5">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_5">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_5"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_5">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1442,10 +1357,7 @@
         <span class="k">return</span> <span class="n">signal</span>   </div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_3">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_3">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_3"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_3">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1501,10 +1413,7 @@
         <span class="k">return</span> <span class="n">signal</span>   </div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_4">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_4">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_synthetic_mixture_4"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_synthetic_mixture_4">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_synthetic_mixture_4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1562,10 +1471,7 @@
         <span class="k">return</span> <span class="n">signal</span>   </div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_on_off_tones">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_on_off_tones">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_on_off_tones</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_on_off_tones"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_on_off_tones">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_on_off_tones</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprising components that &quot;born&quot; and &quot;die&quot;</span>
 <span class="sd">        at different times.</span>
 
@@ -1636,12 +1542,9 @@
         <span class="k">return</span> <span class="n">signal</span>           </div>
 
 
-
 <span class="c1"># Other signals ----------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="SignalBank.signal_hermite_function">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_hermite_function">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_hermite_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="mi">18</span><span class="p">,</span> <span class="n">t0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_hermite_function"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_hermite_function">[docs]</a>    <span class="k">def</span> <span class="nf">signal_hermite_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="mi">18</span><span class="p">,</span> <span class="n">t0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a round hermite function of a given order. The spectrogram of</span>
 <span class="sd">        Hermite functions are given by an annular ridge in the time frequency plane, the</span>
 <span class="sd">        center of which is given by (t0,f0).</span>
@@ -1669,11 +1572,8 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
         
-<div class="viewcode-block" id="SignalBank.signal_hermite_elipse">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_hermite_elipse">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_hermite_elipse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">t0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_hermite_elipse"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_hermite_elipse">[docs]</a>    <span class="k">def</span> <span class="nf">signal_hermite_elipse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">t0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">f0</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a non-round Hermite function of a given order. The spectrogram of</span>
 <span class="sd">        Hermite functions are given by an elipsoidal ridge in the time frequency plane,</span>
 <span class="sd">        the center of which is given by (t0,f0).</span>
@@ -1701,10 +1601,7 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_triple_impulse">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_triple_impulse">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_triple_impulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nimpulses</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_triple_impulse"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_triple_impulse">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_triple_impulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nimpulses</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates three equispaced impulses in time.</span>
 
 <span class="sd">        Args:</span>
@@ -1744,10 +1641,7 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_impulses">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_impulses">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_impulses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nimpulses</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_impulses"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_impulses">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_impulses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nimpulses</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates equispaced impulses in time.</span>
 
 <span class="sd">        Args:</span>
@@ -1787,10 +1681,7 @@
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_exp_chirps">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_exp_chirps">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_exp_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_exp_chirps"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_exp_chirps">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_exp_chirps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal comprising three exponential chirps.</span>
 
 
@@ -1838,10 +1729,7 @@
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>           </div>
 
-
-<div class="viewcode-block" id="SignalBank.signal_mc_damped_cos">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos">[docs]</a>
-    <span class="k">def</span> <span class="nf">signal_mc_damped_cos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SignalBank.signal_mc_damped_cos"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_damped_cos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
 
 <span class="sd">        Returns:</span>
@@ -1907,14 +1795,58 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_signal</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span>       </div>
-</div>
+
+
+<div class="viewcode-block" id="SignalBank.signal_mc_damped_cos_2"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos_2">[docs]</a>    <span class="k">def</span> <span class="nf">signal_mc_damped_cos_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a multicomponent signal with different types of components.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: Returns a numpy array with the signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span>
+        <span class="n">tmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="n">tmin</span>
+        <span class="n">Nsub</span> <span class="o">=</span> <span class="n">tmax</span><span class="o">-</span><span class="n">tmin</span>
+        <span class="n">tsub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Nsub</span><span class="p">)</span>
+        
+        <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,))</span>
+        <span class="n">instf0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="n">instf1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+        <span class="n">omega</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">f0</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="mf">0.00</span><span class="o">*</span><span class="n">tsub</span><span class="o">/</span><span class="n">Nsub</span>
+        <span class="n">if0</span> <span class="o">=</span> <span class="n">f0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span><span class="o">*</span><span class="n">tsub</span><span class="o">/</span><span class="n">Nsub</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.14</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">omega</span><span class="o">*</span><span class="n">tsub</span><span class="o">/</span><span class="n">Nsub</span> <span class="o">-</span> <span class="n">pi</span><span class="o">*</span><span class="n">omega</span><span class="p">)</span>
+        
+        <span class="n">if1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmin</span> <span class="o">+</span> <span class="mf">0.15</span><span class="o">*</span><span class="n">tsub</span><span class="o">/</span><span class="n">Nsub</span>    
+
+        <span class="n">phase0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">if0</span><span class="p">)</span>
+        <span class="n">phase1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">if1</span><span class="p">)</span>
+        
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+        <span class="n">a1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">omega</span><span class="o">*</span><span class="n">tsub</span><span class="o">/</span><span class="n">Nsub</span> <span class="o">-</span> <span class="n">pi</span><span class="o">*</span><span class="n">omega</span><span class="p">)</span>
+
+        <span class="n">x0</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmin</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">phase0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase0</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phase0</span><span class="p">),</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="n">x1</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmin</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">phase1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">a1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">phase1</span><span class="p">)</span><span class="o">*</span><span class="n">sg</span><span class="o">.</span><span class="n">tukey</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phase1</span><span class="p">),</span><span class="mf">0.25</span><span class="p">)</span> 
+
+        <span class="n">instf0</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmin</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">if0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">if0</span>
+        <span class="n">instf1</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmin</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">if1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">if1</span>
+
+
+        <span class="n">chirp0</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">instf</span><span class="o">=</span><span class="n">instf0</span><span class="p">)</span>
+        <span class="n">chirp1</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">instf</span><span class="o">=</span><span class="n">instf1</span><span class="p">)</span>
+
+        <span class="n">signal</span> <span class="o">=</span> <span class="n">chirp0</span><span class="o">+</span><span class="n">chirp1</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_signal</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">signal</span>       </div></div>
 
 
 
-
-<div class="viewcode-block" id="hermite_poly">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.hermite_poly">[docs]</a>
-<span class="k">def</span> <span class="nf">hermite_poly</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">,</span> <span class="n">return_all</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="hermite_poly"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.hermite_poly">[docs]</a><span class="k">def</span> <span class="nf">hermite_poly</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">,</span> <span class="n">return_all</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a Hermite polynomial of order n on the vector t.</span>
 
 <span class="sd">    Args:</span>
@@ -1948,10 +1880,7 @@
         <span class="k">return</span> <span class="n">hp</span><span class="p">,</span> <span class="n">all_hp</span></div>
 
 
-
-<div class="viewcode-block" id="hermite_fun">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.hermite_fun">[docs]</a>
-<span class="k">def</span> <span class="nf">hermite_fun</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_all</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="hermite_fun"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.hermite_fun">[docs]</a><span class="k">def</span> <span class="nf">hermite_fun</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_all</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes an Hermite function of order q, that consist in a centered Hermite </span>
 <span class="sd">    polynomial multiplied by the squared-root of a centered Gaussian given by: </span>
 <span class="sd">    exp(-pi(t/T)^2). The parameter T fixes the width of the Gaussian function.</span>
@@ -1987,7 +1916,6 @@
         <span class="k">return</span> <span class="n">hfunc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">hfunc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hfunc</span></div>
-
 
 </pre></div>
 

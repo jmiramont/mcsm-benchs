@@ -34,8 +34,6 @@ class ResultsInterpreter:
         self.path_results = os.path.join('results')
         self.path_results_figures = os.path.join('results', 'figures')
 
-        # self.parameters  
-
 # --------------------------------------------------------------------------------------
 
     def get_benchmark_as_data_frame(self):
@@ -411,6 +409,7 @@ class ResultsInterpreter:
             
         return barfig
 
+# --------------------------------------------------------------------------------------
 
     def get_summary_plots(self,
                         df_rearr = None, 

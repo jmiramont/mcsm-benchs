@@ -13,9 +13,9 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -47,7 +47,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_signal_bank.html">SignalBank Example</a></li>
@@ -94,9 +94,7 @@
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
 
 
-<div class="viewcode-block" id="Benchmark">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark">[docs]</a>
-<span class="k">class</span> <span class="nc">Benchmark</span><span class="p">:</span>
+<div class="viewcode-block" id="Benchmark"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark">[docs]</a><span class="k">class</span> <span class="nc">Benchmark</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class performs a number of tasks for methods comparison.</span>
 
@@ -176,7 +174,8 @@
 <span class="sd">            parallelize (bool, optional): If True, tries to run the process in parallel.</span>
 <span class="sd">            Defaults to False.</span>
 
-<span class="sd">            complex_noise (bool, optional): If True, uses complex noise.</span>
+<span class="sd">            complex_noise (bool, optional): If True, uses complex noise. A function can</span>
+<span class="sd">            be passed to compute a new realization of noise instead.</span>
 <span class="sd">            Defaults to False.</span>
 
 <span class="sd">            obj_fun (callable, optional): If None, used the default objective functions</span>
@@ -208,9 +207,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parallel pool: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="Benchmark.input_parsing">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.input_parsing">[docs]</a>
-    <span class="k">def</span> <span class="nf">input_parsing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+<div class="viewcode-block" id="Benchmark.input_parsing"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.input_parsing">[docs]</a>    <span class="k">def</span> <span class="nf">input_parsing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                     <span class="n">task</span><span class="p">,</span> 
                     <span class="n">methods</span><span class="p">,</span> 
                     <span class="n">N</span><span class="p">,</span>
@@ -327,7 +324,7 @@
                 <span class="n">signal_dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="p">:</span> <span class="n">Signal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span> <span class="o">=</span> <span class="n">signal_dic</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">akey</span> <span class="k">for</span> <span class="n">akey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span> <span class="o">=</span> <span class="n">signal_ids</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># int(np.sqrt(N))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span> <span class="o">=</span> <span class="n">N</span> <span class="c1"># -int(np.sqrt(N))</span>
 
@@ -337,6 +334,7 @@
                 <span class="n">signal_bank</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="n">Nsub</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsub</span><span class="p">,</span> <span class="n">return_signal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">tmin</span> <span class="c1"># Save initial and end times of signals.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">tmax</span>
+                <span class="c1">#TODO Don&#39;t use functions here and use arrays instead</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">signalDict</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">akey</span> <span class="k">for</span> <span class="n">akey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">Nsub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -358,7 +356,12 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">complex_noise</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span> <span class="o">=</span> <span class="n">complex_noise</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;complex_noise&#39; should be a bool.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">complex_noise</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span> <span class="o">=</span> <span class="n">complex_noise</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">complex_noise</span> <span class="o">!=</span> <span class="s1">&#39;NF&#39;</span><span class="p">:</span>        
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;complex_noise&#39; should be a bool or callable.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
             
         <span class="c1"># Handle parallelization parameters:</span>
         <span class="n">max_processes</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
@@ -389,7 +392,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;obj_fun&#39; should be a callable object.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             
-
+        <span class="c1">#TODO Check this list of attribute initialization</span>
         <span class="c1"># Extra arguments may be passed when opening a saved benchmark:</span>
         <span class="k">if</span> <span class="n">kwargs</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="c1"># If we are here, this is a new benchmark, so the all the methods are new:</span>
@@ -410,12 +413,9 @@
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
-
                 
 
-<div class="viewcode-block" id="Benchmark.check_methods_output">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.check_methods_output">[docs]</a>
-    <span class="k">def</span> <span class="nf">check_methods_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.check_methods_output"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.check_methods_output">[docs]</a>    <span class="k">def</span> <span class="nf">check_methods_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the outputs of the method to benchmark fulfill the required type </span>
 <span class="sd">        and shape.</span>
 
@@ -435,10 +435,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Method&#39;s output should have the same shape as input for task=&#39;denoising&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="Benchmark.set_objective_function">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.set_objective_function">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_objective_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.set_objective_function"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.set_objective_function">[docs]</a>    <span class="k">def</span> <span class="nf">set_objective_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the performance function for the selected task (future tasks could easily add new performance functions)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -452,10 +449,7 @@
         <span class="k">return</span> <span class="n">compFuncs</span><span class="p">[</span><span class="n">task</span><span class="p">]</span>    </div>
 
 
-
-<div class="viewcode-block" id="Benchmark.inner_loop">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.inner_loop">[docs]</a>
-    <span class="k">def</span> <span class="nf">inner_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark_parameters</span><span class="p">,</span><span class="n">timer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.inner_loop"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.inner_loop">[docs]</a>    <span class="k">def</span> <span class="nf">inner_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark_parameters</span><span class="p">,</span><span class="n">timer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Main loop of the Benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -506,10 +500,7 @@
         
         <span class="k">return</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">elapsed</span></div>
 
-
-<div class="viewcode-block" id="Benchmark.run_test">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.run_test">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.run_test"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.run_test">[docs]</a>    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the benchmark.</span>
 
 <span class="sd">        Returns:</span>
@@ -642,17 +633,23 @@
                             <span class="c1"># Either way, results are saved in a nested dictionary.</span>
                             <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
                             <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">method_output</span><span class="p">):</span>
-                                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                                        <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span><span class="p">,</span>
+                                <span class="c1"># Computing perf metric---------------------------------------</span>
+                                <span class="k">try</span><span class="p">:</span>
+                                    <span class="n">perf_met_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span><span class="p">,</span>
                                                                <span class="n">output</span><span class="p">,</span>
                                                                <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span>
                                                                <span class="n">tmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">,</span>
                                                                <span class="n">scaled_noise</span><span class="o">=</span><span class="n">scaled_noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                                                                 <span class="p">)</span>
-                                            <span class="p">)</span>
+    
+                                <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2"> while applying performance metric. Watch out for NaN values.&quot;</span><span class="p">)</span>
+                                    <span class="n">perf_met_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                                    
+                                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perf_met_output</span><span class="p">)</span>
+
+                            <span class="c1"># Saving results ------------------------------------------------</span>
                             
-                        
-                            <span class="c1"># params_dic[&#39;Params&#39;+str(p)] = result</span>
                             <span class="n">params_dic</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">result</span>                        
                             <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">elapsed</span>
 
@@ -662,16 +659,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">params_dic</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params_dic</span><span class="p">]</span> 
 
-            <span class="c1">#   method_dic[method] = params_dic    </span>
-                        
-           
-            <span class="c1">#     SNR_dic[SNR] = method_dic</span>
-            <span class="c1">#     method_dic = dict()</span>
 
-            <span class="c1"># self.results[signal_id] = SNR_dic   </span>
-            <span class="c1"># SNR_dic = dict()</span>
-
-        <span class="c1"># self.results = results_dic # Save results for later.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The test has finished.&#39;</span><span class="p">)</span>
         
@@ -680,12 +668,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">this_method_is_new</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span></div>
-
         
 
-<div class="viewcode-block" id="Benchmark.save_to_file">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.save_to_file">[docs]</a>
-    <span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.save_to_file"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.save_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the results to a binary file that encodes the benchmark object.</span>
 <span class="sd">        Notice that the methods associated with the benchmark, not being pickable objects,</span>
 <span class="sd">        are NOT saved.</span>
@@ -707,16 +692,17 @@
         <span class="n">a_copy</span><span class="o">.</span><span class="n">noisy_signals</span> <span class="o">=</span> <span class="n">a_copy</span><span class="o">.</span><span class="n">noisy_signals</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> 
         <span class="n">a_copy</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="p">[]</span>
         
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">a_copy</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">):</span>
+            <span class="n">a_copy</span><span class="o">.</span><span class="n">complex_noise</span><span class="o">=</span><span class="s1">&#39;NF&#39;</span>
+
+
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">a_copy</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>    
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
 
-
-<div class="viewcode-block" id="Benchmark.get_results_as_df">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.get_results_as_df">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_results_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.get_results_as_df"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.get_results_as_df">[docs]</a>    <span class="k">def</span> <span class="nf">get_results_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a pandas DataFrame object with the results of the benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -749,10 +735,7 @@
         <span class="k">return</span> <span class="n">df2</span></div>
 
 
-
-<div class="viewcode-block" id="Benchmark.add_new_method">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.add_new_method">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.add_new_method"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.add_new_method">[docs]</a>    <span class="k">def</span> <span class="nf">add_new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Check methods is a dictionary and update existing dictionary of methods.</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Methods should be a dictionary.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -781,11 +764,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parallel_flag</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
-
 <span class="c1"># Other functions:</span>
-<div class="viewcode-block" id="Benchmark.dic2df">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.dic2df">[docs]</a>
-    <span class="k">def</span> <span class="nf">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mydic</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.dic2df"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.dic2df">[docs]</a>    <span class="k">def</span> <span class="nf">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mydic</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">        Args:</span>
@@ -805,27 +785,38 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">auxdic</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-
-<div class="viewcode-block" id="Benchmark.generate_noise">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.generate_noise">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
-
+<div class="viewcode-block" id="Benchmark.generate_noise"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.generate_noise">[docs]</a>    <span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Generate a matrix of noise realizations of shape [self.repetitions,self.N].</span>
+<span class="sd">        One realization per row.</span>
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            numpy.array: Matrix with noise realizations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">:</span>
-            <span class="n">noise_matrix</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">,</span><span class="nb">bool</span><span class="p">):</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">:</span>
+                <span class="n">noise_matrix</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">):</span>
+            <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">):</span>
+                <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> 
 
         <span class="k">return</span> <span class="n">noise_matrix</span></div>
 
-
     <span class="c1"># Static methods:</span>
-<div class="viewcode-block" id="Benchmark.sigmerge">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.sigmerge">[docs]</a>
-    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Benchmark.load_benchmark"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.load_benchmark">[docs]</a>    <span class="nd">@staticmethod</span>    
+    <span class="k">def</span> <span class="nf">load_benchmark</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">benchmark_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Benchmark</span><span class="p">(</span><span class="o">**</span><span class="n">benchmark_dict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Benchmark.sigmerge"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.sigmerge">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">sigmerge</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_noise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Get signal parameters.</span>
         <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
@@ -855,11 +846,8 @@
             <span class="k">return</span> <span class="n">sig</span><span class="p">,</span> <span class="n">scaled_noise</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">sig</span></div>
-
     
-<div class="viewcode-block" id="Benchmark.snr_comparison">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.snr_comparison">[docs]</a>
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Benchmark.snr_comparison"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.snr_comparison">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">snr_comparison</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Quality reconstruction factor for denoising performance characterization.</span>
@@ -883,17 +871,11 @@
         
         <span class="k">return</span> <span class="n">qrf</span></div>
 
-
-<div class="viewcode-block" id="Benchmark.detection_perf_function">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.detection_perf_function">[docs]</a>
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Benchmark.detection_perf_function"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.detection_perf_function">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">detection_perf_function</span><span class="p">(</span><span class="n">original_signal</span><span class="p">,</span> <span class="n">detection_output</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">detection_output</span> </div>
 
-
-<div class="viewcode-block" id="Benchmark.compare_qrf_block">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.compare_qrf_block">[docs]</a>
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Benchmark.compare_qrf_block"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.compare_qrf_block">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">compare_qrf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">comps</span>
         <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
@@ -909,10 +891,7 @@
         <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">output</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
         <span class="k">return</span> <span class="n">dict_output</span></div>
 
-
-<div class="viewcode-block" id="Benchmark.compare_instf_block">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.compare_instf_block">[docs]</a>
-    <span class="nd">@staticmethod</span>    
+<div class="viewcode-block" id="Benchmark.compare_instf_block"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.compare_instf_block">[docs]</a>    <span class="nd">@staticmethod</span>    
     <span class="k">def</span> <span class="nf">compare_instf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">instf</span>
         <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
@@ -927,17 +906,13 @@
             <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qrfs</span><span class="p">)</span>    
         <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
         <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">output</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
-        <span class="k">return</span> <span class="n">dict_output</span>    </div>
-</div>
-
+        <span class="k">return</span> <span class="n">dict_output</span>    </div></div>
 
 
 <span class="sd">&quot;&quot;&quot;Other functions</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="mse">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.mse">[docs]</a>
-<span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
+<div class="viewcode-block" id="mse"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.mse">[docs]</a><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">xest</span><span class="p">),</span> <span class="s1">&#39;Should be of equal length.&#39;</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">x_aux</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
@@ -945,10 +920,7 @@
     <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x_aux</span><span class="o">-</span><span class="n">xest_aux</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">error</span></div>
 
-
-<div class="viewcode-block" id="corr_comps">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.corr_comps">[docs]</a>
-<span class="k">def</span> <span class="nf">corr_comps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
+<div class="viewcode-block" id="corr_comps"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.corr_comps">[docs]</a><span class="k">def</span> <span class="nf">corr_comps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">x_aux</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">xest_aux</span> <span class="o">=</span> <span class="n">xest</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
@@ -958,10 +930,7 @@
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">cor</span></div>
 
-
-<div class="viewcode-block" id="order_components">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.order_components">[docs]</a>
-<span class="k">def</span> <span class="nf">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">corr_comps</span><span class="p">):</span>
+<div class="viewcode-block" id="order_components"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.order_components">[docs]</a><span class="k">def</span> <span class="nf">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">corr_comps</span><span class="p">):</span>
     <span class="n">order</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">aaa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">metric</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">xest</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span> <span class="k">for</span> <span class="n">xest</span> <span class="ow">in</span> <span class="n">Xest</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">minormax</span><span class="o">==</span><span class="s1">&#39;max&#39;</span><span class="p">:</span>
@@ -978,10 +947,7 @@
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">factor</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="k">return</span> <span class="n">order</span></div>
 
-
-<div class="viewcode-block" id="get_args_and_kwargs">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.get_args_and_kwargs">[docs]</a>
-<span class="k">def</span> <span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<div class="viewcode-block" id="get_args_and_kwargs"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.get_args_and_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="n">params</span>
@@ -998,10 +964,7 @@
 
     <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span></div>
 
-
-<div class="viewcode-block" id="compute_qrf">
-<a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.compute_qrf">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_qrf"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.compute_qrf">[docs]</a><span class="k">def</span> <span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Quality reconstruction factor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1015,7 +978,6 @@
     <span class="n">x_hat</span> <span class="o">=</span> <span class="n">x_hat</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span>
     <span class="n">qrf</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x_hat</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">qrf</span></div>
-
 </pre></div>
 
            </div>

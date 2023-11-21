@@ -13,9 +13,9 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -47,7 +47,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Notebooks:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">SignalBank Example</a></li>
@@ -88,10 +88,12 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -163,6 +165,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.elapsed_time_summary">elapsed_time_summary() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -184,20 +194,26 @@
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame">get_benchmark_as_data_frame() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_csv_files">get_csv_files() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+</li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_df_means">get_df_means() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_df_std">get_df_std() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_gauss_window">get_gauss_window() (in module mcsm_benchmarks.utilstf)</a>
 </li>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_html_figures">get_html_figures() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+</li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.get_info">get_info() (mcsm_benchmarks.SignalBank.Signal method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_istft">get_istft() (in module mcsm_benchmarks.utilstf)</a>
 </li>
-      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.benchmark_utils.MethodTemplate.get_parameters">get_parameters() (mcsm_benchmarks.benchmark_utils.MethodTemplate method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.benchmark_utils.MethodTemplate.get_parameters">get_parameters() (mcsm_benchmarks.benchmark_utils.MethodTemplate method)</a>
+</li>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_report_preamble">get_report_preamble() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+</li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.get_results_as_df">get_results_as_df() (mcsm_benchmarks.Benchmark.Benchmark method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_round_window">get_round_window() (in module mcsm_benchmarks.utilstf)</a>
@@ -206,19 +222,17 @@
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot">get_snr_plot() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
-      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot2">get_snr_plot2() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
-</li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_snr_plot_bars">get_snr_plot_bars() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_spectrogram">get_spectrogram() (in module mcsm_benchmarks.utilstf)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.utilstf.get_stft">get_stft() (in module mcsm_benchmarks.utilstf)</a>
 </li>
-      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_grid">get_summary_grid() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys">get_summary_plotlys() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_summary_plots">get_summary_plots() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
-      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_table_means">get_table_means() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std">get_table_means_and_std() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -247,6 +261,14 @@
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.input_parsing">input_parsing() (mcsm_benchmarks.Benchmark.Benchmark method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.Signal.instf">instf (mcsm_benchmarks.SignalBank.Signal property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.load_benchmark">load_benchmark() (mcsm_benchmarks.Benchmark.Benchmark static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -384,8 +406,6 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.save_csv_files">save_csv_files() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
-</li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter.save_report">save_report() (mcsm_benchmarks.ResultsInterpreter.ResultsInterpreter method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.Benchmark.Benchmark.save_to_file">save_to_file() (mcsm_benchmarks.Benchmark.Benchmark method)</a>
@@ -415,6 +435,8 @@
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_crossing_chirps">signal_mc_crossing_chirps() (mcsm_benchmarks.SignalBank.SignalBank method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos">signal_mc_damped_cos() (mcsm_benchmarks.SignalBank.SignalBank method)</a>
+</li>
+      <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_damped_cos_2">signal_mc_damped_cos_2() (mcsm_benchmarks.SignalBank.SignalBank method)</a>
 </li>
       <li><a href="mcsm_benchmarks.html#mcsm_benchmarks.SignalBank.SignalBank.signal_mc_double_cos_chirp">signal_mc_double_cos_chirp() (mcsm_benchmarks.SignalBank.SignalBank method)</a>
 </li>
