@@ -108,7 +108,7 @@
 
         <span class="k">try</span><span class="p">:</span>
            <span class="bp">self</span><span class="o">.</span><span class="n">eng</span> <span class="o">=</span> <span class="n">matlab</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">start_matlab</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matlab engine or Matlab installation not found.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
         
