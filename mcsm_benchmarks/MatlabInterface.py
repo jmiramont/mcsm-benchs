@@ -26,7 +26,7 @@ class MatlabInterface():
            self.eng = matlab.engine.start_matlab()
         except NameError:
             print("Matlab engine or Matlab installation not found.")
-            return False
+            return None
         
         if not matlab_warnings:
             self.eng.eval("warning('off','all');", nargout=0)
