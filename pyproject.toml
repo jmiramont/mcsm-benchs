@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mcsm-benchmarks"
 version = "0.1.0"
-description = "A benchmarking toolbox for Multi-Component Signal Methods."
+description = "MCSM-Benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
 readme = "README.md"
 packages = [{include = "mcsm_benchmarks"}]

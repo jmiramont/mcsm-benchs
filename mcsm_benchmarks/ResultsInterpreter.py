@@ -546,7 +546,7 @@ class ResultsInterpreter:
             df3_std = df_std.set_index('Method + Param').stack().reset_index()
             df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
             df3['std'] = df3_std['std']
-            print(df3)
+            # print(df3)
             
             
             if bars:
