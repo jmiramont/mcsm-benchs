@@ -2,50 +2,14 @@ import importlib.util
 import numpy as np
 import numbers
 
-matlab_is_present = importlib.util.find_spec('matlab')
 try:
+    matlab_is_present = importlib.util.find_spec('matlab')
     if matlab_is_present:
         import matlab.engine
 
 except RuntimeError:
     print("Matlab engine or Matlab installation not found.")
 
-# class MethodTemplate(ABC):
-#     """_summary_
-
-#     Args:
-#         ABC (_type_): _description_
-
-#     Returns:
-#         _type_: _description_
-#     """
-
-#     @abstractmethod
-#     def __init__(self):
-#         ...
-
-#     @abstractmethod
-#     def method(self):
-#         ...
-
-#     @property
-#     def id(self):
-#         return self._id
-    
-#     @id.setter
-#     def id(self, id):
-#         self._id = id
-    
-#     @property
-#     def task(self):
-#         return self._task
-    
-#     @task.setter
-#     def task(self, task):
-#         self._task = task
-
-#     def get_parameters(self):
-#         return (((),{}),) 
 
 class MatlabInterface():
     """_summary_
@@ -57,7 +21,12 @@ class MatlabInterface():
             matlab_function_name (_type_): _description_
         """
         self.matlab_function_name = matlab_function_name
-        self.eng = matlab.engine.start_matlab()
+
+        try:
+           self.eng = matlab.engine.start_matlab()
+        except RuntimeError:
+            print("Matlab engine or Matlab installation not found.")
+            return False
         
         if not matlab_warnings:
             self.eng.eval("warning('off','all');", nargout=0)
