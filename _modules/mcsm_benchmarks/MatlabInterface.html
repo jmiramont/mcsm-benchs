@@ -86,50 +86,14 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 
-<span class="n">matlab_is_present</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s1">&#39;matlab&#39;</span><span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
+    <span class="n">matlab_is_present</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s1">&#39;matlab&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">matlab_is_present</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">matlab.engine</span>
 
 <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matlab engine or Matlab installation not found.&quot;</span><span class="p">)</span>
 
-<span class="c1"># class MethodTemplate(ABC):</span>
-<span class="c1">#     &quot;&quot;&quot;_summary_</span>
-
-<span class="c1">#     Args:</span>
-<span class="c1">#         ABC (_type_): _description_</span>
-
-<span class="c1">#     Returns:</span>
-<span class="c1">#         _type_: _description_</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-
-<span class="c1">#     @abstractmethod</span>
-<span class="c1">#     def __init__(self):</span>
-<span class="c1">#         ...</span>
-
-<span class="c1">#     @abstractmethod</span>
-<span class="c1">#     def method(self):</span>
-<span class="c1">#         ...</span>
-
-<span class="c1">#     @property</span>
-<span class="c1">#     def id(self):</span>
-<span class="c1">#         return self._id</span>
-    
-<span class="c1">#     @id.setter</span>
-<span class="c1">#     def id(self, id):</span>
-<span class="c1">#         self._id = id</span>
-    
-<span class="c1">#     @property</span>
-<span class="c1">#     def task(self):</span>
-<span class="c1">#         return self._task</span>
-    
-<span class="c1">#     @task.setter</span>
-<span class="c1">#     def task(self, task):</span>
-<span class="c1">#         self._task = task</span>
-
-<span class="c1">#     def get_parameters(self):</span>
-<span class="c1">#         return (((),{}),) </span>
 
 <div class="viewcode-block" id="MatlabInterface"><a class="viewcode-back" href="../../mcsm_benchmarks.html#mcsm_benchmarks.MatlabInterface.MatlabInterface">[docs]</a><span class="k">class</span> <span class="nc">MatlabInterface</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
@@ -141,7 +105,12 @@
 <span class="sd">            matlab_function_name (_type_): _description_</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">matlab_function_name</span> <span class="o">=</span> <span class="n">matlab_function_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">eng</span> <span class="o">=</span> <span class="n">matlab</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">start_matlab</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+           <span class="bp">self</span><span class="o">.</span><span class="n">eng</span> <span class="o">=</span> <span class="n">matlab</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">start_matlab</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matlab engine or Matlab installation not found.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
         
         <span class="k">if</span> <span class="ow">not</span> <span class="n">matlab_warnings</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;warning(&#39;off&#39;,&#39;all&#39;);&quot;</span><span class="p">,</span> <span class="n">nargout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
