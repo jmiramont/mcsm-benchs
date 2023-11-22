@@ -95,6 +95,11 @@ class ResultsInterpreter:
             # filename = 'results'
         if df is None:
             df = self.benchmark.get_results_as_df()
+
+        # Check if matrix values are bools:
+        aux = df.iloc[:,4::].to_numpy()
+        if type(aux[0,0]) is bool:
+            df.iloc[:,4::] = aux.astype(int)
     
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         df_means = list()
@@ -156,7 +161,12 @@ class ResultsInterpreter:
             # filename = 'results'
 
         if df is None:
-            df = self.benchmark.get_results_as_df()    
+            df = self.benchmark.get_results_as_df()
+
+        # Check if matrix values are bools:
+        aux = df.iloc[:,4::].to_numpy()
+        if type(aux[0,0]) is bool:
+            df.iloc[:,4::] = aux.astype(int)    
 
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
