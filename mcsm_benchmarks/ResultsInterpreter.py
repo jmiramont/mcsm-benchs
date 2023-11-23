@@ -151,7 +151,7 @@ class ResultsInterpreter:
 
 #---------------------------------------------------------------------------------------
 
-    def get_df_std(self, df=None):
+    def get_df_std(self, df=None, varfun='std'):
         """ Generates a DataFrame of std results to .md file. 
 
         Returns:
@@ -159,6 +159,9 @@ class ResultsInterpreter:
         """
         # if filename is None:
             # filename = 'results'
+        if varfun=='std':
+            varfun = lambda x: (np.std(x),np.std(x))
+            # varfun = lambda x: np.std(x)       
 
         if df is None:
             df = self.benchmark.get_results_as_df()
@@ -171,11 +174,13 @@ class ResultsInterpreter:
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
         df_std = list()
+        df_std_minus = list()
 
         for signal_id in self.signal_ids:
             methods_names = list()
-            snr_out_std = np.zeros((1, len([col for col in df.columns.values[4::]])))
+            snr_out_std = np.zeros((1, 2*len([col for col in df.columns.values[4::]])))
             aux_dic = dict()
+            aux_dic_2 = dict()
 
             df2 = df[df['Signal_id']==signal_id]
             for metodo in self.methods_and_params_dic:
@@ -186,26 +191,33 @@ class ResultsInterpreter:
                         methods_names.append(tag + params)
                         valores = df2[(df2['Method']==metodo)&(df2['Parameter']==params)]
                         # Compute the std
-                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                        valores_std.resize((1,valores_std.shape[0]))
+                        valores_std = np.array([varfun(col) for col in valores.iloc[:,4::].to_numpy().T])
+                        valores_std.resize((1,valores_std.size))
                         snr_out_std = np.concatenate((snr_out_std,valores_std))
 
                 else:
                     methods_names.append(tag)
                     valores = df2[df2['Method']==metodo]
                     # Compute the std
-                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                    valores_std.resize((1,valores_std.shape[0]))
+                    # valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                    valores_std = np.array([varfun(col) for col in valores.iloc[:,4::].to_numpy().T])
+                    valores_std.resize((1,valores_std.size))
                     snr_out_std = np.concatenate((snr_out_std,valores_std))
 
             snr_out_std = snr_out_std[1::]
             aux_dic[column_names[0]] = methods_names 
-            for i in range(1,len(column_names)):
-                aux_dic[str(column_names[i])] = snr_out_std[:,i-1]
+            for i,j in zip(range(1,len(column_names)),range(0,snr_out_std.shape[1],2)):
+                aux_dic[str(column_names[i])] = snr_out_std[:,j]
 
-            df_std.append(pd.DataFrame(aux_dic))
+            df_std_minus.append(pd.DataFrame(aux_dic))
 
-        return df_std
+            aux_dic_2[column_names[0]] = methods_names
+            for i,j in zip(range(1,len(column_names)),range(1,snr_out_std.shape[1],2)):
+                aux_dic_2[str(column_names[i])] = snr_out_std[:,j]
+
+            df_std.append(pd.DataFrame(aux_dic_2))
+
+        return df_std, df_std_minus
 
 # --------------------------------------------------------------------------------------
     def get_table_means_and_std(self):
@@ -532,13 +544,16 @@ class ResultsInterpreter:
         return list_figs
 
 
-    def get_summary_plotlys(self, bars=True, difference=False):
+    def get_summary_plotlys(self, df=None, bars=True, difference=False, varfun='std'):
         """ Generates interactive plots with plotly.
         
             Returns:
                 list : A list with plotlys figures.
         """
-        df = self.benchmark.get_results_as_df()
+  
+        if df is None:
+            df = self.benchmark.get_results_as_df()
+
         if difference:
             for col in df.columns.values[4::]:
                 df[col] = df[col]-col    
@@ -547,15 +562,17 @@ class ResultsInterpreter:
 
         # Get dataframes with means and some variability measure
         dfs_means = self.get_df_means(df=df)
-        dfs_std = self.get_df_std(df=df)
+        dfs_std, dfs_std_minus = self.get_df_std(df=df, varfun=varfun)
 
-        for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
-
+        for signal_id, df_means, df_std, df_std_minus in zip(self.signal_ids,dfs_means,dfs_std,dfs_std_minus):
             df3 = df_means.set_index('Method + Param').stack().reset_index()
             df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
             df3_std = df_std.set_index('Method + Param').stack().reset_index()
             df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
+            df3_std_minus = df_std_minus.set_index('Method + Param').stack().reset_index()
+            df3_std_minus.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
             df3['std'] = df3_std['std']
+            df3['std-minus'] = df3_std_minus['std']
             # print(df3)
             
             
@@ -568,6 +585,7 @@ class ResultsInterpreter:
                             barmode='group', 
                             error_x = "SNRin", 
                             error_y = "std",
+                            error_y_minus="std-minus",
                             title=signal_id
                             )
             else:
@@ -578,19 +596,22 @@ class ResultsInterpreter:
                                 markers=True, 
                                 error_x = "SNRin", 
                                 error_y = "std",
+                                error_y_minus="std-minus",
                                 title=signal_id
                                 )
             figs.append(fig)
 
         return figs
     
-    def get_html_figures(self, path=None, bars=True, difference=False):
+    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std'):
         """
         Generate .html interactive plots files with plotly
         #TODO Make this change with the github user!
         """
+        if df is None:
+            df = self.benchmark.get_results_as_df()
 
-        figs = self.get_summary_plotlys(bars=bars, difference=difference)
+        figs = self.get_summary_plotlys(df=df, bars=bars, difference=difference,varfun=varfun)
 
         for signal_id, fig in zip(self.signal_ids,figs):
             
