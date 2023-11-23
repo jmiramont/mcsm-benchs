@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Build docs and dispatch
+name: Build the documentation and publish
 
 on:
   push:
@@ -9,11 +6,8 @@ on:
 #   pull_request:
 #     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "test"
-  test:
-  # The type of runner that the job will run on
+  build_and_pub:
     strategy:
       matrix:
         os: ["ubuntu-latest"]
@@ -42,46 +36,26 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
-      # - name: Load cached venv
-      #   id: cached-poetry-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: .venv
-      #     key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      #----------------------------------------------
-      # install dependencies if cache does not exist
-      #----------------------------------------------
-#       - name: Install main (non-optional) and dev dependencies
-#         # see [tool.poetry.dependencies] and [tool.poetry.dev-dependencies]
-#         # in pyproject.toml
-#         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-#         run: poetry install --no-root
-
-#       #----------------------------------------------
-#       # install your root project, if required
-#       #----------------------------------------------
+          
       - name: Install package
         run: poetry install --with docs
 
       - name: Install pandoc
         run: sudo apt install pandoc
 
+      - name: Move notebooks for publication
+        run: | 
+          cp -r notebooks docs/notebooks
+
       - name: Build docs
         run: |
           cd docs
           poetry run make html     
         
-      #----------------------------------------------
-      #    deploy documentation
-      #----------------------------------------------  
       - name: Create .nojekyll file.
         run: | 
           >  docs/_build/html/.nojekyll
-        
+          
       - name: Deploy documentation to gh-pages branch
         uses: s0/git-publish-subdir-action@develop
         env:
