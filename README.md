@@ -1,4 +1,4 @@
-# MCSM-BENCHS: A Toolbox for Benchmarking of Multi-Component Signal Analysis Methods
+# MCSM-BENCHS: A Toolbox for Benchmarking Multi-Component Signal Analysis Methods
 
 We introduce a public, open-source, Python-based toolbox for benchmarking multi-component signal analysis methods, implemented either in Python or Matlab.
 
