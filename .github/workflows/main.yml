@@ -55,6 +55,7 @@ jobs:
       - name: Create .nojekyll file.
         run: | 
           >  docs/_build/html/.nojekyll
+          cp -r notebooks docs/_build/html/notebooks
           
       - name: Deploy documentation to gh-pages branch
         uses: s0/git-publish-subdir-action@develop
