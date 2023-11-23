@@ -215,7 +215,7 @@ class ResultsInterpreter:
         Returns:
             str: String containing the table.
         """
-
+        task = self.benchmark.task
         df = self.benchmark.get_results_as_df()
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
@@ -249,7 +249,7 @@ class ResultsInterpreter:
 
             # Table header with links
             # csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
-            aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/denoising/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](/results/denoising/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
+            aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/'+task+'/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](/results/'+task+'/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
         return output_string
