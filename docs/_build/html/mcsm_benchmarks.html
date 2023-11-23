@@ -51,7 +51,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">SignalBank Example</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -87,22 +87,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.benchmark_utils.MethodTemplate"><code class="docutils literal notranslate"><span class="pre">MethodTemplate</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchmarks.utilstf">mcsm_benchmarks.utilstf module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.add_snr"><code class="docutils literal notranslate"><span class="pre">add_snr()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.add_snr_block"><code class="docutils literal notranslate"><span class="pre">add_snr_block()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.find_zeros_of_spectrogram"><code class="docutils literal notranslate"><span class="pre">find_zeros_of_spectrogram()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.get_gauss_window"><code class="docutils literal notranslate"><span class="pre">get_gauss_window()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.get_istft"><code class="docutils literal notranslate"><span class="pre">get_istft()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.get_round_window"><code class="docutils literal notranslate"><span class="pre">get_round_window()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.get_spectrogram"><code class="docutils literal notranslate"><span class="pre">get_spectrogram()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.get_stft"><code class="docutils literal notranslate"><span class="pre">get_stft()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.reconstruct_signal"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.reconstruct_signal_2"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal_2()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.reconstruct_signal_3"><code class="docutils literal notranslate"><span class="pre">reconstruct_signal_3()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.sigmerge"><code class="docutils literal notranslate"><span class="pre">sigmerge()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchmarks.utilstf.snr_comparison"><code class="docutils literal notranslate"><span class="pre">snr_comparison()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#mcsm-benchmarks-utilstf-module">mcsm_benchmarks.utilstf module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchmarks">Module contents</a></li>
 </ul>
 </li>
@@ -1596,199 +1581,8 @@ exp(-pi(t/T)^2). The parameter T fixes the width of the Gaussian function.</p>
 </dd></dl>
 
 </section>
-<section id="module-mcsm_benchmarks.utilstf">
-<span id="mcsm-benchmarks-utilstf-module"></span><h2>mcsm_benchmarks.utilstf module<a class="headerlink" href="#module-mcsm_benchmarks.utilstf" title="Permalink to this heading"></a></h2>
-<p>This file contains a number of utilities for time-frequency analysis.
-Some functions has been modified from the supplementary code of:
-Bardenet, R., Flamant, J., &amp; Chainais, P. (2020). “On the zeros of the spectrogram of
-white noise.” Applied and Computational Harmonic Analysis, 48(2), 682-705.</p>
-<p>Those functions are:
-- getSpectrogram(signal)
-- findCenterEmptyBalls(Sww, pos_exp, radi_seg=1)
-- getConvexHull(Sww, pos_exp, empty_mask, radi_expand=0.5)
-- reconstructionSignal(hull_d, stft)</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.add_snr">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">add_snr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#add_snr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.add_snr" title="Permalink to this definition"></a></dt>
-<dd><p>Adds noise to a signal x with SNR equal to snr. SNR is defined as
-SNR (dB) = 10 * log10(Ex/En), where Ex and En are the energy of the signal and the
-noise, respectively.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>ndarray</em>) – Signal.</p></li>
-<li><p><strong>snr</strong> (<em>_type_</em>) – Signal-to-Noise Ratio in dB.</p></li>
-<li><p><strong>K</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of noisy signals generated, vertically stacked.</p></li>
-<li><p><strong>1.</strong> (<em>Defaults to</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Block of shape [K,N], where K is the number of noisy signals, and N is
-length of the signal x.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.add_snr_block">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">add_snr_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#add_snr_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.add_snr_block" title="Permalink to this definition"></a></dt>
-<dd><p>Adds noise to a signal x with SNR equal to snr.
-SNR is defined as SNR (dB) = 10 * log10(Ex/En), where Ex and En are the energy of
-the signal and the noise, respectively.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>ndarray</em>) – Signal.</p></li>
-<li><p><strong>snr</strong> (<em>_type_</em>) – Signal-to-Noise Ratio in dB.</p></li>
-<li><p><strong>K</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of noisy signals generated, vertically stacked.</p></li>
-<li><p><strong>1.</strong> (<em>Defaults to</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Block of shape [K,N], where K is the number of noisy signals, and N is
-length of the signal x.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.find_zeros_of_spectrogram">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">find_zeros_of_spectrogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#find_zeros_of_spectrogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.find_zeros_of_spectrogram" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.get_gauss_window">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">get_gauss_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#get_gauss_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.get_gauss_window" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.get_istft">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">get_istft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tfr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#get_istft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.get_istft" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.get_round_window">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">get_round_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#get_round_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.get_round_window" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a round Gaussian window, i.e. same essential support in time and
-frequency: g(n) = exp(-pi*(n/T)^2) for computing the Short-Time Fourier Transform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Nfft</strong> – Number of samples of the desired fft.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A round Gaussian window.
-T (float): The scale of the Gaussian window (T = sqrt(Nfft))</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>g (ndarray)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.get_spectrogram">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">get_spectrogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onesided</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#get_spectrogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.get_spectrogram" title="Permalink to this definition"></a></dt>
-<dd><p>Get the round spectrogram of the signal computed with a given window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>signal</strong> (<em>ndarray</em>) – A vector with the signal to analyse.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Spectrogram of the signal.
-stft: Short-time Fourier transform of the signal.
-stft_padded: Short-time Fourier transform of the padded signal.
-Npad: Number of zeros added in the zero-padding process.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>S(ndarray)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.get_stft">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">get_stft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#get_stft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.get_stft" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.reconstruct_signal">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">reconstruct_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hull_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stft</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#reconstruct_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.reconstruct_signal" title="Permalink to this definition"></a></dt>
-<dd><p>Reconstruction using the convex hull.
-This function is deprecated and conserved for retrocompatibility purposes only.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>hull_d</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>stft</strong> (<em>_type_</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.reconstruct_signal_2">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">reconstruct_signal_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#reconstruct_signal_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.reconstruct_signal_2" title="Permalink to this definition"></a></dt>
-<dd><p>Reconstruction using a mask given as parameter</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mask</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>stft</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>Npad</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>Nfft</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.reconstruct_signal_3">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">reconstruct_signal_3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#reconstruct_signal_3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.reconstruct_signal_3" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.sigmerge">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">sigmerge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#sigmerge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.sigmerge" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchmarks.utilstf.snr_comparison">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchmarks.utilstf.</span></span><span class="sig-name descname"><span class="pre">snr_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_hat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchmarks/utilstf.html#snr_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchmarks.utilstf.snr_comparison" title="Permalink to this definition"></a></dt>
-<dd><p>_summary_</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>x_hat</strong> (<em>_type_</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="mcsm-benchmarks-utilstf-module">
+<h2>mcsm_benchmarks.utilstf module<a class="headerlink" href="#mcsm-benchmarks-utilstf-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-mcsm_benchmarks">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mcsm_benchmarks" title="Permalink to this heading"></a></h2>

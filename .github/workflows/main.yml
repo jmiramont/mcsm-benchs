@@ -45,7 +45,7 @@ jobs:
 
       - name: Move notebooks for publication
         run: | 
-          cp -r notebooks docs/notebooks
+          cp notebooks/ docs -r
 
       - name: Build docs
         run: |
@@ -56,7 +56,6 @@ jobs:
       - name: Create .nojekyll file.
         run: | 
           >  docs/_build/html/.nojekyll
-          cp -r notebooks docs/_build/html
           
       - name: Deploy documentation to gh-pages branch
         uses: s0/git-publish-subdir-action@develop
