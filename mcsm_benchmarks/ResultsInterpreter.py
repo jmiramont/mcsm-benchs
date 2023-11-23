@@ -234,7 +234,7 @@ class ResultsInterpreter:
 
         # Get dataframes with means and some variability measure
         dfs_means = self.get_df_means()
-        dfs_std = self.get_df_std()
+        dfs_std,_ = self.get_df_std()
 
         for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
             df_means_aux = df_means.copy()
