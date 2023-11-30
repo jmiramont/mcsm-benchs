@@ -932,7 +932,7 @@ class SignalBank:
 
         a1=self.fmin/2
         b1=self.fmin/3
-        signal = self.signal_mc_pure_tones(ncomps=ncomps, a1=a1, b1=b1, c0=0.0)
+        signal = self.signal_mc_pure_tones(ncomps=ncomps, a1=a1, b1=b1, c0=self.fmin)
         
         if not self.return_signal:
             return signal.view(np.ndarray)
