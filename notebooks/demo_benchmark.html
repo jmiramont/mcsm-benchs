@@ -112,7 +112,6 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
 <span class="kn">from</span> <span class="nn">mcsm_benchmarks.ResultsInterpreter</span> <span class="kn">import</span> <span class="n">ResultsInterpreter</span>
 <span class="kn">from</span> <span class="nn">mcsm_benchmarks.SignalBank</span> <span class="kn">import</span> <span class="n">SignalBank</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spectrogram_thresholding</span><span class="p">,</span> <span class="n">get_stft</span>
@@ -151,7 +150,7 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <p>The variable <code class="docutils literal notranslate"><span class="pre">params</span></code> in the example above allows us to pass some parameters to our method. This would be useful for testing a single method with several combination of input parameters. In order to do this, we should give the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object a <em>dictionary of parameters</em>. An example of this functionality is showed in the next section. For now, lets set the input parameter <code class="docutils literal notranslate"><span class="pre">parameters</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p>
 <p>Now we are ready to instantiate a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object and run a test using the proposed methods and parameters. The benchmark constructor receives a name of a task (which defines the performance function of the test), a dictionary of the methods to test, the desired length of the signals used in the simulation, a dictionary of different parameters that should be passed to the methods, an array with different values of SNR to test, and the number of repetitions that should be used for each test.
 Once the object is created, use the class method <code class="docutils literal notranslate"><span class="pre">run_test()</span></code> to start the experiments.</p>
-<p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 4 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 4`` (show each method and parameter progress)</em></p>
+<p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 6 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 5`` (show each method and parameter progress)</em></p>
 <p><em>Remark 2: Parallelize the experiments is also possible by passing the parameter ``parallelize = True``.</em></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -385,8 +384,9 @@ True
 <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="s1">&#39;hard&#39;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xr</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original Signal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xr</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Recovered Signal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -396,7 +396,7 @@ True
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;matplotlib.lines.Line2D at 0x7f4260c54a00&gt;]
+&lt;matplotlib.legend.Legend at 0x7ff8c9f502e0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -550,9 +550,7 @@ True
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Summary interactive plots with Plotly</span>
 <span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span>  <span class="n">iplot</span>
-
 <span class="n">interpreter</span> <span class="o">=</span> <span class="n">ResultsInterpreter</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
-
 <span class="n">figs</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_summary_plotlys</span><span class="p">(</span><span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">fig</span> <span class="ow">in</span> <span class="n">figs</span><span class="p">:</span>
     <span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
@@ -577,6 +575,8 @@ True
 </div>
 </div>
 </div>
+<section id="Checking-elapsed-time-for-each-method">
+<h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -616,38 +616,39 @@ True
   <tbody>
     <tr>
       <th>Method 1-((1.0,), {'fun': 'hard'})</th>
-      <td>0.006195</td>
-      <td>0.000680</td>
+      <td>0.029918</td>
+      <td>0.002808</td>
     </tr>
     <tr>
       <th>Method 1-((2.0,), {'fun': 'hard'})</th>
-      <td>0.006289</td>
-      <td>0.000307</td>
+      <td>0.031169</td>
+      <td>0.000630</td>
     </tr>
     <tr>
       <th>Method 1-((3.0,), {'fun': 'hard'})</th>
-      <td>0.006023</td>
-      <td>0.000344</td>
+      <td>0.032047</td>
+      <td>0.000585</td>
     </tr>
     <tr>
       <th>Method 2-((1.0,), {'fun': 'soft'})</th>
-      <td>0.006733</td>
-      <td>0.000495</td>
+      <td>0.035945</td>
+      <td>0.000724</td>
     </tr>
     <tr>
       <th>Method 2-((2.0,), {'fun': 'soft'})</th>
-      <td>0.007699</td>
-      <td>0.000525</td>
+      <td>0.034309</td>
+      <td>0.000437</td>
     </tr>
     <tr>
       <th>Method 2-((3.0,), {'fun': 'soft'})</th>
-      <td>0.007188</td>
-      <td>0.000567</td>
+      <td>0.029069</td>
+      <td>0.000873</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
+</section>
 </section>
 </section>
 

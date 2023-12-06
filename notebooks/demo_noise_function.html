@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmarks of MCS processing methods with personalized noise-functions &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Multi-Component Signal Methods Benchmarks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">mcsm_benchmarks</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Multi-Component Signal Methods Benchmarks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Benchmarks of MCS processing methods with personalized noise-functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/demo_noise_function.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Benchmarks-of-MCS-processing-methods-with-personalized-noise-functions">
+<h1>Benchmarks of MCS processing methods with personalized noise-functions<a class="headerlink" href="#Benchmarks-of-MCS-processing-methods-with-personalized-noise-functions" title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sg</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
+<span class="kn">from</span> <span class="nn">mcsm_benchmarks.ResultsInterpreter</span> <span class="kn">import</span> <span class="n">ResultsInterpreter</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spectrogram_thresholding</span><span class="p">,</span> <span class="n">get_stft</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="Creating-a-a-dummy-dictionary-of-methods">
+<h2>Creating a a dummy dictionary of methods<a class="headerlink" href="#Creating-a-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
+<p>First let us define a dummy method for testing. Methods should receive a numpy array with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of time samples of the signal. Additionally, they can receive any number of positional or keyword arguments to allow testing different combinations of input parameters. The shape of the output depends on the task (signal denoising or detection). So the recommended signature of a method should be the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">a_method(noisy_signal,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code>.</p>
+<p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
+<p>After this, we need to create a <em>dictionary of methods</em> to pass the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object at the moment of instantiation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">method_1</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
+    <span class="c1"># *args or **kwargs and then parsed.</span>
+    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;hard&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span>
+
+<span class="k">def</span> <span class="nf">method_2</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
+    <span class="c1"># *args or **kwargs and then parsed.</span>
+    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;soft&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span>
+
+<span class="c1"># Create a dictionary of the methods to test.</span>
+<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">method_1</span><span class="p">,</span>
+    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="n">method_2</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Benchmarks-with-different-kinds-of-noise">
+<h2>Benchmarks with different kinds of noise<a class="headerlink" href="#Benchmarks-with-different-kinds-of-noise" title="Permalink to this heading"></a></h2>
+<p>Now we are ready to instantiate a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object and run a benchmark using the proposed methods.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> constructor receives a number of input parameters. The parameter <code class="docutils literal notranslate"><span class="pre">complex_noise</span></code> can be <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> indicating if the simulations are to be done using white complex Gaussian noise or not. However, if a function is passed instead of a <code class="docutils literal notranslate"><span class="pre">bool</span></code> variable, the function is called in order to obtain a different realization of noise. The noise generator function must receive an <code class="docutils literal notranslate"><span class="pre">int</span></code> variable indicating the length of the time series to generate:
+<code class="docutils literal notranslate"><span class="pre">noise</span> <span class="pre">=</span> <span class="pre">noise_generator_fun(N,)</span></code>.</p>
+<section id="Real-White-Gaussian-noise-(default)">
+<h3>Real White Gaussian noise (default)<a class="headerlink" href="#Real-White-Gaussian-noise-(default)" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark class uses np.random.randn(N,) to generate noise realizations</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PSD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;White (Gaussian) Noise&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_noise_function_7_0.png" src="../_images/notebooks_demo_noise_function_7_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span> <span class="c1"># defines the default performance function</span>
+                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span> <span class="c1"># dictionary of methods</span>
+                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>  <span class="c1"># Length of the signals</span>
+                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="c1"># SNRs to use during the test</span>
+                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="c1"># Number of noise realizations to use</span>
+                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span> <span class="c1"># Signals to use</span>
+                        <span class="n">complex_noise</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># Real white Gaussian Noise</span>
+                        <span class="p">)</span>
+
+<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test.</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
+<span class="n">results_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal LinearChirp
+- Signal CosChirp
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>40</th>
+      <th>50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>43.971518</td>
+      <td>53.561819</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>44.544033</td>
+      <td>54.096559</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>43.790454</td>
+      <td>53.448276</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>44.068673</td>
+      <td>53.993409</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>44.457192</td>
+      <td>54.644148</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>43.631709</td>
+      <td>53.708958</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>44.440979</td>
+      <td>53.041674</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>45.302902</td>
+      <td>53.894885</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>43.900369</td>
+      <td>52.533425</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>45.837933</td>
+      <td>54.778613</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>46.834068</td>
+      <td>55.405637</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>45.081570</td>
+      <td>54.310658</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Pink-noise">
+<h3>Pink noise<a class="headerlink" href="#Pink-noise" title="Permalink to this heading"></a></h3>
+<p>Let’s first import a function to generate colored noise, and later pass it as a parameter to the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class constructor.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">voss</span>
+
+<span class="c1">#Generates pink noise using the Voss-McCartney algorithm.</span>
+<span class="n">noise_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">N</span> <span class="p">:</span> <span class="n">voss</span><span class="p">(</span><span class="n">N</span><span class="p">,)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">noise_fun</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PSD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&quot;Pink&quot; Noise&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_demo_noise_function_10_0.png" src="../_images/notebooks_demo_noise_function_10_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span> <span class="c1"># defines the default performance function</span>
+                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span> <span class="c1"># dictionary of methods</span>
+                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>  <span class="c1"># Length of the signals</span>
+                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="c1"># SNRs to use during the test</span>
+                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="c1"># Number of noise realizations to use</span>
+                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span> <span class="c1"># Signals to use</span>
+                        <span class="n">complex_noise</span><span class="o">=</span><span class="n">noise_fun</span> <span class="c1"># &quot;Pink&quot; Noise</span>
+                        <span class="p">)</span>
+
+<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test.</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
+<span class="n">results_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal LinearChirp
+- Signal CosChirp
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>40</th>
+      <th>50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>42.020270</td>
+      <td>52.501531</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>40.377870</td>
+      <td>51.031590</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>41.166749</td>
+      <td>51.429858</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>41.639466</td>
+      <td>51.749439</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>40.305414</td>
+      <td>50.365133</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Method 1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>41.417004</td>
+      <td>51.518874</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>46.549252</td>
+      <td>56.121017</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>44.205250</td>
+      <td>54.954600</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>45.150989</td>
+      <td>54.085905</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>45.450849</td>
+      <td>55.530805</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>43.357571</td>
+      <td>53.631834</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Method 2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>45.650857</td>
+      <td>55.403165</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Juan M. Miramont.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
