@@ -1,0 +1,44 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+#   pull_request:
+#     branches: [ master ]
+
+jobs:
+  build_and_pub:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ["3.9"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+     #----------------------------------------------
+     #-------  install & configure Python  ---------
+     #---------------------------------------------- 
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      #----------------------------------------------
+      #  -----  install & configure poetry  ---------
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          
+      - name: Install package
+        run: poetry install
+
+      - name: Install pandoc
+        run: poetry run pytest
