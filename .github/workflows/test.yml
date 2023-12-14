@@ -40,5 +40,5 @@ jobs:
       - name: Install package
         run: poetry install
 
-      - name: Install pandoc
+      - name: Run pytest
         run: poetry run pytest
