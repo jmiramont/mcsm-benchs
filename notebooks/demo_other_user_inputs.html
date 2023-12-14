@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCSM-Benchs: Using user-provided signals and performance metric &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="mcsm_benchmarks" href="../modules.html" />
+    <link rel="prev" title="Quering Signal class attributes" href="demo_quering_signals.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Multi-Component Signal Methods Benchmarks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">Benchmarks of MCS processing methods with personalized noise-functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">Quering Signal class attributes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">mcsm_benchmarks</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Multi-Component Signal Methods Benchmarks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MCSM-Benchs: Using user-provided signals and performance metric</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/demo_other_user_inputs.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="MCSM-Benchs:-Using-user-provided-signals-and-performance-metric">
+<h1>MCSM-Benchs: Using user-provided signals and performance metric<a class="headerlink" href="#MCSM-Benchs:-Using-user-provided-signals-and-performance-metric" title="Permalink to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">MCSM-Benchs</span></code> can be helpful to create benchmarks with signals and performance metrics provided by the user. This can be useful, for instance, when dealing with real-world signals and performance metrics that do not need a noiseless version of the signal.</p>
+<p>In this notebook, we create a benchmark with real-world audio signals and a performance metric that is computed based on the original signal and the processed one.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from numpy import pi as pi
+import pandas as pd
+from matplotlib import pyplot as plt
+from mcsm_benchmarks.Benchmark import Benchmark
+from mcsm_benchmarks.ResultsInterpreter import ResultsInterpreter
+from mcsm_benchmarks.SignalBank import SignalBank
+from utils import spectrogram_thresholding, get_stft
+
+from IPython.display import Audio
+</pre></div>
+</div>
+</div>
+<section id="1.-Creating-a-dictionary-of-methods">
+<h2>1. Creating a dictionary of methods<a class="headerlink" href="#1.-Creating-a-dictionary-of-methods" title="Permalink to this heading"></a></h2>
+<p>Let’s create a dictionary of methods to benchmark. As as example, we will compare two strategies for spectrogram thresholding. The first one is hard thresholding, in which the thresholding function is defined as: The second one is soft thresholding, here defined as:</p>
+<p>These two approaches are implemented in the python function <code class="docutils literal notranslate"><span class="pre">thresholding(signal,</span> <span class="pre">lam,</span> <span class="pre">fun='hard')</span></code> function, which receives a signal to clean, a positional argument <code class="docutils literal notranslate"><span class="pre">lam</span></code> and a keyword argument <code class="docutils literal notranslate"><span class="pre">fun</span></code> that can be either <code class="docutils literal notranslate"><span class="pre">hard</span></code> or <code class="docutils literal notranslate"><span class="pre">soft</span></code>.</p>
+<p>Our dictionary of methods will consist then in two methods: hard thresholding and soft thresholding. For both approaches, let’s use a value of <code class="docutils literal notranslate"><span class="pre">lam=1.0</span></code> for now.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>def method_1(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,1.0,fun=&#39;hard&#39;)
+    return xr
+
+def method_2(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,2.0,fun=&#39;soft&#39;)
+    return xr
+
+# Create a dictionary of the methods to test.
+my_methods = {
+    &#39;Hard_Thr&#39;: method_1,
+    &#39;Soft_Thr&#39;: method_2,
+    }
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.-Creating-a-dictionary-of-user-provided-signals">
+<h2>2. Creating a dictionary of user-provided signals<a class="headerlink" href="#2.-Creating-a-dictionary-of-user-provided-signals" title="Permalink to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Loading signals and creating dictionary
+N = 2**13
+signals_dic = {
+    &#39;speech_1&#39;: np.loadtxt(&#39;6_female.csv&#39;)[0:N],
+    &#39;speech_2&#39;: np.loadtxt(&#39;6_male.csv&#39;)[0:N]
+            }
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Listen to the signals
+fs = 16000
+Audio(signals_dic[&#39;speech_2&#39;], rate=fs)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<audio  controls="controls" >
+    <source src="data:audio/wav;base64,UklGRiRAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAgACAAIAAgACAAIAAQAAAAIAAgACAAIAAAAAAAAAAAAAAAEAAQAAAAAAAgAAAAEAAQAAAAIA//8AAAIAAAAAAAIAAQAAAAIAAQACAAAAAQABAAAAAgABAAIAAAAAAAIAAgABAAAAAQAAAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAAEAAQAAAAIAAAABAAIAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAMAAAACAAAAAgAAAAEAAQAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAAAAAAD///7////9///////9//3//P/7//r/+v/+//z/+v/8//r/+v/6//r/+v/5//j/9//4//f/9//4//X/9P/z//X/9v/2//j/9f/0//T/9P/0//T/9P/0//P/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" type="audio/wav" />
+    Your browser does not support the audio element.
+</audio></div>
+</div>
+</section>
+<section id="3.-Defining-a-performance-metric">
+<h2>3. Defining a performance metric<a class="headerlink" href="#3.-Defining-a-performance-metric" title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pesq import pesq
+
+perf_fun = lambda x,xest,**kwargs: pesq(fs,x,xest,&#39;nb&#39;)
+perf_fun(signals_dic[&#39;speech_1&#39;],signals_dic[&#39;speech_1&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4.548638343811035
+</pre></div></div>
+</div>
+<p>Now we are ready to instantiate a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object and run a test using the proposed methods and parameters. The benchmark constructor receives a name of a task (which defines the performance function of the test), a dictionary of the methods to test, the desired length of the signals used in the simulation, a dictionary of different parameters that should be passed to the methods, an array with different values of SNR to test, and the number of repetitions that should be used for each test.
+Once the object is created, use the class method <code class="docutils literal notranslate"><span class="pre">run_test()</span></code> to start the experiments.</p>
+<p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 6 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 5`` (show each method and parameter progress)</em></p>
+<p><em>Remark 2: Parallelize the experiments is also possible by passing the parameter ``parallelize = True``.</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
+                      N = N,
+                        methods = my_methods,
+                        SNRin = [0,10,20],
+                        repetitions = 10,
+                        signal_ids=signals_dic, # Input user-defined signals
+                        verbosity=5,
+                        obj_fun=perf_fun, # Define a performance metric
+                        )
+
+benchmark.run_test() # Run the benchmark
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal speech_1
+-- SNR: 0 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.0020934581756591798
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0014165878295898438
+-- SNR: 10 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.0009537220001220703
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0014434814453125
+-- SNR: 20 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.0013855457305908202
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0009971857070922852
+- Signal speech_2
+-- SNR: 0 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.0008149147033691406
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0012240886688232421
+-- SNR: 10 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.001467418670654297
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0009314537048339844
+-- SNR: 20 dB
+--- Method: Hard_Thr
+---- Parameters Combination: 0
+------ Inner loop. Hard_Thr: 0
+------ Inner loop. Hard_Thr: 1
+------ Inner loop. Hard_Thr: 2
+------ Inner loop. Hard_Thr: 3
+------ Inner loop. Hard_Thr: 4
+------ Inner loop. Hard_Thr: 5
+------ Inner loop. Hard_Thr: 6
+------ Inner loop. Hard_Thr: 7
+------ Inner loop. Hard_Thr: 8
+------ Inner loop. Hard_Thr: 9
+Elapsed:0.001106572151184082
+--- Method: Soft_Thr
+---- Parameters Combination: 0
+------ Inner loop. Soft_Thr: 0
+------ Inner loop. Soft_Thr: 1
+------ Inner loop. Soft_Thr: 2
+------ Inner loop. Soft_Thr: 3
+------ Inner loop. Soft_Thr: 4
+------ Inner loop. Soft_Thr: 5
+------ Inner loop. Soft_Thr: 6
+------ Inner loop. Soft_Thr: 7
+------ Inner loop. Soft_Thr: 8
+------ Inner loop. Soft_Thr: 9
+Elapsed:0.0016000032424926757
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;speech_1&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.1423429250717163,
+     1.1195447444915771,
+     1.1279807090759277,
+     1.132774829864502,
+     1.148443579673767,
+     1.1286216974258423,
+     1.1422004699707031,
+     1.135804295539856,
+     1.1628708839416504,
+     1.1408934593200684]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [1.7368583679199219,
+     1.7840569019317627,
+     1.8165462017059326,
+     1.8111028671264648,
+     1.7999805212020874,
+     1.6246907711029053,
+     1.8974900245666504,
+     1.5105435848236084,
+     2.0005927085876465,
+     1.992071270942688]}},
+  10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.5649162530899048,
+     1.5034854412078857,
+     1.538451075553894,
+     1.5284581184387207,
+     1.618736743927002,
+     1.544001579284668,
+     1.637576937675476,
+     1.6201083660125732,
+     1.6910293102264404,
+     1.6020331382751465]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [2.8953075408935547,
+     2.8154115676879883,
+     3.0099735260009766,
+     3.057044744491577,
+     2.716383457183838,
+     3.0139896869659424,
+     2.854654312133789,
+     2.5043632984161377,
+     3.1368255615234375,
+     2.981548309326172]}},
+  20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [2.7233963012695312,
+     2.566995620727539,
+     2.6909079551696777,
+     2.68407940864563,
+     2.7857391834259033,
+     2.7128565311431885,
+     2.893669843673706,
+     2.9238059520721436,
+     3.0214061737060547,
+     2.900660276412964]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [3.5835580825805664,
+     3.5237953662872314,
+     3.5584914684295654,
+     3.592641830444336,
+     3.569941282272339,
+     3.6378655433654785,
+     3.4270081520080566,
+     3.5780460834503174,
+     3.5498127937316895,
+     3.4559719562530518]}}},
+ &#39;speech_2&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.1423429250717163,
+     1.1195447444915771,
+     1.1279807090759277,
+     1.132774829864502,
+     1.148443579673767,
+     1.1286216974258423,
+     1.1422004699707031,
+     1.135804295539856,
+     1.1628708839416504,
+     1.1408934593200684]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [1.7368583679199219,
+     1.7840569019317627,
+     1.8165462017059326,
+     1.8111028671264648,
+     1.7999805212020874,
+     1.6246907711029053,
+     1.8974900245666504,
+     1.5105435848236084,
+     2.0005927085876465,
+     1.992071270942688]}},
+  10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.5649162530899048,
+     1.5034854412078857,
+     1.538451075553894,
+     1.5284581184387207,
+     1.618736743927002,
+     1.544001579284668,
+     1.637576937675476,
+     1.6201083660125732,
+     1.6910293102264404,
+     1.6020331382751465]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [2.8953075408935547,
+     2.8154115676879883,
+     3.0099735260009766,
+     3.057044744491577,
+     2.716383457183838,
+     3.0139896869659424,
+     2.854654312133789,
+     2.5043632984161377,
+     3.1368255615234375,
+     2.981548309326172]}},
+  20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [2.7233963012695312,
+     2.566995620727539,
+     2.6909079551696777,
+     2.68407940864563,
+     2.7857391834259033,
+     2.7128565311431885,
+     2.893669843673706,
+     2.9238059520721436,
+     3.0214061737060547,
+     2.900660276412964]},
+   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [3.5835580825805664,
+     3.5237953662872314,
+     3.5584914684295654,
+     3.592641830444336,
+     3.569941282272339,
+     3.6378655433654785,
+     3.4270081520080566,
+     3.5780460834503174,
+     3.5498127937316895,
+     3.4559719562530518]}}}}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>0</th>
+      <th>10</th>
+      <th>20</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>0</td>
+      <td>1.142343</td>
+      <td>1.564916</td>
+      <td>2.723396</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>1</td>
+      <td>1.119545</td>
+      <td>1.503485</td>
+      <td>2.566996</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>2</td>
+      <td>1.127981</td>
+      <td>1.538451</td>
+      <td>2.690908</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>3</td>
+      <td>1.132775</td>
+      <td>1.528458</td>
+      <td>2.684079</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>4</td>
+      <td>1.148444</td>
+      <td>1.618737</td>
+      <td>2.785739</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>5</td>
+      <td>1.128622</td>
+      <td>1.544002</td>
+      <td>2.712857</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>6</td>
+      <td>1.142200</td>
+      <td>1.637577</td>
+      <td>2.893670</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>7</td>
+      <td>1.135804</td>
+      <td>1.620108</td>
+      <td>2.923806</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>8</td>
+      <td>1.162871</td>
+      <td>1.691029</td>
+      <td>3.021406</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>9</td>
+      <td>1.140893</td>
+      <td>1.602033</td>
+      <td>2.900660</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>0</td>
+      <td>1.142343</td>
+      <td>1.564916</td>
+      <td>2.723396</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>1</td>
+      <td>1.119545</td>
+      <td>1.503485</td>
+      <td>2.566996</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>2</td>
+      <td>1.127981</td>
+      <td>1.538451</td>
+      <td>2.690908</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>3</td>
+      <td>1.132775</td>
+      <td>1.528458</td>
+      <td>2.684079</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>4</td>
+      <td>1.148444</td>
+      <td>1.618737</td>
+      <td>2.785739</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>5</td>
+      <td>1.128622</td>
+      <td>1.544002</td>
+      <td>2.712857</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>6</td>
+      <td>1.142200</td>
+      <td>1.637577</td>
+      <td>2.893670</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>7</td>
+      <td>1.135804</td>
+      <td>1.620108</td>
+      <td>2.923806</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>8</td>
+      <td>1.162871</td>
+      <td>1.691029</td>
+      <td>3.021406</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Hard_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>9</td>
+      <td>1.140893</td>
+      <td>1.602033</td>
+      <td>2.900660</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>0</td>
+      <td>1.736858</td>
+      <td>2.895308</td>
+      <td>3.583558</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>1</td>
+      <td>1.784057</td>
+      <td>2.815412</td>
+      <td>3.523795</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>2</td>
+      <td>1.816546</td>
+      <td>3.009974</td>
+      <td>3.558491</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>3</td>
+      <td>1.811103</td>
+      <td>3.057045</td>
+      <td>3.592642</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>4</td>
+      <td>1.799981</td>
+      <td>2.716383</td>
+      <td>3.569941</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>5</td>
+      <td>1.624691</td>
+      <td>3.013990</td>
+      <td>3.637866</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>6</td>
+      <td>1.897490</td>
+      <td>2.854654</td>
+      <td>3.427008</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>7</td>
+      <td>1.510544</td>
+      <td>2.504363</td>
+      <td>3.578046</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>8</td>
+      <td>2.000593</td>
+      <td>3.136826</td>
+      <td>3.549813</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_1</td>
+      <td>9</td>
+      <td>1.992071</td>
+      <td>2.981548</td>
+      <td>3.455972</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>0</td>
+      <td>1.736858</td>
+      <td>2.895308</td>
+      <td>3.583558</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>1</td>
+      <td>1.784057</td>
+      <td>2.815412</td>
+      <td>3.523795</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>2</td>
+      <td>1.816546</td>
+      <td>3.009974</td>
+      <td>3.558491</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>3</td>
+      <td>1.811103</td>
+      <td>3.057045</td>
+      <td>3.592642</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>4</td>
+      <td>1.799981</td>
+      <td>2.716383</td>
+      <td>3.569941</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>5</td>
+      <td>1.624691</td>
+      <td>3.013990</td>
+      <td>3.637866</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>6</td>
+      <td>1.897490</td>
+      <td>2.854654</td>
+      <td>3.427008</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>7</td>
+      <td>1.510544</td>
+      <td>2.504363</td>
+      <td>3.578046</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>8</td>
+      <td>2.000593</td>
+      <td>3.136826</td>
+      <td>3.549813</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Soft_Thr</td>
+      <td>((), {})</td>
+      <td>speech_2</td>
+      <td>9</td>
+      <td>1.992071</td>
+      <td>2.981548</td>
+      <td>3.455972</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Generating-plots-with-the-Results-Interpreter.">
+<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly
+from plotly.offline import  iplot
+interpreter = ResultsInterpreter(benchmark)
+figs = interpreter.get_summary_plotlys(bars=True)
+for fig in figs:
+    fig.update_layout(yaxis_title=&quot;PESQ&quot;)
+    iplot(fig)
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="admonition warning">
+<p>Data type cannot be displayed: application/vnd.plotly.v1+json</p>
+</div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="admonition warning">
+<p>Data type cannot be displayed: application/vnd.plotly.v1+json</p>
+</div>
+</div>
+</div>
+<section id="Checking-elapsed-time-for-each-method">
+<h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = interpreter.elapsed_time_summary()
+df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>Std</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Hard_Thr-((), {})</th>
+      <td>0.001107</td>
+      <td>0.000129</td>
+    </tr>
+    <tr>
+      <th>Soft_Thr-((), {})</th>
+      <td>0.001600</td>
+      <td>0.000413</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_quering_signals.html" class="btn btn-neutral float-left" title="Quering Signal class attributes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules.html" class="btn btn-neutral float-right" title="mcsm_benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Juan M. Miramont.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

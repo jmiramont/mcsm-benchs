@@ -26,7 +26,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="mcsm_benchmarks" href="../modules.html" />
+    <link rel="next" title="MCSM-Benchs: Using user-provided signals and performance metric" href="demo_other_user_inputs.html" />
     <link rel="prev" title="Benchmarks of MCS processing methods with personalized noise-functions" href="demo_noise_function.html" /> 
 </head>
 
@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">Benchmarks of MCS processing methods with personalized noise-functions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quering Signal class attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul>
@@ -98,12 +99,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sg</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.SignalBank</span> <span class="kn">import</span> <span class="n">SignalBank</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_stft</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import scipy.signal as sg
+from numpy import pi as pi
+from matplotlib import pyplot as plt
+from mcsm_benchmarks.SignalBank import SignalBank
+from utils import get_stft
 </pre></div>
 </div>
 </div>
@@ -111,29 +112,29 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the length of the signals to generate</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">1024</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the length of the signals to generate
+N = 1024
 
-<span class="c1"># The second parameter makes it return objects of the Signal class</span>
-<span class="n">signal_bank</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">return_signal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">signal_dic</span> <span class="o">=</span> <span class="n">signal_bank</span><span class="o">.</span><span class="n">generate_signal_dict</span><span class="p">()</span>
+# The second parameter makes it return objects of the Signal class
+signal_bank = SignalBank(N=N, return_signal=True)
+signal_dic = signal_bank.generate_signal_dict()
 
-<span class="c1"># Select three signals as examples:</span>
-<span class="n">signal_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;McDampedCos&#39;</span><span class="p">,</span><span class="s1">&#39;McSyntheticMixture&#39;</span><span class="p">,</span> <span class="s1">&#39;McOnOff2&#39;</span><span class="p">]</span>
+# Select three signals as examples:
+signal_ids = [&#39;McDampedCos&#39;,&#39;McSyntheticMixture&#39;, &#39;McOnOff2&#39;]
 
-<span class="c1"># Plot the spectrograms of some signals:</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+# Plot the spectrograms of some signals:
+fig, ax = plt.subplots(1, 3, layout=&#39;tight&#39;, figsize=(9,3))
 
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">signal_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">signal_ids</span><span class="p">):</span>
-    <span class="n">signal</span> <span class="o">=</span> <span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]()</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">get_stft</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;signal_id = &#39;</span><span class="o">+</span> <span class="n">signal_id</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+for i,signal_id in enumerate(signal_ids):
+    signal = signal_dic[signal_id]()
+    S = np.abs(get_stft(signal))**2
+    idx = np.unravel_index(i, ax.shape)
+    ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
+    ax[idx].set_title(&#39;signal_id = &#39;+ signal_id)
+    ax[idx].set_xticks([],[])
+    ax[idx].set_xlabel(&#39;time&#39;)
+    ax[idx].set_yticks([])
+    ax[idx].set_ylabel(&#39;frequency&#39;)
 </pre></div>
 </div>
 </div>
@@ -149,27 +150,27 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">signal_1</span> <span class="o">=</span> <span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_ids</span><span class="p">[</span><span class="mi">2</span><span class="p">]]()</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">signal_1</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total number of components: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">signal_1</span><span class="o">.</span><span class="n">total_comps</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_1 = signal_dic[signal_ids[2]]()
+print(type(signal_1))
+print(&#39;Total number of components: {}&#39;.format(signal_1.total_comps))
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">get_stft</span><span class="p">(</span><span class="n">signal_1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;signal_id = &#39;</span><span class="o">+</span> <span class="n">signal_ids</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
-<span class="c1"># axs[0].set_xlabel(&#39;time&#39;)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+fig, axs = plt.subplots(2, 1, layout=&#39;tight&#39;, figsize=(6,4))
+S = np.abs(get_stft(signal_1))**2
+axs[0].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
+axs[0].set_title(&#39;signal_id = &#39;+ signal_ids[2])
+axs[0].set_xticks([],[])
+# axs[0].set_xlabel(&#39;time&#39;)
+axs[0].set_yticks([])
+axs[0].set_ylabel(&#39;frequency&#39;)
 
-<span class="c1"># Plot the instantaneous frequencies on top</span>
-<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">instafreq</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">instafreq</span> <span class="ow">in</span> <span class="n">signal_1</span><span class="o">.</span><span class="n">instf</span><span class="p">]</span>
+# Plot the instantaneous frequencies on top
+[axs[0].plot(instafreq*2*N,&#39;--&#39;) for instafreq in signal_1.instf]
 
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">signal_1</span><span class="o">.</span><span class="n">ncomps</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;# of comps.&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.2</span><span class="p">])</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+axs[1].plot(signal_1.ncomps)
+axs[1].set_xlabel(&#39;time&#39;)
+axs[1].set_ylabel(&#39;# of comps.&#39;)
+axs[1].set_ylim([0,3.2])
+axs[1].set_yticks([0,1,2,3])
 <br/><br/></pre></div>
 </div>
 </div>
@@ -206,33 +207,33 @@ Total number of components: 4
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">signal_2</span> <span class="o">=</span> <span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">]]()</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">signal_2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total number of components: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">signal_2</span><span class="o">.</span><span class="n">total_comps</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_2 = signal_dic[signal_ids[1]]()
+print(type(signal_2))
+print(&#39;Total number of components: {}&#39;.format(signal_2.total_comps))
 
-<span class="c1"># Plot the spectrograms of some signals:</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">get_stft</span><span class="p">(</span><span class="n">signal_2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;McSyntheticMixture&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-<span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+# Plot the spectrograms of some signals:
+fig, ax = plt.subplots(2, 2, layout=&#39;tight&#39;, figsize=(6,6))
+idx = np.unravel_index(0, ax.shape)
+S = np.abs(get_stft(signal_2))**2
+ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
+ax[idx].set_title(&#39;McSyntheticMixture&#39;)
+ax[idx].set_xticks([],[])
+ax[idx].set_xlabel(&#39;time&#39;)
+ax[idx].set_yticks([])
+ax[idx].set_ylabel(&#39;frequency&#39;)
 
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">signal_2</span><span class="o">.</span><span class="n">total_comps</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="n">component</span> <span class="o">=</span> <span class="n">signal_2</span><span class="o">.</span><span class="n">comps</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">get_stft</span><span class="p">(</span><span class="n">component</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Component </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],[])</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">signal_2</span><span class="o">.</span><span class="n">instf</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+for i in range(1,signal_2.total_comps+1):
+    component = signal_2.comps[i-1]
+    S = np.abs(get_stft(component))**2
+    idx = np.unravel_index(i, ax.shape)
+    ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
+    ax[idx].set_title(&#39;Component {}&#39;.format(i))
+    ax[idx].set_xticks([],[])
+    ax[idx].set_xlabel(&#39;time&#39;)
+    ax[idx].set_yticks([])
+    ax[idx].set_ylabel(&#39;frequency&#39;)
+    ax[idx].plot(signal_2.instf[i-1]*2*N,&#39;r--&#39;)
 </pre></div>
 </div>
 </div>
@@ -259,7 +260,7 @@ Total number of components: 3
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="demo_noise_function.html" class="btn btn-neutral float-left" title="Benchmarks of MCS processing methods with personalized noise-functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../modules.html" class="btn btn-neutral float-right" title="mcsm_benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_other_user_inputs.html" class="btn btn-neutral float-right" title="MCSM-Benchs: Using user-provided signals and performance metric" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

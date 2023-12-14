@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">Benchmarks of MCS processing methods with personalized noise-functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">Quering Signal class attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul>
@@ -109,14 +110,14 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.ResultsInterpreter</span> <span class="kn">import</span> <span class="n">ResultsInterpreter</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.SignalBank</span> <span class="kn">import</span> <span class="n">SignalBank</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spectrogram_thresholding</span><span class="p">,</span> <span class="n">get_stft</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from numpy import pi as pi
+import pandas as pd
+from matplotlib import pyplot as plt
+from mcsm_benchmarks.Benchmark import Benchmark
+from mcsm_benchmarks.ResultsInterpreter import ResultsInterpreter
+from mcsm_benchmarks.SignalBank import SignalBank
+from utils import spectrogram_thresholding, get_stft
 </pre></div>
 </div>
 </div>
@@ -129,23 +130,23 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="k">def</span> <span class="nf">method_1</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;hard&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>def method_1(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,1.0,fun=&#39;hard&#39;)
+    return xr
 
-<span class="k">def</span> <span class="nf">method_2</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;soft&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+def method_2(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,2.0,fun=&#39;soft&#39;)
+    return xr
 
-<span class="c1"># Create a dictionary of the methods to test.</span>
-<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">method_1</span><span class="p">,</span>
-    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="n">method_2</span><span class="p">,</span>
-    <span class="p">}</span>
+# Create a dictionary of the methods to test.
+my_methods = {
+    &#39;Method 1&#39;: method_1,
+    &#39;Method 2&#39;: method_2,
+    }
 </pre></div>
 </div>
 </div>
@@ -158,17 +159,17 @@ Once the object is created, use the class method <code class="docutils literal n
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span>
-                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span>
-                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
-                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
-                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span>
-                        <span class="n">verbosity</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                        <span class="n">parallelize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
+                        methods = my_methods,
+                        N = 256,
+                        SNRin = [10,20],
+                        repetitions = 3,
+                        signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,],
+                        verbosity=4,
+                        parallelize=False)
 
-<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test. my_results is a dictionary with the results for each of the variables of the simulation.</span>
-<span class="n">benchmark</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="s1">&#39;saved_benchmark&#39;</span><span class="p">)</span> <span class="c1"># Save the benchmark to a file.</span>
+benchmark.run_test() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
+benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file.
 </pre></div>
 </div>
 </div>
@@ -216,7 +217,7 @@ True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">same_benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">load_benchmark</span><span class="p">(</span><span class="s1">&#39;saved_benchmark&#39;</span><span class="p">)</span> <span class="c1"># Load the benchmark from a file.</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>same_benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;) # Load the benchmark from a file.
 </pre></div>
 </div>
 </div>
@@ -225,8 +226,8 @@ True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
-<span class="n">results_df</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
 </pre></div>
 </div>
 </div>
@@ -268,8 +269,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>13.287489</td>
-      <td>23.596905</td>
+      <td>11.886836</td>
+      <td>22.377151</td>
     </tr>
     <tr>
       <th>7</th>
@@ -277,8 +278,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>13.216430</td>
-      <td>23.661788</td>
+      <td>12.722813</td>
+      <td>22.764552</td>
     </tr>
     <tr>
       <th>8</th>
@@ -286,8 +287,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>12.782612</td>
-      <td>23.233935</td>
+      <td>12.397020</td>
+      <td>22.369574</td>
     </tr>
     <tr>
       <th>0</th>
@@ -295,8 +296,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>13.245828</td>
-      <td>23.613251</td>
+      <td>12.202161</td>
+      <td>22.308138</td>
     </tr>
     <tr>
       <th>1</th>
@@ -304,8 +305,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>13.504385</td>
-      <td>23.940328</td>
+      <td>12.765038</td>
+      <td>23.274028</td>
     </tr>
     <tr>
       <th>2</th>
@@ -313,8 +314,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>12.786350</td>
-      <td>23.111165</td>
+      <td>12.237888</td>
+      <td>22.527840</td>
     </tr>
     <tr>
       <th>9</th>
@@ -322,8 +323,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>15.228535</td>
-      <td>26.107708</td>
+      <td>6.325521</td>
+      <td>13.864594</td>
     </tr>
     <tr>
       <th>10</th>
@@ -331,8 +332,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>16.094318</td>
-      <td>27.080233</td>
+      <td>6.747186</td>
+      <td>15.348714</td>
     </tr>
     <tr>
       <th>11</th>
@@ -340,8 +341,8 @@ True
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>14.074812</td>
-      <td>25.103524</td>
+      <td>5.647123</td>
+      <td>14.019241</td>
     </tr>
     <tr>
       <th>3</th>
@@ -349,8 +350,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>16.258936</td>
-      <td>27.128722</td>
+      <td>6.981757</td>
+      <td>17.601935</td>
     </tr>
     <tr>
       <th>4</th>
@@ -358,8 +359,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>18.878398</td>
-      <td>29.035166</td>
+      <td>6.840569</td>
+      <td>17.947633</td>
     </tr>
     <tr>
       <th>5</th>
@@ -367,8 +368,8 @@ True
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>16.345291</td>
-      <td>26.436254</td>
+      <td>7.860410</td>
+      <td>19.078633</td>
     </tr>
   </tbody>
 </table>
@@ -378,17 +379,17 @@ True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sb</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">signal_linear_chirp</span><span class="p">()</span>
-<span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">sigmerge</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sb = SignalBank(N=1024)
+s = sb.signal_linear_chirp()
+noise = np.random.randn(1024)
+x = Benchmark.sigmerge(s, noise, 15)
 
-<span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="s1">&#39;hard&#39;</span><span class="p">)</span>
+xr = spectrogram_thresholding(x,1.0,&#39;hard&#39;)
 
-<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original Signal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xr</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Recovered Signal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+fig,ax = plt.subplots(1,1)
+ax.plot(s,label=&#39;Original Signal&#39;)
+ax.plot(xr,alpha=0.5,label=&#39;Recovered Signal&#39;)
+ax.legend()
 </pre></div>
 </div>
 </div>
@@ -398,7 +399,7 @@ True
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7ff8c9f502e0&gt;
+&lt;matplotlib.legend.Legend at 0x7f21bc237e80&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -422,23 +423,23 @@ columns show the results obtained for the SNR values used for each experiment. S
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">method_1</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def method_1(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,*args,**kwargs)
+    return xr
 
-<span class="k">def</span> <span class="nf">method_2</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+def method_2(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,*args,**kwargs)
+    return xr
 
-<span class="c1"># Create a dictionary of the methods to test.</span>
-<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">method_1</span><span class="p">,</span>
-    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="n">method_2</span><span class="p">,</span>
-    <span class="p">}</span>
+# Create a dictionary of the methods to test.
+my_methods = {
+    &#39;Method 1&#39;: method_1,
+    &#39;Method 2&#39;: method_2,
+    }
 </pre></div>
 </div>
 </div>
@@ -447,14 +448,14 @@ columns show the results obtained for the SNR values used for each experiment. S
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dictionary of the different combinations of thresholds to test.</span>
-<span class="c1"># Remember the keys of this dictionary should be same as the methods dictionary.</span>
-<span class="n">my_parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="p">[((</span><span class="n">thr</span><span class="p">,),{</span><span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="s1">&#39;hard&#39;</span><span class="p">,})</span> <span class="k">for</span> <span class="n">thr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)],</span>
-    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="p">[((</span><span class="n">thr</span><span class="p">,),{</span><span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="s1">&#39;soft&#39;</span><span class="p">,})</span> <span class="k">for</span> <span class="n">thr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)],</span>
-<span class="p">}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a dictionary of the different combinations of thresholds to test.
+# Remember the keys of this dictionary should be same as the methods dictionary.
+my_parameters = {
+    &#39;Method 1&#39;: [((thr,),{&#39;fun&#39;: &#39;hard&#39;,}) for thr in np.arange(1.0,4.0,1.0)],
+    &#39;Method 2&#39;: [((thr,),{&#39;fun&#39;: &#39;soft&#39;,}) for thr in np.arange(1.0,4.0,1.0)],
+}
 
-<span class="nb">print</span><span class="p">(</span><span class="n">my_parameters</span><span class="p">[</span><span class="s1">&#39;Method 1&#39;</span><span class="p">])</span>
+print(my_parameters[&#39;Method 1&#39;])
 </pre></div>
 </div>
 </div>
@@ -471,18 +472,18 @@ columns show the results obtained for the SNR values used for each experiment. S
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span>
-                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span>
-                        <span class="n">parameters</span><span class="o">=</span><span class="n">my_parameters</span><span class="p">,</span>
-                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
-                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
-                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span>
-                        <span class="n">verbosity</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                        <span class="n">parallelize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
+                        methods = my_methods,
+                        parameters=my_parameters,
+                        N = 256,
+                        SNRin = [10,20],
+                        repetitions = 3,
+                        signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,],
+                        verbosity=4,
+                        parallelize=False)
 
-<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test. my_results is a dictionary with the results for each of the variables of the simulation.</span>
-<span class="n">benchmark</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="s1">&#39;saved_benchmark&#39;</span><span class="p">)</span> <span class="c1"># Save the benchmark to a file.</span>
+benchmark.run_test() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
+benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file.
 </pre></div>
 </div>
 </div>
@@ -550,12 +551,12 @@ True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Summary interactive plots with Plotly</span>
-<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span>  <span class="n">iplot</span>
-<span class="n">interpreter</span> <span class="o">=</span> <span class="n">ResultsInterpreter</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
-<span class="n">figs</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_summary_plotlys</span><span class="p">(</span><span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">fig</span> <span class="ow">in</span> <span class="n">figs</span><span class="p">:</span>
-    <span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly
+from plotly.offline import  iplot
+interpreter = ResultsInterpreter(benchmark)
+figs = interpreter.get_summary_plotlys(bars=True)
+for fig in figs:
+    iplot(fig)
 <br/></pre></div>
 </div>
 </div>
@@ -583,8 +584,8 @@ True
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">elapsed_time_summary</span><span class="p">()</span>
-<span class="n">df</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = interpreter.elapsed_time_summary()
+df
 </pre></div>
 </div>
 </div>
@@ -618,33 +619,33 @@ True
   <tbody>
     <tr>
       <th>Method 1-((1.0,), {'fun': 'hard'})</th>
-      <td>0.029918</td>
-      <td>0.002808</td>
+      <td>0.000228</td>
+      <td>0.000010</td>
     </tr>
     <tr>
       <th>Method 1-((2.0,), {'fun': 'hard'})</th>
-      <td>0.031169</td>
-      <td>0.000630</td>
+      <td>0.000219</td>
+      <td>0.000016</td>
     </tr>
     <tr>
       <th>Method 1-((3.0,), {'fun': 'hard'})</th>
-      <td>0.032047</td>
-      <td>0.000585</td>
+      <td>0.000207</td>
+      <td>0.000010</td>
     </tr>
     <tr>
       <th>Method 2-((1.0,), {'fun': 'soft'})</th>
-      <td>0.035945</td>
-      <td>0.000724</td>
+      <td>0.000219</td>
+      <td>0.000008</td>
     </tr>
     <tr>
       <th>Method 2-((2.0,), {'fun': 'soft'})</th>
-      <td>0.034309</td>
-      <td>0.000437</td>
+      <td>0.000232</td>
+      <td>0.000007</td>
     </tr>
     <tr>
       <th>Method 2-((3.0,), {'fun': 'soft'})</th>
-      <td>0.029069</td>
-      <td>0.000873</td>
+      <td>0.000227</td>
+      <td>0.000001</td>
     </tr>
   </tbody>
 </table>

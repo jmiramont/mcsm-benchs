@@ -59,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">SignalBank Example</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Benchmarks of MCS processing methods with personalized noise-functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">Quering Signal class attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul>
@@ -95,14 +96,14 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sg</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchmarks.ResultsInterpreter</span> <span class="kn">import</span> <span class="n">ResultsInterpreter</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spectrogram_thresholding</span><span class="p">,</span> <span class="n">get_stft</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from numpy import pi as pi
+import pandas as pd
+import scipy.signal as sg
+from matplotlib import pyplot as plt
+from mcsm_benchmarks.Benchmark import Benchmark
+from mcsm_benchmarks.ResultsInterpreter import ResultsInterpreter
+from utils import spectrogram_thresholding, get_stft
 <br/></pre></div>
 </div>
 </div>
@@ -116,23 +117,23 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">method_1</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;hard&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def method_1(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,1.0,fun=&#39;hard&#39;)
+    return xr
 
-<span class="k">def</span> <span class="nf">method_2</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># If additional input parameters are needed, they can be passed in a tuple using</span>
-    <span class="c1"># *args or **kwargs and then parsed.</span>
-    <span class="n">xr</span> <span class="o">=</span> <span class="n">spectrogram_thresholding</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="n">fun</span><span class="o">=</span><span class="s1">&#39;soft&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">xr</span>
+def method_2(noisy_signal, *args, **kwargs):
+    # If additional input parameters are needed, they can be passed in a tuple using
+    # *args or **kwargs and then parsed.
+    xr = spectrogram_thresholding(noisy_signal,2.0,fun=&#39;soft&#39;)
+    return xr
 
-<span class="c1"># Create a dictionary of the methods to test.</span>
-<span class="n">my_methods</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Method 1&#39;</span><span class="p">:</span> <span class="n">method_1</span><span class="p">,</span>
-    <span class="s1">&#39;Method 2&#39;</span><span class="p">:</span> <span class="n">method_2</span><span class="p">,</span>
-    <span class="p">}</span>
+# Create a dictionary of the methods to test.
+my_methods = {
+    &#39;Method 1&#39;: method_1,
+    &#39;Method 2&#39;: method_2,
+    }
 </pre></div>
 </div>
 </div>
@@ -148,15 +149,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark class uses np.random.randn(N,) to generate noise realizations</span>
-<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark class uses np.random.randn(N,) to generate noise realizations
+n = np.random.randn(1024)
 
-<span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PSD&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;White (Gaussian) Noise&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+f, Pxx_den = sg.welch(n)
+plt.semilogy(f, Pxx_den)
+plt.xlabel(&#39;frequency&#39;)
+plt.ylabel(&#39;PSD&#39;)
+plt.title(&#39;White (Gaussian) Noise&#39;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -171,18 +172,18 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span> <span class="c1"># defines the default performance function</span>
-                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span> <span class="c1"># dictionary of methods</span>
-                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>  <span class="c1"># Length of the signals</span>
-                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="c1"># SNRs to use during the test</span>
-                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="c1"># Number of noise realizations to use</span>
-                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span> <span class="c1"># Signals to use</span>
-                        <span class="n">complex_noise</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># Real white Gaussian Noise</span>
-                        <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;, # defines the default performance function
+                        methods = my_methods, # dictionary of methods
+                        N = 256,  # Length of the signals
+                        SNRin = [40, 50], # SNRs to use during the test
+                        repetitions = 3, # Number of noise realizations to use
+                        signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,], # Signals to use
+                        complex_noise=False # Real white Gaussian Noise
+                        )
 
-<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test.</span>
-<span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
-<span class="n">results_df</span>
+benchmark.run_test() # Run the test.
+results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
 </pre></div>
 </div>
 </div>
@@ -349,18 +350,18 @@ The test has finished.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">voss</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from utils import voss
 
-<span class="c1">#Generates pink noise using the Voss-McCartney algorithm.</span>
-<span class="n">noise_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">N</span> <span class="p">:</span> <span class="n">voss</span><span class="p">(</span><span class="n">N</span><span class="p">,)</span>
-<span class="n">n</span> <span class="o">=</span> <span class="n">noise_fun</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+#Generates pink noise using the Voss-McCartney algorithm.
+noise_fun = lambda N : voss(N,)
+n = noise_fun(1024)
 
-<span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Pxx_den</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PSD&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&quot;Pink&quot; Noise&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+f, Pxx_den = sg.welch(n)
+plt.semilogy(f, Pxx_den)
+plt.xlabel(&#39;frequency&#39;)
+plt.ylabel(&#39;PSD&#39;)
+plt.title(&#39;&quot;Pink&quot; Noise&#39;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -375,18 +376,18 @@ The test has finished.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="p">(</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;denoising&#39;</span><span class="p">,</span> <span class="c1"># defines the default performance function</span>
-                        <span class="n">methods</span> <span class="o">=</span> <span class="n">my_methods</span><span class="p">,</span> <span class="c1"># dictionary of methods</span>
-                        <span class="n">N</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>  <span class="c1"># Length of the signals</span>
-                        <span class="n">SNRin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="c1"># SNRs to use during the test</span>
-                        <span class="n">repetitions</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="c1"># Number of noise realizations to use</span>
-                        <span class="n">signal_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LinearChirp&#39;</span><span class="p">,</span> <span class="s1">&#39;CosChirp&#39;</span><span class="p">,],</span> <span class="c1"># Signals to use</span>
-                        <span class="n">complex_noise</span><span class="o">=</span><span class="n">noise_fun</span> <span class="c1"># &quot;Pink&quot; Noise</span>
-                        <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;, # defines the default performance function
+                        methods = my_methods, # dictionary of methods
+                        N = 256,  # Length of the signals
+                        SNRin = [40, 50], # SNRs to use during the test
+                        repetitions = 3, # Number of noise realizations to use
+                        signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,], # Signals to use
+                        complex_noise=noise_fun # &quot;Pink&quot; Noise
+                        )
 
-<span class="n">benchmark</span><span class="o">.</span><span class="n">run_test</span><span class="p">()</span> <span class="c1"># Run the test.</span>
-<span class="n">results_df</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span> <span class="c1"># This formats the results on a DataFrame</span>
-<span class="n">results_df</span>
+benchmark.run_test() # Run the test.
+results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
 </pre></div>
 </div>
 </div>
