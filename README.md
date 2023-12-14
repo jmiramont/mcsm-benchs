@@ -1,3 +1,5 @@
+[![Test](https://github.com/jmiramont/mcsm-benchmarks/actions/workflows/test.yml/badge.svg)](https://github.com/jmiramont/mcsm-benchmarks/actions/workflows/test.yml)
+
 # MCSM-BENCHS: A Toolbox for Benchmarking Multi-Component Signal Analysis Methods
 
 We introduce a public, open-source, Python-based toolbox for benchmarking multi-component signal analysis methods, implemented either in Python or Matlab.
