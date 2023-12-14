@@ -48,7 +48,12 @@ def invert_stft(stft,mask=None):
 
 def spectrogram_thresholding(signal, coeff, fun='hard'):
     
-    stft= get_stft(signal)
+        # Compute the STFT
+    _, _, stft = sg.stft(signal,
+                        return_onesided=True,
+                        scaling='psd'
+                        )
+    
     gamma = np.median(np.abs(np.real(stft)))/0.6745
     thr = coeff*np.sqrt(2)*gamma
 
@@ -63,7 +68,8 @@ def spectrogram_thresholding(signal, coeff, fun='hard'):
         mask[mask>thr] = mask[mask>thr]-(thr**2/mask[mask>thr])
         mask = mask / np.abs(stft)
 
-    xr = invert_stft(stft,mask=mask)
+    _, xr = sg.istft(stft*mask, scaling='psd')
+    # xr = xr[0:
 
     return xr
 
