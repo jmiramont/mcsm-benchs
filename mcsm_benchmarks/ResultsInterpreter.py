@@ -261,7 +261,7 @@ class ResultsInterpreter:
 
             # Table header with links
             # csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
-            aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/'+task+'/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](/results/'+task+'/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
+            aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/'+task+'/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](https://jmiramont.github.io/benchmark-test/results/'+task+'/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
         return output_string
@@ -274,7 +274,7 @@ class ResultsInterpreter:
             str: String with the table header.
         """
         lines = ['# Benchmark Report' +'\n',
-                '## Configuration' + '   [Get .csv file] ' + '\n',
+                '## Configuration' + '\n',
                 # 'Parallelize' + str(self.benchmark.parallel_flag) + '\n',
                 'Length of signals: ' + str(self.N) + '\n', 
                 'Repetitions: '+ str(self.repetitions) + '\n',
