@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SignalBank Example &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+  <title>MCSM-Benchs: Exploring signals provided by the SignalBank class &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Benchmarks of MCS processing methods with personalized noise-functions" href="demo_noise_function.html" />
+    <link rel="next" title="MCSM-Benchs: Benchmarks with personalized noise-generating functions" href="demo_noise_function.html" />
     <link rel="prev" title="MCSM-Benchs: Creating benchmarks of MCS Methods" href="demo_benchmark.html" /> 
 </head>
 
@@ -56,9 +56,9 @@
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SignalBank Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">Benchmarks of MCS processing methods with personalized noise-functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">Quering Signal class attributes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -80,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SignalBank Example</li>
+      <li class="breadcrumb-item active">MCSM-Benchs: Exploring signals provided by the SignalBank class</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/demo_signal_bank.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,8 +90,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="SignalBank-Example">
-<h1>SignalBank Example<a class="headerlink" href="#SignalBank-Example" title="Permalink to this heading"></a></h1>
+  <section id="MCSM-Benchs:-Exploring-signals-provided-by-the-SignalBank-class">
+<h1>MCSM-Benchs: Exploring signals provided by the SignalBank class<a class="headerlink" href="#MCSM-Benchs:-Exploring-signals-provided-by-the-SignalBank-class" title="Permalink to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -209,7 +209,7 @@ for i,signal_id in enumerate(signal_names):
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="demo_benchmark.html" class="btn btn-neutral float-left" title="MCSM-Benchs: Creating benchmarks of MCS Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo_noise_function.html" class="btn btn-neutral float-right" title="Benchmarks of MCS processing methods with personalized noise-functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_noise_function.html" class="btn btn-neutral float-right" title="MCSM-Benchs: Benchmarks with personalized noise-generating functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
