@@ -286,6 +286,7 @@ class ResultsInterpreter:
         # lines = lines + ['## Figures:\n ![Summary of results](results/../figures/plots_grid.png) \n'] 
         lines = lines + ['## Mean results tables: \n']
 
+
         #! Check this part for different perf. functions
         if self.task == "denoising":
             lines = lines + ['Results shown here are the mean and standard deviation of \
