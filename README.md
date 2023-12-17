@@ -1,4 +1,4 @@
-[![Test](https://github.com/jmiramont/mcsm-benchmarks/actions/workflows/test.yml/badge.svg)](https://github.com/jmiramont/mcsm-benchmarks/actions/workflows/test.yml)
+[![Test](https://github.com/jmiramont/mcsm-benchmarks/actions/workflows/test.yml/badge.svg)](https://github.com/jmiramont/mcsm-benchs/actions/workflows/test.yml)
 
 # MCSM-BENCHS: A Toolbox for Benchmarking Multi-Component Signal Analysis Methods
 
