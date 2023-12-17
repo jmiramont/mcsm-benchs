@@ -1,4 +1,4 @@
-from mcsm_benchmarks.Benchmark import Benchmark
+from mcsm_benchs.Benchmark import Benchmark
 import numpy as np
 import pytest
 

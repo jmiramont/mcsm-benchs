@@ -1,6 +1,6 @@
 import pandas as pd
 import seaborn as sns
-from mcsm_benchmarks.Benchmark import Benchmark
+from mcsm_benchs.Benchmark import Benchmark
 import numpy as np
 import matplotlib.pyplot as plt
 import string

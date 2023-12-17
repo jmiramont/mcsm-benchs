@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "mcsm-benchmarks"
+name = "mcsm-benchs"
 version = "0.1.0"
 description = "MCSM-Benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
 readme = "README.md"
-packages = [{include = "mcsm_benchmarks"}]
+packages = [{include = "mcsm_benchs"}]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
