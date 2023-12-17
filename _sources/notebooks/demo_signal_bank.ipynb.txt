@@ -19,7 +19,7 @@
     "import scipy.signal as sg\n",
     "from numpy import pi as pi\n",
     "from matplotlib import pyplot as plt\n",
-    "from mcsm_benchmarks.SignalBank import SignalBank\n",
+    "from mcsm_benchs.SignalBank import SignalBank\n",
     "from utils import get_stft"
    ]
   },
