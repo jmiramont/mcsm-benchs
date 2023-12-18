@@ -220,7 +220,7 @@ class ResultsInterpreter:
         return df_std, df_std_minus
 
 # --------------------------------------------------------------------------------------
-    def get_table_means_and_std(self):
+    def get_table_means_and_std(self, link='.'):
         """ Generates a table of mean and std results to .md file. 
         Highlights the best results.
 
@@ -261,7 +261,7 @@ class ResultsInterpreter:
 
             # Table header with links
             # csv_filename = os.path.join('.',self.task,'csv_files','results_'+signal_id+'.csv')
-            aux_string = '### Signal: '+ signal_id + '  [[View Plot]](https://jmiramont.github.io/benchmark-test/results/'+task+'/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]](https://jmiramont.github.io/benchmark-test/results/'+task+'/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
+            aux_string = '### Signal: '+ signal_id + '[[View Plot]]('+ link +'/results/'+task+'/figures/html/'+ 'plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+'/results/'+task+'/csv_files/results_' + signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
         return output_string
@@ -302,7 +302,7 @@ class ResultsInterpreter:
 
 # --------------------------------------------------------------------------------------
 
-    def save_report(self, filename=None, path='results', bars=False):
+    def save_report(self, filename=None, path='results', bars=False, link=''):
 
         """ This function generates a report of the results given in the Benchmark-class
         object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
@@ -323,7 +323,7 @@ class ResultsInterpreter:
             # f.writelines(lines)
 
         # Append table under header
-        table_string = self.get_table_means_and_std()
+        table_string = self.get_table_means_and_std(link=link)
         with open(output_path, 'a') as f:
           f.write(table_string)
 
