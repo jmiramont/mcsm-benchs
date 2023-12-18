@@ -414,7 +414,7 @@
             <span class="c1"># f.writelines(lines)</span>
 
         <span class="c1"># Append table under header</span>
-        <span class="n">table_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_table_means_and_std</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span><span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">)</span>
+        <span class="n">table_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_table_means_and_std</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="n">link</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
           <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">table_string</span><span class="p">)</span>
 
