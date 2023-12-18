@@ -327,7 +327,7 @@ class ResultsInterpreter:
             # f.writelines(lines)
 
         # Append table under header
-        table_string = self.get_table_means_and_std(path=path,link=link)
+        table_string = self.get_table_means_and_std(link=link)
         with open(output_path, 'a') as f:
           f.write(table_string)
 
