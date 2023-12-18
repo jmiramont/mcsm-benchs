@@ -220,7 +220,7 @@ class ResultsInterpreter:
         return df_std, df_std_minus
 
 # --------------------------------------------------------------------------------------
-    def get_table_means_and_std(self, path='.', link=''):
+    def get_table_means_and_std(self, link=''):
         """ Generates a table of mean and std results to .md file. 
         Highlights the best results.
 
@@ -231,10 +231,6 @@ class ResultsInterpreter:
         df = self.benchmark.get_results_as_df()
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
-
-        # Check path availability:
-        if not os.path.exists(path):
-            os.makedirs(path)
 
         # Get dataframes with means and some variability measure
         dfs_means = self.get_df_means()
@@ -264,7 +260,7 @@ class ResultsInterpreter:
             # print(df_results)
 
             # Table header with links
-            aux_string = '### Signal: '+ signal_id + '[[View Plot]]('+link+path+'/plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+path+'results_'+signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
+            aux_string = '### Signal: '+ signal_id + '[[View Plot]]('+link+'/plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+'/results_'+signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
         return output_string
@@ -317,7 +313,12 @@ class ResultsInterpreter:
         if filename is None:
             filename = 'results_'+self.task+'.md'
 
+        # Check path availability, otherwise create folder.
+        if not os.path.exists(path):
+            os.makedirs(path)
+
         output_path = os.path.join(path,filename)
+
 
         # Generate table header:
         lines = self.get_report_preamble()
@@ -620,10 +621,13 @@ class ResultsInterpreter:
         for signal_id, fig in zip(self.signal_ids,figs):
             
             if path is None:
-                filename = os.path.join('results',self.task,'plot_'+signal_id+'.html')
-            else:
-                filename = os.path.join(path,'plot_'+signal_id+'.html')
+                path = 'results'                
 
+            # Check path availability, otherwise create folder.
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            filename = os.path.join(path,'plot_'+signal_id+'.html')    
             with open(filename, 'w') as f:
                 f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
 
@@ -645,10 +649,13 @@ class ResultsInterpreter:
             
             # # Save .csv file for the signal.
             if path is None:
-                filename = os.path.join('results',self.task,'results_'+signal_id+'.csv')
-            else:
-                filename = os.path.join(path,'results_'+signal_id+'.csv')
-    
+                path = 'results'
+
+            # Check path availability, otherwise create folder.
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            filename = os.path.join(path,'results_'+signal_id+'.csv')
             df2.to_csv(filename)
 
         return True
