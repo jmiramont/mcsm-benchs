@@ -70,7 +70,9 @@ class ResultsInterpreter:
 
         aux_dic = dict()
         new_columns = df.columns.values[0:5].copy()
+
         new_columns[-1] = 'QRF'
+    
         for i in range(4,df.shape[1]):
             idx = [j for j in range(4)]+[i]
             df_aux = df.iloc[:,idx]
@@ -220,7 +222,7 @@ class ResultsInterpreter:
         return df_std, df_std_minus
 
 # --------------------------------------------------------------------------------------
-    def get_table_means_and_std(self, link=''):
+    def get_table_means_and_std(self, link='', pm_name=None):
         """ Generates a table of mean and std results to .md file. 
         Highlights the best results.
 
@@ -257,7 +259,9 @@ class ResultsInterpreter:
                 df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
                 df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
 
-            # print(df_results)
+
+            if pm_name is not None:
+                df_results.rename(columns={"QRF": pm_name})
 
             # Table header with links
             aux_string = '### Signal: '+ signal_id + '[[View Plot]]('+link+'/plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+'/results_'+signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
@@ -289,7 +293,7 @@ class ResultsInterpreter:
         #! Check this part for different perf. functions
         if self.task == "denoising":
             lines = lines + ['Results shown here are the mean and standard deviation of \
-                              the Quality Reconstruction Factor. \
+                              the performance metric. \
                               Best performances are **bolded**. \n']
         
         if self.task == "detection":
@@ -301,7 +305,7 @@ class ResultsInterpreter:
 
 # --------------------------------------------------------------------------------------
 
-    def save_report(self, filename=None, path='results', bars=False, link=''):
+    def save_report(self, filename=None, path='results', bars=False, link='', pm_name=None):
 
         """ This function generates a report of the results given in the Benchmark-class
         object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
@@ -327,14 +331,14 @@ class ResultsInterpreter:
             # f.writelines(lines)
 
         # Append table under header
-        table_string = self.get_table_means_and_std(link=link)
+        table_string = self.get_table_means_and_std(link=link,pm_name=pm_name)
         with open(output_path, 'a') as f:
           f.write(table_string)
 
         return True
     
 #-------------------------------------------------------------------------------------       
-    def get_snr_plot(self, df, x=None, y=None, hue=None, axis = None):
+    def get_snr_plot(self, df, x=None, y=None, hue=None, axis = None, ylabel=None):
         """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
         computed as: 
         QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]
@@ -384,7 +388,6 @@ class ResultsInterpreter:
         axis.set_yticks(u)
         axis.set_xlabel(x + ' (dB)')
         axis.set_ylabel(y + ' (dB)')
-
         return True
 
 # --------------------------------------------------------------------------------------
@@ -549,7 +552,12 @@ class ResultsInterpreter:
         return list_figs
 
 
-    def get_summary_plotlys(self, df=None, bars=True, difference=False, varfun='std'):
+    def get_summary_plotlys(self, 
+                            df=None, 
+                            bars=True, 
+                            difference=False, 
+                            varfun='std', 
+                            ylabel=None):
         """ Generates interactive plots with plotly.
         
             Returns:
@@ -604,11 +612,15 @@ class ResultsInterpreter:
                                 error_y_minus="std-minus",
                                 title=signal_id
                                 )
+                
+            if ylabel is not None:    
+                fig.update_layout(yaxis_title=ylabel)
+
             figs.append(fig)
 
         return figs
     
-    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std'):
+    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std', ylabel=None):
         """
         Generate .html interactive plots files with plotly
         #TODO Make this change with the github user!
@@ -616,7 +628,12 @@ class ResultsInterpreter:
         if df is None:
             df = self.benchmark.get_results_as_df()
 
-        figs = self.get_summary_plotlys(df=df, bars=bars, difference=difference,varfun=varfun)
+        figs = self.get_summary_plotlys(df=df, 
+                                        bars=bars, 
+                                        difference=difference,
+                                        varfun=varfun,
+                                        ylabel=ylabel
+                                        )
 
         for signal_id, fig in zip(self.signal_ids,figs):
             
