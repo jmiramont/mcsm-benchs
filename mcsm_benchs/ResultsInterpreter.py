@@ -613,6 +613,8 @@ class ResultsInterpreter:
                                 title=signal_id
                                 )
                 
+            fig.update_layout(xaxis_title='SNRin (dB)')
+                
             if ylabel is not None:    
                 fig.update_layout(yaxis_title=ylabel)
 
