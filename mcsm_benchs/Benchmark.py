@@ -301,27 +301,22 @@ class Benchmark:
         # Check objective function
         # Set the default performance function according to the selected task
         if obj_fun is None:
-            self.objectiveFunction = self.set_objective_function(task)
+            self.objectiveFunction = {'perf_metric':self.set_objective_function(task),}
         else:
             if callable(obj_fun):
-                self.objectiveFunction = obj_fun
+                self.objectiveFunction = {'obj_fun':obj_fun,}
             else:
-                raise ValueError("'obj_fun' should be a callable object.\n")
+                if type(obj_fun) is dict:
+                    self.objectiveFunction = obj_fun    
+                else:
+                    raise ValueError("'obj_fun' should be a callable object or a dictionary.\n")
             
         #TODO Check this list of attribute initialization
         # Extra arguments may be passed when opening a saved benchmark:
         if kwargs == {}:
             # If we are here, this is a new benchmark, so the all the methods are new:
             self.this_method_is_new = {method:True for method in self.methods_ids}
-            # self.task = None
-            # self.methods = None
-            # self.N = None
-            # self.Nsub = None
-            # self.repetitions = None
-            # self.SNRin = None
             self.results = None
-            # self.verbosity = None
-            # self.complex_noise = None
             self.noise_matrix = None
             self.methods_and_params_dic = dict()
         
@@ -425,25 +420,27 @@ class Benchmark:
         if self.verbosity > 0:
             print('Running benchmark...')
 
-        # Dictionaries for the results. This helps to express the results later using a DataFrame.
+        # Dictionaries for the results. 
+        # This helps to express the results later using a DataFrame.
         if self.results is None:
             self.results = dict()
             self.elapsed_time = dict()
 
-            # Create dictionary tree:
-            for signal_id in self.signal_ids: 
-                SNR_dic = dict()
-                for SNR in self.SNRin:
-                    method_dic = dict()
-                    for method in self.methods:
-                        params_dic = dict()
-                        # for params in self.parameters[method]:
-                        #     params_dic[str(params)] = 'Deep' 
-                        method_dic[method] = params_dic
-                        self.elapsed_time[method]  = params_dic                     
-
-                    SNR_dic[SNR] = method_dic
-                self.results[signal_id] = SNR_dic        
+            # Create nested dictionary for results and elapsed time:
+            for fun_name in self.objectiveFunction:
+                self.results[fun_name]={}
+                for signal_id in self.signal_ids:
+                    self.results[fun_name][signal_id] = {}
+                    self.elapsed_time[signal_id] = {}
+                    for SNR in self.SNRin:
+                        self.results[fun_name][signal_id][SNR] = {}
+                        for method in self.methods:
+                            self.results[fun_name][signal_id][SNR][method] = {}
+                            self.elapsed_time[signal_id][method] = {}
+                            # for param in self.parameters[method]:
+                            #     self.results[signal_id][SNR][method][str(param)] = {}
+                                                
+            # The last level for results is the name of the objective function.         
         
 
         # This run all the experiments and save the results in nested dictionaries.
@@ -503,7 +500,6 @@ class Benchmark:
                 for method in self.methods:
                     
                     if self.this_method_is_new[method]:
-                        params_dic = dict()
                         if self.verbosity >= 3:
                             print('--- Method: '+ method)                    
 
@@ -532,48 +528,52 @@ class Benchmark:
                                 method_output = np.zeros((self.repetitions)).astype(bool)
                                                          
                             for idx, noisy_signal in enumerate(noisy_signals):
-                                if self.parallel_flag:  # Get results from parallel...
+                                # Get results from parallel computation
+                                if self.parallel_flag:  
                                     tmp, extime = parallel_results[k]
                                     method_output[idx] = tmp
                                     # Save but DON'T TRUST the exec. time in parallel.
                                     elapsed.append(extime) 
-                                    k += 1     
-                                else:                   # Or from serial computation.
-                                    
+                                    k += 1
+
+                                # Or from serial computation         
+                                else:  
                                     tmp, extime = self.inner_loop([method,
                                                         (args, kwargs), 
                                                         idx])        
                                     method_output[idx] = tmp
                                     elapsed.append(extime)
                                     
-                            # Either way, results are saved in a nested dictionary.
-                            result = []
-                            for i,output in enumerate(method_output):
-                                # Computing perf metric---------------------------------------
-                                try:
-                                    perf_met_output = self.objectiveFunction(self.base_signal,
-                                                               output,
-                                                               tmin=self.tmin,
-                                                               tmax=self.tmax,
-                                                               scaled_noise=scaled_noise[i]
-                                                                )
+                            # Either way, results are saved in a nested dictionary-----
+                            # For each performance metric
+                            for fun_name in self.objectiveFunction:
+                                result = []    
+                                for i,output in enumerate(method_output):
+                                    try:
+                                        fun = self.objectiveFunction[fun_name]
+                                        perf_met_output = fun(
+                                                        self.base_signal,
+                                                        output,
+                                                        tmin=self.tmin,
+                                                        tmax=self.tmax,
+                                                        scaled_noise=scaled_noise[i]
+                                                            )
     
-                                except BaseException as err:
-                                    print(f"Unexpected error {err=}, {type(err)=} while applying performance metric. Watch out for NaN values.")
-                                    perf_met_output = np.nan
+                                    except BaseException as err:
+                                        print(f"Unexpected error {err=}, {type(err)=} while applying performance metric:{fun_name}. Watch out for NaN values.")
+                                        perf_met_output = np.nan
                                     
-                                result.append(perf_met_output)
+                                    result.append(perf_met_output)
 
-                            # Saving results ------------------------------------------------
-                            
-                            params_dic[str(params)] = result                        
-                            self.elapsed_time[method][str(params)] = elapsed
+                                # Saving results -----------
+                                self.results[fun_name][signal_id][SNR][method][str(params)] = result
+                                self.elapsed_time[signal_id][method][str(params)] = elapsed
 
                             if self.verbosity > 4:
                                 print('Elapsed:{}'.format(np.mean(elapsed)))                    
 
-                        self.results[signal_id][SNR][method] = params_dic
-                        self.methods_and_params_dic[method] = [key for key in params_dic] 
+
+                        self.methods_and_params_dic[method] = [str(key) for key in self.parameters[method]] 
 
 
         if self.verbosity > 0:
@@ -628,27 +628,36 @@ class Benchmark:
         Returns:
             DataFrame: Returns a pandas DataFrame with the results.
         """
+
         if results is None:
             df = self.dic2df(self.results)
         else:
-            df = self.dic2df(self.results)
+            df = self.dic2df(results)
 
         df = pd.concat({param: df[param] for param in df.columns})
-        df = df.unstack(level=2)
+        df = df.unstack(level=3)
         df = df.reset_index()
-        df.columns = pd.Index(['Parameter','Signal_id', 'Method', 'Repetition'] + self.SNRin)
-        df=df.reindex(columns=['Method', 'Parameter','Signal_id', 'Repetition'] + self.SNRin)
+        df.columns = pd.Index(['Parameter','Perf.Metric','Signal_id', 'Method', 'Repetition'] + self.SNRin)
+        df=df.reindex(columns=['Perf.Metric','Method', 'Parameter','Signal_id', 'Repetition'] + self.SNRin)
         df = df.sort_values(by=['Method', 'Parameter','Signal_id'])
 
-        aux2 = np.zeros((df.shape[0],))
-        for metodo in self.methods_and_params_dic:
-            aux = np.zeros((df.shape[0],))
-            for params in self.methods_and_params_dic[metodo]:
-                aux = aux | ( (df['Parameter'] == params)&(df['Method']==metodo) )
-            aux2 = aux2 | aux
+        data_frames = []
+        for per_fun in np.unique(df['Perf.Metric']):
+            dfaux = df[df['Perf.Metric']==per_fun].iloc[:,1::]
+            aux2 = np.zeros((dfaux.shape[0],),dtype=bool)
+            for metodo in self.methods_and_params_dic:
+                aux = np.zeros((dfaux.shape[0],),dtype=bool)
+                for params in self.methods_and_params_dic[metodo]:
+                    aux = aux | ( (dfaux['Parameter'] == params)&(dfaux['Method']==metodo) )
+                aux2 = aux2 | aux
+            
+            df2 = dfaux[aux2]
+            data_frames.append(df2)
         
-        df2 = df[aux2]
-        return df2
+        if len(data_frames)==1:
+            return data_frames[0]
+        else:
+            return data_frames
 
 
     def add_new_method(self, methods, parameters=None):
