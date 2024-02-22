@@ -628,6 +628,8 @@ class Benchmark:
         Returns:
             DataFrame: Returns a pandas DataFrame with the results.
         """
+        if list(self.results.keys())[0] in self.signal_ids:
+            self.results = {'perf_metric':self.results}
 
         if results is None:
             df = self.dic2df(self.results)
