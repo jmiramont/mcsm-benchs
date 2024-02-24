@@ -517,21 +517,27 @@ class Benchmark:
 
                             if self.task == 'inst_frequency':
                                 extrargs = {'tmin':self.tmin,'tmax':self.tmax}
-                                method_output = [[] for aaa in range(noisy_signals.shape[0])]                                
+                                # method_output = [[] for aaa in range(noisy_signals.shape[0])]             
+                                method_output = []                   
                             
                             if self.task == 'denoising':
                                 extrargs = {'tmin':self.tmin,'tmax':self.tmax}
-                                method_output = np.zeros_like(noisy_signals)
-
+                                # method_output = np.zeros_like(noisy_signals)
+                                method_output = []
                             if self.task == 'detection':
                                 extrargs = {}
-                                method_output = np.zeros((self.repetitions)).astype(bool)
-                                                         
+                                # method_output = np.zeros((self.repetitions)).astype(bool)
+                                method_output = []
+
+                            if self.task == 'misc':
+                                method_output = []
+
                             for idx, noisy_signal in enumerate(noisy_signals):
                                 # Get results from parallel computation
                                 if self.parallel_flag:  
                                     tmp, extime = parallel_results[k]
-                                    method_output[idx] = tmp
+                                    # method_output[idx] = tmp
+                                    method_output.append(tmp)
                                     # Save but DON'T TRUST the exec. time in parallel.
                                     elapsed.append(extime) 
                                     k += 1
@@ -541,7 +547,8 @@ class Benchmark:
                                     tmp, extime = self.inner_loop([method,
                                                         (args, kwargs), 
                                                         idx])        
-                                    method_output[idx] = tmp
+                                    # method_output[idx] = tmp
+                                    method_output.append(tmp)
                                     elapsed.append(extime)
                                     
                             # Either way, results are saved in a nested dictionary-----
