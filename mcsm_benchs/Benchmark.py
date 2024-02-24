@@ -356,6 +356,7 @@ class Benchmark:
                     'detection': self.detection_perf_function,
                     'component_denoising':self.compare_qrf_block,
                     'inst_frequency': self.compare_instf_block,
+                    'misc': None
                     }
         return compFuncs[task]    
 
