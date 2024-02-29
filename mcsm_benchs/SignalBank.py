@@ -396,7 +396,7 @@ class SignalBank:
         
         self.signalDict = dict()
         for i, signal_id in enumerate(signal_ids):
-            self.signalDict[signal_id] = getattr(self, fun_names[i])
+            self.signalDict[signal_id] = getattr(self, fun_names[i])()
         return self.signalDict
 
 

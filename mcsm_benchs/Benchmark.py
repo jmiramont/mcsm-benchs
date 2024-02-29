@@ -237,7 +237,7 @@ class Benchmark:
             for key in signal_ids:
                 s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
-                signal_dic[key] = lambda : Signal(s)
+                signal_dic[key] = Signal(s)
 
             self.signal_dic = signal_dic
             self.signal_ids = signal_ids
@@ -449,8 +449,8 @@ class Benchmark:
             if self.verbosity >= 1:
                 print('- Signal '+ signal_id)
 
-            self.base_signal = self.signal_dic[signal_id]()
-            self.base_signal_info = self.signal_dic[signal_id]().get_info()
+            self.base_signal = self.signal_dic[signal_id]
+            self.base_signal_info = self.signal_dic[signal_id].get_info()
             
             for SNR in self.SNRin:
                 if self.verbosity >= 2:
@@ -612,7 +612,7 @@ class Benchmark:
         a_copy = self
         a_copy.methods = {key:None for key in a_copy.methods}
         a_copy.base_signal = a_copy.base_signal.view(np.ndarray)
-        a_copy.signal_dic = []
+        # a_copy.signal_dic = []
         a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
         a_copy.objectiveFunction = []
         
