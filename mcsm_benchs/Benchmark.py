@@ -701,7 +701,7 @@ class Benchmark:
                 self.methods[key] = methods[key]
                 self.methods_ids.append(key)
                 self.parameters[key] = parameters[key]
-                self.elapsed_time[key]  = dict() 
+                # self.elapsed_time[key]  = dict() 
                 self.this_method_is_new[key] = True
 
         #Check both dictionaries have the same keys:
