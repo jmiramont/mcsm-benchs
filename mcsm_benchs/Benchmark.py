@@ -434,7 +434,7 @@ class Benchmark:
         else:
             # Add new methods to the dictionary of results
             print('- Rerun benchmark.')
-            print('-New methods',[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])
+            # print('-New methods',[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])
             
             for fun_name in self.objectiveFunction:
                 for signal_id in self.signal_ids:
