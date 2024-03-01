@@ -411,18 +411,9 @@ class Benchmark:
         # self.check_methods_output(method_output,noisy_signals) # Just checking if the output its valid.   
         
         return method_output, elapsed
-
-    def run_test(self):
-        """Run the benchmark.
-
-        Returns:
-            dict: Returns nested dictionaries with the results of the benchmark.
-        """
-        if self.verbosity > 0:
-            print('Running benchmark...')
-
-        # Dictionaries for the results. 
-        # This helps to express the results later using a DataFrame.
+    
+    def set_results_dict(self):
+        # If its a new benchmark...
         if self.results is None:
             self.results = dict()
             self.elapsed_time = dict()
@@ -440,9 +431,32 @@ class Benchmark:
                             self.elapsed_time[signal_id][method] = {}
                             # for param in self.parameters[method]:
                             #     self.results[signal_id][SNR][method][str(param)] = {}
-                                                
-            # The last level for results is the name of the objective function.         
-        
+        else:
+            # Add new methods to the dictionary of results
+            print('-New methods detected...')
+            for fun_name in self.objectiveFunction:
+                for signal_id in self.signal_ids:
+                    for SNR in self.SNRin:
+                        for method in self.methods:
+                            if method not in self.results[fun_name][signal_id][SNR].keys():
+                                print('--',method)
+                                self.results[fun_name][signal_id][SNR][method] = {}
+                                self.elapsed_time[signal_id][method] = {}
+
+
+    def run_test(self):
+        """Run the benchmark.
+
+        Returns:
+            dict: Returns nested dictionaries with the results of the benchmark.
+        """
+        if self.verbosity > 0:
+            print('Running benchmark...')
+
+
+        # If it is a new benchmark, create a nested dict() to save the results.
+        # If it is an old benchmark with new methods, create the new keys.
+        self.set_results_dict()
 
         # This run all the experiments and save the results in nested dictionaries.
         for signal_id in self.signal_ids:
