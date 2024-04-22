@@ -43,7 +43,7 @@ class Signal(np.ndarray):
 
     """
 
-    def __new__(subtype, array, instf=None, dtype=float, buffer=None, offset=0,
+    def __new__(subtype, array, instf=None, dtype=complex, buffer=None, offset=0,
                 strides=None, order=None):
 
         shape = array.shape

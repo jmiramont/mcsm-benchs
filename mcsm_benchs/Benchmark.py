@@ -3,6 +3,7 @@ from mcsm_benchs.SignalBank import SignalBank, Signal
 import pandas as pd
 import numbers
 import pickle
+from functools import partial
 import multiprocessing
 import time
 
@@ -237,7 +238,7 @@ class Benchmark:
             for key in signal_ids:
                 s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
-                signal_dic[key] = lambda : Signal(s)
+                signal_dic[key] = Signal(s)
 
             self.signal_dic = signal_dic
             self.signal_ids = signal_ids
@@ -451,8 +452,8 @@ class Benchmark:
             if self.verbosity >= 1:
                 print('- Signal '+ signal_id)
 
-            self.base_signal = self.signal_dic[signal_id]()
-            self.base_signal_info = self.signal_dic[signal_id]().get_info()
+            self.base_signal = self.signal_dic[signal_id]
+            self.base_signal_info = self.signal_dic[signal_id].get_info()
             
             for SNR in self.SNRin:
                 if self.verbosity >= 2:
@@ -713,7 +714,7 @@ class Benchmark:
             np.random.seed(0)
             noise_matrix = np.random.randn(self.repetitions,self.N)
             if self.complex_noise:
-                noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
+                noise_matrix = np.random.rand(self.repetitions,self.N)+ 1j*np.random.randn(self.repetitions,self.N)
 
         if callable(self.complex_noise):
             noise_matrix = np.random.randn(self.repetitions,self.N)
