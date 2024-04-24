@@ -396,7 +396,12 @@ class SignalBank:
         
         self.signalDict = dict()
         for i, signal_id in enumerate(signal_ids):
-            self.signalDict[signal_id] = getattr(self, fun_names[i])()
+            try:
+                self.signalDict[signal_id] = getattr(self, fun_names[i])()
+
+            except BaseException as err:
+                self.signalDict[signal_id] = None
+                
         return self.signalDict
 
 
