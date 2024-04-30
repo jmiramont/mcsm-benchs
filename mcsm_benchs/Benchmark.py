@@ -122,6 +122,13 @@ class Benchmark:
                 print("Number of processors: ", multiprocessing.cpu_count())    
                 print('Parallel pool: {}'.format(self.processes))
 
+    def __add__(self, other):
+        if isinstance(other, Benchmark):
+            return self.sum(self,other)
+        else:
+            raise TypeError("Unsupported operand type(s) for +: '{}' and '{}'".format(type(self), type(other)))
+
+
 
     def input_parsing(self, 
                     task, 
@@ -472,7 +479,8 @@ class Benchmark:
                 if self.verbosity >= 2:
                     print('-- SNR: {} dB'.format(SNR))
 
-                # If the benchmark has been run before, re-run again with the same noise.
+                # If the benchmark has been run before, 
+                # re-run again with the same noise.
                 if self.noise_matrix is None:
                     self.noise_matrix = self.generate_noise()
                             
@@ -630,7 +638,7 @@ class Benchmark:
         a_copy.base_signal = a_copy.base_signal.view(np.ndarray)
         # a_copy.signal_dic = []
         a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
-        a_copy.objectiveFunction = []
+        a_copy.objectiveFunction = {key:None for key in a_copy.objectiveFunction}
         
         if callable(a_copy.complex_noise):
             a_copy.complex_noise='NF'
@@ -757,8 +765,8 @@ class Benchmark:
 
         return noise_matrix
 
-    # Static methods:
 
+    # Static methods:
     @staticmethod    
     def load_benchmark(filename,**kwargs):
         with open(filename + '.pkl', 'rb') as f:
@@ -860,7 +868,56 @@ class Benchmark:
         return dict_output    
 
 
-"""Other functions
+    @staticmethod 
+    def sum(bench_a,bench_b):
+        assert bench_a.repetitions == bench_b.repetitions, 'Repetitions should be same in both benchmarks.'
+
+        assert bench_a.SNRin == bench_b.SNRin, 'SNRin should be the same in both benchmarks.'
+
+        assert bench_a.N == bench_b.N, 'N should be the same in both benchmarks.'
+
+        assert bench_a.Nsub == bench_b.Nsub, 'Nsub should be the same in both benchmarks.'
+
+        assert bench_a.signal_ids == bench_b.signal_ids, 'Signals must be the same in both benchmarks.'
+
+        assert [key for key in bench_a.objectiveFunction]==[key for key in bench_b.objectiveFunction], 'Benchmarks must use the same performance functions.'
+
+        bench_c = bench_a
+
+        # Transfer results
+        for fun_name in bench_c.objectiveFunction:
+            for SNR in bench_c.SNRin:
+                for signal_id in bench_c.signal_ids:
+                    for method in bench_b.methods:
+                        if method not in bench_c.methods.keys():
+                            # bench_c.methods[method] = bench_b.methods[method]
+                            # bench_c.methods_ids.append(method)
+                            # bench_c.parameters[method] = bench_b.parameters[method] 
+                            # bench_c.this_method_is_new[method] = False
+                            bench_c.results[fun_name][signal_id][SNR][method] = {}
+                            bench_c.elapsed_time[signal_id][method] = {}
+                            for params in bench_b.parameters[method]:
+                                bench_c.results[fun_name][signal_id][SNR][method][str(params)] = bench_b.results[fun_name][signal_id][SNR][method][str(params)]
+                                # bench_c.elapsed_time[signal_id][key][str(params)] = bench_b.elapsed_time[signal_id][key][str(params)]
+
+        for method in bench_b.methods:
+            if method not in bench_c.methods.keys():
+                bench_c.methods[method] = bench_b.methods[method]
+                bench_c.methods_ids.append(method)
+                bench_c.parameters[method] = bench_b.parameters[method] 
+                bench_c.this_method_is_new[method] = False
+                bench_c.methods_and_params_dic[method] = bench_b.methods_and_params_dic[method]
+        return bench_c
+""" 
+----------------------------------------------------------------------------------------
+END OF BENCHMARK CLASS DEFINITION
+----------------------------------------------------------------------------------------
+"""
+
+"""
+----------------------------------------------------------------------------------------
+Other functions
+----------------------------------------------------------------------------------------
 """
 
 def mse(x, xest):
