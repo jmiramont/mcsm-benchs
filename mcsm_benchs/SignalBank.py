@@ -841,7 +841,7 @@ class SignalBank:
     #     self.check_inst_freq(if0)
     #     phase0 = np.cumsum(if0)
     #     x0 = np.zeros_like(signal)
-    #     x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.tukey(len(phase0),0.25)
+    #     x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.windows.tukey(len(phase0),0.25)
     #     instf0[tmin:tmin+len(if0)] = if0
     #     chirp1 = Signal(x0, instf=instf0)
         
@@ -978,7 +978,7 @@ class SignalBank:
         # phase1 = np.cumsum(instf1)
         # phase2 = np.cumsum(instf2)
         # x = np.cos(2*pi*phase1) + np.cos(2*pi*phase2)
-        # x = x*sg.tukey(Nsub,0.25)     
+        # x = x*sg.windows.tukey(Nsub,0.25)     
         # signal = np.zeros((N,))
         # signal[tmin:tmax] = x
 
@@ -1028,7 +1028,7 @@ class SignalBank:
         # phase2 = np.cumsum(instf2)
         # phase3 = np.cumsum(instf3)
         # x = np.cos(2*pi*phase1) + np.cos(2*pi*phase2) + np.cos(2*pi*phase3)
-        # x = x*sg.tukey(Nsub,0.25)     
+        # x = x*sg.windows.tukey(Nsub,0.25)     
         # signal = np.zeros((N,))
         # signal[tmin:tmax] = x
 
@@ -1119,9 +1119,9 @@ class SignalBank:
         x1 = np.zeros_like(signal)
         x2 = np.zeros_like(signal)
 
-        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.tukey(len(phase0),0.25)
-        x1[tmin:tmin+len(phase1)] = np.cos(2*pi*phase1)*sg.tukey(len(phase1),0.25) 
-        x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.tukey(len(phase2),0.25) 
+        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.windows.tukey(len(phase0),0.25)
+        x1[tmin:tmin+len(phase1)] = np.cos(2*pi*phase1)*sg.windows.tukey(len(phase1),0.25) 
+        x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.windows.tukey(len(phase2),0.25) 
 
         instf0[tmin:tmin+len(if0)] = if0
         instf1[tmin:tmin+len(if1)] = if1
@@ -1171,7 +1171,7 @@ class SignalBank:
         instf1 = (m*(t-t_init) + f_init)*rect_window(N,t_init,t_init+tt)
         phase1 = np.cumsum(instf1)
         x1 = np.cos(2*pi*phase1)*rect_window(N,t_init,t_init+tt)
-        x1[t_init:t_init+tt]*=sg.tukey(tt,0.4)
+        x1[t_init:t_init+tt]*=sg.windows.tukey(tt,0.4)
 
         c = 1/tt/10
         prec = 1e-1 # Precision at sample N for the envelope.
@@ -1184,17 +1184,17 @@ class SignalBank:
         instf2 = (m*(t-t_init) + f_init)*rect_window(N,t_init,t_init+tt)
         phase2 = np.cumsum(instf2)
         x2 = np.cos(2*pi*phase2)*rect_window(N,t_init,t_init+tt)
-        x2[t_init:t_init+tt]*=sg.tukey(tt,0.25)*e
+        x2[t_init:t_init+tt]*=sg.windows.tukey(tt,0.25)*e
 
         t_init += tt//2
         instf3 = (m*(t-t_init) + f_init)*rect_window(N,t_init,t_init+tt)
         phase3 = np.cumsum(instf3)
         x3 = np.cos(2*pi*phase3)*rect_window(N,t_init,t_init+tt)
-        x3[t_init:t_init+tt]*=sg.tukey(tt,0.25)*e[-1::-1]
+        x3[t_init:t_init+tt]*=sg.windows.tukey(tt,0.25)*e[-1::-1]
 
 
         x4 = np.cos(2*pi*fmin*np.ones((N,))*t)*rect_window(N,tmin,tmax)
-        x4[tmin:tmax] *= sg.tukey(Nsub,0.75)
+        x4[tmin:tmax] *= sg.windows.tukey(Nsub,0.75)
         instf4 = fmin*np.ones((N,))
 
         signal = (Signal(x1, instf=instf1) 
@@ -1248,7 +1248,7 @@ class SignalBank:
         if2 = if2[np.where(if2<fmax)]    
         phase2 = np.cumsum(if2)
         x2 = np.zeros_like(signal)
-        x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.tukey(len(phase2),0.25) 
+        x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.windows.tukey(len(phase2),0.25) 
         instf2[tmin:tmin+len(if2)] = if2
 
         tmin = 12*self.tmin
@@ -1262,7 +1262,7 @@ class SignalBank:
         if3 = if3[np.where(if3<fmax)]    
         phase3 = np.cumsum(if3)
         x3 = np.zeros_like(signal)
-        x3[tmin:tmin+len(phase3)] = np.cos(2*pi*phase3)*sg.tukey(len(phase3),0.25) 
+        x3[tmin:tmin+len(phase3)] = np.cos(2*pi*phase3)*sg.windows.tukey(len(phase3),0.25) 
         instf3[tmin:tmin+len(if3)] = if3
 
 
@@ -1374,7 +1374,7 @@ class SignalBank:
             instf1[t_init:t_init+tt] = (e*fmin*0.9**i+i*fmin+0.05)
             phase1 = np.cumsum(instf1)
             x1 = 0.9**(i-1)*np.cos(2*pi*phase1)*rect_window(N,t_init,t_init+tt)
-            x1[t_init:t_init+tt]*=sg.tukey(tt,0.25)
+            x1[t_init:t_init+tt]*=sg.windows.tukey(tt,0.25)
             signal = signal + Signal(x1, instf=instf1)
         
         t_init += int(1.01*tt)
@@ -1384,7 +1384,7 @@ class SignalBank:
             instf1[t_init:t_init+tt] = (e*fmin*0.9+i*fmin+0.03)
             phase1 = np.cumsum(instf1)
             x1 = 0.8**(i-1)*np.cos(2*pi*phase1)*rect_window(N,t_init,t_init+tt)
-            x1[t_init:t_init+tt]*=sg.tukey(tt,0.5)
+            x1[t_init:t_init+tt]*=sg.windows.tukey(tt,0.5)
             signal = signal + Signal(x1, instf=instf1)
 
         if not self.return_signal:
@@ -1697,9 +1697,9 @@ class SignalBank:
         e[0] = 0
         e = e/np.max(np.abs(e))
 
-        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.tukey(len(phase0),0.25)
-        x1[tmin:tmin+len(phase1)] = np.cos(2*pi*phase1)*sg.tukey(len(phase1),0.25) 
-        # x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.tukey(len(phase2),0.25) 
+        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.windows.tukey(len(phase0),0.25)
+        x1[tmin:tmin+len(phase1)] = np.cos(2*pi*phase1)*sg.windows.tukey(len(phase1),0.25) 
+        # x2[tmin:tmin+len(phase2)] = np.cos(2*pi*phase2)*sg.windows.tukey(len(phase2),0.25) 
 
         instf0[tmin:tmin+len(if0)] = if0
         instf1[tmin:tmin+len(if1)] = if1
@@ -1749,8 +1749,8 @@ class SignalBank:
 
         a1 = 0.5 + 0.3*np.cos(1.3*pi*omega*tsub/Nsub - pi*omega)
 
-        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.tukey(len(phase0),0.25)
-        x1[tmin:tmin+len(phase1)] = a1*np.cos(2*pi*phase1)*sg.tukey(len(phase1),0.25) 
+        x0[tmin:tmin+len(phase0)] = np.cos(2*pi*phase0)*sg.windows.tukey(len(phase0),0.25)
+        x1[tmin:tmin+len(phase1)] = a1*np.cos(2*pi*phase1)*sg.windows.tukey(len(phase1),0.25) 
 
         instf0[tmin:tmin+len(if0)] = if0
         instf1[tmin:tmin+len(if1)] = if1
