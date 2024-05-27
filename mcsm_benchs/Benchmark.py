@@ -5,6 +5,7 @@ import numbers
 import pickle
 from functools import partial
 import multiprocessing
+from parallelbar import progress_map
 import time
 
 from numpy import mean, abs 
@@ -492,7 +493,7 @@ class Benchmark:
 
                     # Here implement the parallel stuff
                     pool = multiprocessing.Pool(processes=self.processes) 
-                    parallel_results = pool.map(self.inner_loop, parallel_list) 
+                    parallel_results = progress_map(self.inner_loop, parallel_list) 
                     pool.close() 
                     pool.join()
                     if self.verbosity >= 1:    
