@@ -43,16 +43,22 @@ class Signal(np.ndarray):
 
     """
 
-    def __new__(subtype, array, instf=None, dtype=complex, buffer=None, offset=0,
+    def __new__(subtype, array, instf=None, buffer=None, offset=0,
                 strides=None, order=None):
 
+        dtype=array.dtype
         shape = array.shape
         # Create the ndarray instance of our type, given the usual
         # ndarray input arguments.  This will call the standard
         # ndarray constructor, but return an object of our type.
         # It also triggers a call to InfoArray.__array_finalize__
-        obj = super().__new__(subtype, shape, dtype,
-                              buffer, offset, strides, order)
+        obj = super().__new__(subtype, 
+                              shape, 
+                              dtype,
+                              buffer, 
+                              offset, 
+                              strides, 
+                              order)
         # set the new 'info' attribute to the value passed
         
         if len(array)==1:
@@ -1197,7 +1203,7 @@ class SignalBank:
         c = 1/tt/10
         prec = 1e-1 # Precision at sample N for the envelope.
         alfa = -np.log(prec*tt/((tt-c)**2))/tt
-        e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+        e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/(np.arange(tt)+1e-15))
         e[0] = 0
         e /= np.max(e)
 
@@ -1385,7 +1391,7 @@ class SignalBank:
         c = 1/tt/10
         prec = 1e-1 # Precision at sample N for the envelope.
         alfa = -np.log(prec*tt/((tt-c)**2))/tt
-        e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+        e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/(np.arange(tt)+1e-15))
         e[0] = 0
         e /= np.max(e)
 
