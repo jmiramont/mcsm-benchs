@@ -124,10 +124,15 @@ class Signal(np.ndarray):
         for i, input_ in enumerate(inputs):
             # args.append(input_)
             if isinstance(input_, Signal):
-                args.append(input_.view(np.ndarray))
+                aux = input_.view(np.ndarray)
+                if len(aux)==1:
+                    aux = aux[0]
+
+                args.append(aux)
             else:
                 args.append(input_)
-        results = super().__array_ufunc__(ufunc, method, *args, **kwargs)
+
+        results = super().__array_ufunc__(ufunc, method, *tuple(args), **kwargs)
 
         if isinstance(results, np.ndarray): # and ufunc.__name__ =='__add__':
                results = results.view(Signal)
@@ -136,10 +141,26 @@ class Signal(np.ndarray):
                for ip in [a_signal for a_signal in inputs if isinstance(a_signal,Signal)]:
                     for cp, instf in zip([*ip.comps],[*ip.instf]):
                         results.add_comp(cp, instf=instf)
-                    
-                    # results.total_comps += ip.total_comps 
+
         return results
     
+    # Other functions from numpy.ndarray that we need.
+    #TODO: Generalize these methods on one super() based function. 
+    def std(self, axis, dtype, out, ddof, **kwargs):
+        return self.view(np.ndarray).std(axis=axis, 
+                                         dtype=dtype, 
+                                         out=out, 
+                                         ddof=ddof,
+                                         **kwargs)
+
+    def var(self, axis, dtype, out, ddof, **kwargs):
+        return self.view(np.ndarray).var(axis=axis, 
+                                         dtype=dtype, 
+                                         out=out, 
+                                         ddof=ddof,
+                                         **kwargs)
+
+
     # def __add__(self,x):
     #     obj = super().__add__(x)
 
