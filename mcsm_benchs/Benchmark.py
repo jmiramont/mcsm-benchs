@@ -3,7 +3,9 @@ from mcsm_benchs.SignalBank import SignalBank, Signal
 import pandas as pd
 import numbers
 import pickle
+from functools import partial
 import multiprocessing
+from parallelbar import progress_map
 import time
 
 from numpy import mean, abs 
@@ -513,7 +515,7 @@ class Benchmark:
 
                     # Here implement the parallel stuff
                     pool = multiprocessing.Pool(processes=self.processes) 
-                    parallel_results = pool.map(self.inner_loop, parallel_list) 
+                    parallel_results = progress_map(self.inner_loop, parallel_list) 
                     pool.close() 
                     pool.join()
                     if self.verbosity >= 1:    
@@ -756,7 +758,7 @@ class Benchmark:
             np.random.seed(0)
             noise_matrix = np.random.randn(self.repetitions,self.N)
             if self.complex_noise:
-                noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
+                noise_matrix = np.random.rand(self.repetitions,self.N)+ 1j*np.random.randn(self.repetitions,self.N)
 
         if callable(self.complex_noise):
             noise_matrix = np.random.randn(self.repetitions,self.N)
