@@ -1619,6 +1619,24 @@ files = [
 ]
 
 [[package]]
+name = "parallelbar"
+version = "2.4"
+description = "Parallel processing with progress bars"
+optional = false
+python-versions = "*"
+files = [
+    {file = "parallelbar-2.4-py3-none-any.whl", hash = "sha256:8e0153cd5f0b5b43da3df14089d3ba0e08345347baf42295d9ad1fa5388ea0b6"},
+    {file = "parallelbar-2.4.tar.gz", hash = "sha256:63453b7016515d2e26e1a532b484ba94c6208d147494eeb1e2a623b4b561c197"},
+]
+
+[package.dependencies]
+colorama = "*"
+tqdm = "*"
+
+[package.extras]
+dill = ["dill"]
+
+[[package]]
 name = "parso"
 version = "0.8.4"
 description = "A Python Parser"
@@ -2771,6 +2789,26 @@ files = [
 ]
 
 [[package]]
+name = "tqdm"
+version = "4.66.4"
+description = "Fast, Extensible Progress Meter"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tqdm-4.66.4-py3-none-any.whl", hash = "sha256:b75ca56b413b030bc3f00af51fd2c1a1a5eac6a0c1cca83cbb37a5c52abce644"},
+    {file = "tqdm-4.66.4.tar.gz", hash = "sha256:e4d936c9de8727928f3be6079590e97d9abfe8d39a590be678eb5919ffc186bb"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[package.extras]
+dev = ["pytest (>=6)", "pytest-cov", "pytest-timeout", "pytest-xdist"]
+notebook = ["ipywidgets (>=6)"]
+slack = ["slack-sdk"]
+telegram = ["requests"]
+
+[[package]]
 name = "traitlets"
 version = "5.14.3"
 description = "Traitlets Python configuration system"
@@ -2864,4 +2902,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "73b44abd6d944639f4a0e463acd911f34bd71247723b653eff614c210ea7975c"
+content-hash = "3e98da537a4ce43ae06c4f5ecd3978e43d44187c8c143e4f6c734c36e661b01e"
