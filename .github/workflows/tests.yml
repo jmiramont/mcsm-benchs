@@ -44,7 +44,7 @@ jobs:
         # run: poetry run pytest
 
       - name: Run tests and collect coverage
-        run: poetry run pytest --cov app ${{ env.CODECOV_ATS_TESTS }}
+        run: poetry run pytest --cov ${{ env.CODECOV_ATS_TESTS }}
         
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.0.1
