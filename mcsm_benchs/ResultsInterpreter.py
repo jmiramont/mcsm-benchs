@@ -36,7 +36,7 @@ class ResultsInterpreter:
 
 # --------------------------------------------------------------------------------------
 
-    def get_benchmark_as_data_frame(self):
+    def get_benchmark_as_data_frame(self,idx=0):
         """Returns a DataFrame with the raw data produced by the benchmark with the 
         following format:
             -------------------------------------------------------------------------
@@ -46,12 +46,15 @@ class ResultsInterpreter:
         Returns:
             DataFrame: Raw data of the comparisons. 
         """
+        df = self.benchmark.get_results_as_df()
+        if type(df)==list:
+            df = df[idx]
 
-        return self.benchmark.get_results_as_df()
+        return df 
 
 # --------------------------------------------------------------------------------------
 
-    def rearrange_data_frame(self, results=None):
+    def rearrange_data_frame(self, results=None, idx=0):
         """Rearrange DataFrame table for using Seaborn library. 
 
         Args:
@@ -65,6 +68,8 @@ class ResultsInterpreter:
         """
         if results is None:
             df = self.benchmark.get_results_as_df()
+            if type(df)==list:
+                df = df[idx]            
         else:
             df = results
 
@@ -87,7 +92,7 @@ class ResultsInterpreter:
 
 # --------------------------------------------------------------------------------------
 
-    def get_df_means(self,df=None):
+    def get_df_means(self,df=None,idx=0):
         """ Generates a DataFrame of mean results to .md file. 
 
         Returns:
@@ -97,6 +102,8 @@ class ResultsInterpreter:
             # filename = 'results'
         if df is None:
             df = self.benchmark.get_results_as_df()
+            if type(df)==list:
+                df = df[idx]
 
         # Check if matrix values are bools:
         aux = df.iloc[:,4::].to_numpy()
@@ -153,7 +160,7 @@ class ResultsInterpreter:
 
 #---------------------------------------------------------------------------------------
 
-    def get_df_std(self, df=None, varfun='std'):
+    def get_df_std(self, df=None, varfun='std', idx=0):
         """ Generates a DataFrame of std results to .md file. 
 
         Returns:
@@ -167,6 +174,8 @@ class ResultsInterpreter:
 
         if df is None:
             df = self.benchmark.get_results_as_df()
+            if type(df)==list:
+                df = df[idx]            
 
         # Check if matrix values are bools:
         aux = df.iloc[:,4::].to_numpy()
@@ -222,7 +231,7 @@ class ResultsInterpreter:
         return df_std, df_std_minus
 
 # --------------------------------------------------------------------------------------
-    def get_table_means_and_std(self, link='', pm_name=None):
+    def get_table_means_and_std(self, link='', pm_name=None, idx=0):
         """ Generates a table of mean and std results to .md file. 
         Highlights the best results.
 
@@ -231,6 +240,9 @@ class ResultsInterpreter:
         """
         task = self.benchmark.task
         df = self.benchmark.get_results_as_df()
+        if type(df)==list:
+            df = df[idx]
+
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
 
@@ -557,7 +569,8 @@ class ResultsInterpreter:
                             bars=True, 
                             difference=False, 
                             varfun='std', 
-                            ylabel=None):
+                            ylabel=None,
+                            idx=0):
         """ Generates interactive plots with plotly.
         
             Returns:
@@ -566,6 +579,8 @@ class ResultsInterpreter:
   
         if df is None:
             df = self.benchmark.get_results_as_df()
+            if type(df)==list:
+                df = df[idx]
 
         if difference:
             for col in df.columns.values[4::]:
@@ -622,13 +637,15 @@ class ResultsInterpreter:
 
         return figs
     
-    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std', ylabel=None):
+    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std', ylabel=None,idx=0):
         """
         Generate .html interactive plots files with plotly
         #TODO Make this change with the github user!
         """
         if df is None:
             df = self.benchmark.get_results_as_df()
+            if type(df)==list:
+                df = df[idx]
 
         figs = self.get_summary_plotlys(df=df, 
                                         bars=bars, 
@@ -652,7 +669,7 @@ class ResultsInterpreter:
 
         return True
 
-    def get_csv_files(self,path):
+    def get_csv_files(self,path,idx=0):
         """ Generates a table of mean results to .md file. 
         Saves a .csv file with the results per signal.
         Finally, generates an .html file with interactive plots.
@@ -662,6 +679,9 @@ class ResultsInterpreter:
         """
 
         df = self.benchmark.get_results_as_df()
+        if type(df)==list:
+                df = df[idx]
+
         for signal_id in self.signal_ids:
             # Generate DataFrame with only signal information
             df2 = df[df['Signal_id']==signal_id]
@@ -689,9 +709,10 @@ class ResultsInterpreter:
         mydict = self.benchmark.elapsed_time
         auxdic = {}
 
-        for k in mydict:
-            for k2 in mydict[k]:
-                auxdic[k+'-'+k2] = pd.DataFrame(mydict[k][k2])
+        for signal_id in mydict:
+            for k in mydict[signal_id]:
+                for k2 in mydict[signal_id][k]:
+                    auxdic[signal_id +'-'+k+'-'+k2] = pd.DataFrame(mydict[signal_id][k][k2])
 
         df3 = pd.concat(auxdic,axis = 0)
         df3 = df3.reset_index()
@@ -706,38 +727,3 @@ class ResultsInterpreter:
         df.columns=('Mean','Std')
 
         return df
-    
-
-    # def get_snr_plot2(self, df, x=None, y=None, hue=None, axis = None):
-    #     """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
-    #     computed as: 
-    #     QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]
-    #     where x is the noiseless signal and x_r is de denoised estimation of x.
-
-    #     Args:
-    #         df (DataFrame): DataFrame with the results of the simulation.
-    #         x (str, optional): Column name to use as the horizontal axis. 
-    #         Defaults to None.
-    #         y (str, optional): Column name to use as the vertical axis. 
-    #         Defaults to None.
-    #         hue (str, optional): Column name with the methods' name. Defaults to None.
-    #         axis (matplotlib.Axes, optional): The axis object where the plot will be 
-    #         generated. Defaults to None.
-    #     """
-
-
-
-    #     markers = ['o','d','s','*']
-    #     line_style = ['--' for i in self.methods_ids]
-    #     sns.pointplot(x="SNRin", y="QRF", hue="Method",
-    #                 capsize=0.15, height=10, aspect=1.0, dodge=0.5,
-    #                 kind="point", data=df, errwidth = 0.7,
-    #                 ax = axis) #linestyles=line_style,
-
-    #     axis.set_xlabel('SNRin (dB)')
-
-    #     if self.benchmark.task == 'denoising':
-    #         axis.set_ylabel('QRF (dB)')
-        
-    #     if self.benchmark.task == 'detection':
-    #         axis.set_ylabel('Detection Power')

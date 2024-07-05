@@ -3,7 +3,9 @@ from mcsm_benchs.SignalBank import SignalBank, Signal
 import pandas as pd
 import numbers
 import pickle
+from functools import partial
 import multiprocessing
+from parallelbar import progress_map
 import time
 
 from numpy import mean, abs 
@@ -122,6 +124,13 @@ class Benchmark:
                 print("Number of processors: ", multiprocessing.cpu_count())    
                 print('Parallel pool: {}'.format(self.processes))
 
+    def __add__(self, other):
+        if isinstance(other, Benchmark):
+            return self.sum(self,other)
+        else:
+            raise TypeError("Unsupported operand type(s) for +: '{}' and '{}'".format(type(self), type(other)))
+
+
 
     def input_parsing(self, 
                     task, 
@@ -237,7 +246,7 @@ class Benchmark:
             for key in signal_ids:
                 s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
-                signal_dic[key] = lambda : Signal(s)
+                signal_dic[key] = Signal(s)
 
             self.signal_dic = signal_dic
             self.signal_ids = signal_ids
@@ -301,27 +310,22 @@ class Benchmark:
         # Check objective function
         # Set the default performance function according to the selected task
         if obj_fun is None:
-            self.objectiveFunction = self.set_objective_function(task)
+            self.objectiveFunction = {'perf_metric':self.set_objective_function(task),}
         else:
             if callable(obj_fun):
-                self.objectiveFunction = obj_fun
+                self.objectiveFunction = {'obj_fun':obj_fun,}
             else:
-                raise ValueError("'obj_fun' should be a callable object.\n")
+                if type(obj_fun) is dict:
+                    self.objectiveFunction = obj_fun    
+                else:
+                    raise ValueError("'obj_fun' should be a callable object or a dictionary.\n")
             
         #TODO Check this list of attribute initialization
         # Extra arguments may be passed when opening a saved benchmark:
         if kwargs == {}:
             # If we are here, this is a new benchmark, so the all the methods are new:
             self.this_method_is_new = {method:True for method in self.methods_ids}
-            # self.task = None
-            # self.methods = None
-            # self.N = None
-            # self.Nsub = None
-            # self.repetitions = None
-            # self.SNRin = None
             self.results = None
-            # self.verbosity = None
-            # self.complex_noise = None
             self.noise_matrix = None
             self.methods_and_params_dic = dict()
         
@@ -361,6 +365,7 @@ class Benchmark:
                     'detection': self.detection_perf_function,
                     'component_denoising':self.compare_qrf_block,
                     'inst_frequency': self.compare_instf_block,
+                    'misc': None
                     }
         return compFuncs[task]    
 
@@ -415,6 +420,40 @@ class Benchmark:
         # self.check_methods_output(method_output,noisy_signals) # Just checking if the output its valid.   
         
         return method_output, elapsed
+    
+    def set_results_dict(self):
+        # If its a new benchmark...
+        if self.results is None:
+            self.results = dict()
+            self.elapsed_time = dict()
+
+            # Create nested dictionary for results and elapsed time:
+            for fun_name in self.objectiveFunction:
+                self.results[fun_name]={}
+                for signal_id in self.signal_ids:
+                    self.results[fun_name][signal_id] = {}
+                    self.elapsed_time[signal_id] = {}
+                    for SNR in self.SNRin:
+                        self.results[fun_name][signal_id][SNR] = {}
+                        for method in self.methods:
+                            self.results[fun_name][signal_id][SNR][method] = {}
+                            self.elapsed_time[signal_id][method] = {}
+                            # for param in self.parameters[method]:
+                            #     self.results[signal_id][SNR][method][str(param)] = {}
+        else:
+            # Add new methods to the dictionary of results
+            print('- Rerun benchmark.')
+            # print('-New methods',[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])
+            
+            for fun_name in self.objectiveFunction:
+                for signal_id in self.signal_ids:
+                    for SNR in self.SNRin:
+                        for method in self.methods:
+                            if method not in self.results[fun_name][signal_id][SNR].keys():
+                                # print('-- New Method',method)
+                                self.results[fun_name][signal_id][SNR][method] = {}
+                                self.elapsed_time[signal_id][method] = {}
+
 
     def run_test(self):
         """Run the benchmark.
@@ -425,40 +464,25 @@ class Benchmark:
         if self.verbosity > 0:
             print('Running benchmark...')
 
-        # Dictionaries for the results. This helps to express the results later using a DataFrame.
-        if self.results is None:
-            self.results = dict()
-            self.elapsed_time = dict()
 
-            # Create dictionary tree:
-            for signal_id in self.signal_ids: 
-                SNR_dic = dict()
-                for SNR in self.SNRin:
-                    method_dic = dict()
-                    for method in self.methods:
-                        params_dic = dict()
-                        # for params in self.parameters[method]:
-                        #     params_dic[str(params)] = 'Deep' 
-                        method_dic[method] = params_dic
-                        self.elapsed_time[method]  = params_dic                     
-
-                    SNR_dic[SNR] = method_dic
-                self.results[signal_id] = SNR_dic        
-        
+        # If it is a new benchmark, create a nested dict() to save the results.
+        # If it is an old benchmark with new methods, create the new keys.
+        self.set_results_dict()
 
         # This run all the experiments and save the results in nested dictionaries.
         for signal_id in self.signal_ids:
             if self.verbosity >= 1:
                 print('- Signal '+ signal_id)
 
-            self.base_signal = self.signal_dic[signal_id]()
-            self.base_signal_info = self.signal_dic[signal_id]().get_info()
+            self.base_signal = self.signal_dic[signal_id]
+            self.base_signal_info = self.signal_dic[signal_id].get_info()
             
             for SNR in self.SNRin:
                 if self.verbosity >= 2:
                     print('-- SNR: {} dB'.format(SNR))
 
-                # If the benchmark has been run before, re-run again with the same noise.
+                # If the benchmark has been run before, 
+                # re-run again with the same noise.
                 if self.noise_matrix is None:
                     self.noise_matrix = self.generate_noise()
                             
@@ -491,7 +515,7 @@ class Benchmark:
 
                     # Here implement the parallel stuff
                     pool = multiprocessing.Pool(processes=self.processes) 
-                    parallel_results = pool.map(self.inner_loop, parallel_list) 
+                    parallel_results = progress_map(self.inner_loop, parallel_list) 
                     pool.close() 
                     pool.join()
                     if self.verbosity >= 1:    
@@ -503,7 +527,6 @@ class Benchmark:
                 for method in self.methods:
                     
                     if self.this_method_is_new[method]:
-                        params_dic = dict()
                         if self.verbosity >= 3:
                             print('--- Method: '+ method)                    
 
@@ -521,59 +544,70 @@ class Benchmark:
 
                             if self.task == 'inst_frequency':
                                 extrargs = {'tmin':self.tmin,'tmax':self.tmax}
-                                method_output = [[] for aaa in range(noisy_signals.shape[0])]                                
+                                # method_output = [[] for aaa in range(noisy_signals.shape[0])]             
+                                method_output = []                   
                             
                             if self.task == 'denoising':
                                 extrargs = {'tmin':self.tmin,'tmax':self.tmax}
-                                method_output = np.zeros_like(noisy_signals)
-
+                                # method_output = np.zeros_like(noisy_signals)
+                                method_output = []
                             if self.task == 'detection':
                                 extrargs = {}
-                                method_output = np.zeros((self.repetitions)).astype(bool)
-                                                         
+                                # method_output = np.zeros((self.repetitions)).astype(bool)
+                                method_output = []
+
+                            if self.task == 'misc':
+                                method_output = []
+
                             for idx, noisy_signal in enumerate(noisy_signals):
-                                if self.parallel_flag:  # Get results from parallel...
+                                # Get results from parallel computation
+                                if self.parallel_flag:  
                                     tmp, extime = parallel_results[k]
-                                    method_output[idx] = tmp
+                                    # method_output[idx] = tmp
+                                    method_output.append(tmp)
                                     # Save but DON'T TRUST the exec. time in parallel.
                                     elapsed.append(extime) 
-                                    k += 1     
-                                else:                   # Or from serial computation.
-                                    
+                                    k += 1
+
+                                # Or from serial computation         
+                                else:  
                                     tmp, extime = self.inner_loop([method,
                                                         (args, kwargs), 
                                                         idx])        
-                                    method_output[idx] = tmp
+                                    # method_output[idx] = tmp
+                                    method_output.append(tmp)
                                     elapsed.append(extime)
                                     
-                            # Either way, results are saved in a nested dictionary.
-                            result = []
-                            for i,output in enumerate(method_output):
-                                # Computing perf metric---------------------------------------
-                                try:
-                                    perf_met_output = self.objectiveFunction(self.base_signal,
-                                                               output,
-                                                               tmin=self.tmin,
-                                                               tmax=self.tmax,
-                                                               scaled_noise=scaled_noise[i]
-                                                                )
+                            # Either way, results are saved in a nested dictionary-----
+                            # For each performance metric
+                            for fun_name in self.objectiveFunction:
+                                result = []    
+                                for i,output in enumerate(method_output):
+                                    try:
+                                        fun = self.objectiveFunction[fun_name]
+                                        perf_met_output = fun(
+                                                        self.base_signal,
+                                                        output,
+                                                        tmin=self.tmin,
+                                                        tmax=self.tmax,
+                                                        scaled_noise=scaled_noise[i]
+                                                            )
     
-                                except BaseException as err:
-                                    print(f"Unexpected error {err=}, {type(err)=} while applying performance metric. Watch out for NaN values.")
-                                    perf_met_output = np.nan
+                                    except BaseException as err:
+                                        print(f"Unexpected error {err=}, {type(err)=} while applying performance metric:{fun_name}. Watch out for NaN values.")
+                                        perf_met_output = np.nan
                                     
-                                result.append(perf_met_output)
+                                    result.append(perf_met_output)
 
-                            # Saving results ------------------------------------------------
-                            
-                            params_dic[str(params)] = result                        
-                            self.elapsed_time[method][str(params)] = elapsed
+                                # Saving results -----------
+                                self.results[fun_name][signal_id][SNR][method][str(params)] = result
+                                self.elapsed_time[signal_id][method][str(params)] = elapsed
 
                             if self.verbosity > 4:
                                 print('Elapsed:{}'.format(np.mean(elapsed)))                    
 
-                        self.results[signal_id][SNR][method] = params_dic
-                        self.methods_and_params_dic[method] = [key for key in params_dic] 
+
+                        self.methods_and_params_dic[method] = [str(key) for key in self.parameters[method]] 
 
 
         if self.verbosity > 0:
@@ -604,9 +638,9 @@ class Benchmark:
         a_copy = self
         a_copy.methods = {key:None for key in a_copy.methods}
         a_copy.base_signal = a_copy.base_signal.view(np.ndarray)
-        a_copy.signal_dic = []
+        # a_copy.signal_dic = []
         a_copy.noisy_signals = a_copy.noisy_signals.view(np.ndarray) 
-        a_copy.objectiveFunction = []
+        a_copy.objectiveFunction = {key:None for key in a_copy.objectiveFunction}
         
         if callable(a_copy.complex_noise):
             a_copy.complex_noise='NF'
@@ -628,27 +662,38 @@ class Benchmark:
         Returns:
             DataFrame: Returns a pandas DataFrame with the results.
         """
+        if list(self.results.keys())[0] in self.signal_ids:
+            self.results = {'perf_metric':self.results}
+
         if results is None:
             df = self.dic2df(self.results)
         else:
-            df = self.dic2df(self.results)
+            df = self.dic2df(results)
 
         df = pd.concat({param: df[param] for param in df.columns})
-        df = df.unstack(level=2)
+        df = df.unstack(level=3)
         df = df.reset_index()
-        df.columns = pd.Index(['Parameter','Signal_id', 'Method', 'Repetition'] + self.SNRin)
-        df=df.reindex(columns=['Method', 'Parameter','Signal_id', 'Repetition'] + self.SNRin)
+        df.columns = pd.Index(['Parameter','Perf.Metric','Signal_id', 'Method', 'Repetition'] + self.SNRin)
+        df=df.reindex(columns=['Perf.Metric','Method', 'Parameter','Signal_id', 'Repetition'] + self.SNRin)
         df = df.sort_values(by=['Method', 'Parameter','Signal_id'])
 
-        aux2 = np.zeros((df.shape[0],))
-        for metodo in self.methods_and_params_dic:
-            aux = np.zeros((df.shape[0],))
-            for params in self.methods_and_params_dic[metodo]:
-                aux = aux | ( (df['Parameter'] == params)&(df['Method']==metodo) )
-            aux2 = aux2 | aux
+        data_frames = []
+        for per_fun in np.unique(df['Perf.Metric']):
+            dfaux = df[df['Perf.Metric']==per_fun].iloc[:,1::]
+            aux2 = np.zeros((dfaux.shape[0],),dtype=bool)
+            for metodo in self.methods_and_params_dic:
+                aux = np.zeros((dfaux.shape[0],),dtype=bool)
+                for params in self.methods_and_params_dic[metodo]:
+                    aux = aux | ( (dfaux['Parameter'] == params)&(dfaux['Method']==metodo) )
+                aux2 = aux2 | aux
+            
+            df2 = dfaux[aux2]
+            data_frames.append(df2)
         
-        df2 = df[aux2]
-        return df2
+        if len(data_frames)==1:
+            return data_frames[0]
+        else:
+            return data_frames
 
 
     def add_new_method(self, methods, parameters=None):
@@ -668,7 +713,7 @@ class Benchmark:
                 self.methods[key] = methods[key]
                 self.methods_ids.append(key)
                 self.parameters[key] = parameters[key]
-                self.elapsed_time[key]  = dict() 
+                # self.elapsed_time[key]  = dict() 
                 self.this_method_is_new[key] = True
 
         #Check both dictionaries have the same keys:
@@ -713,7 +758,7 @@ class Benchmark:
             np.random.seed(0)
             noise_matrix = np.random.randn(self.repetitions,self.N)
             if self.complex_noise:
-                noise_matrix += 1j*np.random.randn(self.repetitions,self.N)
+                noise_matrix = np.random.rand(self.repetitions,self.N)+ 1j*np.random.randn(self.repetitions,self.N)
 
         if callable(self.complex_noise):
             noise_matrix = np.random.randn(self.repetitions,self.N)
@@ -722,8 +767,8 @@ class Benchmark:
 
         return noise_matrix
 
-    # Static methods:
 
+    # Static methods:
     @staticmethod    
     def load_benchmark(filename,**kwargs):
         with open(filename + '.pkl', 'rb') as f:
@@ -825,7 +870,56 @@ class Benchmark:
         return dict_output    
 
 
-"""Other functions
+    @staticmethod 
+    def sum(bench_a,bench_b):
+        assert bench_a.repetitions == bench_b.repetitions, 'Repetitions should be same in both benchmarks.'
+
+        assert bench_a.SNRin == bench_b.SNRin, 'SNRin should be the same in both benchmarks.'
+
+        assert bench_a.N == bench_b.N, 'N should be the same in both benchmarks.'
+
+        assert bench_a.Nsub == bench_b.Nsub, 'Nsub should be the same in both benchmarks.'
+
+        assert bench_a.signal_ids == bench_b.signal_ids, 'Signals must be the same in both benchmarks.'
+
+        assert [key for key in bench_a.objectiveFunction]==[key for key in bench_b.objectiveFunction], 'Benchmarks must use the same performance functions.'
+
+        bench_c = bench_a
+
+        # Transfer results
+        for fun_name in bench_c.objectiveFunction:
+            for SNR in bench_c.SNRin:
+                for signal_id in bench_c.signal_ids:
+                    for method in bench_b.methods:
+                        if method not in bench_c.methods.keys():
+                            # bench_c.methods[method] = bench_b.methods[method]
+                            # bench_c.methods_ids.append(method)
+                            # bench_c.parameters[method] = bench_b.parameters[method] 
+                            # bench_c.this_method_is_new[method] = False
+                            bench_c.results[fun_name][signal_id][SNR][method] = {}
+                            bench_c.elapsed_time[signal_id][method] = {}
+                            for params in bench_b.parameters[method]:
+                                bench_c.results[fun_name][signal_id][SNR][method][str(params)] = bench_b.results[fun_name][signal_id][SNR][method][str(params)]
+                                # bench_c.elapsed_time[signal_id][key][str(params)] = bench_b.elapsed_time[signal_id][key][str(params)]
+
+        for method in bench_b.methods:
+            if method not in bench_c.methods.keys():
+                bench_c.methods[method] = bench_b.methods[method]
+                bench_c.methods_ids.append(method)
+                bench_c.parameters[method] = bench_b.parameters[method] 
+                bench_c.this_method_is_new[method] = False
+                bench_c.methods_and_params_dic[method] = bench_b.methods_and_params_dic[method]
+        return bench_c
+""" 
+----------------------------------------------------------------------------------------
+END OF BENCHMARK CLASS DEFINITION
+----------------------------------------------------------------------------------------
+"""
+
+"""
+----------------------------------------------------------------------------------------
+Other functions
+----------------------------------------------------------------------------------------
 """
 
 def mse(x, xest):
