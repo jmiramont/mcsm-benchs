@@ -123,7 +123,7 @@
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_benchmark_as_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_benchmark_as_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_benchmark_as_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_benchmark_as_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a DataFrame with the raw data produced by the benchmark with the </span>
 <span class="sd">        following format:</span>
 <span class="sd">            -------------------------------------------------------------------------</span>
@@ -133,12 +133,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame: Raw data of the comparisons. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">df</span> </div>
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.rearrange_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">rearrange_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.rearrange_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">rearrange_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Rearrange DataFrame table for using Seaborn library. </span>
 
 <span class="sd">        Args:</span>
@@ -152,6 +155,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>            
         <span class="k">else</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">results</span>
 
@@ -174,7 +179,7 @@
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_df_means"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_means">[docs]</a>    <span class="k">def</span> <span class="nf">get_df_means</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_df_means"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_means">[docs]</a>    <span class="k">def</span> <span class="nf">get_df_means</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a DataFrame of mean results to .md file. </span>
 
 <span class="sd">        Returns:</span>
@@ -184,6 +189,8 @@
             <span class="c1"># filename = &#39;results&#39;</span>
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
         <span class="c1"># Check if matrix values are bools:</span>
         <span class="n">aux</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">4</span><span class="p">::]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -240,7 +247,7 @@
 
 <span class="c1">#---------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_df_std"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std">[docs]</a>    <span class="k">def</span> <span class="nf">get_df_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="s1">&#39;std&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_df_std"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std">[docs]</a>    <span class="k">def</span> <span class="nf">get_df_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a DataFrame of std results to .md file. </span>
 
 <span class="sd">        Returns:</span>
@@ -254,6 +261,8 @@
 
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>            
 
         <span class="c1"># Check if matrix values are bools:</span>
         <span class="n">aux</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">4</span><span class="p">::]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -309,7 +318,7 @@
         <span class="k">return</span> <span class="n">df_std</span><span class="p">,</span> <span class="n">df_std_minus</span></div>
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.get_table_means_and_std"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_means_and_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_table_means_and_std"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_means_and_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a table of mean and std results to .md file. </span>
 <span class="sd">        Highlights the best results.</span>
 
@@ -318,6 +327,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">task</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
         <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Method + Param&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">4</span><span class="p">::]]</span>
         <span class="n">output_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
@@ -644,7 +656,8 @@
                             <span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                             <span class="n">difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                             <span class="n">varfun</span><span class="o">=</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> 
-                            <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                            <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates interactive plots with plotly.</span>
 <span class="sd">        </span>
 <span class="sd">            Returns:</span>
@@ -653,6 +666,8 @@
   
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">difference</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">4</span><span class="p">::]:</span>
@@ -709,13 +724,15 @@
 
         <span class="k">return</span> <span class="n">figs</span></div>
     
-<div class="viewcode-block" id="ResultsInterpreter.get_html_figures"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">[docs]</a>    <span class="k">def</span> <span class="nf">get_html_figures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_html_figures"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">[docs]</a>    <span class="k">def</span> <span class="nf">get_html_figures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate .html interactive plots files with plotly</span>
 <span class="sd">        #TODO Make this change with the github user!</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
         <span class="n">figs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_summary_plotlys</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> 
                                         <span class="n">bars</span><span class="o">=</span><span class="n">bars</span><span class="p">,</span> 
@@ -739,7 +756,7 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_csv_files"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">[docs]</a>    <span class="k">def</span> <span class="nf">get_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_csv_files"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">[docs]</a>    <span class="k">def</span> <span class="nf">get_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a table of mean results to .md file. </span>
 <span class="sd">        Saves a .csv file with the results per signal.</span>
 <span class="sd">        Finally, generates an .html file with interactive plots.</span>
@@ -749,6 +766,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
         <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
             <span class="c1"># Generate DataFrame with only signal information</span>
             <span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">signal_id</span><span class="p">]</span>
@@ -776,9 +796,10 @@
         <span class="n">mydict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">elapsed_time</span>
         <span class="n">auxdic</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
-                <span class="n">auxdic</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">k2</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mydict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">k2</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="n">mydict</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">k</span><span class="p">]:</span>
+                    <span class="n">auxdic</span><span class="p">[</span><span class="n">signal_id</span> <span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">k2</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mydict</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">k2</span><span class="p">])</span>
 
         <span class="n">df3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">auxdic</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">df3</span> <span class="o">=</span> <span class="n">df3</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
@@ -793,41 +814,6 @@
         <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Mean&#39;</span><span class="p">,</span><span class="s1">&#39;Std&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">df</span></div></div>
-    
-
-    <span class="c1"># def get_snr_plot2(self, df, x=None, y=None, hue=None, axis = None):</span>
-    <span class="c1">#     &quot;&quot;&quot; Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is </span>
-    <span class="c1">#     computed as: </span>
-    <span class="c1">#     QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]</span>
-    <span class="c1">#     where x is the noiseless signal and x_r is de denoised estimation of x.</span>
-
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         df (DataFrame): DataFrame with the results of the simulation.</span>
-    <span class="c1">#         x (str, optional): Column name to use as the horizontal axis. </span>
-    <span class="c1">#         Defaults to None.</span>
-    <span class="c1">#         y (str, optional): Column name to use as the vertical axis. </span>
-    <span class="c1">#         Defaults to None.</span>
-    <span class="c1">#         hue (str, optional): Column name with the methods&#39; name. Defaults to None.</span>
-    <span class="c1">#         axis (matplotlib.Axes, optional): The axis object where the plot will be </span>
-    <span class="c1">#         generated. Defaults to None.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-
-
-
-    <span class="c1">#     markers = [&#39;o&#39;,&#39;d&#39;,&#39;s&#39;,&#39;*&#39;]</span>
-    <span class="c1">#     line_style = [&#39;--&#39; for i in self.methods_ids]</span>
-    <span class="c1">#     sns.pointplot(x=&quot;SNRin&quot;, y=&quot;QRF&quot;, hue=&quot;Method&quot;,</span>
-    <span class="c1">#                 capsize=0.15, height=10, aspect=1.0, dodge=0.5,</span>
-    <span class="c1">#                 kind=&quot;point&quot;, data=df, errwidth = 0.7,</span>
-    <span class="c1">#                 ax = axis) #linestyles=line_style,</span>
-
-    <span class="c1">#     axis.set_xlabel(&#39;SNRin (dB)&#39;)</span>
-
-    <span class="c1">#     if self.benchmark.task == &#39;denoising&#39;:</span>
-    <span class="c1">#         axis.set_ylabel(&#39;QRF (dB)&#39;)</span>
-        
-    <span class="c1">#     if self.benchmark.task == &#39;detection&#39;:</span>
-    <span class="c1">#         axis.set_ylabel(&#39;Detection Power&#39;)</span>
 </pre></div>
 
            </div>

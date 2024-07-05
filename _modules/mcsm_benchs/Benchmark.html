@@ -90,7 +90,9 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">parallelbar</span> <span class="kn">import</span> <span class="n">progress_map</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="nb">abs</span> 
@@ -209,6 +211,13 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of processors: &quot;</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>    
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parallel pool: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="p">))</span>
 
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Benchmark</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unsupported operand type(s) for +: &#39;</span><span class="si">{}</span><span class="s2">&#39; and &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span>
+
+
 
 <div class="viewcode-block" id="Benchmark.input_parsing"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.input_parsing">[docs]</a>    <span class="k">def</span> <span class="nf">input_parsing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                     <span class="n">task</span><span class="p">,</span> 
@@ -324,7 +333,7 @@
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">signal_ids</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">=</span> <span class="n">signal_ids</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="k">assert</span> <span class="n">N</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="s2">&quot;Input signal length should be N&quot;</span>
-                <span class="n">signal_dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="p">:</span> <span class="n">Signal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">signal_dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span> <span class="o">=</span> <span class="n">signal_dic</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span> <span class="o">=</span> <span class="n">signal_ids</span>
@@ -388,27 +397,22 @@
         <span class="c1"># Check objective function</span>
         <span class="c1"># Set the default performance function according to the selected task</span>
         <span class="k">if</span> <span class="n">obj_fun</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_objective_function</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;perf_metric&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">set_objective_function</span><span class="p">(</span><span class="n">task</span><span class="p">),}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">obj_fun</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="n">obj_fun</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;obj_fun&#39;</span><span class="p">:</span><span class="n">obj_fun</span><span class="p">,}</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;obj_fun&#39; should be a callable object.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj_fun</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="n">obj_fun</span>    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;obj_fun&#39; should be a callable object or a dictionary.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             
         <span class="c1">#TODO Check this list of attribute initialization</span>
         <span class="c1"># Extra arguments may be passed when opening a saved benchmark:</span>
         <span class="k">if</span> <span class="n">kwargs</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="c1"># If we are here, this is a new benchmark, so the all the methods are new:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">this_method_is_new</span> <span class="o">=</span> <span class="p">{</span><span class="n">method</span><span class="p">:</span><span class="kc">True</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods_ids</span><span class="p">}</span>
-            <span class="c1"># self.task = None</span>
-            <span class="c1"># self.methods = None</span>
-            <span class="c1"># self.N = None</span>
-            <span class="c1"># self.Nsub = None</span>
-            <span class="c1"># self.repetitions = None</span>
-            <span class="c1"># self.SNRin = None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="c1"># self.verbosity = None</span>
-            <span class="c1"># self.complex_noise = None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         
@@ -448,6 +452,7 @@
                     <span class="s1">&#39;detection&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detection_perf_function</span><span class="p">,</span>
                     <span class="s1">&#39;component_denoising&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">compare_qrf_block</span><span class="p">,</span>
                     <span class="s1">&#39;inst_frequency&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare_instf_block</span><span class="p">,</span>
+                    <span class="s1">&#39;misc&#39;</span><span class="p">:</span> <span class="kc">None</span>
                     <span class="p">}</span>
         <span class="k">return</span> <span class="n">compFuncs</span><span class="p">[</span><span class="n">task</span><span class="p">]</span>    </div>
 
@@ -502,6 +507,40 @@
         <span class="c1"># self.check_methods_output(method_output,noisy_signals) # Just checking if the output its valid.   </span>
         
         <span class="k">return</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">elapsed</span></div>
+    
+<div class="viewcode-block" id="Benchmark.set_results_dict"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.set_results_dict">[docs]</a>    <span class="k">def</span> <span class="nf">set_results_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># If its a new benchmark...</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+            <span class="c1"># Create nested dictionary for results and elapsed time:</span>
+            <span class="k">for</span> <span class="n">fun_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+                <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="c1"># for param in self.parameters[method]:</span>
+                            <span class="c1">#     self.results[signal_id][SNR][method][str(param)] = {}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Add new methods to the dictionary of results</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- Rerun benchmark.&#39;</span><span class="p">)</span>
+            <span class="c1"># print(&#39;-New methods&#39;,[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])</span>
+            
+            <span class="k">for</span> <span class="n">fun_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                                <span class="c1"># print(&#39;-- New Method&#39;,method)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
 
 <div class="viewcode-block" id="Benchmark.run_test"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run_test">[docs]</a>    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the benchmark.</span>
@@ -512,40 +551,25 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Running benchmark...&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Dictionaries for the results. This helps to express the results later using a DataFrame.</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-            <span class="c1"># Create dictionary tree:</span>
-            <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span> 
-                <span class="n">SNR_dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">:</span>
-                    <span class="n">method_dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
-                        <span class="n">params_dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                        <span class="c1"># for params in self.parameters[method]:</span>
-                        <span class="c1">#     params_dic[str(params)] = &#39;Deep&#39; </span>
-                        <span class="n">method_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">params_dic</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>  <span class="o">=</span> <span class="n">params_dic</span>                     
-
-                    <span class="n">SNR_dic</span><span class="p">[</span><span class="n">SNR</span><span class="p">]</span> <span class="o">=</span> <span class="n">method_dic</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_dic</span>        
-        
+        <span class="c1"># If it is a new benchmark, create a nested dict() to save the results.</span>
+        <span class="c1"># If it is an old benchmark with new methods, create the new keys.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_results_dict</span><span class="p">()</span>
 
         <span class="c1"># This run all the experiments and save the results in nested dictionaries.</span>
         <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- Signal &#39;</span><span class="o">+</span> <span class="n">signal_id</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_signal_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]()</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_signal_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_dic</span><span class="p">[</span><span class="n">signal_id</span><span class="p">]</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
             
             <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-- SNR: </span><span class="si">{}</span><span class="s1"> dB&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SNR</span><span class="p">))</span>
 
-                <span class="c1"># If the benchmark has been run before, re-run again with the same noise.</span>
+                <span class="c1"># If the benchmark has been run before, </span>
+                <span class="c1"># re-run again with the same noise.</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_noise</span><span class="p">()</span>
                             
@@ -578,7 +602,7 @@
 
                     <span class="c1"># Here implement the parallel stuff</span>
                     <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="p">)</span> 
-                    <span class="n">parallel_results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_loop</span><span class="p">,</span> <span class="n">parallel_list</span><span class="p">)</span> 
+                    <span class="n">parallel_results</span> <span class="o">=</span> <span class="n">progress_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_loop</span><span class="p">,</span> <span class="n">parallel_list</span><span class="p">)</span> 
                     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
                     <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>    
@@ -590,7 +614,6 @@
                 <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
                     
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">this_method_is_new</span><span class="p">[</span><span class="n">method</span><span class="p">]:</span>
-                        <span class="n">params_dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
                         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- Method: &#39;</span><span class="o">+</span> <span class="n">method</span><span class="p">)</span>                    
 
@@ -608,59 +631,70 @@
 
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;inst_frequency&#39;</span><span class="p">:</span>
                                 <span class="n">extrargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tmin&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span><span class="s1">&#39;tmax&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">}</span>
-                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">aaa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">noisy_signals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>                                
+                                <span class="c1"># method_output = [[] for aaa in range(noisy_signals.shape[0])]             </span>
+                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[]</span>                   
                             
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;denoising&#39;</span><span class="p">:</span>
                                 <span class="n">extrargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tmin&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span><span class="s1">&#39;tmax&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">}</span>
-                                <span class="n">method_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">noisy_signals</span><span class="p">)</span>
-
+                                <span class="c1"># method_output = np.zeros_like(noisy_signals)</span>
+                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[]</span>
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;detection&#39;</span><span class="p">:</span>
                                 <span class="n">extrargs</span> <span class="o">=</span> <span class="p">{}</span>
-                                <span class="n">method_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-                                                         
+                                <span class="c1"># method_output = np.zeros((self.repetitions)).astype(bool)</span>
+                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;misc&#39;</span><span class="p">:</span>
+                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[]</span>
+
                             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">noisy_signal</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">noisy_signals</span><span class="p">):</span>
-                                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_flag</span><span class="p">:</span>  <span class="c1"># Get results from parallel...</span>
+                                <span class="c1"># Get results from parallel computation</span>
+                                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_flag</span><span class="p">:</span>  
                                     <span class="n">tmp</span><span class="p">,</span> <span class="n">extime</span> <span class="o">=</span> <span class="n">parallel_results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                                    <span class="n">method_output</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+                                    <span class="c1"># method_output[idx] = tmp</span>
+                                    <span class="n">method_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
                                     <span class="c1"># Save but DON&#39;T TRUST the exec. time in parallel.</span>
                                     <span class="n">elapsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extime</span><span class="p">)</span> 
-                                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>     
-                                <span class="k">else</span><span class="p">:</span>                   <span class="c1"># Or from serial computation.</span>
-                                    
+                                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                                <span class="c1"># Or from serial computation         </span>
+                                <span class="k">else</span><span class="p">:</span>  
                                     <span class="n">tmp</span><span class="p">,</span> <span class="n">extime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner_loop</span><span class="p">([</span><span class="n">method</span><span class="p">,</span>
                                                         <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> 
                                                         <span class="n">idx</span><span class="p">])</span>        
-                                    <span class="n">method_output</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+                                    <span class="c1"># method_output[idx] = tmp</span>
+                                    <span class="n">method_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
                                     <span class="n">elapsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">extime</span><span class="p">)</span>
                                     
-                            <span class="c1"># Either way, results are saved in a nested dictionary.</span>
-                            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-                            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">method_output</span><span class="p">):</span>
-                                <span class="c1"># Computing perf metric---------------------------------------</span>
-                                <span class="k">try</span><span class="p">:</span>
-                                    <span class="n">perf_met_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span><span class="p">,</span>
-                                                               <span class="n">output</span><span class="p">,</span>
-                                                               <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span>
-                                                               <span class="n">tmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">,</span>
-                                                               <span class="n">scaled_noise</span><span class="o">=</span><span class="n">scaled_noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                                                                <span class="p">)</span>
+                            <span class="c1"># Either way, results are saved in a nested dictionary-----</span>
+                            <span class="c1"># For each performance metric</span>
+                            <span class="k">for</span> <span class="n">fun_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">:</span>
+                                <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>    
+                                <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">method_output</span><span class="p">):</span>
+                                    <span class="k">try</span><span class="p">:</span>
+                                        <span class="n">fun</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">[</span><span class="n">fun_name</span><span class="p">]</span>
+                                        <span class="n">perf_met_output</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span>
+                                                        <span class="bp">self</span><span class="o">.</span><span class="n">base_signal</span><span class="p">,</span>
+                                                        <span class="n">output</span><span class="p">,</span>
+                                                        <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span>
+                                                        <span class="n">tmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">,</span>
+                                                        <span class="n">scaled_noise</span><span class="o">=</span><span class="n">scaled_noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                                                            <span class="p">)</span>
     
-                                <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2"> while applying performance metric. Watch out for NaN values.&quot;</span><span class="p">)</span>
-                                    <span class="n">perf_met_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                                    <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error </span><span class="si">{</span><span class="n">err</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">=}</span><span class="s2"> while applying performance metric:</span><span class="si">{</span><span class="n">fun_name</span><span class="si">}</span><span class="s2">. Watch out for NaN values.&quot;</span><span class="p">)</span>
+                                        <span class="n">perf_met_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                                     
-                                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perf_met_output</span><span class="p">)</span>
+                                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perf_met_output</span><span class="p">)</span>
 
-                            <span class="c1"># Saving results ------------------------------------------------</span>
-                            
-                            <span class="n">params_dic</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">result</span>                        
-                            <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">elapsed</span>
+                                <span class="c1"># Saving results -----------</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">result</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">elapsed</span>
 
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
                                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Elapsed:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)))</span>                    
 
-                        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">params_dic</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params_dic</span><span class="p">]</span> 
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">method</span><span class="p">]]</span> 
 
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -691,9 +725,9 @@
         <span class="n">a_copy</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="n">a_copy</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="kc">None</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">a_copy</span><span class="o">.</span><span class="n">methods</span><span class="p">}</span>
         <span class="n">a_copy</span><span class="o">.</span><span class="n">base_signal</span> <span class="o">=</span> <span class="n">a_copy</span><span class="o">.</span><span class="n">base_signal</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
-        <span class="n">a_copy</span><span class="o">.</span><span class="n">signal_dic</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># a_copy.signal_dic = []</span>
         <span class="n">a_copy</span><span class="o">.</span><span class="n">noisy_signals</span> <span class="o">=</span> <span class="n">a_copy</span><span class="o">.</span><span class="n">noisy_signals</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> 
-        <span class="n">a_copy</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">a_copy</span><span class="o">.</span><span class="n">objectiveFunction</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="kc">None</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">a_copy</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">}</span>
         
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">a_copy</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">):</span>
             <span class="n">a_copy</span><span class="o">.</span><span class="n">complex_noise</span><span class="o">=</span><span class="s1">&#39;NF&#39;</span>
@@ -715,27 +749,38 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame: Returns a pandas DataFrame with the results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;perf_metric&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">}</span>
+
         <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic2df</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">({</span><span class="n">param</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">})</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;Parameter&#39;</span><span class="p">,</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Repetition&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Repetition&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;Parameter&#39;</span><span class="p">,</span><span class="s1">&#39;Perf.Metric&#39;</span><span class="p">,</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Repetition&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Perf.Metric&#39;</span><span class="p">,</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">,</span> <span class="s1">&#39;Repetition&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNRin</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span><span class="s1">&#39;Signal_id&#39;</span><span class="p">])</span>
 
-        <span class="n">aux2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
-        <span class="k">for</span> <span class="n">metodo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">:</span>
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
-            <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">metodo</span><span class="p">]:</span>
-                <span class="n">aux</span> <span class="o">=</span> <span class="n">aux</span> <span class="o">|</span> <span class="p">(</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">params</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">metodo</span><span class="p">)</span> <span class="p">)</span>
-            <span class="n">aux2</span> <span class="o">=</span> <span class="n">aux2</span> <span class="o">|</span> <span class="n">aux</span>
+        <span class="n">data_frames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">per_fun</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Perf.Metric&#39;</span><span class="p">]):</span>
+            <span class="n">dfaux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Perf.Metric&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">per_fun</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">::]</span>
+            <span class="n">aux2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dfaux</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">metodo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">:</span>
+                <span class="n">aux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dfaux</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">metodo</span><span class="p">]:</span>
+                    <span class="n">aux</span> <span class="o">=</span> <span class="n">aux</span> <span class="o">|</span> <span class="p">(</span> <span class="p">(</span><span class="n">dfaux</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">params</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">dfaux</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">metodo</span><span class="p">)</span> <span class="p">)</span>
+                <span class="n">aux2</span> <span class="o">=</span> <span class="n">aux2</span> <span class="o">|</span> <span class="n">aux</span>
+            
+            <span class="n">df2</span> <span class="o">=</span> <span class="n">dfaux</span><span class="p">[</span><span class="n">aux2</span><span class="p">]</span>
+            <span class="n">data_frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
         
-        <span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">aux2</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">df2</span></div>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_frames</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data_frames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data_frames</span></div>
 
 
 <div class="viewcode-block" id="Benchmark.add_new_method"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.add_new_method">[docs]</a>    <span class="k">def</span> <span class="nf">add_new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -755,7 +800,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">methods_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> 
+                <span class="c1"># self.elapsed_time[key]  = dict() </span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">this_method_is_new</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="c1">#Check both dictionaries have the same keys:</span>
@@ -800,7 +845,7 @@
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">:</span>
-                <span class="n">noise_matrix</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+                <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span><span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">complex_noise</span><span class="p">):</span>
             <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
@@ -809,8 +854,8 @@
 
         <span class="k">return</span> <span class="n">noise_matrix</span></div>
 
-    <span class="c1"># Static methods:</span>
 
+    <span class="c1"># Static methods:</span>
 <div class="viewcode-block" id="Benchmark.load_benchmark"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.load_benchmark">[docs]</a>    <span class="nd">@staticmethod</span>    
     <span class="k">def</span> <span class="nf">load_benchmark</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -909,10 +954,59 @@
             <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qrfs</span><span class="p">)</span>    
         <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
         <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">output</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
-        <span class="k">return</span> <span class="n">dict_output</span>    </div></div>
+        <span class="k">return</span> <span class="n">dict_output</span>    </div>
 
 
-<span class="sd">&quot;&quot;&quot;Other functions</span>
+<div class="viewcode-block" id="Benchmark.sum"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sum">[docs]</a>    <span class="nd">@staticmethod</span> 
+    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">bench_a</span><span class="p">,</span><span class="n">bench_b</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">repetitions</span> <span class="o">==</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">repetitions</span><span class="p">,</span> <span class="s1">&#39;Repetitions should be same in both benchmarks.&#39;</span>
+
+        <span class="k">assert</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">SNRin</span> <span class="o">==</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">SNRin</span><span class="p">,</span> <span class="s1">&#39;SNRin should be the same in both benchmarks.&#39;</span>
+
+        <span class="k">assert</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">N</span> <span class="o">==</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="s1">&#39;N should be the same in both benchmarks.&#39;</span>
+
+        <span class="k">assert</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">Nsub</span> <span class="o">==</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">Nsub</span><span class="p">,</span> <span class="s1">&#39;Nsub should be the same in both benchmarks.&#39;</span>
+
+        <span class="k">assert</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">signal_ids</span> <span class="o">==</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">,</span> <span class="s1">&#39;Signals must be the same in both benchmarks.&#39;</span>
+
+        <span class="k">assert</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bench_a</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">]</span><span class="o">==</span><span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">],</span> <span class="s1">&#39;Benchmarks must use the same performance functions.&#39;</span>
+
+        <span class="n">bench_c</span> <span class="o">=</span> <span class="n">bench_a</span>
+
+        <span class="c1"># Transfer results</span>
+        <span class="k">for</span> <span class="n">fun_name</span> <span class="ow">in</span> <span class="n">bench_c</span><span class="o">.</span><span class="n">objectiveFunction</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="n">bench_c</span><span class="o">.</span><span class="n">SNRin</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">signal_id</span> <span class="ow">in</span> <span class="n">bench_c</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bench_c</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="c1"># bench_c.methods[method] = bench_b.methods[method]</span>
+                            <span class="c1"># bench_c.methods_ids.append(method)</span>
+                            <span class="c1"># bench_c.parameters[method] = bench_b.parameters[method] </span>
+                            <span class="c1"># bench_c.this_method_is_new[method] = False</span>
+                            <span class="n">bench_c</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="n">bench_c</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">method</span><span class="p">]:</span>
+                                <span class="n">bench_c</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span>
+                                <span class="c1"># bench_c.elapsed_time[signal_id][key][str(params)] = bench_b.elapsed_time[signal_id][key][str(params)]</span>
+
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bench_c</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">bench_c</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+                <span class="n">bench_c</span><span class="o">.</span><span class="n">methods_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+                <span class="n">bench_c</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> 
+                <span class="n">bench_c</span><span class="o">.</span><span class="n">this_method_is_new</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">bench_c</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bench_c</span></div></div>
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">----------------------------------------------------------------------------------------</span>
+<span class="sd">END OF BENCHMARK CLASS DEFINITION</span>
+<span class="sd">----------------------------------------------------------------------------------------</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">----------------------------------------------------------------------------------------</span>
+<span class="sd">Other functions</span>
+<span class="sd">----------------------------------------------------------------------------------------</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="mse"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.mse">[docs]</a><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>

@@ -92,8 +92,8 @@
              
   <section id="MCSM-Benchs:-Benchmarks-with-personalized-noise-generating-functions">
 <h1>MCSM-Benchs: Benchmarks with personalized noise-generating functions<a class="headerlink" href="#MCSM-Benchs:-Benchmarks-with-personalized-noise-generating-functions" title="Permalink to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
@@ -107,6 +107,15 @@ from utils import spectrogram_thresholding, get_stft
 <br/></pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div></div>
+</div>
 <section id="Creating-a-a-dummy-dictionary-of-methods">
 <h2>Creating a a dummy dictionary of methods<a class="headerlink" href="#Creating-a-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
 <p>First let us define a dummy method for testing. Methods should receive a numpy array with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of time samples of the signal. Additionally, they can receive any number of positional or keyword arguments to allow testing different combinations of input parameters. The shape of the output depends on the task (signal denoising or detection). So the recommended signature of a method should be the following:</p>
@@ -114,7 +123,7 @@ from utils import spectrogram_thresholding, get_stft
 <p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
 <p>After this, we need to create a <em>dictionary of methods</em> to pass the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object at the moment of instantiation.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def method_1(noisy_signal, *args, **kwargs):
@@ -146,7 +155,7 @@ my_methods = {
 <section id="Real-White-Gaussian-noise-(default)">
 <h3>Real White Gaussian noise (default)<a class="headerlink" href="#Real-White-Gaussian-noise-(default)" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Benchmark class uses np.random.randn(N,) to generate noise realizations
@@ -169,7 +178,7 @@ plt.show()
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;, # defines the default performance function
@@ -198,8 +207,19 @@ Running benchmark...
 The test has finished.
 </pre></div></div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -236,8 +256,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>43.971518</td>
-      <td>53.561819</td>
+      <td>35.810596</td>
+      <td>35.848604</td>
     </tr>
     <tr>
       <th>7</th>
@@ -245,8 +265,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>44.544033</td>
-      <td>54.096559</td>
+      <td>35.076937</td>
+      <td>36.675817</td>
     </tr>
     <tr>
       <th>8</th>
@@ -254,8 +274,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>43.790454</td>
-      <td>53.448276</td>
+      <td>34.878397</td>
+      <td>35.250035</td>
     </tr>
     <tr>
       <th>0</th>
@@ -263,8 +283,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>44.068673</td>
-      <td>53.993409</td>
+      <td>40.716980</td>
+      <td>45.830269</td>
     </tr>
     <tr>
       <th>1</th>
@@ -272,8 +292,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>44.457192</td>
-      <td>54.644148</td>
+      <td>40.761751</td>
+      <td>44.879363</td>
     </tr>
     <tr>
       <th>2</th>
@@ -281,8 +301,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>43.631709</td>
-      <td>53.708958</td>
+      <td>40.506275</td>
+      <td>44.715266</td>
     </tr>
     <tr>
       <th>9</th>
@@ -290,8 +310,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>44.440979</td>
-      <td>53.041674</td>
+      <td>22.325833</td>
+      <td>21.801351</td>
     </tr>
     <tr>
       <th>10</th>
@@ -299,8 +319,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>45.302902</td>
-      <td>53.894885</td>
+      <td>20.850857</td>
+      <td>21.708549</td>
     </tr>
     <tr>
       <th>11</th>
@@ -308,8 +328,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>43.900369</td>
-      <td>52.533425</td>
+      <td>21.080309</td>
+      <td>21.317084</td>
     </tr>
     <tr>
       <th>3</th>
@@ -317,8 +337,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>45.837933</td>
-      <td>54.778613</td>
+      <td>35.733726</td>
+      <td>37.497704</td>
     </tr>
     <tr>
       <th>4</th>
@@ -326,8 +346,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>46.834068</td>
-      <td>55.405637</td>
+      <td>35.193784</td>
+      <td>36.680307</td>
     </tr>
     <tr>
       <th>5</th>
@@ -335,8 +355,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>45.081570</td>
-      <td>54.310658</td>
+      <td>36.448123</td>
+      <td>37.518342</td>
     </tr>
   </tbody>
 </table>
@@ -347,7 +367,7 @@ The test has finished.
 <h3>Pink noise<a class="headerlink" href="#Pink-noise" title="Permalink to this heading"></a></h3>
 <p>Let’s first import a function to generate colored noise, and later pass it as a parameter to the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class constructor.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from utils import voss
@@ -373,7 +393,7 @@ plt.show()
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;, # defines the default performance function
@@ -402,8 +422,19 @@ Running benchmark...
 The test has finished.
 </pre></div></div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -440,8 +471,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>42.020270</td>
-      <td>52.501531</td>
+      <td>35.191254</td>
+      <td>35.957057</td>
     </tr>
     <tr>
       <th>7</th>
@@ -449,8 +480,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>40.377870</td>
-      <td>51.031590</td>
+      <td>35.210970</td>
+      <td>35.960973</td>
     </tr>
     <tr>
       <th>8</th>
@@ -458,8 +489,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>41.166749</td>
-      <td>51.429858</td>
+      <td>36.105207</td>
+      <td>36.592537</td>
     </tr>
     <tr>
       <th>0</th>
@@ -467,8 +498,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>41.639466</td>
-      <td>51.749439</td>
+      <td>40.903732</td>
+      <td>46.124983</td>
     </tr>
     <tr>
       <th>1</th>
@@ -476,8 +507,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>40.305414</td>
-      <td>50.365133</td>
+      <td>41.337536</td>
+      <td>46.151734</td>
     </tr>
     <tr>
       <th>2</th>
@@ -485,8 +516,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>41.417004</td>
-      <td>51.518874</td>
+      <td>40.517168</td>
+      <td>45.670656</td>
     </tr>
     <tr>
       <th>9</th>
@@ -494,8 +525,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>0</td>
-      <td>46.549252</td>
-      <td>56.121017</td>
+      <td>21.463604</td>
+      <td>21.583236</td>
     </tr>
     <tr>
       <th>10</th>
@@ -503,8 +534,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>1</td>
-      <td>44.205250</td>
-      <td>54.954600</td>
+      <td>21.182747</td>
+      <td>21.645561</td>
     </tr>
     <tr>
       <th>11</th>
@@ -512,8 +543,8 @@ The test has finished.
       <td>((), {})</td>
       <td>CosChirp</td>
       <td>2</td>
-      <td>45.150989</td>
-      <td>54.085905</td>
+      <td>21.755696</td>
+      <td>21.611189</td>
     </tr>
     <tr>
       <th>3</th>
@@ -521,8 +552,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>0</td>
-      <td>45.450849</td>
-      <td>55.530805</td>
+      <td>34.107279</td>
+      <td>37.318161</td>
     </tr>
     <tr>
       <th>4</th>
@@ -530,8 +561,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>1</td>
-      <td>43.357571</td>
-      <td>53.631834</td>
+      <td>35.669359</td>
+      <td>37.793854</td>
     </tr>
     <tr>
       <th>5</th>
@@ -539,8 +570,8 @@ The test has finished.
       <td>((), {})</td>
       <td>LinearChirp</td>
       <td>2</td>
-      <td>45.650857</td>
-      <td>55.403165</td>
+      <td>35.873981</td>
+      <td>37.461903</td>
     </tr>
   </tbody>
 </table>

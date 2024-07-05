@@ -110,7 +110,7 @@ from utils import get_stft
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>N = 1024
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>N = 2048
 signal_bank = SignalBank(N=N)
 signals_dic = signal_bank.signalDict
 
@@ -120,7 +120,7 @@ number_of_signals = len(signals_dic.keys())
 fig, ax = plt.subplots(10, 3, figsize = (20,30))
 
 for i,signal_id in enumerate(signals_dic):
-    signal = signals_dic[signal_id]()
+    signal = signals_dic[signal_id]
     S = np.abs(get_stft(signal))**2
     idx = np.unravel_index(i, ax.shape)
     ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
@@ -132,22 +132,11 @@ for i,signal_id in enumerate(signals_dic):
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchmarks/SignalBank.py:1174: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchmarks/SignalBank.py:1362: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_demo_signal_bank_2_1.png" src="../_images/notebooks_demo_signal_bank_2_1.png" />
+<img alt="../_images/notebooks_demo_signal_bank_2_0.png" src="../_images/notebooks_demo_signal_bank_2_0.png" />
 </div>
 </div>
 <section id="Controlling-the-signal's-effective-length-inside-the-observation-window">
@@ -177,7 +166,7 @@ signal_names = [&#39;LinearChirp&#39;, &#39;CosChirp&#39;, &#39;ExpChirp&#39;, #
 fig, ax = plt.subplots(5, 3, figsize = (20,20))
 
 for i,signal_id in enumerate(signal_names):
-    signal = signals_dic[signal_id]()
+    signal = signals_dic[signal_id]
     S = np.abs(get_stft(signal))**2
     idx = np.unravel_index(i, ax.shape)
     # print(idx)

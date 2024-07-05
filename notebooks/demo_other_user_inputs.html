@@ -94,7 +94,7 @@
 <h1>MCSM-Benchs: Using user-provided signals and performance metric<a class="headerlink" href="#MCSM-Benchs:-Using-user-provided-signals-and-performance-metric" title="Permalink to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">MCSM-Benchs</span></code> can be helpful to create benchmarks with signals and performance metrics provided by the user. This can be useful, for instance, when dealing with real-world signals and performance metrics that do not need a noiseless version of the signal.</p>
 <p>In this notebook, we create a benchmark with real-world audio signals and a performance metric that is computed based on the original signal and the processed one.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -110,6 +110,15 @@ from utils import spectrogram_thresholding, get_stft
 from IPython.display import Audio
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div></div>
 </div>
 <section id="1.-Creating-a-dictionary-of-methods">
 <h2>1. Creating a dictionary of methods<a class="headerlink" href="#1.-Creating-a-dictionary-of-methods" title="Permalink to this heading"></a></h2>
@@ -189,8 +198,9 @@ Audio(signals_dic[&#39;speech_2&#39;], rate=fs)
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pesq import pesq
 # Create a wrapper function for PESQ.
 # Normalize by the PESQ of the original signal.
-perf_fun = lambda x,xest,**kwargs: pesq(fs,x,xest,&#39;nb&#39;)/pesq(fs,x,x,&#39;nb&#39;)
-perf_fun(signals_dic[&#39;speech_1&#39;],signals_dic[&#39;speech_1&#39;])
+perfuns = {&#39;pesq1&#39;:lambda x,xest,**kwargs: pesq(fs,x,xest,&#39;nb&#39;)/pesq(fs,x,x,&#39;nb&#39;),
+           &#39;pesq2&#39;:lambda x,xest,**kwargs: pesq(fs,x,xest,&#39;nb&#39;),}
+perfuns[&#39;pesq1&#39;](signals_dic[&#39;speech_1&#39;],signals_dic[&#39;speech_1&#39;])
 </pre></div>
 </div>
 </div>
@@ -212,13 +222,13 @@ Once the object is created, use the class method <code class="docutils literal n
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
-                      N = N,
+                        N = N,
                         methods = my_methods,
                         SNRin = [0,10,20],
                         repetitions = 10,
                         signal_ids=signals_dic, # Input user-defined signals
                         verbosity=5,
-                        obj_fun=perf_fun, # Define a performance metric
+                        obj_fun=perfuns, # Define a performance metric
                         )
 
 benchmark.run_test() # Run the benchmark
@@ -245,7 +255,7 @@ Running benchmark...
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0012466192245483398
+Elapsed:0.0036959409713745116
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -258,7 +268,7 @@ Elapsed:0.0012466192245483398
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.0011188507080078125
+Elapsed:0.0032756567001342774
 -- SNR: 10 dB
 --- Method: Hard_Thr
 ---- Parameters Combination: 0
@@ -272,7 +282,7 @@ Elapsed:0.0011188507080078125
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0011104822158813476
+Elapsed:0.002825355529785156
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -285,7 +295,7 @@ Elapsed:0.0011104822158813476
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.0013076543807983398
+Elapsed:0.002187967300415039
 -- SNR: 20 dB
 --- Method: Hard_Thr
 ---- Parameters Combination: 0
@@ -299,7 +309,7 @@ Elapsed:0.0013076543807983398
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0020586252212524414
+Elapsed:0.003726959228515625
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -312,7 +322,7 @@ Elapsed:0.0020586252212524414
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.0015439748764038085
+Elapsed:0.00862884521484375
 - Signal speech_2
 -- SNR: 0 dB
 --- Method: Hard_Thr
@@ -327,7 +337,7 @@ Elapsed:0.0015439748764038085
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0011633634567260742
+Elapsed:0.006682562828063965
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -340,7 +350,7 @@ Elapsed:0.0011633634567260742
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.001230931282043457
+Elapsed:0.010833120346069336
 -- SNR: 10 dB
 --- Method: Hard_Thr
 ---- Parameters Combination: 0
@@ -354,7 +364,7 @@ Elapsed:0.001230931282043457
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0011851072311401367
+Elapsed:0.0033522605895996093
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -367,7 +377,7 @@ Elapsed:0.0011851072311401367
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.0016048908233642577
+Elapsed:0.0027598142623901367
 -- SNR: 20 dB
 --- Method: Hard_Thr
 ---- Parameters Combination: 0
@@ -381,7 +391,7 @@ Elapsed:0.0016048908233642577
 ------ Inner loop. Hard_Thr: 7
 ------ Inner loop. Hard_Thr: 8
 ------ Inner loop. Hard_Thr: 9
-Elapsed:0.0013822078704833984
+Elapsed:0.0033478021621704103
 --- Method: Soft_Thr
 ---- Parameters Combination: 0
 ------ Inner loop. Soft_Thr: 0
@@ -394,7 +404,7 @@ Elapsed:0.0013822078704833984
 ------ Inner loop. Soft_Thr: 7
 ------ Inner loop. Soft_Thr: 8
 ------ Inner loop. Soft_Thr: 9
-Elapsed:0.0009479045867919922
+Elapsed:0.0024441003799438475
 The test has finished.
 </pre></div></div>
 </div>
@@ -404,126 +414,246 @@ The test has finished.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;speech_1&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.2511395364342408,
-     0.2461274473524261,
-     0.24798206052382246,
-     0.24903602886032414,
-     0.25248074101920226,
-     0.24812297925630133,
-     0.2511082182483914,
-     0.24970204480759678,
-     0.2556525263266698,
-     0.25082087716918405]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.38184138562766257,
-     0.3922177951032719,
-     0.3993604380918875,
-     0.39816374269251065,
-     0.3957185392967492,
-     0.3571817867897743,
-     0.41715561474532525,
-     0.3320869831031704,
-     0.43982232865571547,
-     0.4379489245728095]}},
-  10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.3440405973843051,
-     0.330535278377002,
-     0.33822233364565907,
-     0.3360254218756192,
-     0.35587281765970386,
-     0.33944258975556196,
-     0.36001475912095643,
-     0.35617436330521285,
-     0.37176605005919794,
-     0.35220059657081854]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.6365218164317165,
-     0.6189570053461585,
-     0.6617306759717234,
-     0.6720790956377201,
-     0.5971860701741217,
-     0.6626136129434943,
-     0.6275843662132178,
-     0.5505742838015738,
-     0.6896185900977295,
-     0.6554815054450138]}},
-  20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.5987278159792669,
-     0.564343750085175,
-     0.5915853826521467,
-     0.5900841539309538,
-     0.612433649999067,
-     0.5964106895494018,
-     0.6361617752290395,
-     0.6427870784781846,
-     0.664244097976494,
-     0.6376985939890468]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.7878309532909831,
-     0.7746923584465173,
-     0.7823201581350862,
-     0.7898279790330118,
-     0.7848373540467709,
-     0.7997702319673817,
-     0.7534140753728882,
-     0.78661916226395,
-     0.7804121861131548,
-     0.7597816522290267]}}},
- &#39;speech_2&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.2511395364342408,
-     0.2461274473524261,
-     0.24798206052382246,
-     0.24903602886032414,
-     0.25248074101920226,
-     0.24812297925630133,
-     0.2511082182483914,
-     0.24970204480759678,
-     0.2556525263266698,
-     0.25082087716918405]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.38184138562766257,
-     0.3922177951032719,
-     0.3993604380918875,
-     0.39816374269251065,
-     0.3957185392967492,
-     0.3571817867897743,
-     0.41715561474532525,
-     0.3320869831031704,
-     0.43982232865571547,
-     0.4379489245728095]}},
-  10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.3440405973843051,
-     0.330535278377002,
-     0.33822233364565907,
-     0.3360254218756192,
-     0.35587281765970386,
-     0.33944258975556196,
-     0.36001475912095643,
-     0.35617436330521285,
-     0.37176605005919794,
-     0.35220059657081854]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.6365218164317165,
-     0.6189570053461585,
-     0.6617306759717234,
-     0.6720790956377201,
-     0.5971860701741217,
-     0.6626136129434943,
-     0.6275843662132178,
-     0.5505742838015738,
-     0.6896185900977295,
-     0.6554815054450138]}},
-  20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.5987278159792669,
-     0.564343750085175,
-     0.5915853826521467,
-     0.5900841539309538,
-     0.612433649999067,
-     0.5964106895494018,
-     0.6361617752290395,
-     0.6427870784781846,
-     0.664244097976494,
-     0.6376985939890468]},
-   &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.7878309532909831,
-     0.7746923584465173,
-     0.7823201581350862,
-     0.7898279790330118,
-     0.7848373540467709,
-     0.7997702319673817,
-     0.7534140753728882,
-     0.78661916226395,
-     0.7804121861131548,
-     0.7597816522290267]}}}}
+{&#39;pesq1&#39;: {&#39;speech_1&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.23924792954031926,
+      0.24040101534868907,
+      0.23863742147390773,
+      0.2384115112128016,
+      0.23928564240177305,
+      0.2379024793100795,
+      0.24539992196399146,
+      0.24172932575169412,
+      0.2458337115976143,
+      0.2403174914505284]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.35244414460521056,
+      0.3704040365708353,
+      0.3519094291693233,
+      0.35116995307566073,
+      0.3553115276292967,
+      0.31434322593143693,
+      0.36603353787209936,
+      0.33865237558005473,
+      0.33654729554492385,
+      0.3475130896913007]}},
+   10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.3122171011237227,
+      0.3167551455648312,
+      0.31751605954638057,
+      0.31438468649211787,
+      0.32266518862301247,
+      0.3128519823389543,
+      0.34381612854597865,
+      0.3297974795753013,
+      0.3508130043800383,
+      0.32508646440063127]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.5527476348610877,
+      0.5547087036566851,
+      0.531523129960984,
+      0.5744125861472876,
+      0.5852936508419062,
+      0.5062434048355908,
+      0.5701362254599082,
+      0.5025469154286331,
+      0.5306479504645365,
+      0.503312808870694]}},
+   20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.5093296220453192,
+      0.5309096604259524,
+      0.5239871620073243,
+      0.5077346746357603,
+      0.5298627681649147,
+      0.5016383473390706,
+      0.5678131236774291,
+      0.5484671857745514,
+      0.5997834616077304,
+      0.5564266175331941]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.7883602437356815,
+      0.8038315323760329,
+      0.7951227180180783,
+      0.7736096140697959,
+      0.7852814695090335,
+      0.7771169363926859,
+      0.7974599195361114,
+      0.7835530725577633,
+      0.806380334758123,
+      0.6706782947727405]}}},
+  &#39;speech_2&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.2511395364342408,
+      0.2461274473524261,
+      0.24798206052382246,
+      0.24903602886032414,
+      0.25248074101920226,
+      0.24812297925630133,
+      0.2511082182483914,
+      0.24970204480759678,
+      0.2556525263266698,
+      0.25082087716918405]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.38184138562766257,
+      0.3922177951032719,
+      0.3993604380918875,
+      0.39816374269251065,
+      0.3957185392967492,
+      0.3571817867897743,
+      0.41715561474532525,
+      0.3320869831031704,
+      0.43982232865571547,
+      0.4379489245728095]}},
+   10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.3440405973843051,
+      0.330535278377002,
+      0.33822233364565907,
+      0.3360254218756192,
+      0.35587281765970386,
+      0.33944258975556196,
+      0.36001475912095643,
+      0.35617436330521285,
+      0.37176605005919794,
+      0.35220059657081854]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.6365218164317165,
+      0.6189570053461585,
+      0.6617306759717234,
+      0.6720790956377201,
+      0.5971860701741217,
+      0.6626136129434943,
+      0.6275843662132178,
+      0.5505742838015738,
+      0.6896185900977295,
+      0.6554815054450138]}},
+   20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [0.5987278159792669,
+      0.564343750085175,
+      0.5915853826521467,
+      0.5900841539309538,
+      0.612433649999067,
+      0.5964106895494018,
+      0.6361617752290395,
+      0.6427870784781846,
+      0.664244097976494,
+      0.6376985939890468]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [0.7878309532909831,
+      0.7746923584465173,
+      0.7823201581350862,
+      0.7898279790330118,
+      0.7848373540467709,
+      0.7997702319673817,
+      0.7534140753728882,
+      0.78661916226395,
+      0.7804121861131548,
+      0.7597816522290267]}}}},
+ &#39;pesq2&#39;: {&#39;speech_1&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.088252305984497,
+      1.0934972763061523,
+      1.0854753255844116,
+      1.0844477415084839,
+      1.0884238481521606,
+      1.082132339477539,
+      1.1162354946136475,
+      1.0995392799377441,
+      1.118208646774292,
+      1.093117356300354]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [1.603140950202942,
+      1.6848340034484863,
+      1.6007087230682373,
+      1.5973451137542725,
+      1.6161836385726929,
+      1.4298336505889893,
+      1.6649541854858398,
+      1.5404071807861328,
+      1.5308319330215454,
+      1.5807113647460938]}},
+   10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.4201626777648926,
+      1.4408046007156372,
+      1.4442657232284546,
+      1.4300222396850586,
+      1.4676872491836548,
+      1.4230505228042603,
+      1.5638952255249023,
+      1.5001294612884521,
+      1.5957214832305908,
+      1.4787007570266724]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [2.514249086380005,
+      2.5231692790985107,
+      2.4177064895629883,
+      2.612795114517212,
+      2.6622891426086426,
+      2.302718162536621,
+      2.593343496322632,
+      2.2859041690826416,
+      2.4137256145477295,
+      2.2893879413604736]}},
+   20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [2.316756248474121,
+      2.4149160385131836,
+      2.3834280967712402,
+      2.3095014095306396,
+      2.410154104232788,
+      2.281771421432495,
+      2.5827765464782715,
+      2.494778871536255,
+      2.7281980514526367,
+      2.5309834480285645]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [3.585965633392334,
+      3.656338930130005,
+      3.6167256832122803,
+      3.5188703536987305,
+      3.5719614028930664,
+      3.5348238945007324,
+      3.627356767654419,
+      3.5640995502471924,
+      3.6679325103759766,
+      3.050673007965088]}}},
+  &#39;speech_2&#39;: {0: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.1423429250717163,
+      1.1195447444915771,
+      1.1279807090759277,
+      1.132774829864502,
+      1.148443579673767,
+      1.1286216974258423,
+      1.1422004699707031,
+      1.135804295539856,
+      1.1628708839416504,
+      1.1408934593200684]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [1.7368583679199219,
+      1.7840569019317627,
+      1.8165462017059326,
+      1.8111028671264648,
+      1.7999805212020874,
+      1.6246907711029053,
+      1.8974900245666504,
+      1.5105435848236084,
+      2.0005927085876465,
+      1.992071270942688]}},
+   10: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [1.5649162530899048,
+      1.5034854412078857,
+      1.538451075553894,
+      1.5284581184387207,
+      1.618736743927002,
+      1.544001579284668,
+      1.637576937675476,
+      1.6201083660125732,
+      1.6910293102264404,
+      1.6020331382751465]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [2.8953075408935547,
+      2.8154115676879883,
+      3.0099735260009766,
+      3.057044744491577,
+      2.716383457183838,
+      3.0139896869659424,
+      2.854654312133789,
+      2.5043632984161377,
+      3.1368255615234375,
+      2.981548309326172]}},
+   20: {&#39;Hard_Thr&#39;: {&#39;((), {})&#39;: [2.7233963012695312,
+      2.566995620727539,
+      2.6909079551696777,
+      2.68407940864563,
+      2.7857391834259033,
+      2.7128565311431885,
+      2.893669843673706,
+      2.9238059520721436,
+      3.0214061737060547,
+      2.900660276412964]},
+    &#39;Soft_Thr&#39;: {&#39;((), {})&#39;: [3.5835580825805664,
+      3.5237953662872314,
+      3.5584914684295654,
+      3.592641830444336,
+      3.569941282272339,
+      3.6378655433654785,
+      3.4270081520080566,
+      3.5780460834503174,
+      3.5498127937316895,
+      3.4559719562530518]}}}}}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -531,7 +661,7 @@ The test has finished.
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
-results_df
+results_df[1]
 </pre></div>
 </div>
 </div>
@@ -569,404 +699,404 @@ results_df
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>40</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>0</td>
-      <td>0.251140</td>
-      <td>0.344041</td>
-      <td>0.598728</td>
+      <td>1.088252</td>
+      <td>1.420163</td>
+      <td>2.316756</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>41</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>1</td>
-      <td>0.246127</td>
-      <td>0.330535</td>
-      <td>0.564344</td>
+      <td>1.093497</td>
+      <td>1.440805</td>
+      <td>2.414916</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>42</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>2</td>
-      <td>0.247982</td>
-      <td>0.338222</td>
-      <td>0.591585</td>
+      <td>1.085475</td>
+      <td>1.444266</td>
+      <td>2.383428</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>43</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>3</td>
-      <td>0.249036</td>
-      <td>0.336025</td>
-      <td>0.590084</td>
+      <td>1.084448</td>
+      <td>1.430022</td>
+      <td>2.309501</td>
     </tr>
     <tr>
-      <th>4</th>
+      <th>44</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>4</td>
-      <td>0.252481</td>
-      <td>0.355873</td>
-      <td>0.612434</td>
+      <td>1.088424</td>
+      <td>1.467687</td>
+      <td>2.410154</td>
     </tr>
     <tr>
-      <th>5</th>
+      <th>45</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>5</td>
-      <td>0.248123</td>
-      <td>0.339443</td>
-      <td>0.596411</td>
+      <td>1.082132</td>
+      <td>1.423051</td>
+      <td>2.281771</td>
     </tr>
     <tr>
-      <th>6</th>
+      <th>46</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>6</td>
-      <td>0.251108</td>
-      <td>0.360015</td>
-      <td>0.636162</td>
+      <td>1.116235</td>
+      <td>1.563895</td>
+      <td>2.582777</td>
     </tr>
     <tr>
-      <th>7</th>
+      <th>47</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>7</td>
-      <td>0.249702</td>
-      <td>0.356174</td>
-      <td>0.642787</td>
+      <td>1.099539</td>
+      <td>1.500129</td>
+      <td>2.494779</td>
     </tr>
     <tr>
-      <th>8</th>
+      <th>48</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>8</td>
-      <td>0.255653</td>
-      <td>0.371766</td>
-      <td>0.664244</td>
+      <td>1.118209</td>
+      <td>1.595721</td>
+      <td>2.728198</td>
     </tr>
     <tr>
-      <th>9</th>
+      <th>49</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>9</td>
-      <td>0.250821</td>
-      <td>0.352201</td>
-      <td>0.637699</td>
+      <td>1.093117</td>
+      <td>1.478701</td>
+      <td>2.530983</td>
     </tr>
     <tr>
-      <th>20</th>
+      <th>60</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>0</td>
-      <td>0.251140</td>
-      <td>0.344041</td>
-      <td>0.598728</td>
+      <td>1.142343</td>
+      <td>1.564916</td>
+      <td>2.723396</td>
     </tr>
     <tr>
-      <th>21</th>
+      <th>61</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>1</td>
-      <td>0.246127</td>
-      <td>0.330535</td>
-      <td>0.564344</td>
+      <td>1.119545</td>
+      <td>1.503485</td>
+      <td>2.566996</td>
     </tr>
     <tr>
-      <th>22</th>
+      <th>62</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>2</td>
-      <td>0.247982</td>
-      <td>0.338222</td>
-      <td>0.591585</td>
+      <td>1.127981</td>
+      <td>1.538451</td>
+      <td>2.690908</td>
     </tr>
     <tr>
-      <th>23</th>
+      <th>63</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>3</td>
-      <td>0.249036</td>
-      <td>0.336025</td>
-      <td>0.590084</td>
+      <td>1.132775</td>
+      <td>1.528458</td>
+      <td>2.684079</td>
     </tr>
     <tr>
-      <th>24</th>
+      <th>64</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>4</td>
-      <td>0.252481</td>
-      <td>0.355873</td>
-      <td>0.612434</td>
+      <td>1.148444</td>
+      <td>1.618737</td>
+      <td>2.785739</td>
     </tr>
     <tr>
-      <th>25</th>
+      <th>65</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>5</td>
-      <td>0.248123</td>
-      <td>0.339443</td>
-      <td>0.596411</td>
+      <td>1.128622</td>
+      <td>1.544002</td>
+      <td>2.712857</td>
     </tr>
     <tr>
-      <th>26</th>
+      <th>66</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>6</td>
-      <td>0.251108</td>
-      <td>0.360015</td>
-      <td>0.636162</td>
+      <td>1.142200</td>
+      <td>1.637577</td>
+      <td>2.893670</td>
     </tr>
     <tr>
-      <th>27</th>
+      <th>67</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>7</td>
-      <td>0.249702</td>
-      <td>0.356174</td>
-      <td>0.642787</td>
+      <td>1.135804</td>
+      <td>1.620108</td>
+      <td>2.923806</td>
     </tr>
     <tr>
-      <th>28</th>
+      <th>68</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>8</td>
-      <td>0.255653</td>
-      <td>0.371766</td>
-      <td>0.664244</td>
+      <td>1.162871</td>
+      <td>1.691029</td>
+      <td>3.021406</td>
     </tr>
     <tr>
-      <th>29</th>
+      <th>69</th>
       <td>Hard_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>9</td>
-      <td>0.250821</td>
-      <td>0.352201</td>
-      <td>0.637699</td>
+      <td>1.140893</td>
+      <td>1.602033</td>
+      <td>2.900660</td>
     </tr>
     <tr>
-      <th>10</th>
+      <th>50</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>0</td>
-      <td>0.381841</td>
-      <td>0.636522</td>
-      <td>0.787831</td>
+      <td>1.603141</td>
+      <td>2.514249</td>
+      <td>3.585966</td>
     </tr>
     <tr>
-      <th>11</th>
+      <th>51</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>1</td>
-      <td>0.392218</td>
-      <td>0.618957</td>
-      <td>0.774692</td>
+      <td>1.684834</td>
+      <td>2.523169</td>
+      <td>3.656339</td>
     </tr>
     <tr>
-      <th>12</th>
+      <th>52</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>2</td>
-      <td>0.399360</td>
-      <td>0.661731</td>
-      <td>0.782320</td>
+      <td>1.600709</td>
+      <td>2.417706</td>
+      <td>3.616726</td>
     </tr>
     <tr>
-      <th>13</th>
+      <th>53</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>3</td>
-      <td>0.398164</td>
-      <td>0.672079</td>
-      <td>0.789828</td>
+      <td>1.597345</td>
+      <td>2.612795</td>
+      <td>3.518870</td>
     </tr>
     <tr>
-      <th>14</th>
+      <th>54</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>4</td>
-      <td>0.395719</td>
-      <td>0.597186</td>
-      <td>0.784837</td>
+      <td>1.616184</td>
+      <td>2.662289</td>
+      <td>3.571961</td>
     </tr>
     <tr>
-      <th>15</th>
+      <th>55</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>5</td>
-      <td>0.357182</td>
-      <td>0.662614</td>
-      <td>0.799770</td>
+      <td>1.429834</td>
+      <td>2.302718</td>
+      <td>3.534824</td>
     </tr>
     <tr>
-      <th>16</th>
+      <th>56</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>6</td>
-      <td>0.417156</td>
-      <td>0.627584</td>
-      <td>0.753414</td>
+      <td>1.664954</td>
+      <td>2.593343</td>
+      <td>3.627357</td>
     </tr>
     <tr>
-      <th>17</th>
+      <th>57</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>7</td>
-      <td>0.332087</td>
-      <td>0.550574</td>
-      <td>0.786619</td>
+      <td>1.540407</td>
+      <td>2.285904</td>
+      <td>3.564100</td>
     </tr>
     <tr>
-      <th>18</th>
+      <th>58</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>8</td>
-      <td>0.439822</td>
-      <td>0.689619</td>
-      <td>0.780412</td>
+      <td>1.530832</td>
+      <td>2.413726</td>
+      <td>3.667933</td>
     </tr>
     <tr>
-      <th>19</th>
+      <th>59</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_1</td>
       <td>9</td>
-      <td>0.437949</td>
-      <td>0.655482</td>
-      <td>0.759782</td>
+      <td>1.580711</td>
+      <td>2.289388</td>
+      <td>3.050673</td>
     </tr>
     <tr>
-      <th>30</th>
+      <th>70</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>0</td>
-      <td>0.381841</td>
-      <td>0.636522</td>
-      <td>0.787831</td>
+      <td>1.736858</td>
+      <td>2.895308</td>
+      <td>3.583558</td>
     </tr>
     <tr>
-      <th>31</th>
+      <th>71</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>1</td>
-      <td>0.392218</td>
-      <td>0.618957</td>
-      <td>0.774692</td>
+      <td>1.784057</td>
+      <td>2.815412</td>
+      <td>3.523795</td>
     </tr>
     <tr>
-      <th>32</th>
+      <th>72</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>2</td>
-      <td>0.399360</td>
-      <td>0.661731</td>
-      <td>0.782320</td>
+      <td>1.816546</td>
+      <td>3.009974</td>
+      <td>3.558491</td>
     </tr>
     <tr>
-      <th>33</th>
+      <th>73</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>3</td>
-      <td>0.398164</td>
-      <td>0.672079</td>
-      <td>0.789828</td>
+      <td>1.811103</td>
+      <td>3.057045</td>
+      <td>3.592642</td>
     </tr>
     <tr>
-      <th>34</th>
+      <th>74</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>4</td>
-      <td>0.395719</td>
-      <td>0.597186</td>
-      <td>0.784837</td>
+      <td>1.799981</td>
+      <td>2.716383</td>
+      <td>3.569941</td>
     </tr>
     <tr>
-      <th>35</th>
+      <th>75</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>5</td>
-      <td>0.357182</td>
-      <td>0.662614</td>
-      <td>0.799770</td>
+      <td>1.624691</td>
+      <td>3.013990</td>
+      <td>3.637866</td>
     </tr>
     <tr>
-      <th>36</th>
+      <th>76</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>6</td>
-      <td>0.417156</td>
-      <td>0.627584</td>
-      <td>0.753414</td>
+      <td>1.897490</td>
+      <td>2.854654</td>
+      <td>3.427008</td>
     </tr>
     <tr>
-      <th>37</th>
+      <th>77</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>7</td>
-      <td>0.332087</td>
-      <td>0.550574</td>
-      <td>0.786619</td>
+      <td>1.510544</td>
+      <td>2.504363</td>
+      <td>3.578046</td>
     </tr>
     <tr>
-      <th>38</th>
+      <th>78</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>8</td>
-      <td>0.439822</td>
-      <td>0.689619</td>
-      <td>0.780412</td>
+      <td>2.000593</td>
+      <td>3.136826</td>
+      <td>3.549813</td>
     </tr>
     <tr>
-      <th>39</th>
+      <th>79</th>
       <td>Soft_Thr</td>
       <td>((), {})</td>
       <td>speech_2</td>
       <td>9</td>
-      <td>0.437949</td>
-      <td>0.655482</td>
-      <td>0.759782</td>
+      <td>1.992071</td>
+      <td>2.981548</td>
+      <td>3.455972</td>
     </tr>
   </tbody>
 </table>
@@ -976,7 +1106,7 @@ results_df
 <section id="Generating-plots-with-the-Results-Interpreter.">
 <h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly
@@ -1047,14 +1177,24 @@ df
   </thead>
   <tbody>
     <tr>
-      <th>Hard_Thr-((), {})</th>
-      <td>0.001382</td>
-      <td>0.000186</td>
+      <th>speech_1-Hard_Thr-((), {})</th>
+      <td>0.003727</td>
+      <td>0.000378</td>
     </tr>
     <tr>
-      <th>Soft_Thr-((), {})</th>
-      <td>0.000948</td>
-      <td>0.000220</td>
+      <th>speech_1-Soft_Thr-((), {})</th>
+      <td>0.008629</td>
+      <td>0.003931</td>
+    </tr>
+    <tr>
+      <th>speech_2-Hard_Thr-((), {})</th>
+      <td>0.003348</td>
+      <td>0.001444</td>
+    </tr>
+    <tr>
+      <th>speech_2-Soft_Thr-((), {})</th>
+      <td>0.002444</td>
+      <td>0.000241</td>
     </tr>
   </tbody>
 </table>

@@ -95,7 +95,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
 <p>Within the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class, the signals obtained from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class are given as objects of another custom class called <code class="docutils literal notranslate"><span class="pre">Signal</span></code>. This class behaves like a regular <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array, but it also comprises a series of attributes of the signal that some methods might need. Moreover, benchmarks can be built to estimate these quantities as well.</p>
 <p>Let’s see some examples.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -104,9 +104,20 @@ import scipy.signal as sg
 from numpy import pi as pi
 from matplotlib import pyplot as plt
 from mcsm_benchs.SignalBank import SignalBank
+from mcsm_benchs.Benchmark import Benchmark
+from mcsm_benchs.ResultsInterpreter import ResultsInterpreter
 from utils import get_stft
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -126,7 +137,7 @@ signal_ids = [&#39;McDampedCos&#39;,&#39;McSyntheticMixture&#39;, &#39;McOnOff2&
 fig, ax = plt.subplots(1, 3, layout=&#39;tight&#39;, figsize=(9,3))
 
 for i,signal_id in enumerate(signal_ids):
-    signal = signal_dic[signal_id]()
+    signal = signal_dic[signal_id]
     S = np.abs(get_stft(signal))**2
     idx = np.unravel_index(i, ax.shape)
     ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
@@ -138,11 +149,22 @@ for i,signal_id in enumerate(signal_ids):
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_demo_quering_signals_2_0.png" src="../_images/notebooks_demo_quering_signals_2_0.png" />
+<img alt="../_images/notebooks_demo_quering_signals_2_1.png" src="../_images/notebooks_demo_quering_signals_2_1.png" />
 </div>
 </div>
 <p>We can now query a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> instance to obtain: - Total number of components - Number of components at each time instant - Instantaneous frequency of each component - Each individual component</p>
@@ -150,8 +172,7 @@ for i,signal_id in enumerate(signal_ids):
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_1 = signal_dic[signal_ids[2]]()
-print(type(signal_1))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_1 = signal_dic[signal_ids[2]]
 print(&#39;Total number of components: {}&#39;.format(signal_1.total_comps))
 
 fig, axs = plt.subplots(2, 1, layout=&#39;tight&#39;, figsize=(6,4))
@@ -164,14 +185,15 @@ axs[0].set_yticks([])
 axs[0].set_ylabel(&#39;frequency&#39;)
 
 # Plot the instantaneous frequencies on top
-[axs[0].plot(instafreq*2*N,&#39;--&#39;) for instafreq in signal_1.instf]
+for instafreq in signal_1.instf:
+    axs[0].plot(instafreq*2*N,&#39;--&#39;)
 
 axs[1].plot(signal_1.ncomps)
 axs[1].set_xlabel(&#39;time&#39;)
 axs[1].set_ylabel(&#39;# of comps.&#39;)
 axs[1].set_ylim([0,3.2])
 axs[1].set_yticks([0,1,2,3])
-<br/><br/></pre></div>
+<br/><br/><br/></pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -179,7 +201,6 @@ axs[1].set_yticks([0,1,2,3])
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;class &#39;mcsm_benchmarks.SignalBank.Signal&#39;&gt;
 Total number of components: 4
 </pre></div></div>
 </div>
@@ -189,10 +210,10 @@ Total number of components: 4
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&lt;matplotlib.axis.YTick at 0x7f49005cf070&gt;,
- &lt;matplotlib.axis.YTick at 0x7f49005cea10&gt;,
- &lt;matplotlib.axis.YTick at 0x7f49005cd9f0&gt;,
- &lt;matplotlib.axis.YTick at 0x7f49005ff700&gt;]
+[&lt;matplotlib.axis.YTick at 0x722c96fb4940&gt;,
+ &lt;matplotlib.axis.YTick at 0x722c96fb42e0&gt;,
+ &lt;matplotlib.axis.YTick at 0x722c96f87280&gt;,
+ &lt;matplotlib.axis.YTick at 0x722c96de8be0&gt;]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -204,10 +225,10 @@ Total number of components: 4
 </div>
 <p>We can also get the separated components of a signal</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_2 = signal_dic[signal_ids[1]]()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_2 = signal_dic[signal_ids[1]]
 print(type(signal_2))
 print(&#39;Total number of components: {}&#39;.format(signal_2.total_comps))
 
@@ -242,7 +263,7 @@ for i in range(1,signal_2.total_comps+1):
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;class &#39;mcsm_benchmarks.SignalBank.Signal&#39;&gt;
+&lt;class &#39;mcsm_benchs.SignalBank.Signal&#39;&gt;
 Total number of components: 3
 </pre></div></div>
 </div>
@@ -253,6 +274,230 @@ Total number of components: 3
 <img alt="../_images/notebooks_demo_quering_signals_6_1.png" src="../_images/notebooks_demo_quering_signals_6_1.png" />
 </div>
 </div>
+<section id="Benchmarking-a-component-counting-method">
+<h2>Benchmarking a component counting method<a class="headerlink" href="#Benchmarking-a-component-counting-method" title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>methods = {&#39;fun1&#39;: lambda x,*args,**kwargs: 4,
+            &#39;fun2&#39;: lambda x,*args,**kwargs: x.total_comps,
+            }
+
+perf_fun = {&#39;Error&#39;: lambda x, x_hat, *args, **kwargs: x.total_comps-x_hat,}
+
+
+benchmark = Benchmark(task = &#39;misc&#39;,
+                        methods = methods,
+                        N = 256,
+                        SNRin = [10,20],
+                        repetitions = 3,
+                        obj_fun=perf_fun,
+                        signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,],
+                        verbosity=4,
+                        parallelize=False,
+                        )
+
+benchmark.run_test() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
+benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file.
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running benchmark...
+- Signal LinearChirp
+-- SNR: 10 dB
+--- Method: fun1
+---- Parameters Combination: 0
+--- Method: fun2
+---- Parameters Combination: 0
+-- SNR: 20 dB
+--- Method: fun1
+---- Parameters Combination: 0
+--- Method: fun2
+---- Parameters Combination: 0
+- Signal CosChirp
+-- SNR: 10 dB
+--- Method: fun1
+---- Parameters Combination: 0
+--- Method: fun2
+---- Parameters Combination: 0
+-- SNR: 20 dB
+--- Method: fun1
+---- Parameters Combination: 0
+--- Method: fun2
+---- Parameters Combination: 0
+The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;)
+results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>10</th>
+      <th>20</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>fun1</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>fun2</td>
+      <td>((), {})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
 </section>
 
 

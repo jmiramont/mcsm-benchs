@@ -106,8 +106,8 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">a_method(noisy_signal,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code>.</p>
 <p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
 <p>After this, we need to create a <em>dictionary of methods</em> to pass the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object at the moment of instantiation.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
@@ -121,13 +121,22 @@ from utils import spectrogram_thresholding, get_stft
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div></div>
+</div>
 <section id="Creating-a-dictionary-of-methods">
 <h3>Creating a dictionary of methods<a class="headerlink" href="#Creating-a-dictionary-of-methods" title="Permalink to this heading"></a></h3>
 <p>Let’s create a dictionary of methods to benchmark. As as example, we will compare two strategies for spectrogram thresholding. The first one is hard thresholding, in which the thresholding function is defined as: The second one is soft thresholding, here defined as:</p>
 <p>These two approaches are implemented in the python function <code class="docutils literal notranslate"><span class="pre">thresholding(signal,</span> <span class="pre">lam,</span> <span class="pre">fun='hard')</span></code> function, which receives a signal to clean, a positional argument <code class="docutils literal notranslate"><span class="pre">lam</span></code> and a keyword argument <code class="docutils literal notranslate"><span class="pre">fun</span></code> that can be either <code class="docutils literal notranslate"><span class="pre">hard</span></code> or <code class="docutils literal notranslate"><span class="pre">soft</span></code>.</p>
 <p>Our dictionary of methods will consist then in two methods: hard thresholding and soft thresholding. For both approaches, let’s use a value of <code class="docutils literal notranslate"><span class="pre">lam=1.0</span></code> for now.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>def method_1(noisy_signal, *args, **kwargs):
@@ -156,7 +165,7 @@ Once the object is created, use the class method <code class="docutils literal n
 <p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 6 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 5`` (show each method and parameter progress)</em></p>
 <p><em>Remark 2: Parallelize the experiments is also possible by passing the parameter ``parallelize = True``.</em></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
@@ -204,8 +213,19 @@ Running benchmark...
 The test has finished.
 </pre></div></div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -214,7 +234,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>same_benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;) # Load the benchmark from a file.
@@ -223,7 +243,7 @@ True
 </div>
 <p>Now we have the results of the test in a nested dictionary called <code class="docutils literal notranslate"><span class="pre">my_results</span></code>. In order to get the results in a human-readable way using a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, and also for further analysis and reproducibility, we can use the class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
@@ -232,7 +252,7 @@ results_df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -376,7 +396,7 @@ results_df
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sb = SignalBank(N=1024)
@@ -394,19 +414,30 @@ ax.legend()
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
+  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7efc4cac9150&gt;
+&lt;matplotlib.legend.Legend at 0x791d1cbf6830&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_demo_benchmark_11_1.png" src="../_images/notebooks_demo_benchmark_11_1.png" />
+<img alt="../_images/notebooks_demo_benchmark_11_2.png" src="../_images/notebooks_demo_benchmark_11_2.png" />
 </div>
 </div>
 <p>As we can see, the DataFrame show the results ordered by columns. The first column corresponds to the method identification, and the values are taken from the keys of the dictionary of methods. The second column enumerates the parameters used (more on this on the next section). The third column corresponds to the signal identification, using the signal identification values from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class. The next column shows the number of repetition of the experiment. Finally, the remaining
@@ -420,7 +451,7 @@ columns show the results obtained for the SNR values used for each experiment. S
 <p>We can now see more in detail how to pass different parameters to our methods. For instance, let’s consider a function that depends on two thresholds <code class="docutils literal notranslate"><span class="pre">thr1</span></code> (a positional argument) and <code class="docutils literal notranslate"><span class="pre">thr2</span></code> (a keyword argument):</p>
 <p>Now let us create a method that wraps the previous function and then define the dictionary of methods for our benchmark. Notice that the method should distribute the parameters in the tuple <code class="docutils literal notranslate"><span class="pre">params</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def method_1(noisy_signal, *args, **kwargs):
@@ -432,6 +463,7 @@ columns show the results obtained for the SNR values used for each experiment. S
 def method_2(noisy_signal, *args, **kwargs):
     # If additional input parameters are needed, they can be passed in a tuple using
     # *args or **kwargs and then parsed.
+    print(np.std(noisy_signal))
     xr = spectrogram_thresholding(noisy_signal,*args,**kwargs)
     return xr
 
@@ -445,7 +477,7 @@ my_methods = {
 </div>
 <p>Having done this, we can define the different combinations of parameters using the corresponding dictionary:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a dictionary of the different combinations of thresholds to test.
@@ -469,7 +501,7 @@ print(my_parameters[&#39;Method 1&#39;])
 </div>
 <p>So now we have four combinations of input parameters for <code class="docutils literal notranslate"><span class="pre">another_method()</span></code>, that will be passed one by one to the method so that all the experiments will be carried out for each of the combinations. Let us set the benchmark and run a test using this new configuration of methods and parameters. After that, we can use the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code> to obtain a table with the results as before:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
@@ -480,7 +512,7 @@ print(my_parameters[&#39;Method 1&#39;])
                         repetitions = 3,
                         signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,],
                         verbosity=4,
-                        parallelize=False)
+                        parallelize=2)
 
 benchmark.run_test() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
 benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file.
@@ -492,9 +524,69 @@ benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+Number of processors:  12
+Parallel pool: 2
 Running benchmark...
 - Signal LinearChirp
 -- SNR: 10 dB
+--- Parallel loop -- Method: Method 1(all parameters)
+--- Parallel loop -- Method: Method 2(all parameters)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE:   0%|          | 0/18 [00:00&lt;?, ?it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.638499844636768
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE:   6%|▌         | 1/18 [00:00&lt;00:02,  7.04it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+0.64257300156633920.6615056312245502
+
+0.6384998446367680.6615056312245502
+0.6425730015663392
+0.638499844636768
+
+0.64257300156633920.6615056312245502
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE: 100%|██████████| 18/18 [00:00&lt;00:00, 92.67it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- Parallel loop finished.
 --- Method: Method 1
 ---- Parameters Combination: 0
 ---- Parameters Combination: 1
@@ -504,6 +596,48 @@ Running benchmark...
 ---- Parameters Combination: 1
 ---- Parameters Combination: 2
 -- SNR: 20 dB
+--- Parallel loop -- Method: Method 1(all parameters)
+--- Parallel loop -- Method: Method 2(all parameters)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE:   6%|▌         | 1/18 [00:00&lt;00:01,  9.60it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.61696453137471650.61071606283358350.6092058867456519
+
+
+0.6092058867456519
+0.61071606283358350.60920588674565190.61696453137471650.6169645313747165
+
+
+0.6107160628335835
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE: 100%|██████████| 18/18 [00:00&lt;00:00, 114.21it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- Parallel loop finished.
 --- Method: Method 1
 ---- Parameters Combination: 0
 ---- Parameters Combination: 1
@@ -514,6 +648,49 @@ Running benchmark...
 ---- Parameters Combination: 2
 - Signal CosChirp
 -- SNR: 10 dB
+--- Parallel loop -- Method: Method 1(all parameters)
+--- Parallel loop -- Method: Method 2(all parameters)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+DONE:   6%|▌         | 1/18 [00:00&lt;00:02,  8.26it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.3295883181396171
+0.32816451874934116
+0.31944277621145517
+0.3295883181396171
+0.319442776211455170.328164518749341160.3295883181396171
+
+0.328164518749341160.31944277621145517
+
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE: 100%|██████████| 18/18 [00:00&lt;00:00, 99.71it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- Parallel loop finished.
 --- Method: Method 1
 ---- Parameters Combination: 0
 ---- Parameters Combination: 1
@@ -523,6 +700,48 @@ Running benchmark...
 ---- Parameters Combination: 1
 ---- Parameters Combination: 2
 -- SNR: 20 dB
+--- Parallel loop -- Method: Method 1(all parameters)
+--- Parallel loop -- Method: Method 2(all parameters)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE:   6%|▌         | 1/18 [00:00&lt;00:02,  7.52it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.3080646489101216
+0.307606283867347840.3047451297267905
+
+0.30806464891012160.30474512972679050.307606283867347840.30806464891012160.30760628386734784
+
+
+
+
+0.3047451297267905
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+DONE: 100%|██████████| 18/18 [00:00&lt;00:00, 94.39it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--- Parallel loop finished.
 --- Method: Method 1
 ---- Parameters Combination: 0
 ---- Parameters Combination: 1
@@ -535,7 +754,7 @@ The test has finished.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -543,12 +762,389 @@ The test has finished.
 True
 </pre></div></div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = benchmark.load_benchmark(&#39;saved_benchmark&#39;)
+</pre></div>
+</div>
+</div>
 <p>As we can see, the experiments have been repeated for every combination of parameters, listed in the second column of the table as <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+results_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>Parameter</th>
+      <th>Signal_id</th>
+      <th>Repetition</th>
+      <th>10</th>
+      <th>20</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>11.886836</td>
+      <td>22.377151</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>12.722813</td>
+      <td>22.764552</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>12.397020</td>
+      <td>22.369574</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>12.202161</td>
+      <td>22.308138</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>12.765038</td>
+      <td>23.274028</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Method 1</td>
+      <td>((1.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>12.237888</td>
+      <td>22.527840</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>9.561175</td>
+      <td>19.363456</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>11.269130</td>
+      <td>20.166925</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>10.092591</td>
+      <td>20.208074</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>11.098586</td>
+      <td>21.810042</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>11.606212</td>
+      <td>22.110749</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Method 1</td>
+      <td>((2.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>12.394916</td>
+      <td>22.064287</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>6.704627</td>
+      <td>14.660777</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>6.300460</td>
+      <td>16.711029</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>4.280288</td>
+      <td>15.125271</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>6.720848</td>
+      <td>20.151226</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>6.295412</td>
+      <td>19.524469</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Method 1</td>
+      <td>((3.0,), {'fun': 'hard'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>8.430791</td>
+      <td>20.371007</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>11.650464</td>
+      <td>20.706768</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>13.004917</td>
+      <td>21.676690</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>11.239157</td>
+      <td>20.882721</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>12.103833</td>
+      <td>22.115554</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>13.406346</td>
+      <td>23.304552</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Method 2</td>
+      <td>((1.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>12.910531</td>
+      <td>22.876708</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>6.325521</td>
+      <td>13.864594</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>6.747186</td>
+      <td>15.348714</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>5.647123</td>
+      <td>14.019241</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>6.981757</td>
+      <td>17.601935</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>6.840569</td>
+      <td>17.947633</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>Method 2</td>
+      <td>((2.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>7.860410</td>
+      <td>19.078633</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>0</td>
+      <td>2.955767</td>
+      <td>9.098912</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>1</td>
+      <td>2.971021</td>
+      <td>10.506576</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>CosChirp</td>
+      <td>2</td>
+      <td>2.509947</td>
+      <td>9.303613</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>0</td>
+      <td>2.981966</td>
+      <td>12.647932</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>1</td>
+      <td>2.664768</td>
+      <td>12.684470</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>Method 2</td>
+      <td>((3.0,), {'fun': 'soft'})</td>
+      <td>LinearChirp</td>
+      <td>2</td>
+      <td>3.252182</td>
+      <td>14.581118</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
 </section>
 <section id="Generating-plots-with-the-Results-Interpreter.">
 <h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly
@@ -581,7 +1177,7 @@ for fig in figs:
 <section id="Checking-elapsed-time-for-each-method">
 <h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = interpreter.elapsed_time_summary()
@@ -590,7 +1186,7 @@ df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -618,34 +1214,64 @@ df
   </thead>
   <tbody>
     <tr>
-      <th>Method 1-((1.0,), {'fun': 'hard'})</th>
-      <td>0.000431</td>
-      <td>0.000027</td>
+      <th>CosChirp-Method 1-((1.0,), {'fun': 'hard'})</th>
+      <td>0.004111</td>
+      <td>0.000020</td>
     </tr>
     <tr>
-      <th>Method 1-((2.0,), {'fun': 'hard'})</th>
-      <td>0.000381</td>
-      <td>0.000015</td>
+      <th>CosChirp-Method 1-((2.0,), {'fun': 'hard'})</th>
+      <td>0.003570</td>
+      <td>0.000063</td>
     </tr>
     <tr>
-      <th>Method 1-((3.0,), {'fun': 'hard'})</th>
+      <th>CosChirp-Method 1-((3.0,), {'fun': 'hard'})</th>
+      <td>0.002674</td>
+      <td>0.000571</td>
+    </tr>
+    <tr>
+      <th>CosChirp-Method 2-((1.0,), {'fun': 'soft'})</th>
+      <td>0.009851</td>
+      <td>0.000613</td>
+    </tr>
+    <tr>
+      <th>CosChirp-Method 2-((2.0,), {'fun': 'soft'})</th>
+      <td>0.009125</td>
       <td>0.000374</td>
-      <td>0.000015</td>
     </tr>
     <tr>
-      <th>Method 2-((1.0,), {'fun': 'soft'})</th>
-      <td>0.000425</td>
-      <td>0.000016</td>
+      <th>CosChirp-Method 2-((3.0,), {'fun': 'soft'})</th>
+      <td>0.008126</td>
+      <td>0.001306</td>
     </tr>
     <tr>
-      <th>Method 2-((2.0,), {'fun': 'soft'})</th>
-      <td>0.000416</td>
-      <td>0.000029</td>
+      <th>LinearChirp-Method 1-((1.0,), {'fun': 'hard'})</th>
+      <td>0.003422</td>
+      <td>0.000150</td>
     </tr>
     <tr>
-      <th>Method 2-((3.0,), {'fun': 'soft'})</th>
-      <td>0.000395</td>
-      <td>0.000007</td>
+      <th>LinearChirp-Method 1-((2.0,), {'fun': 'hard'})</th>
+      <td>0.002905</td>
+      <td>0.000517</td>
+    </tr>
+    <tr>
+      <th>LinearChirp-Method 1-((3.0,), {'fun': 'hard'})</th>
+      <td>0.003302</td>
+      <td>0.000167</td>
+    </tr>
+    <tr>
+      <th>LinearChirp-Method 2-((1.0,), {'fun': 'soft'})</th>
+      <td>0.008354</td>
+      <td>0.000330</td>
+    </tr>
+    <tr>
+      <th>LinearChirp-Method 2-((2.0,), {'fun': 'soft'})</th>
+      <td>0.006704</td>
+      <td>0.001551</td>
+    </tr>
+    <tr>
+      <th>LinearChirp-Method 2-((3.0,), {'fun': 'soft'})</th>
+      <td>0.007219</td>
+      <td>0.000803</td>
     </tr>
   </tbody>
 </table>
