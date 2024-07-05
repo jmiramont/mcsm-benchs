@@ -19,6 +19,7 @@ plotly = "^5.10.0"
 
 
 # Dependencies for documentation. "poetry install --with docs"
+pytest-cov = "^5.0.0"
 [tool.poetry.group.docs]
 optional = true
 
