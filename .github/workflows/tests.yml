@@ -43,11 +43,14 @@ jobs:
       # - name: Run pytest
         # run: poetry run pytest
 
+      # - name: Run tests and collect coverage
+        # run: poetry run pytest --cov ${{ env.CODECOV_ATS_TESTS }}
+      
       - name: Run tests and collect coverage
-        run: poetry run pytest --cov ${{ env.CODECOV_ATS_TESTS }}
-        
+        run: poetry run pytest --cov --cov-report=xml
+      
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.0.1
+        uses: codecov/codecov-action@v4.2.0
         with:
           verbose: true
         env:
