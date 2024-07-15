@@ -3,7 +3,7 @@ from mcsm_benchs.SignalBank import SignalBank, Signal
 import pandas as pd
 import numbers
 import pickle
-from functools import partial
+# from functools import partial
 import multiprocessing
 from parallelbar import progress_map
 import time
@@ -35,7 +35,7 @@ class Benchmark:
 
     save_to_file(self,filename = None):
         Save the results to a binary file that encodes the benchmark object.
-        Notice that the methods associated with the benchmark, not being pickable objects,
+        Notice that the methods asThe instantaneous frequency of each component.sociated with the benchmark, not being pickable objects,
         are NOT saved.
 
     get_results_as_df(self, results = None):

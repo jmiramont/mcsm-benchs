@@ -10,7 +10,7 @@ jobs:
   build_and_pub:
     strategy:
       matrix:
-        os: ["ubuntu-latest"]
+        os: ["ubuntu-latest","macos-latest"]
         python-version: ["3.9"]
     runs-on: ${{ matrix.os }}
 
@@ -39,12 +39,6 @@ jobs:
           
       - name: Install package
         run: poetry install
-
-      # - name: Run pytest
-        # run: poetry run pytest
-
-      # - name: Run tests and collect coverage
-        # run: poetry run pytest --cov ${{ env.CODECOV_ATS_TESTS }}
       
       - name: Run tests and collect coverage
         run: poetry run pytest --cov --cov-report=xml
