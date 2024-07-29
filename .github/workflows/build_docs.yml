@@ -19,17 +19,13 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
 
-     #----------------------------------------------
-     #-------  install & configure Python  ---------
-     #---------------------------------------------- 
+      # Install python
       - name: Install Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       
-      #----------------------------------------------
-      #  -----  install & configure poetry  ---------
-      #----------------------------------------------
+      # Install Poetry for dependency management
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
@@ -43,7 +39,7 @@ jobs:
       - name: Install pandoc
         run: sudo apt install pandoc
 
-      - name: Move notebooks for publication
+      - name: Move notebooks for publication # This keeps the notebooks updated in docs.
         run: | 
           cp notebooks/ docs -r
 
@@ -53,7 +49,7 @@ jobs:
           poetry run make clean
           poetry run make html     
         
-      - name: Create .nojekyll file.
+      - name: Create .nojekyll file.  # This removes jekyll template for docs.
         run: | 
           >  docs/_build/html/.nojekyll
           
