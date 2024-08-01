@@ -5,11 +5,13 @@ import numbers
 import pickle
 # from functools import partial
 import multiprocessing
-from parallelbar import progress_map
+# from parallelbar import progress_map
 import time
 
 from numpy import mean, abs 
 from numpy.linalg import norm
+
+from tqdm import tqdm
 
 
 class Benchmark:
@@ -56,6 +58,7 @@ class Benchmark:
                  parallelize = False,
                  complex_noise = False,
                  obj_fun = None,
+                 write_log=False,
                  **kwargs
                  ):
         """ Initialize the main parameters of the test bench before running the benchmark.
@@ -102,7 +105,9 @@ class Benchmark:
 
         """
 
-        
+        self.write_log=write_log
+        self.log = []
+
         # Check input parameters and initialize the object attributes
         self.input_parsing(task,
                            methods,
@@ -125,6 +130,17 @@ class Benchmark:
                 print('Parallel pool: {}'.format(self.processes))
 
     def __add__(self, other):
+        """Overload the addition operator for Benchmark objects with the same parameters.
+
+        Args:
+            other (Benchmark): A Benchmark with the same parameters and possibly different methods.
+
+        Raises:
+            TypeError: 
+
+        Returns:
+            Benchmark: A Benchmark object with the combined methods.
+        """
         if isinstance(other, Benchmark):
             return self.sum(self,other)
         else:
@@ -259,7 +275,7 @@ class Benchmark:
                 signal_bank = SignalBank(N=self.N, Nsub=self.Nsub, return_signal=True)
                 self.tmin = signal_bank.tmin # Save initial and end times of signals.
                 self.tmax = signal_bank.tmax
-                #TODO Don't use functions here and use arrays instead
+
                 self.signal_dic = signal_bank.signalDict
                 self.signal_ids = [akey for akey in self.signal_dic]
                 if Nsub is None:
@@ -405,8 +421,11 @@ class Benchmark:
         except BaseException as err:
             print(f"Unexpected error {err=}, {type(err)=} in method {method}. Watch out for NaN values.")
             
-            # TODO Write a log here with the error. Should identify the repetition.
-            
+            # Write an entry log for errors.
+            if self.write_log:
+                log_entry = f"Unexpected error {err=}, {type(err)=} in method {method}. Noise matrix index: {idx=}."
+                self.log.append(log_entry)
+
             elapsed = np.nan
 
             if self.task == 'denoising':
@@ -422,6 +441,8 @@ class Benchmark:
         return method_output, elapsed
     
     def set_results_dict(self):
+        """ Initializes a dictionary where the results are going to be saved later.
+        """
         # If its a new benchmark...
         if self.results is None:
             self.results = dict()
@@ -463,7 +484,10 @@ class Benchmark:
         """
         if self.verbosity > 0:
             print('Running benchmark...')
-
+            if self.verbosity>1:
+                bar_fun=lambda smth: smth
+            else:
+                bar_fun=lambda smth: tqdm(smth)
 
         # If it is a new benchmark, create a nested dict() to save the results.
         # If it is an old benchmark with new methods, create the new keys.
@@ -476,8 +500,9 @@ class Benchmark:
 
             self.base_signal = self.signal_dic[signal_id]
             self.base_signal_info = self.signal_dic[signal_id].get_info()
+
             
-            for SNR in self.SNRin:
+            for SNR in bar_fun(self.SNRin):
                 if self.verbosity >= 2:
                     print('-- SNR: {} dB'.format(SNR))
 
@@ -504,7 +529,7 @@ class Benchmark:
                 if self.parallel_flag:
                     parallel_list = list()
                     for method in self.methods:
-                        if self.verbosity >= 1:
+                        if self.verbosity >= 2:
                             print('--- Parallel loop -- Method: '
                                 +method
                                 +'(all parameters)')                                               
@@ -515,10 +540,10 @@ class Benchmark:
 
                     # Here implement the parallel stuff
                     pool = multiprocessing.Pool(processes=self.processes) 
-                    parallel_results = progress_map(self.inner_loop, parallel_list) 
+                    parallel_results = pool.map(self.inner_loop, parallel_list) 
                     pool.close() 
                     pool.join()
-                    if self.verbosity >= 1:    
+                    if self.verbosity >= 2:    
                         print('--- Parallel loop finished.') 
 
                 # ---------------------- Serial loop -----------------------------------
@@ -697,6 +722,17 @@ class Benchmark:
 
 
     def add_new_method(self, methods, parameters=None):
+        """Add new methods to an existing Benchmark.
+
+        Args:
+            methods (_type_): _description_
+            parameters (_type_, optional): _description_. Defaults to None.
+
+        Raises:
+            ValueError: _description_
+            ValueError: _description_
+            ValueError: _description_
+        """
         # Check methods is a dictionary and update existing dictionary of methods.
         if type(methods) is not dict:
             raise ValueError("Methods should be a dictionary.\n")
@@ -727,13 +763,13 @@ class Benchmark:
 
 # Other functions:
     def dic2df(self, mydic):
-        """_summary_
+        """ Get a pandas DataFrame from a nested dictionary.
 
         Args:
-            mydic (_type_): _description_
+            mydic (_type_): A nested dictionary of results coming from a Benchmark object.
 
         Returns:
-            _type_: _description_
+            DataFrame : A DataFrame with a column per-level in the dictionary.
         """
         auxdic = dict()
         for key in mydic:
@@ -768,9 +804,17 @@ class Benchmark:
         return noise_matrix
 
 
-    # Static methods:
+    # Static methods--------------------------------------------------------------------
     @staticmethod    
     def load_benchmark(filename,**kwargs):
+        """Load a Benchmark object from a file saved using the class method.
+
+        Args:
+            filename (str): A path to the saved benchmark.
+
+        Returns:
+            Benchmark: A Benchmark object.
+        """
         with open(filename + '.pkl', 'rb') as f:
             benchmark_dict = pickle.load(f)
         
@@ -779,6 +823,19 @@ class Benchmark:
 
     @staticmethod
     def sigmerge(x1, noise, ratio, tmin=None, tmax=None, return_noise=False):
+        """ Merge a signal and a noise realization with a given SNR (in dB).
+
+        Args:
+            x1 (_type_): _description_
+            noise (_type_): _description_
+            ratio (_type_): _description_
+            tmin (_type_, optional): _description_. Defaults to None.
+            tmax (_type_, optional): _description_. Defaults to None.
+            return_noise (bool, optional): _description_. Defaults to False.
+
+        Returns:
+            _type_: _description_
+        """
         # Get signal parameters.
         N = len(x1)
 
@@ -834,6 +891,7 @@ class Benchmark:
 
     @staticmethod
     def detection_perf_function(original_signal, detection_output,**kwargs):
+        """ Performance function for detection. Returns the boolean output of the detection methods."""
         return detection_output 
 
     @staticmethod
@@ -918,7 +976,7 @@ END OF BENCHMARK CLASS DEFINITION
 
 """
 ----------------------------------------------------------------------------------------
-Other functions
+Other auxiliary functions
 ----------------------------------------------------------------------------------------
 """
 

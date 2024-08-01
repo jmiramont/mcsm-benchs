@@ -724,6 +724,6 @@ class ResultsInterpreter:
 
         df = pd.DataFrame(auxdic)
         df = df.transpose()
-        df.columns=('Mean','Std')
+        df.columns=('Average time (s)','Std')
 
         return df

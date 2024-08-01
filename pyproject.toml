@@ -21,6 +21,7 @@ plotly = "^5.10.0"
 # Dependencies for documentation. "poetry install --with docs"
 parallelbar = "^2.4"
 pytest-cov = "^5.0.0"
+tqdm = "^4.66.4"
 [tool.poetry.group.docs]
 optional = true
 

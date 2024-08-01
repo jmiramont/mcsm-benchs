@@ -2,6 +2,7 @@ import importlib.util
 import numpy as np
 import numbers
 
+# Check matlab.engine is installed
 try:
     matlab_is_present = importlib.util.find_spec('matlab')
     if matlab_is_present:
@@ -12,13 +13,18 @@ except RuntimeError:
 
 
 class MatlabInterface():
-    """_summary_
+    """ This class offers an interface between python and Matlab to seamlessly run methods in a Benchmark.
     """
     def __init__(self, matlab_function_name, add2path=[], matlab_warnings=False):
-        """_summary_
+        """ Creates a new MatlabInterface method that calls a Matlab function.
 
         Args:
-            matlab_function_name (_type_): _description_
+            matlab_function_name (str): The Matlab function name.
+            add2path (list, optional): Add new paths where to look for the function indicated. Defaults to [].
+            matlab_warnings (bool, optional): When True, prints out Matlab warnings. Defaults to False.
+
+        Returns:
+            MatlabInterface: An object able to call a function implemented in Matlab.
         """
         self.matlab_function_name = matlab_function_name
 
@@ -40,13 +46,13 @@ class MatlabInterface():
         # sys.path.insert(0, os.path.abspath('../src/methods/'))
 
     def matlab_function(self, signal, *params):
-        """_summary_
+        """ A wrapper of a Matlab function that receives a signal to process and a variable number of positional arguments.
 
         Args:
-            signal (_type_): _description_
+            signal (numpy.ndarray): A numpy array with a signal. 
 
         Returns:
-            _type_: _description_
+            An equivalent array with the outputs of the Matlab function.
         """
         all_params = list((signal.copy(),*params))
         params = self.pre_parameters(*all_params)
@@ -62,10 +68,10 @@ class MatlabInterface():
         return np.array(outputs)
         
     def pre_parameters(self, *params):
-        """_summary_
+        """ Cast python types to matlab types before calling the function.
 
         Returns:
-            _type_: _description_
+            list: A list of matlab types.
         """
         params_matlab = list()
         for param in params:
