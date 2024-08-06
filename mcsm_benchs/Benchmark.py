@@ -482,7 +482,7 @@ class Benchmark:
         Returns:
             dict: Returns nested dictionaries with the results of the benchmark.
         """
-        if self.verbosity > 0:
+        if self.verbosity >= 0:
             print('Running benchmark...')
             if self.verbosity>1:
                 bar_fun=lambda smth: smth

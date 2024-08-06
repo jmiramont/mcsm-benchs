@@ -640,7 +640,6 @@ class ResultsInterpreter:
     def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std', ylabel=None,idx=0):
         """
         Generate .html interactive plots files with plotly
-        #TODO Make this change with the github user!
         """
         if df is None:
             df = self.benchmark.get_results_as_df()
