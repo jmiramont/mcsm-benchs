@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mcsm-benchs"
 version = "0.1.0"
-description = "MCSM-Benchs: A benchmarking toolbox for Multi-Component Signal Methods."
+description = "mcsm-benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
 readme = "README.md"
 packages = [{include = "mcsm_benchs"}]
@@ -16,7 +16,6 @@ seaborn = ">=0.12.0"
 pytest = "^7.0.1"
 tabulate = "^0.8.9"
 plotly = "^5.10.0"
-
 
 # Dependencies for documentation. "poetry install --with docs"
 parallelbar = "^2.4"
@@ -45,8 +44,12 @@ ipykernel = {version = "^6.6.1"}
 nbformat = "^5.9.2"
 pesq = "^0.0.4"
 
+# # Install Matlab-based tools with "poetry install --with matlab_tools"
+# [tool.poetry.group.matlab_tools]
+# optional = true
 
-
+# [tool.poetry.group.matlab_tools.dependencies]
+# matlabengine = "9.13.6" # Check this is correct for your Matlab installation.
 
 # Developement dependencies, installed by default.
 [tool.poetry.group.dev.dependencies]
