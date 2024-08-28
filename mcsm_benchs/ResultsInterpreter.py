@@ -137,9 +137,9 @@ class ResultsInterpreter:
                         valores_mean.resize((1,valores_mean.shape[0]))
                         snr_out_mean = np.concatenate((snr_out_mean,valores_mean))
                         # Compute the std
-                        valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                        valores_std.resize((1,valores_std.shape[0]))
-                        snr_out_std = np.concatenate((snr_out_std,valores_std))
+                        # valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                        # valores_std.resize((1,valores_std.shape[0]))
+                        # snr_out_std = np.concatenate((snr_out_std,valores_std))
 
                 else:
                     methods_names.append(tag)
@@ -149,12 +149,12 @@ class ResultsInterpreter:
                     valores_mean.resize((1,valores_mean.shape[0]))
                     snr_out_mean = np.concatenate((snr_out_mean,valores_mean))
                     # Compute the std
-                    valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
-                    valores_std.resize((1,valores_std.shape[0]))
-                    snr_out_std = np.concatenate((snr_out_std,valores_std))
+                    # valores_std = valores.iloc[:,4::].to_numpy().std(axis = 0)
+                    # valores_std.resize((1,valores_std.shape[0]))
+                    # snr_out_std = np.concatenate((snr_out_std,valores_std))
 
             snr_out_mean = snr_out_mean[1::]
-            snr_out_std = snr_out_std[1::]
+            # snr_out_std = snr_out_std[1::]
             aux_dic[column_names[0]] = methods_names 
             for i in range(1,len(column_names)):
                 aux_dic[str(column_names[i])] = snr_out_mean[:,i-1]
@@ -190,8 +190,13 @@ class ResultsInterpreter:
                                                 alpha=0.05, 
                                                 bonferroni=self.ncomparisons,
                                                 ) 
-            else:                           # For denoising, use std.
-                varfun = lambda x: (np.std(x),np.std(x)) 
+            # For denoising or misc, use bootstrap CI.    
+            else:                           
+                # varfun = lambda x: (np.std(x),np.std(x))
+                varfun = lambda x: ci(x,
+                                    alpha=0.05,
+                                    bonferroni=self.ncomparisons,
+                                    )
                  
 
         # Check if matrix values are bools:
@@ -265,7 +270,24 @@ class ResultsInterpreter:
 
         # Get dataframes with means and some variability measure
         dfs_means = self.get_df_means()
-        dfs_std,_ = self.get_df_std()
+        dfs_std_upper,dfs_std_lower = self.get_df_std()
+
+        for dfu,dfl,dfm in zip (dfs_std_upper,dfs_std_lower,dfs_means):
+            dfu.iloc[:,1::] = dfu.iloc[:,1::] + dfm.iloc[:,1::]
+            dfl.iloc[:,1::] = dfm.iloc[:,1::]-dfl.iloc[:,1::]
+
+
+        #TODO: Round std to 2 decimal places.
+        # def round_to_2dec(input):
+            # if type(input) is float:
+                # return '{:.2f}'.format(input) 
+
+        # dfs_std_lower = [df.applymap(round_to_2dec) for df in dfs_std_lower] 
+        # dfs_std_upper = [df.applymap(round_to_2dec) for df in dfs_std_upper]
+
+
+        dfs_std = [{col:[[low,upp] for low,upp in zip(dfl[col],dfu[col])] for col in dfu.columns.values[1::]} for dfu,dfl in zip(dfs_std_upper,dfs_std_lower)]
+        dfs_std = [pd.DataFrame(df) for df in dfs_std]
 
         for signal_id, df_means, df_std in zip(self.signal_ids,dfs_means,dfs_std):
             df_means_aux = df_means.copy()
@@ -285,9 +307,10 @@ class ResultsInterpreter:
             df_results = pd.DataFrame()
             df_results[column_names[0]] = df_means[column_names[0]]
             for col_ind in range(1,len(column_names)):
-                df_results['SNRin='+str(column_names[col_ind])+'dB (mean)'] = df_means_aux[str(column_names[col_ind])]
-                df_results['SNRin='+str(column_names[col_ind])+'dB (std)'] = df_std[str(column_names[col_ind])]
+                df_results['SNRin='+str(column_names[col_ind])+'dB (average)'] = df_means_aux[str(column_names[col_ind])]
+                df_results['SNRin='+str(column_names[col_ind])+'dB (CI)'] = df_std[str(column_names[col_ind])]
 
+            # Make sure having two decimals precision in each std column
 
             if pm_name is not None:
                 df_results.rename(columns={"QRF": pm_name})
@@ -321,13 +344,13 @@ class ResultsInterpreter:
 
         #TODO Check this part for different perf. functions
         if self.task == "denoising":
-            lines = lines + ['Results shown here are the mean and standard deviation of \
-                              the performance metric. \
+            lines = lines + ['The results shown here are the average and 95\% CI of \
+                              the performance metric with Bonferroni correction. \
                               Best performances are **bolded**. \n']
         
         if self.task == "detection":
-            lines = lines + ['Results shown here are the mean and Clopper-Pearson CI of \
-                            the estimated detection power. \
+            lines = lines + ['The results shown here are the average and 95\% Clopper-Pearson CI of \
+                            the estimated detection power with Bonferroni correction. \
                             Best performances are **bolded**. \n']
         
         return lines
@@ -449,7 +472,7 @@ class ResultsInterpreter:
            errbar_params = {'errwidth':0.1,
                             'capsize':0.02,
                             }
-
+           
         barfig = sns.barplot(x="SNRin", 
                             y="QRF", # It's QRF in the DataFrame, but changed later.
                             hue="Method",
@@ -606,14 +629,14 @@ class ResultsInterpreter:
 
         # Get dataframes with means and some variability measure (varfun)
         dfs_means = self.get_df_means(df=df)
-        dfs_std, dfs_std_minus = self.get_df_std(df=df, varfun=varfun)
+        dfs_std_upper, dfs_std_lower = self.get_df_std(df=df, varfun=varfun)
 
-        for signal_id, df_means, df_std, df_std_minus in zip(self.signal_ids,dfs_means,dfs_std,dfs_std_minus):
+        for signal_id, df_means, df_std_upper, df_std_lower in zip(self.signal_ids,dfs_means,dfs_std_upper,dfs_std_lower):
             df3 = df_means.set_index('Method + Param').stack().reset_index()
             df3.rename(columns = {'level_1':'SNRin', 0:'QRF'}, inplace = True)
-            df3_std = df_std.set_index('Method + Param').stack().reset_index()
+            df3_std = df_std_upper.set_index('Method + Param').stack().reset_index()
             df3_std.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
-            df3_std_minus = df_std_minus.set_index('Method + Param').stack().reset_index()
+            df3_std_minus = df_std_lower.set_index('Method + Param').stack().reset_index()
             df3_std_minus.rename(columns = {'level_1':'SNRin', 0:'std'}, inplace = True)
             df3['std'] = df3_std['std']
             df3['std-minus'] = df3_std_minus['std']
@@ -656,7 +679,7 @@ class ResultsInterpreter:
     def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun=None, ylabel=None,idx=0):
         """
         Generate .html interactive plots files with plotly to show online.
-        
+
         """
         if df is None:
             df = self.benchmark.get_results_as_df()
@@ -756,6 +779,15 @@ def clopper_pearson(x, alpha=0.05, bonferroni=1):
     alpha = alpha/bonferroni
     n = len(x) # k: number of successes
     k = sum(x) # n: number of observations
-    lb = np.mean(x) - spst.beta.ppf(alpha/2, k, n-k+1)
-    ub = spst.beta.ppf(1 - alpha/2, k+1, n-k)-np.mean(x)
-    return lb, ub
+    lb = spst.beta.ppf(alpha/2, k, n-k+1)
+    ub = spst.beta.ppf(1 - alpha/2, k+1, n-k)
+    
+    if np.isnan(ub) :
+        ub = 1.0
+
+    return np.mean(x)-lb, ub-np.mean(x)
+
+def ci(x,alpha=0.05,bonferroni=1):
+    significance = alpha/bonferroni*100
+    lb,ub = sns.utils.ci(sns.algorithms.bootstrap(x),which=100-significance)
+    return np.mean(x)-lb, ub-np.mean(x)
