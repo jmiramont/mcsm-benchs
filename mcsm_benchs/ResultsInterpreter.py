@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import string
 import os
 import plotly.express as px
+import scipy.stats as spst
 
 class ResultsInterpreter:
     """This class takes a Benchmark-class object to produce a series of plots and tables
@@ -31,6 +32,10 @@ class ResultsInterpreter:
         self.snr_values = a_benchmark.SNRin
         self.signal_ids = a_benchmark.signal_ids
         self.methods_and_params_dic  = a_benchmark.methods_and_params_dic
+
+        # Number of elements to display in the plots.
+        self.ncomparisons = sum([len(self.methods_and_params_dic[m]) for m in self.methods_ids])
+
         self.path_results = os.path.join('results')
         self.path_results_figures = os.path.join('results', 'figures')
 
@@ -160,22 +165,34 @@ class ResultsInterpreter:
 
 #---------------------------------------------------------------------------------------
 
-    def get_df_std(self, df=None, varfun='std', idx=0):
-        """ Generates a DataFrame of std results to .md file. 
+    def get_df_std(self, df=None, varfun=None, idx=0):
+        """Generates a DataFrame with a variability function from the results.
+        Returns an string to create a .md file. 
+
+        Args:
+            df (_type_, optional): Main DataFrame with the results. Defaults to None.
+            varfun (str, optional): A variability function. Defaults to 'std', which uses numpy.std().
+            idx (int, optional): Index of the corresponding performance function. Defaults to 0.
 
         Returns:
-            str: String containing the table.
+            Two DataFrames with the lower and upper variability indicator.
         """
-        # if filename is None:
-            # filename = 'results'
-        if varfun=='std':
-            varfun = lambda x: (np.std(x),np.std(x))
-            # varfun = lambda x: np.std(x)       
-
+        # Use the benchmark results if no DataFrame is passed as parameter.
         if df is None:
             df = self.benchmark.get_results_as_df()
             if type(df)==list:
                 df = df[idx]            
+
+        # Choose an appropriate variability measure:
+        if varfun is None:
+            if self.task == 'detection':    # Bonferroni corrected Clopper-Pearson CI
+                varfun = lambda x: clopper_pearson(x, 
+                                                alpha=0.05, 
+                                                bonferroni=self.ncomparisons,
+                                                ) 
+            else:                           # For denoising, use std.
+                varfun = lambda x: (np.std(x),np.std(x)) 
+                 
 
         # Check if matrix values are bools:
         aux = df.iloc[:,4::].to_numpy()
@@ -184,8 +201,8 @@ class ResultsInterpreter:
 
         column_names = ['Method + Param'] + [col for col in df.columns.values[4::]]
         output_string = ''
-        df_std = list()
-        df_std_minus = list()
+        df_std_upper = list()
+        df_std_lower = list()
 
         for signal_id in self.signal_ids:
             methods_names = list()
@@ -220,15 +237,15 @@ class ResultsInterpreter:
             for i,j in zip(range(1,len(column_names)),range(0,snr_out_std.shape[1],2)):
                 aux_dic[str(column_names[i])] = snr_out_std[:,j]
 
-            df_std_minus.append(pd.DataFrame(aux_dic))
+            df_std_lower.append(pd.DataFrame(aux_dic))
 
             aux_dic_2[column_names[0]] = methods_names
             for i,j in zip(range(1,len(column_names)),range(1,snr_out_std.shape[1],2)):
                 aux_dic_2[str(column_names[i])] = snr_out_std[:,j]
 
-            df_std.append(pd.DataFrame(aux_dic_2))
+            df_std_upper.append(pd.DataFrame(aux_dic_2))
 
-        return df_std, df_std_minus
+        return df_std_upper, df_std_lower
 
 # --------------------------------------------------------------------------------------
     def get_table_means_and_std(self, link='', pm_name=None, idx=0):
@@ -309,7 +326,7 @@ class ResultsInterpreter:
                               Best performances are **bolded**. \n']
         
         if self.task == "detection":
-            lines = lines + ['Results shown here are the mean and standard deviation of \
+            lines = lines + ['Results shown here are the mean and Clopper-Pearson CI of \
                             the estimated detection power. \
                             Best performances are **bolded**. \n']
         
@@ -546,7 +563,6 @@ class ResultsInterpreter:
             ax.set_axisbelow(True)
             ax.set_title(signal_id)
             ax.legend(loc='upper left', frameon=False, fontsize = 'small')
-            # sns.despine(offset=10, trim=True)
             fig.set_size_inches(size)
             
             # Save figures to file.
@@ -563,18 +579,18 @@ class ResultsInterpreter:
             ax = None # Create new figure in the next interation of the loop.
         return list_figs
 
-
+# --------------------------------------------------------------------------------------
     def get_summary_plotlys(self, 
                             df=None, 
                             bars=True, 
                             difference=False, 
-                            varfun='std', 
+                            varfun=None, 
                             ylabel=None,
                             idx=0):
         """ Generates interactive plots with plotly.
         
             Returns:
-                list : A list with plotlys figures.
+                list : A list with plotly figures.
         """
   
         if df is None:
@@ -588,7 +604,7 @@ class ResultsInterpreter:
 
         figs = []
 
-        # Get dataframes with means and some variability measure
+        # Get dataframes with means and some variability measure (varfun)
         dfs_means = self.get_df_means(df=df)
         dfs_std, dfs_std_minus = self.get_df_std(df=df, varfun=varfun)
 
@@ -637,9 +653,10 @@ class ResultsInterpreter:
 
         return figs
     
-    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun='std', ylabel=None,idx=0):
+    def get_html_figures(self, df=None, path=None, bars=True, difference=False, varfun=None, ylabel=None,idx=0):
         """
-        Generate .html interactive plots files with plotly
+        Generate .html interactive plots files with plotly to show online.
+        
         """
         if df is None:
             df = self.benchmark.get_results_as_df()
@@ -726,3 +743,19 @@ class ResultsInterpreter:
         df.columns=('Average time (s)','Std')
 
         return df
+
+
+# Use this function only for the CP CI shown in the interactive figures using Plotly:
+def clopper_pearson(x, alpha=0.05, bonferroni=1):
+    """
+    Clopper-Pearson confidence interval for Bernoulli parameter
+    alpha: confidence level
+    k: number of successes
+    n: number of observations
+    """
+    alpha = alpha/bonferroni
+    n = len(x) # k: number of successes
+    k = sum(x) # n: number of observations
+    lb = np.mean(x) - spst.beta.ppf(alpha/2, k, n-k+1)
+    ub = spst.beta.ppf(1 - alpha/2, k+1, n-k)-np.mean(x)
+    return lb, ub
