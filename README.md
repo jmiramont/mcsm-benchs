@@ -24,4 +24,4 @@ This [GitHub template](https://github.com/jmiramont/collab-benchmark-template) c
 
 :pushpin: We use [`matlabengine`](https://pypi.org/project/matlabengine/) to run `MATLAB`-based methods in `Python`.
 
-<!-- :pushpin: We use `oct2py` to run `Octave`-based methods in Pythob. -->
+:pushpin: We use [`plotly`](https://plotly.com/) to create online, interactive plots.

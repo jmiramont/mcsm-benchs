@@ -58,7 +58,7 @@ class Benchmark:
                  parallelize = False,
                  complex_noise = False,
                  obj_fun = None,
-                 write_log=False,
+                 write_log=True,
                  **kwargs
                  ):
         """ Initialize the main parameters of the test bench before running the benchmark.
@@ -822,7 +822,7 @@ class Benchmark:
 
 
     @staticmethod
-    def sigmerge(x1, noise, ratio, tmin=None, tmax=None, return_noise=False):
+    def sigmerge(x1, noise, snr, tmin=None, tmax=None, return_noise=False):
         """ Merge a signal and a noise realization with a given SNR (in dB).
 
         Args:
@@ -851,7 +851,7 @@ class Benchmark:
             ex2=np.mean(np.abs(noise)**2)
         else:
             ex2=np.mean(np.abs(noise)**2, axis=1)
-        h=np.sqrt(ex1/(ex2*10**(ratio/10)))
+        h=np.sqrt(ex1/(ex2*10**(snr/10)))
 
         if len(noise.shape)>1:
             h.resize((noise.shape[0],1))

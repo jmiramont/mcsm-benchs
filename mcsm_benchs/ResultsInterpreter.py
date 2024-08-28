@@ -302,7 +302,7 @@ class ResultsInterpreter:
         lines = lines + ['## Mean results tables: \n']
 
 
-        #! Check this part for different perf. functions
+        #TODO Check this part for different perf. functions
         if self.task == "denoising":
             lines = lines + ['Results shown here are the mean and standard deviation of \
                               the performance metric. \
@@ -320,7 +320,7 @@ class ResultsInterpreter:
     def save_report(self, filename=None, path='results', bars=False, link='', pm_name=None):
 
         """ This function generates a report of the results given in the Benchmark-class
-        object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
+        object. The report is saved in a Markdown syntax to be viewed as a .md file,
         while a .csv file is generated with the results.
 
         Args:
