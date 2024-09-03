@@ -59,6 +59,8 @@ class Benchmark:
                  complex_noise = False,
                  obj_fun = None,
                  write_log=True,
+                 name=None,
+                 description=None,
                  **kwargs
                  ):
         """ Initialize the main parameters of the test bench before running the benchmark.
@@ -107,6 +109,9 @@ class Benchmark:
 
         self.write_log=write_log
         self.log = []
+
+        self.name = name
+        self.description = description
 
         # Check input parameters and initialize the object attributes
         self.input_parsing(task,
