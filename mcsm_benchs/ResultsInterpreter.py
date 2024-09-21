@@ -717,10 +717,16 @@ class ResultsInterpreter:
             str: String containing the table.
         """
 
+        #TODO Show results for different perf metrics here!
         df = self.benchmark.get_results_as_df()
         if type(df)==list:
                 df = df[idx]
 
+        # Save a .csv with all the results.
+        filename = os.path.join(path,'all_results.csv')
+        df.to_csv(filename)
+
+        # Save one .csv per signal.
         for signal_id in self.signal_ids:
             # Generate DataFrame with only signal information
             df2 = df[df['Signal_id']==signal_id]
