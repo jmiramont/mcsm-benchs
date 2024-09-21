@@ -723,8 +723,9 @@ class ResultsInterpreter:
                 df = df[idx]
 
         # Save a .csv with all the results.
+        df_aux = self.rearrange_data_frame()
         filename = os.path.join(path,'all_results.csv')
-        df.to_csv(filename)
+        df_aux.to_csv(filename)
 
         # Save one .csv per signal.
         for signal_id in self.signal_ids:
