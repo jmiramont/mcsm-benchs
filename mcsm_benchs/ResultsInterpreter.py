@@ -322,13 +322,19 @@ class ResultsInterpreter:
         return output_string
 
 # --------------------------------------------------------------------------------------
-    def get_report_preamble(self):
+    def get_report_preamble(self, link=None):
         """Creates the preamble of the .md file with a table summarizing the benchmark results.
 
         Returns:
             str: String with the table header.
         """
-        lines = ['# Benchmark Report' +'\n',
+
+        if link is None:
+            link_text = ''
+        else:
+            link_text = ' [[Results .csv]]('+link+'/all_results.csv'+') '
+
+        lines = ['# Benchmark Report' + link_text +'\n',
                 '## Configuration' + '\n',
                 # 'Parallelize' + str(self.benchmark.parallel_flag) + '\n',
                 'Length of signals: ' + str(self.N) + '\n', 
