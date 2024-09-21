@@ -383,13 +383,13 @@ class ResultsInterpreter:
 
 
         # Generate table header:
-        lines = self.get_report_preamble()
+        lines = self.get_report_preamble(link=link)
         with open(output_path, 'w') as f:
             f.write('\n'.join(lines))
             # f.writelines(lines)
 
         # Append table under header
-        table_string = self.get_table_means_and_std(link=link,pm_name=pm_name)
+        table_string = self.get_table_means_and_std(link=link, pm_name=pm_name)
         with open(output_path, 'a') as f:
           f.write(table_string)
 
