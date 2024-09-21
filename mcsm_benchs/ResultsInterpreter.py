@@ -717,7 +717,7 @@ class ResultsInterpreter:
             str: String containing the table.
         """
 
-        #TODO Show results for different perf metrics here!
+        #TODO Deal with results for different perf. metrics here!
         df = self.benchmark.get_results_as_df()
         if type(df)==list:
                 df = df[idx]
