@@ -92,7 +92,7 @@
              
   <section id="MCSM-Benchs:-Benchmarks-with-personalized-noise-generating-functions">
 <h1>MCSM-Benchs: Benchmarks with personalized noise-generating functions<a class="headerlink" href="#MCSM-Benchs:-Benchmarks-with-personalized-noise-generating-functions" title="Permalink to this heading"></a></h1>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -106,15 +106,6 @@ from mcsm_benchs.ResultsInterpreter import ResultsInterpreter
 from utils import spectrogram_thresholding, get_stft
 <br/></pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre></div></div>
 </div>
 <section id="Creating-a-a-dummy-dictionary-of-methods">
 <h2>Creating a a dummy dictionary of methods<a class="headerlink" href="#Creating-a-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
@@ -203,7 +194,37 @@ results_df
 <div class="highlight"><pre>
 Running benchmark...
 - Signal LinearChirp
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 2/2 [00:00&lt;00:00, 222.61it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 - Signal CosChirp
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 2/2 [00:00&lt;00:00, 232.65it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
 The test has finished.
 </pre></div></div>
 </div>
@@ -212,10 +233,7 @@ The test has finished.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -402,7 +420,8 @@ plt.show()
                         SNRin = [40, 50], # SNRs to use during the test
                         repetitions = 3, # Number of noise realizations to use
                         signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,], # Signals to use
-                        complex_noise=noise_fun # &quot;Pink&quot; Noise
+                        complex_noise=noise_fun, # &quot;Pink&quot; Noise
+                        verbosity=0,
                         )
 
 benchmark.run_test() # Run the test.
@@ -417,9 +436,6 @@ results_df
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Running benchmark...
-- Signal LinearChirp
-- Signal CosChirp
-The test has finished.
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -427,10 +443,8 @@ The test has finished.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
+100%|██████████| 2/2 [00:00&lt;00:00, 70.43it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 112.46it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">

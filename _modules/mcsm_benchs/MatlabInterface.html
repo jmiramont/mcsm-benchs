@@ -89,6 +89,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 
+<span class="c1"># Check matlab.engine is installed</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">matlab_is_present</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s1">&#39;matlab&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">matlab_is_present</span><span class="p">:</span>
@@ -99,13 +100,18 @@
 
 
 <div class="viewcode-block" id="MatlabInterface"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.MatlabInterface.MatlabInterface">[docs]</a><span class="k">class</span> <span class="nc">MatlabInterface</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; This class offers an interface between python and Matlab to seamlessly run methods in a Benchmark.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matlab_function_name</span><span class="p">,</span> <span class="n">add2path</span><span class="o">=</span><span class="p">[],</span> <span class="n">matlab_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Creates a new MatlabInterface method that calls a Matlab function.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            matlab_function_name (_type_): _description_</span>
+<span class="sd">            matlab_function_name (str): The Matlab function name.</span>
+<span class="sd">            add2path (list, optional): Add new paths where to look for the function indicated. Defaults to [].</span>
+<span class="sd">            matlab_warnings (bool, optional): When True, prints out Matlab warnings. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            MatlabInterface: An object able to call a function implemented in Matlab.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">matlab_function_name</span> <span class="o">=</span> <span class="n">matlab_function_name</span>
 
@@ -127,13 +133,13 @@
         <span class="c1"># sys.path.insert(0, os.path.abspath(&#39;../src/methods/&#39;))</span>
 
 <div class="viewcode-block" id="MatlabInterface.matlab_function"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.MatlabInterface.MatlabInterface.matlab_function">[docs]</a>    <span class="k">def</span> <span class="nf">matlab_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; A wrapper of a Matlab function that receives a signal to process and a variable number of positional arguments.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            signal (_type_): _description_</span>
+<span class="sd">            signal (numpy.ndarray): A numpy array with a signal. </span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            An equivalent array with the outputs of the Matlab function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">all_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">signal</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span><span class="o">*</span><span class="n">params</span><span class="p">))</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_parameters</span><span class="p">(</span><span class="o">*</span><span class="n">all_params</span><span class="p">)</span>
@@ -149,10 +155,10 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span></div>
         
 <div class="viewcode-block" id="MatlabInterface.pre_parameters"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.MatlabInterface.MatlabInterface.pre_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">pre_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Cast python types to matlab types before calling the function.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            list: A list of matlab types.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params_matlab</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>

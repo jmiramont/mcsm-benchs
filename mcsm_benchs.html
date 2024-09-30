@@ -77,6 +77,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.ResultsInterpreter">mcsm_benchs.ResultsInterpreter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.ci"><code class="docutils literal notranslate"><span class="pre">ci()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.clopper_pearson"><code class="docutils literal notranslate"><span class="pre">clopper_pearson()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.SignalBank">mcsm_benchs.SignalBank module</a><ul>
@@ -131,7 +133,7 @@
 <span id="mcsm-benchs-benchmark-module"></span><h2>mcsm_benchs.Benchmark module<a class="headerlink" href="#module-mcsm_benchs.Benchmark" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">Benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'denoising'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nsub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNRin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repetitions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallelize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">Benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'denoising'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nsub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNRin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repetitions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallelize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class performs a number of tasks for methods comparison.</p>
 <dl class="py method">
@@ -168,7 +170,7 @@
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">save_to_file(self,filename</span> <span class="pre">=</span> <span class="pre">None):</span></span></dt>
 <dd><p>Save the results to a binary file that encodes the benchmark object.
-Notice that the methods associated with the benchmark, not being pickable objects,
+Notice that the methods asThe instantaneous frequency of each component.sociated with the benchmark, not being pickable objects,
 are NOT saved.</p>
 </dd></dl>
 
@@ -181,7 +183,23 @@ are NOT saved.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.add_new_method">
 <span class="sig-name descname"><span class="pre">add_new_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.add_new_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.add_new_method" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Add new methods to an existing Benchmark.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>methods</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>parameters</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – _description_</p></li>
+<li><p><strong>ValueError</strong> – _description_</p></li>
+<li><p><strong>ValueError</strong> – _description_</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.check_methods_output">
@@ -217,21 +235,22 @@ and shape.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.detection_perf_function">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">detection_perf_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection_output</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.detection_perf_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.detection_perf_function" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Performance function for detection. Returns the boolean output of the detection methods.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.dic2df">
 <span class="sig-name descname"><span class="pre">dic2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mydic</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.dic2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.dic2df" title="Permalink to this definition"></a></dt>
-<dd><p>_summary_</p>
+<dd><p>Get a pandas DataFrame from a nested dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mydic</strong> (<em>_type_</em>) – _description_</p>
+<dd class="field-odd"><p><strong>mydic</strong> (<em>_type_</em>) – A nested dictionary of results coming from a Benchmark object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>A DataFrame with a column per-level in the dictionary.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
+<dd class="field-odd"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -328,7 +347,19 @@ One realization per row.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.load_benchmark">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.load_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.load_benchmark" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Load a Benchmark object from a file saved using the class method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – A path to the saved benchmark.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Benchmark object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mcsm_benchs.Benchmark.Benchmark" title="mcsm_benchs.Benchmark.Benchmark">Benchmark</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.run_test">
@@ -372,12 +403,32 @@ are NOT saved.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.set_results_dict">
 <span class="sig-name descname"><span class="pre">set_results_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.set_results_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.set_results_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Initializes a dictionary where the results are going to be saved later.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.sigmerge">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sigmerge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.sigmerge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.sigmerge" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sigmerge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.sigmerge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.sigmerge" title="Permalink to this definition"></a></dt>
+<dd><p>Merge a signal and a noise realization with a given SNR (in dB).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>noise</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>ratio</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>tmin</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+<li><p><strong>tmax</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+<li><p><strong>return_noise</strong> (<em>bool</em><em>, </em><em>optional</em>) – _description_. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_type_</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.snr_comparison">
@@ -425,20 +476,17 @@ are NOT saved.</p>
 <dt class="sig sig-object py" id="mcsm_benchs.MatlabInterface.MatlabInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsm_benchs.MatlabInterface.</span></span><span class="sig-name descname"><span class="pre">MatlabInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matlab_function_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add2path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/MatlabInterface.html#MatlabInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.MatlabInterface.MatlabInterface" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>_summary_</p>
+<p>This class offers an interface between python and Matlab to seamlessly run methods in a Benchmark.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.MatlabInterface.MatlabInterface.matlab_function">
 <span class="sig-name descname"><span class="pre">matlab_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/MatlabInterface.html#MatlabInterface.matlab_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.MatlabInterface.MatlabInterface.matlab_function" title="Permalink to this definition"></a></dt>
-<dd><p>_summary_</p>
+<dd><p>A wrapper of a Matlab function that receives a signal to process and a variable number of positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>signal</strong> (<em>_type_</em>) – _description_</p>
+<dd class="field-odd"><p><strong>signal</strong> (<em>numpy.ndarray</em>) – A numpy array with a signal.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
+<dd class="field-even"><p>An equivalent array with the outputs of the Matlab function.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -446,13 +494,13 @@ are NOT saved.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.MatlabInterface.MatlabInterface.pre_parameters">
 <span class="sig-name descname"><span class="pre">pre_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/MatlabInterface.html#MatlabInterface.pre_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.MatlabInterface.MatlabInterface.pre_parameters" title="Permalink to this definition"></a></dt>
-<dd><p>_summary_</p>
+<dd><p>Cast python types to matlab types before calling the function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_description_</p>
+<dd class="field-odd"><p>A list of matlab types.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>_type_</p>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -539,28 +587,32 @@ Finally, generates an .html file with interactive plots.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std">
-<span class="sig-name descname"><span class="pre">get_df_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'std'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_df_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a DataFrame of std results to .md file.</p>
+<span class="sig-name descname"><span class="pre">get_df_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_df_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a DataFrame with a variability function from the results.
+Returns an string to create a .md file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>String containing the table.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Main DataFrame with the results. Defaults to None.</p></li>
+<li><p><strong>varfun</strong> (<em>str</em><em>, </em><em>optional</em>) – A variability function. Defaults to ‘std’, which uses numpy.std().</p></li>
+<li><p><strong>idx</strong> (<em>int</em><em>, </em><em>optional</em>) – Index of the corresponding performance function. Defaults to 0.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Two DataFrames with the lower and upper variability indicator.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">
-<span class="sig-name descname"><span class="pre">get_html_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">difference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'std'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_html_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures" title="Permalink to this definition"></a></dt>
-<dd><p>Generate .html interactive plots files with plotly
-#TODO Make this change with the github user!</p>
+<span class="sig-name descname"><span class="pre">get_html_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">difference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_html_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures" title="Permalink to this definition"></a></dt>
+<dd><p>Generate .html interactive plots files with plotly to show online.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_report_preamble">
-<span class="sig-name descname"><span class="pre">get_report_preamble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_report_preamble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_report_preamble" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_report_preamble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_report_preamble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_report_preamble" title="Permalink to this definition"></a></dt>
 <dd><p>Creates the preamble of the .md file with a table summarizing the benchmark results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -622,11 +674,11 @@ The QRF is computed as:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys">
-<span class="sig-name descname"><span class="pre">get_summary_plotlys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">difference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'std'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_summary_plotlys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_summary_plotlys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">difference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_summary_plotlys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys" title="Permalink to this definition"></a></dt>
 <dd><p>Generates interactive plots with plotly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list with plotlys figures.</p>
+<dd class="field-odd"><p>A list with plotly figures.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
@@ -712,7 +764,7 @@ Highlights the best results.</p>
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.save_report">
 <span class="sig-name descname"><span class="pre">save_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pm_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.save_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.save_report" title="Permalink to this definition"></a></dt>
 <dd><p>This function generates a report of the results given in the Benchmark-class
-object. The report is saved in a MardkedDown syntax to be viewed as a .md file,
+object. The report is saved in a Markdown syntax to be viewed as a .md file,
 while a .csv file is generated with the results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -721,6 +773,20 @@ while a .csv file is generated with the results.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ci">
+<span class="sig-prename descclassname"><span class="pre">mcsm_benchs.ResultsInterpreter.</span></span><span class="sig-name descname"><span class="pre">ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonferroni</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ci"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ci" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.clopper_pearson">
+<span class="sig-prename descclassname"><span class="pre">mcsm_benchs.ResultsInterpreter.</span></span><span class="sig-name descname"><span class="pre">clopper_pearson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonferroni</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#clopper_pearson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.clopper_pearson" title="Permalink to this definition"></a></dt>
+<dd><p>Clopper-Pearson confidence interval for Bernoulli parameter
+alpha: confidence level
+k: number of successes
+n: number of observations</p>
 </dd></dl>
 
 </section>

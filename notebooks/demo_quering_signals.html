@@ -95,7 +95,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
 <p>Within the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class, the signals obtained from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class are given as objects of another custom class called <code class="docutils literal notranslate"><span class="pre">Signal</span></code>. This class behaves like a regular <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array, but it also comprises a series of attributes of the signal that some methods might need. Moreover, benchmarks can be built to estimate these quantities as well.</p>
 <p>Let’s see some examples.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -109,15 +109,6 @@ from mcsm_benchs.ResultsInterpreter import ResultsInterpreter
 from utils import get_stft
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/.venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -149,22 +140,11 @@ for i,signal_id in enumerate(signal_ids):
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1206: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-/home/juan/Nextcloud/benchmark_standalone/mcsm-benchmarks/mcsm_benchs/SignalBank.py:1394: RuntimeWarning: divide by zero encountered in divide
-  e = np.exp(-alfa*np.arange(tt))*((np.arange(tt)-c)**2/np.arange(tt))
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_demo_quering_signals_2_1.png" src="../_images/notebooks_demo_quering_signals_2_1.png" />
+<img alt="../_images/notebooks_demo_quering_signals_2_0.png" src="../_images/notebooks_demo_quering_signals_2_0.png" />
 </div>
 </div>
 <p>We can now query a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> instance to obtain: - Total number of components - Number of components at each time instant - Instantaneous frequency of each component - Each individual component</p>
@@ -175,25 +155,30 @@ for i,signal_id in enumerate(signal_ids):
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>signal_1 = signal_dic[signal_ids[2]]
 print(&#39;Total number of components: {}&#39;.format(signal_1.total_comps))
 
-fig, axs = plt.subplots(2, 1, layout=&#39;tight&#39;, figsize=(6,4))
-S = np.abs(get_stft(signal_1))**2
+fig, axs = plt.subplots(2, 1, layout=&#39;tight&#39;, figsize=(2.2,4))
+S = np.abs(get_stft(signal_1))
 axs[0].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
-axs[0].set_title(&#39;signal_id = &#39;+ signal_ids[2])
+# axs[0].set_title(&#39;signal_id = &#39;+ signal_ids[2])
+axs[0].set_title(&#39;Synthetic Signal&#39;, fontsize=8)
 axs[0].set_xticks([],[])
 # axs[0].set_xlabel(&#39;time&#39;)
 axs[0].set_yticks([])
-axs[0].set_ylabel(&#39;frequency&#39;)
+axs[0].set_ylabel(&#39;frequency&#39;,fontsize=7)
 
 # Plot the instantaneous frequencies on top
-for instafreq in signal_1.instf:
-    axs[0].plot(instafreq*2*N,&#39;--&#39;)
+# for instafreq in signal_1.instf:
+#     axs[0].plot(instafreq*2*N,&#39;--&#39;)
 
 axs[1].plot(signal_1.ncomps)
-axs[1].set_xlabel(&#39;time&#39;)
-axs[1].set_ylabel(&#39;# of comps.&#39;)
+axs[1].set_xlabel(&#39;time&#39;, fontsize=7)
+axs[1].set_ylabel(&#39;# of components&#39;,fontsize=7)
 axs[1].set_ylim([0,3.2])
 axs[1].set_yticks([0,1,2,3])
-<br/><br/><br/></pre></div>
+axs[1].set_xticks([],[])
+
+
+fig.savefig(&#39;signals_ncomps.pdf&#39;,dpi=900, transparent=False,bbox_inches=&#39;tight&#39;)
+</pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -204,23 +189,11 @@ axs[1].set_yticks([0,1,2,3])
 Total number of components: 4
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;matplotlib.axis.YTick at 0x722c96fb4940&gt;,
- &lt;matplotlib.axis.YTick at 0x722c96fb42e0&gt;,
- &lt;matplotlib.axis.YTick at 0x722c96f87280&gt;,
- &lt;matplotlib.axis.YTick at 0x722c96de8be0&gt;]
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_demo_quering_signals_4_2.png" src="../_images/notebooks_demo_quering_signals_4_2.png" />
+<img alt="../_images/notebooks_demo_quering_signals_4_1.png" src="../_images/notebooks_demo_quering_signals_4_1.png" />
 </div>
 </div>
 <p>We can also get the separated components of a signal</p>
@@ -233,28 +206,31 @@ print(type(signal_2))
 print(&#39;Total number of components: {}&#39;.format(signal_2.total_comps))
 
 # Plot the spectrograms of some signals:
-fig, ax = plt.subplots(2, 2, layout=&#39;tight&#39;, figsize=(6,6))
+fig, ax = plt.subplots(2, 2, sharex=True,sharey=True, layout=&#39;tight&#39;, figsize=(4,4))
 idx = np.unravel_index(0, ax.shape)
-S = np.abs(get_stft(signal_2))**2
+S = np.abs(get_stft(signal_2))
 ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
-ax[idx].set_title(&#39;McSyntheticMixture&#39;)
+ax[idx].set_title(&#39;Synthetic Signal&#39;,fontsize=8)
 ax[idx].set_xticks([],[])
-ax[idx].set_xlabel(&#39;time&#39;)
+ax[idx].set_xlabel(&#39;time&#39;, fontsize=7)
 ax[idx].set_yticks([])
-ax[idx].set_ylabel(&#39;frequency&#39;)
+ax[idx].set_ylabel(&#39;frequency&#39;, fontsize=7)
 
 
 for i in range(1,signal_2.total_comps+1):
     component = signal_2.comps[i-1]
-    S = np.abs(get_stft(component))**2
+    S = np.abs(get_stft(component))
     idx = np.unravel_index(i, ax.shape)
     ax[idx].imshow(S, origin = &#39;lower&#39;,aspect=&#39;auto&#39;)
-    ax[idx].set_title(&#39;Component {}&#39;.format(i))
+    ax[idx].set_title(&#39;Component {} - IF&#39;.format(i),fontsize=8)
     ax[idx].set_xticks([],[])
-    ax[idx].set_xlabel(&#39;time&#39;)
+    ax[idx].set_xlabel(&#39;time&#39;, fontsize=7)
     ax[idx].set_yticks([])
-    ax[idx].set_ylabel(&#39;frequency&#39;)
+    if np.mod(i,2)==0:
+        ax[idx].set_ylabel(&#39;frequency&#39;, fontsize=7)
     ax[idx].plot(signal_2.instf[i-1]*2*N,&#39;r--&#39;)
+
+fig.savefig(&#39;signals_ifs.pdf&#39;,dpi=900, transparent=False,bbox_inches=&#39;tight&#39;)
 </pre></div>
 </div>
 </div>
@@ -294,7 +270,7 @@ benchmark = Benchmark(task = &#39;misc&#39;,
                         repetitions = 3,
                         obj_fun=perf_fun,
                         signal_ids=[&#39;LinearChirp&#39;, &#39;CosChirp&#39;,],
-                        verbosity=4,
+                        verbosity=0,
                         parallelize=False,
                         )
 
@@ -309,29 +285,15 @@ benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Running benchmark...
-- Signal LinearChirp
--- SNR: 10 dB
---- Method: fun1
----- Parameters Combination: 0
---- Method: fun2
----- Parameters Combination: 0
--- SNR: 20 dB
---- Method: fun1
----- Parameters Combination: 0
---- Method: fun2
----- Parameters Combination: 0
-- Signal CosChirp
--- SNR: 10 dB
---- Method: fun1
----- Parameters Combination: 0
---- Method: fun2
----- Parameters Combination: 0
--- SNR: 20 dB
---- Method: fun1
----- Parameters Combination: 0
---- Method: fun2
----- Parameters Combination: 0
-The test has finished.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 2/2 [00:00&lt;00:00, 1429.06it/s]
+  0%|          | 0/2 [00:00&lt;?, ?it/s]100%|██████████| 2/2 [00:00&lt;00:00, 970.23it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
