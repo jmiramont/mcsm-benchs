@@ -943,9 +943,9 @@ class Benchmark:
 
         assert bench_a.Nsub == bench_b.Nsub, 'Nsub should be the same in both benchmarks.'
 
-        assert bench_a.signal_ids == bench_b.signal_ids, 'Signals must be the same in both benchmarks.'
+        assert np.all(bench_a.signal_ids == bench_b.signal_ids), 'Signals must be the same in both benchmarks.'
 
-        assert [key for key in bench_a.objectiveFunction]==[key for key in bench_b.objectiveFunction], 'Benchmarks must use the same performance functions.'
+        assert np.all([key for key in bench_a.objectiveFunction]==[key for key in bench_b.objectiveFunction]), 'Benchmarks must use the same performance functions.'
 
         bench_c = bench_a
 
