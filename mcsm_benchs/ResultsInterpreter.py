@@ -308,7 +308,12 @@ class ResultsInterpreter:
             df_results[column_names[0]] = df_means[column_names[0]]
             for col_ind in range(1,len(column_names)):
                 df_results['SNRin='+str(column_names[col_ind])+'dB (average)'] = df_means_aux[str(column_names[col_ind])]
-                df_results['SNRin='+str(column_names[col_ind])+'dB (CI)'] = df_std[str(column_names[col_ind])]
+                # df_results['SNRin='+str(column_names[col_ind])+'dB (CI)'] = df_std[str(column_names[col_ind])]
+                
+                # Make sure to have two decimals precision in each std column.
+                df_results['SNRin='+str(column_names[col_ind])+'dB (CI)'] = [["{:.2f}".format(a) for a in row] for row in df_std[str(column_names[col_ind])]]
+
+                # df_results['SNRin='+str(column_names[col_ind])+'dB (CI)'] = df_std[str(column_names[col_ind])]
 
             # Make sure having two decimals precision in each std column
 
@@ -717,8 +722,7 @@ class ResultsInterpreter:
     def get_csv_files(self,path,idx=0):
         """ Generates a table of mean results to .md file. 
         Saves a .csv file with the results per signal.
-        Finally, generates an .html file with interactive plots.
-
+        
         Returns:
             str: String containing the table.
         """
