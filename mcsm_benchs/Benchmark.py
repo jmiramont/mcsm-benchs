@@ -480,8 +480,11 @@ class Benchmark:
                                 self.results[fun_name][signal_id][SNR][method] = {}
                                 self.elapsed_time[signal_id][method] = {}
 
-
     def run_test(self):
+        print('Method run_test() will be deprecated in newer versions. Use run() instead.')
+        self.run()
+
+    def run(self):
         """Run the benchmark.
 
         Returns:
