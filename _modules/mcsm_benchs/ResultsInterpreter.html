@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_quering_signals.html">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -395,7 +395,12 @@
             <span class="n">df_results</span><span class="p">[</span><span class="n">column_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df_means</span><span class="p">[</span><span class="n">column_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
             <span class="k">for</span> <span class="n">col_ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">column_names</span><span class="p">)):</span>
                 <span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;SNRin=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;dB (average)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_means_aux</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])]</span>
-                <span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;SNRin=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;dB (CI)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_std</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])]</span>
+                <span class="c1"># df_results[&#39;SNRin=&#39;+str(column_names[col_ind])+&#39;dB (CI)&#39;] = df_std[str(column_names[col_ind])]</span>
+                
+                <span class="c1"># Make sure to have two decimals precision in each std column.</span>
+                <span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;SNRin=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;dB (CI)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_std</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">column_names</span><span class="p">[</span><span class="n">col_ind</span><span class="p">])]]</span>
+
+                <span class="c1"># df_results[&#39;SNRin=&#39;+str(column_names[col_ind])+&#39;dB (CI)&#39;] = df_std[str(column_names[col_ind])]</span>
 
             <span class="c1"># Make sure having two decimals precision in each std column</span>
 
@@ -403,7 +408,7 @@
                 <span class="n">df_results</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;QRF&quot;</span><span class="p">:</span> <span class="n">pm_name</span><span class="p">})</span>
 
             <span class="c1"># Table header with links</span>
-            <span class="n">aux_string</span> <span class="o">=</span> <span class="s1">&#39;### Signal: &#39;</span><span class="o">+</span> <span class="n">signal_id</span> <span class="o">+</span> <span class="s1">&#39;[[View Plot]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/plot_&#39;</span><span class="o">+</span><span class="n">signal_id</span><span class="o">+</span><span class="s1">&#39;.html)  &#39;</span><span class="o">+</span><span class="s1">&#39;  [[Get .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/results_&#39;</span><span class="o">+</span><span class="n">signal_id</span> <span class="o">+</span><span class="s1">&#39;.csv&#39;</span> <span class="o">+</span><span class="s1">&#39;)&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span> <span class="n">df_results</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">floatfmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">aux_string</span> <span class="o">=</span> <span class="s1">&#39;### Signal: &#39;</span><span class="o">+</span> <span class="n">signal_id</span> <span class="o">+</span> <span class="s1">&#39; [[View Plot]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/plot_&#39;</span><span class="o">+</span><span class="n">signal_id</span><span class="o">+</span><span class="s1">&#39;.html)  &#39;</span><span class="o">+</span><span class="s1">&#39;  [[Get .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/results_&#39;</span><span class="o">+</span><span class="n">signal_id</span> <span class="o">+</span><span class="s1">&#39;.csv&#39;</span> <span class="o">+</span><span class="s1">&#39;)&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span> <span class="n">df_results</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">floatfmt</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="n">output_string</span> <span class="o">+=</span> <span class="n">aux_string</span>
 
         <span class="k">return</span> <span class="n">output_string</span></div>
@@ -419,7 +424,7 @@
         <span class="k">if</span> <span class="n">link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39; [[Results .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/all_results.csv&#39;</span><span class="o">+</span><span class="s1">&#39;) &#39;</span>
+            <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39; [[Results .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/results.csv&#39;</span><span class="o">+</span><span class="s1">&#39;) &#39;</span>
 
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;# Benchmark Report&#39;</span> <span class="o">+</span> <span class="n">link_text</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;## Configuration&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -804,8 +809,7 @@
 <div class="viewcode-block" id="ResultsInterpreter.get_csv_files"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">[docs]</a>    <span class="k">def</span> <span class="nf">get_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a table of mean results to .md file. </span>
 <span class="sd">        Saves a .csv file with the results per signal.</span>
-<span class="sd">        Finally, generates an .html file with interactive plots.</span>
-
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            str: String containing the table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -817,7 +821,7 @@
 
         <span class="c1"># Save a .csv with all the results.</span>
         <span class="n">df_aux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rearrange_data_frame</span><span class="p">()</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;all_results.csv&#39;</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;results.csv&#39;</span><span class="p">)</span>
         <span class="n">df_aux</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
         <span class="c1"># Save one .csv per signal.</span>

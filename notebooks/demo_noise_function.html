@@ -26,7 +26,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks" href="demo_quering_signals.html" />
+    <link rel="next" title="MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks" href="demo_quering_signals.html" />
     <link rel="prev" title="MCSM-Benchs: Exploring signals provided by the SignalBank class" href="demo_signal_bank.html" /> 
 </head>
 
@@ -58,7 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -107,8 +107,8 @@ from utils import spectrogram_thresholding, get_stft
 <br/></pre></div>
 </div>
 </div>
-<section id="Creating-a-a-dummy-dictionary-of-methods">
-<h2>Creating a a dummy dictionary of methods<a class="headerlink" href="#Creating-a-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
+<section id="Creating-a-dummy-dictionary-of-methods">
+<h2>Creating a dummy dictionary of methods<a class="headerlink" href="#Creating-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
 <p>First let us define a dummy method for testing. Methods should receive a numpy array with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of time samples of the signal. Additionally, they can receive any number of positional or keyword arguments to allow testing different combinations of input parameters. The shape of the output depends on the task (signal denoising or detection). So the recommended signature of a method should be the following:</p>
 <p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">a_method(noisy_signal,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code>.</p>
 <p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
@@ -181,7 +181,7 @@ plt.show()
                         complex_noise=False # Real white Gaussian Noise
                         )
 
-benchmark.run_test() # Run the test.
+benchmark.run() # Run the test.
 results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
 results_df
 </pre></div>
@@ -201,7 +201,7 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 2/2 [00:00&lt;00:00, 222.61it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 217.26it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -217,7 +217,7 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 2/2 [00:00&lt;00:00, 232.65it/s]
+  0%|          | 0/2 [00:00&lt;?, ?it/s]100%|██████████| 2/2 [00:00&lt;00:00, 105.15it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -424,7 +424,7 @@ plt.show()
                         verbosity=0,
                         )
 
-benchmark.run_test() # Run the test.
+benchmark.run() # Run the test.
 results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
 results_df
 </pre></div>
@@ -443,8 +443,8 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 2/2 [00:00&lt;00:00, 70.43it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 112.46it/s]
+  0%|          | 0/2 [00:00&lt;?, ?it/s]100%|██████████| 2/2 [00:00&lt;00:00, 103.44it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 105.36it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -600,7 +600,7 @@ Running benchmark...
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="demo_signal_bank.html" class="btn btn-neutral float-left" title="MCSM-Benchs: Exploring signals provided by the SignalBank class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo_quering_signals.html" class="btn btn-neutral float-right" title="MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_quering_signals.html" class="btn btn-neutral float-right" title="MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

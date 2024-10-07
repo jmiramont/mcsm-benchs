@@ -40,7 +40,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 46,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -72,7 +72,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 47,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -116,13 +116,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 48,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
+      "Method run_test() will be deprecated in newer versions. Use run() instead.\n",
       "Running benchmark...\n"
      ]
     },
@@ -130,8 +131,15 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|██████████| 2/2 [00:05<00:00,  2.85s/it]\n",
-      "100%|██████████| 2/2 [00:06<00:00,  3.31s/it]\n"
+      "  0%|          | 0/2 [00:00<?, ?it/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 2/2 [00:02<00:00,  1.10s/it]\n",
+      "100%|██████████| 2/2 [00:02<00:00,  1.06s/it]\n"
      ]
     },
     {
@@ -140,7 +148,7 @@
        "True"
       ]
      },
-     "execution_count": 3,
+     "execution_count": 48,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -161,7 +169,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 49,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -177,7 +185,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 50,
    "metadata": {},
    "outputs": [
     {
@@ -331,7 +339,7 @@
        "[4000 rows x 6 columns]"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 50,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -343,16 +351,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 51,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "<matplotlib.legend.Legend at 0x7427119a7bb0>"
+       "<matplotlib.legend.Legend at 0x71eb87597250>"
       ]
      },
-     "execution_count": 6,
+     "execution_count": 51,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -409,7 +417,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 52,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -453,7 +461,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 53,
    "metadata": {},
    "outputs": [
     {
@@ -484,7 +492,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 54,
    "metadata": {},
    "outputs": [
     {
@@ -498,8 +506,15 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|██████████| 3/3 [00:00<00:00,  4.75it/s]\n",
-      "100%|██████████| 3/3 [00:00<00:00,  3.71it/s]\n"
+      "  0%|          | 0/3 [00:00<?, ?it/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 3/3 [00:00<00:00, 16.99it/s]\n",
+      "100%|██████████| 3/3 [00:00<00:00, 18.57it/s]\n"
      ]
     },
     {
@@ -508,7 +523,7 @@
        "True"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 54,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -526,13 +541,13 @@
     "                    write_log=True,\n",
     "                    )\n",
     "                        \n",
-    "benchmark.run_test() # Run the test. \n",
+    "benchmark.run() # Run the benchmark.\n",
     "benchmark.save_to_file('saved_benchmark') # Save the benchmark to a file."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 55,
    "metadata": {},
    "outputs": [
     {
@@ -541,13 +556,13 @@
        "[]"
       ]
      },
-     "execution_count": 10,
+     "execution_count": 55,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "benchmark = benchmark.load_benchmark('saved_benchmark')\n",
+    "benchmark = Benchmark.load_benchmark('saved_benchmark')\n",
     "benchmark.log"
    ]
   },
@@ -555,12 +570,12 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "As we can see, the experiments have been repeated for every combination of parameters, listed in the second column of the table as `Parameter`."
+    "The experiments have been repeated for every combination of parameters, listed in the second column of the table as `Parameter`."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 56,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -576,7 +591,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 57,
    "metadata": {},
    "outputs": [
     {
@@ -585,13 +600,13 @@
        "True"
       ]
      },
-     "execution_count": 12,
+     "execution_count": 57,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "# Summary interactive plots with Plotly\n",
+    "# Summary interactive plots with Plotly and a report.\n",
     "from plotly.offline import  iplot\n",
     "interpreter = ResultsInterpreter(benchmark)\n",
     "interpreter.save_report(bars=True)\n"
@@ -599,7 +614,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 58,
    "metadata": {},
    "outputs": [
     {
@@ -622,14 +637,14 @@
          },
          "error_y": {
           "array": [
-           0.2594489441985566,
-           0.2562888724069481,
-           0.1832457022130285
+           0.2480955847428472,
+           0.2523147761108504,
+           0.17922010561246537
           ],
           "arrayminus": [
-           0.24270384872594164,
-           0.22134963425114051,
-           0.2125485351208738
+           0.23883804267699382,
+           0.22268424662911457,
+           0.21683475346356929
           ]
          },
          "hovertemplate": "Method + Param=Method 1((1.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -670,14 +685,14 @@
          },
          "error_y": {
           "array": [
-           0.3951926006364115,
-           0.21725887791365395,
-           0.34354064984954746
+           0.38601257272609324,
+           0.2140372192185005,
+           0.33080840088764063
           ],
           "arrayminus": [
-           0.4670537229008307,
-           0.22090995183682693,
-           0.35394499877083163
+           0.4626834898829575,
+           0.23107294106253207,
+           0.35081343225023787
           ]
          },
          "hovertemplate": "Method + Param=Method 1((2.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -718,14 +733,14 @@
          },
          "error_y": {
           "array": [
-           0.6934962693411011,
-           0.4214672757528781,
-           0.3613839559220722
+           0.7012029230192534,
+           0.4238407027376887,
+           0.3634799284961012
           ],
           "arrayminus": [
-           0.8131985861995155,
-           0.4509229228077345,
-           0.3932161357694888
+           0.8380278043745042,
+           0.452113728123571,
+           0.3955340997239887
           ]
          },
          "hovertemplate": "Method + Param=Method 1((3.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -766,14 +781,14 @@
          },
          "error_y": {
           "array": [
-           0.3570212954159704,
-           0.3197426398632608,
-           0.31739347822094643
+           0.35401993197229586,
+           0.32040517032730165,
+           0.31807318308487353
           ],
           "arrayminus": [
-           0.40719865397936417,
-           0.3355250756446253,
-           0.32302638260602734
+           0.4059110170550291,
+           0.34028324418461864,
+           0.3296282624229292
           ]
          },
          "hovertemplate": "Method + Param=Method 2((1.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -814,14 +829,14 @@
          },
          "error_y": {
           "array": [
-           0.5795990087847516,
-           0.509186883491676,
-           0.34097286611538635
+           0.5599441245017358,
+           0.5033030966979553,
+           0.3370066152968114
           ],
           "arrayminus": [
-           0.5428267371197748,
-           0.5239944142222512,
-           0.3454553125167621
+           0.5539827826433346,
+           0.5339339691600529,
+           0.34453895066728535
           ]
          },
          "hovertemplate": "Method + Param=Method 2((2.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -862,14 +877,14 @@
          },
          "error_y": {
           "array": [
-           0.453872003782378,
-           0.629679785139265,
-           0.32941651254330395
+           0.45247942378263106,
+           0.5961643128745919,
+           0.34067339723262435
           ],
           "arrayminus": [
-           0.43915062918443537,
-           0.6324634424377962,
-           0.41946157985066534
+           0.44610224813688726,
+           0.6133002135893797,
+           0.39798527091821256
           ]
          },
          "hovertemplate": "Method + Param=Method 2((3.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -1773,14 +1788,14 @@
          },
          "error_y": {
           "array": [
-           0.34004737075910363,
-           0.2567770937540885,
-           0.2739512503795787
+           0.32550530406325784,
+           0.2529838771416131,
+           0.2714061749069181
           ],
           "arrayminus": [
-           0.32214279972232873,
-           0.2612700072448888,
-           0.3142250496235661
+           0.3339144029694108,
+           0.25493214718629886,
+           0.3090365035887963
           ]
          },
          "hovertemplate": "Method + Param=Method 1((1.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -1821,14 +1836,14 @@
          },
          "error_y": {
           "array": [
-           0.3742266476814837,
-           0.37865258369273747,
-           0.5760901040703992
+           0.38420075611338156,
+           0.3674697102633715,
+           0.5792547703506692
           ],
           "arrayminus": [
-           0.40955289992952437,
-           0.3415088253146976,
-           0.5747480486862244
+           0.40317618723027593,
+           0.34507825699714445,
+           0.5728603483454648
           ]
          },
          "hovertemplate": "Method + Param=Method 1((2.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -1869,14 +1884,14 @@
          },
          "error_y": {
           "array": [
-           0.7074116935096377,
-           0.7275058721953123,
-           0.7465304397716821
+           0.7120188837705665,
+           0.7537819037002365,
+           0.7442313817797519
           ],
           "arrayminus": [
-           0.8222270056355176,
-           0.7057031698510396,
-           0.6390260074242313
+           0.8126203521697093,
+           0.6789088138389925,
+           0.6436589585080021
           ]
          },
          "hovertemplate": "Method + Param=Method 1((3.0,), {'fun': 'hard'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -1917,14 +1932,14 @@
          },
          "error_y": {
           "array": [
-           0.34232200045692096,
-           0.35253091703777883,
-           0.46159003540796206
+           0.33428362276700696,
+           0.3367452951264909,
+           0.44838696433674485
           ],
           "arrayminus": [
-           0.3323994639446184,
-           0.35009806143123257,
-           0.4735183475653031
+           0.3354745776440762,
+           0.336660015530871,
+           0.46213856408704146
           ]
          },
          "hovertemplate": "Method + Param=Method 2((1.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -1965,14 +1980,14 @@
          },
          "error_y": {
           "array": [
-           0.43193867328116475,
-           0.6681000620241129,
-           0.7030590492411903
+           0.4227147033847052,
+           0.6672094199055856,
+           0.7072568403855328
           ],
           "arrayminus": [
-           0.4250810973932575,
-           0.6132049879723827,
-           0.6763933581078518
+           0.41509540212179985,
+           0.6144450299690849,
+           0.6811438255258864
           ]
          },
          "hovertemplate": "Method + Param=Method 2((2.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -2013,14 +2028,14 @@
          },
          "error_y": {
           "array": [
-           0.4095228979712915,
-           0.6148610080392718,
-           0.6753395590320448
+           0.3998037295699217,
+           0.5993903703686723,
+           0.695265651294859
           ],
           "arrayminus": [
-           0.3705357287772708,
-           0.5603817021965618,
-           0.6549304375468239
+           0.3636456379204325,
+           0.5775375373915992,
+           0.6325667637883114
           ]
          },
          "hovertemplate": "Method + Param=Method 2((3.0,), {'fun': 'soft'})<br>SNRin=%{x}<br>QRF=%{y}<extra></extra>",
@@ -2921,7 +2936,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 59,
    "metadata": {},
    "outputs": [
     {
@@ -2952,63 +2967,63 @@
        "  <tbody>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 1-((1.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.003227</td>\n",
-       "      <td>0.001453</td>\n",
+       "      <td>0.000458</td>\n",
+       "      <td>0.000090</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 1-((2.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.002204</td>\n",
-       "      <td>0.001513</td>\n",
+       "      <td>0.000406</td>\n",
+       "      <td>0.000054</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 1-((3.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.001553</td>\n",
-       "      <td>0.001237</td>\n",
+       "      <td>0.000384</td>\n",
+       "      <td>0.000027</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 2-((1.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.000872</td>\n",
-       "      <td>0.000068</td>\n",
+       "      <td>0.000407</td>\n",
+       "      <td>0.000024</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 2-((2.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.000945</td>\n",
-       "      <td>0.000267</td>\n",
+       "      <td>0.000411</td>\n",
+       "      <td>0.000033</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>CosChirp-Method 2-((3.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.000994</td>\n",
-       "      <td>0.000202</td>\n",
+       "      <td>0.000422</td>\n",
+       "      <td>0.000058</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 1-((1.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.004092</td>\n",
-       "      <td>0.000098</td>\n",
+       "      <td>0.000769</td>\n",
+       "      <td>0.000150</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 1-((2.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.003293</td>\n",
-       "      <td>0.001135</td>\n",
+       "      <td>0.000757</td>\n",
+       "      <td>0.000129</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 1-((3.0,), {'fun': 'hard'})</th>\n",
-       "      <td>0.000870</td>\n",
-       "      <td>0.000124</td>\n",
+       "      <td>0.000730</td>\n",
+       "      <td>0.000212</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 2-((1.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.002347</td>\n",
-       "      <td>0.001507</td>\n",
+       "      <td>0.000538</td>\n",
+       "      <td>0.000103</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 2-((2.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.000971</td>\n",
-       "      <td>0.000139</td>\n",
+       "      <td>0.000465</td>\n",
+       "      <td>0.000033</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>LinearChirp-Method 2-((3.0,), {'fun': 'soft'})</th>\n",
-       "      <td>0.000967</td>\n",
-       "      <td>0.000200</td>\n",
+       "      <td>0.000511</td>\n",
+       "      <td>0.000080</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
@@ -3016,21 +3031,21 @@
       ],
       "text/plain": [
        "                                                Average time (s)       Std\n",
-       "CosChirp-Method 1-((1.0,), {'fun': 'hard'})             0.003227  0.001453\n",
-       "CosChirp-Method 1-((2.0,), {'fun': 'hard'})             0.002204  0.001513\n",
-       "CosChirp-Method 1-((3.0,), {'fun': 'hard'})             0.001553  0.001237\n",
-       "CosChirp-Method 2-((1.0,), {'fun': 'soft'})             0.000872  0.000068\n",
-       "CosChirp-Method 2-((2.0,), {'fun': 'soft'})             0.000945  0.000267\n",
-       "CosChirp-Method 2-((3.0,), {'fun': 'soft'})             0.000994  0.000202\n",
-       "LinearChirp-Method 1-((1.0,), {'fun': 'hard'})          0.004092  0.000098\n",
-       "LinearChirp-Method 1-((2.0,), {'fun': 'hard'})          0.003293  0.001135\n",
-       "LinearChirp-Method 1-((3.0,), {'fun': 'hard'})          0.000870  0.000124\n",
-       "LinearChirp-Method 2-((1.0,), {'fun': 'soft'})          0.002347  0.001507\n",
-       "LinearChirp-Method 2-((2.0,), {'fun': 'soft'})          0.000971  0.000139\n",
-       "LinearChirp-Method 2-((3.0,), {'fun': 'soft'})          0.000967  0.000200"
+       "CosChirp-Method 1-((1.0,), {'fun': 'hard'})             0.000458  0.000090\n",
+       "CosChirp-Method 1-((2.0,), {'fun': 'hard'})             0.000406  0.000054\n",
+       "CosChirp-Method 1-((3.0,), {'fun': 'hard'})             0.000384  0.000027\n",
+       "CosChirp-Method 2-((1.0,), {'fun': 'soft'})             0.000407  0.000024\n",
+       "CosChirp-Method 2-((2.0,), {'fun': 'soft'})             0.000411  0.000033\n",
+       "CosChirp-Method 2-((3.0,), {'fun': 'soft'})             0.000422  0.000058\n",
+       "LinearChirp-Method 1-((1.0,), {'fun': 'hard'})          0.000769  0.000150\n",
+       "LinearChirp-Method 1-((2.0,), {'fun': 'hard'})          0.000757  0.000129\n",
+       "LinearChirp-Method 1-((3.0,), {'fun': 'hard'})          0.000730  0.000212\n",
+       "LinearChirp-Method 2-((1.0,), {'fun': 'soft'})          0.000538  0.000103\n",
+       "LinearChirp-Method 2-((2.0,), {'fun': 'soft'})          0.000465  0.000033\n",
+       "LinearChirp-Method 2-((3.0,), {'fun': 'soft'})          0.000511  0.000080"
       ]
      },
-     "execution_count": 14,
+     "execution_count": 59,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -3042,7 +3057,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 60,
    "metadata": {},
    "outputs": [
     {
@@ -3209,7 +3224,7 @@
        "[540 rows x 6 columns]"
       ]
      },
-     "execution_count": 15,
+     "execution_count": 60,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -3221,7 +3236,7 @@
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "Python 3.9.15 ('.venv': poetry)",
+   "display_name": ".venv",
    "language": "python",
    "name": "python3"
   },
@@ -3237,12 +3252,7 @@
    "pygments_lexer": "ipython3",
    "version": "3.10.12"
   },
-  "orig_nbformat": 4,
-  "vscode": {
-   "interpreter": {
-    "hash": "b570b39bfc168d016e4ca94377b5ca5dd1b2801911d7fb4ef826f34fdaae4407"
-   }
-  }
+  "orig_nbformat": 4
  },
  "nbformat": 4,
  "nbformat_minor": 2

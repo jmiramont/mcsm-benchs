@@ -54,7 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -362,8 +362,8 @@ One realization per row.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.run_test">
-<span class="sig-name descname"><span class="pre">run_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.run_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.run_test" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.run" title="Permalink to this definition"></a></dt>
 <dd><p>Run the benchmark.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -374,6 +374,11 @@ One realization per row.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.run_test">
+<span class="sig-name descname"><span class="pre">run_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.run_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.run_test" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.save_to_file">
@@ -559,8 +564,7 @@ following format:</p>
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">
 <span class="sig-name descname"><span class="pre">get_csv_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a table of mean results to .md file.
-Saves a .csv file with the results per signal.
-Finally, generates an .html file with interactive plots.</p>
+Saves a .csv file with the results per signal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>String containing the table.</p>

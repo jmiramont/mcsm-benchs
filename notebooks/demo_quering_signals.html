@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+  <title>MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -58,7 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -80,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</li>
+      <li class="breadcrumb-item active">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/demo_quering_signals.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,8 +90,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="MCSM-Benchs:-Quering-Signal-class-attributes-for-more-versatile-benchmarks">
-<h1>MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks<a class="headerlink" href="#MCSM-Benchs:-Quering-Signal-class-attributes-for-more-versatile-benchmarks" title="Permalink to this heading"></a></h1>
+  <section id="MCSM-Benchs:-Querying-Signal-class-attributes-for-more-versatile-benchmarks">
+<h1>MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks<a class="headerlink" href="#MCSM-Benchs:-Querying-Signal-class-attributes-for-more-versatile-benchmarks" title="Permalink to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
 <p>Within the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class, the signals obtained from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class are given as objects of another custom class called <code class="docutils literal notranslate"><span class="pre">Signal</span></code>. This class behaves like a regular <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array, but it also comprises a series of attributes of the signal that some methods might need. Moreover, benchmarks can be built to estimate these quantities as well.</p>
 <p>Let’s see some examples.</p>
@@ -107,6 +107,8 @@ from mcsm_benchs.SignalBank import SignalBank
 from mcsm_benchs.Benchmark import Benchmark
 from mcsm_benchs.ResultsInterpreter import ResultsInterpreter
 from utils import get_stft
+
+plt.rcParams[&#39;image.cmap&#39;] = &#39;binary&#39;
 </pre></div>
 </div>
 </div>
@@ -274,7 +276,7 @@ benchmark = Benchmark(task = &#39;misc&#39;,
                         parallelize=False,
                         )
 
-benchmark.run_test() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
+benchmark.run() # Run the test. my_results is a dictionary with the results for each of the variables of the simulation.
 benchmark.save_to_file(&#39;saved_benchmark&#39;) # Save the benchmark to a file.
 <br/></pre></div>
 </div>
@@ -292,8 +294,8 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 2/2 [00:00&lt;00:00, 1429.06it/s]
-  0%|          | 0/2 [00:00&lt;?, ?it/s]100%|██████████| 2/2 [00:00&lt;00:00, 970.23it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 730.21it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 1095.98it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -306,7 +308,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;)
@@ -316,8 +318,7 @@ results_df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>

@@ -53,7 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Quering Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -138,7 +138,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 1,
+“execution_count”: 46,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -178,7 +178,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 2,
+“execution_count”: 47,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -234,7 +234,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 3,
+“execution_count”: 48,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -243,7 +243,8 @@
 “output_type”: “stream”,
 “text”: [</p>
 <blockquote>
-<div><p>“Running benchmark…n”</p>
+<div><p>“Method run_test() will be deprecated in newer versions. Use run() instead.n”,
+“Running benchmark…n”</p>
 </div></blockquote>
 <p>]</p>
 </dd>
@@ -255,8 +256,19 @@
 “output_type”: “stream”,
 “text”: [</p>
 <blockquote>
-<div><p>“100%|██████████| 2/2 [00:05&lt;00:00,  2.85s/it]n”,
-“100%|██████████| 2/2 [00:06&lt;00:00,  3.31s/it]n”</p>
+<div><p>”  0%|          | 0/2 [00:00&lt;?, ?it/s]”</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “stderr”,
+“output_type”: “stream”,
+“text”: [</p>
+<blockquote>
+<div><p>“100%|██████████| 2/2 [00:02&lt;00:00,  1.10s/it]n”,
+“100%|██████████| 2/2 [00:02&lt;00:00,  1.06s/it]n”</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -272,7 +284,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 3,
+“execution_count”: 48,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </div></blockquote>
@@ -299,7 +311,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 4,
+“execution_count”: 49,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -323,7 +335,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 5,
+“execution_count”: 50,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -484,7 +496,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 5,
+“execution_count”: 50,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -503,21 +515,21 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 6,
+“execution_count”: 51,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
 <div><dl>
 <dt>{</dt><dd><dl>
 <dt>“data”: {</dt><dd><dl class="simple">
-<dt>“text/plain”: [</dt><dd><p>“&lt;matplotlib.legend.Legend at 0x7427119a7bb0&gt;”</p>
+<dt>“text/plain”: [</dt><dd><p>“&lt;matplotlib.legend.Legend at 0x71eb87597250&gt;”</p>
 </dd>
 </dl>
 <p>]</p>
 </dd>
 </dl>
 <p>},
-“execution_count”: 6,
+“execution_count”: 51,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -599,7 +611,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 7,
+“execution_count”: 52,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -651,7 +663,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 8,
+“execution_count”: 53,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -696,7 +708,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 9,
+“execution_count”: 54,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -717,8 +729,19 @@
 “output_type”: “stream”,
 “text”: [</p>
 <blockquote>
-<div><p>“100%|██████████| 3/3 [00:00&lt;00:00,  4.75it/s]n”,
-“100%|██████████| 3/3 [00:00&lt;00:00,  3.71it/s]n”</p>
+<div><p>”  0%|          | 0/3 [00:00&lt;?, ?it/s]”</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “stderr”,
+“output_type”: “stream”,
+“text”: [</p>
+<blockquote>
+<div><p>“100%|██████████| 3/3 [00:00&lt;00:00, 16.99it/s]n”,
+“100%|██████████| 3/3 [00:00&lt;00:00, 18.57it/s]n”</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -734,7 +757,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 9,
+“execution_count”: 54,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </div></blockquote>
@@ -755,7 +778,7 @@
 ”                    write_log=True,n”,
 ”                    )n”,
 ”                        n”,
-“benchmark.run_test() # Run the test. n”,
+“benchmark.run() # Run the benchmark.n”,
 “benchmark.save_to_file(‘saved_benchmark’) # Save the benchmark to a file.”</p>
 </div></blockquote>
 <p>]</p>
@@ -764,7 +787,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 10,
+“execution_count”: 55,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -778,7 +801,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 10,
+“execution_count”: 55,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -788,7 +811,7 @@
 <p>],
 “source”: [</p>
 <blockquote>
-<div><p>“benchmark = benchmark.load_benchmark(‘saved_benchmark’)n”,
+<div><p>“benchmark = Benchmark.load_benchmark(‘saved_benchmark’)n”,
 “benchmark.log”</p>
 </div></blockquote>
 <p>]</p>
@@ -800,7 +823,7 @@
 “metadata”: {},
 “source”: [</p>
 <blockquote>
-<div><p>“As we can see, the experiments have been repeated for every combination of parameters, listed in the second column of the table as <cite>Parameter</cite>.”</p>
+<div><p>“The experiments have been repeated for every combination of parameters, listed in the second column of the table as <cite>Parameter</cite>.”</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -808,7 +831,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 11,
+“execution_count”: 56,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -832,7 +855,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 12,
+“execution_count”: 57,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -846,7 +869,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 12,
+“execution_count”: 57,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -856,7 +879,7 @@
 <p>],
 “source”: [</p>
 <blockquote>
-<div><p>“# Summary interactive plots with Plotlyn”,
+<div><p>“# Summary interactive plots with Plotly and a report.n”,
 “from plotly.offline import  iplotn”,
 “interpreter = ResultsInterpreter(benchmark)n”,
 “interpreter.save_report(bars=True)n”</p>
@@ -867,7 +890,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 13,
+“execution_count”: 58,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -899,17 +922,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.2594489441985566,
-0.2562888724069481,
-0.1832457022130285</p>
+<dt>“array”: [</dt><dd><p>0.2480955847428472,
+0.2523147761108504,
+0.17922010561246537</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.24270384872594164,
-0.22134963425114051,
-0.2125485351208738</p>
+<div><p>0.23883804267699382,
+0.22268424662911457,
+0.21683475346356929</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -968,17 +991,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3951926006364115,
-0.21725887791365395,
-0.34354064984954746</p>
+<dt>“array”: [</dt><dd><p>0.38601257272609324,
+0.2140372192185005,
+0.33080840088764063</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.4670537229008307,
-0.22090995183682693,
-0.35394499877083163</p>
+<div><p>0.4626834898829575,
+0.23107294106253207,
+0.35081343225023787</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1036,17 +1059,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.6934962693411011,
-0.4214672757528781,
-0.3613839559220722</p>
+<dt>“array”: [</dt><dd><p>0.7012029230192534,
+0.4238407027376887,
+0.3634799284961012</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.8131985861995155,
-0.4509229228077345,
-0.3932161357694888</p>
+<div><p>0.8380278043745042,
+0.452113728123571,
+0.3955340997239887</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1104,17 +1127,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3570212954159704,
-0.3197426398632608,
-0.31739347822094643</p>
+<dt>“array”: [</dt><dd><p>0.35401993197229586,
+0.32040517032730165,
+0.31807318308487353</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.40719865397936417,
-0.3355250756446253,
-0.32302638260602734</p>
+<div><p>0.4059110170550291,
+0.34028324418461864,
+0.3296282624229292</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1172,17 +1195,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.5795990087847516,
-0.509186883491676,
-0.34097286611538635</p>
+<dt>“array”: [</dt><dd><p>0.5599441245017358,
+0.5033030966979553,
+0.3370066152968114</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.5428267371197748,
-0.5239944142222512,
-0.3454553125167621</p>
+<div><p>0.5539827826433346,
+0.5339339691600529,
+0.34453895066728535</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1240,17 +1263,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.453872003782378,
-0.629679785139265,
-0.32941651254330395</p>
+<dt>“array”: [</dt><dd><p>0.45247942378263106,
+0.5961643128745919,
+0.34067339723262435</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.43915062918443537,
-0.6324634424377962,
-0.41946157985066534</p>
+<div><p>0.44610224813688726,
+0.6133002135893797,
+0.39798527091821256</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2657,17 +2680,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.34004737075910363,
-0.2567770937540885,
-0.2739512503795787</p>
+<dt>“array”: [</dt><dd><p>0.32550530406325784,
+0.2529838771416131,
+0.2714061749069181</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.32214279972232873,
-0.2612700072448888,
-0.3142250496235661</p>
+<div><p>0.3339144029694108,
+0.25493214718629886,
+0.3090365035887963</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2726,17 +2749,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3742266476814837,
-0.37865258369273747,
-0.5760901040703992</p>
+<dt>“array”: [</dt><dd><p>0.38420075611338156,
+0.3674697102633715,
+0.5792547703506692</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.40955289992952437,
-0.3415088253146976,
-0.5747480486862244</p>
+<div><p>0.40317618723027593,
+0.34507825699714445,
+0.5728603483454648</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2794,17 +2817,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.7074116935096377,
-0.7275058721953123,
-0.7465304397716821</p>
+<dt>“array”: [</dt><dd><p>0.7120188837705665,
+0.7537819037002365,
+0.7442313817797519</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.8222270056355176,
-0.7057031698510396,
-0.6390260074242313</p>
+<div><p>0.8126203521697093,
+0.6789088138389925,
+0.6436589585080021</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2862,17 +2885,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.34232200045692096,
-0.35253091703777883,
-0.46159003540796206</p>
+<dt>“array”: [</dt><dd><p>0.33428362276700696,
+0.3367452951264909,
+0.44838696433674485</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.3323994639446184,
-0.35009806143123257,
-0.4735183475653031</p>
+<div><p>0.3354745776440762,
+0.336660015530871,
+0.46213856408704146</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2930,17 +2953,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.43193867328116475,
-0.6681000620241129,
-0.7030590492411903</p>
+<dt>“array”: [</dt><dd><p>0.4227147033847052,
+0.6672094199055856,
+0.7072568403855328</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.4250810973932575,
-0.6132049879723827,
-0.6763933581078518</p>
+<div><p>0.41509540212179985,
+0.6144450299690849,
+0.6811438255258864</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2998,17 +3021,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.4095228979712915,
-0.6148610080392718,
-0.6753395590320448</p>
+<dt>“array”: [</dt><dd><p>0.3998037295699217,
+0.5993903703686723,
+0.695265651294859</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.3705357287772708,
-0.5603817021965618,
-0.6549304375468239</p>
+<div><p>0.3636456379204325,
+0.5775375373915992,
+0.6325667637883114</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -4411,7 +4434,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 14,
+“execution_count”: 59,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -4443,63 +4466,63 @@
 ”  &lt;tbody&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.003227&lt;/td&gt;n”,
-”      &lt;td&gt;0.001453&lt;/td&gt;n”,
+”      &lt;td&gt;0.000458&lt;/td&gt;n”,
+”      &lt;td&gt;0.000090&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.002204&lt;/td&gt;n”,
-”      &lt;td&gt;0.001513&lt;/td&gt;n”,
+”      &lt;td&gt;0.000406&lt;/td&gt;n”,
+”      &lt;td&gt;0.000054&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.001553&lt;/td&gt;n”,
-”      &lt;td&gt;0.001237&lt;/td&gt;n”,
+”      &lt;td&gt;0.000384&lt;/td&gt;n”,
+”      &lt;td&gt;0.000027&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000872&lt;/td&gt;n”,
-”      &lt;td&gt;0.000068&lt;/td&gt;n”,
+”      &lt;td&gt;0.000407&lt;/td&gt;n”,
+”      &lt;td&gt;0.000024&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000945&lt;/td&gt;n”,
-”      &lt;td&gt;0.000267&lt;/td&gt;n”,
+”      &lt;td&gt;0.000411&lt;/td&gt;n”,
+”      &lt;td&gt;0.000033&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000994&lt;/td&gt;n”,
-”      &lt;td&gt;0.000202&lt;/td&gt;n”,
+”      &lt;td&gt;0.000422&lt;/td&gt;n”,
+”      &lt;td&gt;0.000058&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.004092&lt;/td&gt;n”,
-”      &lt;td&gt;0.000098&lt;/td&gt;n”,
+”      &lt;td&gt;0.000769&lt;/td&gt;n”,
+”      &lt;td&gt;0.000150&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.003293&lt;/td&gt;n”,
-”      &lt;td&gt;0.001135&lt;/td&gt;n”,
+”      &lt;td&gt;0.000757&lt;/td&gt;n”,
+”      &lt;td&gt;0.000129&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000870&lt;/td&gt;n”,
-”      &lt;td&gt;0.000124&lt;/td&gt;n”,
+”      &lt;td&gt;0.000730&lt;/td&gt;n”,
+”      &lt;td&gt;0.000212&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.002347&lt;/td&gt;n”,
-”      &lt;td&gt;0.001507&lt;/td&gt;n”,
+”      &lt;td&gt;0.000538&lt;/td&gt;n”,
+”      &lt;td&gt;0.000103&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000971&lt;/td&gt;n”,
-”      &lt;td&gt;0.000139&lt;/td&gt;n”,
+”      &lt;td&gt;0.000465&lt;/td&gt;n”,
+”      &lt;td&gt;0.000033&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000967&lt;/td&gt;n”,
-”      &lt;td&gt;0.000200&lt;/td&gt;n”,
+”      &lt;td&gt;0.000511&lt;/td&gt;n”,
+”      &lt;td&gt;0.000080&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”  &lt;/tbody&gt;n”,
 “&lt;/table&gt;n”,
@@ -4510,24 +4533,24 @@
 “text/plain”: [</p>
 <blockquote>
 <div><p>”                                                Average time (s)       Stdn”,
-“CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})             0.003227  0.001453n”,
-“CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})             0.002204  0.001513n”,
-“CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})             0.001553  0.001237n”,
-“CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})             0.000872  0.000068n”,
-“CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})             0.000945  0.000267n”,
-“CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})             0.000994  0.000202n”,
-“LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})          0.004092  0.000098n”,
-“LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})          0.003293  0.001135n”,
-“LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})          0.000870  0.000124n”,
-“LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})          0.002347  0.001507n”,
-“LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})          0.000971  0.000139n”,
-“LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})          0.000967  0.000200”</p>
+“CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})             0.000458  0.000090n”,
+“CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})             0.000406  0.000054n”,
+“CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})             0.000384  0.000027n”,
+“CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})             0.000407  0.000024n”,
+“CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})             0.000411  0.000033n”,
+“CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})             0.000422  0.000058n”,
+“LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})          0.000769  0.000150n”,
+“LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})          0.000757  0.000129n”,
+“LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})          0.000730  0.000212n”,
+“LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})          0.000538  0.000103n”,
+“LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})          0.000465  0.000033n”,
+“LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})          0.000511  0.000080”</p>
 </div></blockquote>
 <p>]</p>
 </dd>
 </dl>
 <p>},
-“execution_count”: 14,
+“execution_count”: 59,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -4546,7 +4569,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 15,
+“execution_count”: 60,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -4720,7 +4743,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 15,
+“execution_count”: 60,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -4741,7 +4764,7 @@
 “metadata”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“kernelspec”: {</dt><dd><p>“display_name”: “Python 3.9.15 (‘.venv’: poetry)”,
+<dt>“kernelspec”: {</dt><dd><p>“display_name”: “.venv”,
 “language”: “python”,
 “name”: “python3”</p>
 </dd>
@@ -4763,16 +4786,7 @@
 “version”: “3.10.12”</p>
 </div></blockquote>
 <p>},
-“orig_nbformat”: 4,
-“vscode”: {</p>
-<blockquote>
-<div><dl class="simple">
-<dt>“interpreter”: {</dt><dd><p>“hash”: “b570b39bfc168d016e4ca94377b5ca5dd1b2801911d7fb4ef826f34fdaae4407”</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
+“orig_nbformat”: 4</p>
 </div></blockquote>
 <p>},
 “nbformat”: 4,
