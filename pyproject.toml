@@ -3,7 +3,7 @@ name = "mcsm-benchs"
 version = "0.1.0"
 description = "mcsm-benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
-licence = "MIT"
+# licence = "MIT"
 readme = "README.md"
 packages = [{include = "mcsm_benchs"}]
 homepage = "https://jmiramont.github.io/mcsm-benchs/"
