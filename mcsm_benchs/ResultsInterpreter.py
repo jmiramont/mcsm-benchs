@@ -321,7 +321,7 @@ class ResultsInterpreter:
                 df_results.rename(columns={"QRF": pm_name})
 
             # Table header with links
-            aux_string = '### Signal: '+ signal_id + '[[View Plot]]('+link+'/plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+'/results_'+signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
+            aux_string = '### Signal: '+ signal_id + ' [[View Plot]]('+link+'/plot_'+signal_id+'.html)  '+'  [[Get .csv]]('+link+'/results_'+signal_id +'.csv' +')' +'\n'+ df_results.to_markdown(floatfmt='.2f') + '\n'
             output_string += aux_string
 
         return output_string
@@ -337,7 +337,7 @@ class ResultsInterpreter:
         if link is None:
             link_text = ''
         else:
-            link_text = ' [[Results .csv]]('+link+'/all_results.csv'+') '
+            link_text = ' [[Results .csv]]('+link+'/results.csv'+') '
 
         lines = ['# Benchmark Report' + link_text +'\n',
                 '## Configuration' + '\n',
@@ -734,7 +734,7 @@ class ResultsInterpreter:
 
         # Save a .csv with all the results.
         df_aux = self.rearrange_data_frame()
-        filename = os.path.join(path,'all_results.csv')
+        filename = os.path.join(path,'results.csv')
         df_aux.to_csv(filename)
 
         # Save one .csv per signal.
