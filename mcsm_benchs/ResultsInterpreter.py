@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 from mcsm_benchs.Benchmark import Benchmark
 import numpy as np
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt, ticker as mticker
 import string
 import os
 import plotly.express as px
@@ -400,8 +400,18 @@ class ResultsInterpreter:
 
         return True
     
-#-------------------------------------------------------------------------------------       
-    def get_snr_plot(self, df, x=None, y=None, hue=None, axis = None, ylabel=None):
+#-------------------------------------------------------------------------------------
+    @staticmethod       
+    def get_snr_plot(self, 
+                     df, 
+                     x=None, 
+                     y=None, 
+                     hue=None, 
+                     axis = None, 
+                     ylabel=None, 
+                     plot_type='linear', 
+                     **kwargs
+                     ):
         """ Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is 
         computed as: 
         QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]
@@ -442,7 +452,24 @@ class ResultsInterpreter:
                 if no_nans.shape != (0,):
                     v[uind] = np.nanmean(no_nans.to_numpy())
 
-            axis.plot(u+u_offset[offs_idx],v,'-'+ marker, ms = 5, linewidth = 1.0, label=label)
+            if plot_type=="linear":
+                axis.plot(u+u_offset[offs_idx],
+                        v,
+                        '-'+ marker, 
+                        ms = 5, 
+                        linewidth = 1.0, 
+                        label=label,
+                        **kwargs
+                        )
+            
+            if plot_type == "semilogy":
+                axis.semilogy(u+u_offset[offs_idx],
+                        v+1e-10,
+                        '-'+ marker, 
+                        label=label,
+                        **kwargs)                                
+                axis.yaxis.set_minor_locator(mticker.LogLocator(numticks=999, subs="auto"))                        
+
             
         # axis.plot([np.min(u), np.max(u)],[np.min(u), np.max(u)],'r',
                                             # linestyle = (0, (5, 10)),
@@ -454,7 +481,7 @@ class ResultsInterpreter:
         return True
 
 # --------------------------------------------------------------------------------------
-
+    @staticmethod
     def get_snr_plot_bars(self, 
                             df, 
                             x=None, 
@@ -503,7 +530,7 @@ class ResultsInterpreter:
         return barfig
 
 # --------------------------------------------------------------------------------------
-
+    @staticmethod
     def get_summary_plots(self,
                         df_rearr = None, 
                         size=(3,3), 
