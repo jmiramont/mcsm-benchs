@@ -400,8 +400,7 @@ class ResultsInterpreter:
 
         return True
     
-#-------------------------------------------------------------------------------------
-    @staticmethod       
+#-------------------------------------------------------------------------------------      
     def get_snr_plot(self, 
                      df, 
                      x=None, 
@@ -456,8 +455,8 @@ class ResultsInterpreter:
                 axis.plot(u+u_offset[offs_idx],
                         v,
                         '-'+ marker, 
-                        ms = 5, 
-                        linewidth = 1.0, 
+                        # ms = 5, 
+                        # linewidth = 1.0, 
                         label=label,
                         **kwargs
                         )
@@ -475,13 +474,25 @@ class ResultsInterpreter:
                                             # linestyle = (0, (5, 10)),
                                             # linewidth = 0.75)
         axis.set_xticks(u)
-        axis.set_yticks(u)
-        axis.set_xlabel(x + ' (dB)')
-        axis.set_ylabel(y + ' (dB)')
+        axis.set_yticks(v)
+        # axis.set_xlabel(x + ' (dB)')
+        # axis.set_ylabel(y + ' (dB)')
+
+        axis.set_xlabel('SNRin (dB)')
+        
+        if ylabel is None:
+            if self.benchmark.task == 'denoising':
+                axis.set_ylabel('QRF (dB)')
+            
+            if self.benchmark.task == 'detection':
+                axis.set_ylabel('Detection Power')
+        else:
+                axis.set_ylabel(ylabel)
+
+
         return True
 
 # --------------------------------------------------------------------------------------
-    @staticmethod
     def get_snr_plot_bars(self, 
                             df, 
                             x=None, 
