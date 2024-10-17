@@ -439,7 +439,7 @@ class ResultsInterpreter:
             method_name, marker = plots_info 
             df_aux = df[df[hue]==method_name]
             u = np.unique(df_aux[x].to_numpy())
-            v = np.zeros_like(u)
+            v = np.zeros_like(u,dtype=float)
             
             label = ''.join([c for c in string.capwords(method_name, sep = '_') if c.isupper()])
             if method_name.find('-') > -1:
