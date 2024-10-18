@@ -19,9 +19,9 @@ class ResultsInterpreter:
     """
     
     def __init__(self, a_benchmark):
-        if isinstance(a_benchmark,Benchmark):
-            self.results = a_benchmark.get_results_as_df()
-        else:
+        if not isinstance(a_benchmark,Benchmark):
+            # self.results = a_benchmark.get_results_as_df()
+        # else:
             raise ValueError("Input should be a Benchmark.\n")
 
         self.benchmark = a_benchmark

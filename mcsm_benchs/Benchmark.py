@@ -440,6 +440,9 @@ class Benchmark:
             if self.task == 'detection':
                 method_output = np.nan
 
+            if self.task == 'misc':
+                method_output = np.nan
+
         #! Rewrite this part.
         # self.check_methods_output(method_output,noisy_signals) # Just checking if the output its valid.   
         
@@ -633,6 +636,13 @@ class Benchmark:
                                     result.append(perf_met_output)
 
                                 # Saving results -----------
+                                if np.any([type(r)==dict for r in result]):
+                                    aux = {key:[] for key in result[0]}
+                                    for r in result:
+                                        for key in r:
+                                            aux[key].append(r[key])
+                                    result = aux
+
                                 self.results[fun_name][signal_id][SNR][method][str(params)] = result
                                 self.elapsed_time[signal_id][method][str(params)] = elapsed
 
@@ -905,35 +915,35 @@ class Benchmark:
     @staticmethod
     def compare_qrf_block(signal, method_output, tmin=None, tmax=None,**kwargs):
         X = signal.comps
-        output = []
-        for Xest in method_output:
-            order = order_components(Xest, X)
-            Xaux = Xest[order]
-            qrfs = []
-            for x,xaux in zip(X,Xaux):
-                indx = np.where(np.abs(x)>0)
-                qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))
-            output.append(qrfs)    
-        output = np.array(output, dtype=object)
-        dict_output = {'Comp.{}'.format(i):output[:,i] for i in range(output.shape[1])}
+        # output = []
+        # for Xest in method_output:
+        order = order_components(method_output, X)
+        Xaux = method_output[order]
+        qrfs = []
+        for x,xaux in zip(X,Xaux):
+            indx = np.where(np.abs(x)>0)
+            qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))
+        # output.append(qrfs)    
+        # output = np.array(output, dtype=object)
+        dict_output = {'Comp.{}'.format(i):qrfs[i] for i in range(len(qrfs))}
         return dict_output
 
     @staticmethod    
     def compare_instf_block(signal, method_output, tmin=None, tmax=None,**kwargs):
         X = signal.instf
-        output = []
-        for Xest in method_output:
-            order = order_components(Xest, X, minormax = 'min', metric = mse)
-            Xaux = Xest[order]
-            qrfs = []
-            for x,xaux in zip(X,Xaux):
-                indx = np.where(np.abs(x)>0)
-                # qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))
-                qrfs.append(mse(x[indx], xaux[indx]))
-            output.append(qrfs)    
-        output = np.array(output, dtype=object)
-        dict_output = {'Comp.{}'.format(i):output[:,i] for i in range(output.shape[1])}
-        return dict_output    
+        # output = []
+        # for Xest in method_output:
+        order = order_components(method_output, X, minormax = 'min', metric = mse)
+        Xaux = method_output[order]
+        qrfs = []
+        for x,xaux in zip(X,Xaux):
+            indx = np.where(np.abs(x)>0)
+            # qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))
+            qrfs.append(mse(x[indx], xaux[indx]))
+        # output.append(qrfs)    
+        # output = np.array(output, dtype=object)
+        dict_output = {'Comp.{}'.format(i):qrfs[i] for i in range(len(qrfs))}
+        return dict_output   
 
 
     @staticmethod 
@@ -987,7 +997,7 @@ END OF BENCHMARK CLASS DEFINITION
 Other auxiliary functions
 ----------------------------------------------------------------------------------------
 """
-
+    
 def mse(x, xest):
     assert len(x) == len(xest), 'Should be of equal length.'
     idx = np.where(abs(x)>0)
@@ -1023,6 +1033,22 @@ def order_components(Xest, X, minormax = 'max', metric = corr_comps):
         values[ind] = factor*np.inf
     return order
 
+def compute_qrf(x, x_hat, tmin=None,tmax=None):
+    """
+    Quality reconstruction factor
+    """
+    if tmin is None:
+        tmin = 0
+    
+    if tmax is None:
+        tmax = len(x)
+
+    x = x[tmin:tmax]
+    x_hat = x_hat[tmin:tmax]
+    qrf = 10*np.log10(np.sum(x**2)/np.sum((x_hat-x)**2))
+    return qrf
+
+
 def get_args_and_kwargs(params):
     if type(params) is dict:
             args = []
@@ -1040,17 +1066,3 @@ def get_args_and_kwargs(params):
 
     return args, kwargs
 
-def compute_qrf(x, x_hat, tmin=None,tmax=None):
-    """
-    Quality reconstruction factor
-    """
-    if tmin is None:
-        tmin = 0
-    
-    if tmax is None:
-        tmax = len(x)
-
-    x = x[tmin:tmax]
-    x_hat = x_hat[tmin:tmax]
-    qrf = 10*np.log10(np.sum(x**2)/np.sum((x_hat-x)**2))
-    return qrf
