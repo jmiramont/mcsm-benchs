@@ -527,6 +527,9 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;detection&#39;</span><span class="p">:</span>
                 <span class="n">method_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;misc&#39;</span><span class="p">:</span>
+                <span class="n">method_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
         <span class="c1">#! Rewrite this part.</span>
         <span class="c1"># self.check_methods_output(method_output,noisy_signals) # Just checking if the output its valid.   </span>
         
@@ -720,6 +723,13 @@
                                     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perf_met_output</span><span class="p">)</span>
 
                                 <span class="c1"># Saving results -----------</span>
+                                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">([</span><span class="nb">type</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">==</span><span class="nb">dict</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]):</span>
+                                    <span class="n">aux</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:[]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+                                    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                                        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                                            <span class="n">aux</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                                    <span class="n">result</span> <span class="o">=</span> <span class="n">aux</span>
+
                                 <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">result</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span> <span class="o">=</span> <span class="n">elapsed</span>
 
@@ -992,35 +1002,35 @@
 <div class="viewcode-block" id="Benchmark.compare_qrf_block"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_qrf_block">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">compare_qrf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">comps</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">Xest</span> <span class="ow">in</span> <span class="n">method_output</span><span class="p">:</span>
-            <span class="n">order</span> <span class="o">=</span> <span class="n">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-            <span class="n">Xaux</span> <span class="o">=</span> <span class="n">Xest</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
-            <span class="n">qrfs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">xaux</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Xaux</span><span class="p">):</span>
-                <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">qrfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span> <span class="n">xaux</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span><span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">))</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qrfs</span><span class="p">)</span>    
-        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
-        <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">output</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
+        <span class="c1"># output = []</span>
+        <span class="c1"># for Xest in method_output:</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">order_components</span><span class="p">(</span><span class="n">method_output</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+        <span class="n">Xaux</span> <span class="o">=</span> <span class="n">method_output</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">qrfs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">xaux</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Xaux</span><span class="p">):</span>
+            <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">qrfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span> <span class="n">xaux</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span><span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">))</span>
+        <span class="c1"># output.append(qrfs)    </span>
+        <span class="c1"># output = np.array(output, dtype=object)</span>
+        <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">qrfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qrfs</span><span class="p">))}</span>
         <span class="k">return</span> <span class="n">dict_output</span></div>
 
 <div class="viewcode-block" id="Benchmark.compare_instf_block"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_instf_block">[docs]</a>    <span class="nd">@staticmethod</span>    
     <span class="k">def</span> <span class="nf">compare_instf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">instf</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">Xest</span> <span class="ow">in</span> <span class="n">method_output</span><span class="p">:</span>
-            <span class="n">order</span> <span class="o">=</span> <span class="n">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">mse</span><span class="p">)</span>
-            <span class="n">Xaux</span> <span class="o">=</span> <span class="n">Xest</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
-            <span class="n">qrfs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">xaux</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Xaux</span><span class="p">):</span>
-                <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
-                <span class="c1"># qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))</span>
-                <span class="n">qrfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span> <span class="n">xaux</span><span class="p">[</span><span class="n">indx</span><span class="p">]))</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qrfs</span><span class="p">)</span>    
-        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
-        <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">output</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
-        <span class="k">return</span> <span class="n">dict_output</span>    </div>
+        <span class="c1"># output = []</span>
+        <span class="c1"># for Xest in method_output:</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">order_components</span><span class="p">(</span><span class="n">method_output</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">mse</span><span class="p">)</span>
+        <span class="n">Xaux</span> <span class="o">=</span> <span class="n">method_output</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">qrfs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">xaux</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Xaux</span><span class="p">):</span>
+            <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># qrfs.append(compute_qrf(x[indx], xaux[indx],tmin=tmin,tmax=tmax))</span>
+            <span class="n">qrfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indx</span><span class="p">],</span> <span class="n">xaux</span><span class="p">[</span><span class="n">indx</span><span class="p">]))</span>
+        <span class="c1"># output.append(qrfs)    </span>
+        <span class="c1"># output = np.array(output, dtype=object)</span>
+        <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Comp.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">qrfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qrfs</span><span class="p">))}</span>
+        <span class="k">return</span> <span class="n">dict_output</span>   </div>
 
 
 <div class="viewcode-block" id="Benchmark.sum"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sum">[docs]</a>    <span class="nd">@staticmethod</span> 
@@ -1074,7 +1084,7 @@
 <span class="sd">Other auxiliary functions</span>
 <span class="sd">----------------------------------------------------------------------------------------</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
+    
 <div class="viewcode-block" id="mse"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.mse">[docs]</a><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">xest</span><span class="p">),</span> <span class="s1">&#39;Should be of equal length.&#39;</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
@@ -1110,6 +1120,22 @@
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">factor</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="k">return</span> <span class="n">order</span></div>
 
+<div class="viewcode-block" id="compute_qrf"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.compute_qrf">[docs]</a><span class="k">def</span> <span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quality reconstruction factor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tmin</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">if</span> <span class="n">tmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span>
+    <span class="n">x_hat</span> <span class="o">=</span> <span class="n">x_hat</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span>
+    <span class="n">qrf</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x_hat</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">qrf</span></div>
+
+
 <div class="viewcode-block" id="get_args_and_kwargs"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.get_args_and_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1127,20 +1153,6 @@
 
     <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span></div>
 
-<div class="viewcode-block" id="compute_qrf"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.compute_qrf">[docs]</a><span class="k">def</span> <span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Quality reconstruction factor</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">tmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tmin</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="k">if</span> <span class="n">tmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span>
-    <span class="n">x_hat</span> <span class="o">=</span> <span class="n">x_hat</span><span class="p">[</span><span class="n">tmin</span><span class="p">:</span><span class="n">tmax</span><span class="p">]</span>
-    <span class="n">qrf</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x_hat</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">qrf</span></div>
 </pre></div>
 
            </div>

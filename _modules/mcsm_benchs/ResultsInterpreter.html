@@ -89,7 +89,7 @@
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">mcsm_benchs.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span><span class="p">,</span> <span class="n">ticker</span> <span class="k">as</span> <span class="n">mticker</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
@@ -106,9 +106,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_benchmark</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a_benchmark</span><span class="p">,</span><span class="n">Benchmark</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">a_benchmark</span><span class="o">.</span><span class="n">get_results_as_df</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a_benchmark</span><span class="p">,</span><span class="n">Benchmark</span><span class="p">):</span>
+            <span class="c1"># self.results = a_benchmark.get_results_as_df()</span>
+        <span class="c1"># else:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input should be a Benchmark.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="n">a_benchmark</span>
@@ -454,7 +454,6 @@
         <span class="k">return</span> <span class="n">lines</span></div>
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="ResultsInterpreter.save_report"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.save_report">[docs]</a>    <span class="k">def</span> <span class="nf">save_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; This function generates a report of the results given in the Benchmark-class</span>
@@ -487,8 +486,17 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
     
-<span class="c1">#-------------------------------------------------------------------------------------       </span>
-<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_snr_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="c1">#-------------------------------------------------------------------------------------      </span>
+<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_snr_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                     <span class="n">df</span><span class="p">,</span> 
+                     <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                     <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                     <span class="n">hue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                     <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                     <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                     <span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> 
+                     <span class="o">**</span><span class="n">kwargs</span>
+                     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generates a Quality Reconstruction Factor (QRF) vs. SNRin plot. The QRF is </span>
 <span class="sd">        computed as: </span>
 <span class="sd">        QRF = 20 log ( norm(x) / norm(x-x_r)) [dB]</span>
@@ -517,7 +525,7 @@
             <span class="n">method_name</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">plots_info</span> 
             <span class="n">df_aux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">hue</span><span class="p">]</span><span class="o">==</span><span class="n">method_name</span><span class="p">]</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_aux</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
             
             <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isupper</span><span class="p">()])</span>
             <span class="k">if</span> <span class="n">method_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -529,19 +537,48 @@
                 <span class="k">if</span> <span class="n">no_nans</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,):</span>
                     <span class="n">v</span><span class="p">[</span><span class="n">uind</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">no_nans</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
 
-            <span class="n">axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="o">+</span><span class="n">u_offset</span><span class="p">[</span><span class="n">offs_idx</span><span class="p">],</span><span class="n">v</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="o">+</span> <span class="n">marker</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plot_type</span><span class="o">==</span><span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="o">+</span><span class="n">u_offset</span><span class="p">[</span><span class="n">offs_idx</span><span class="p">],</span>
+                        <span class="n">v</span><span class="p">,</span>
+                        <span class="s1">&#39;-&#39;</span><span class="o">+</span> <span class="n">marker</span><span class="p">,</span> 
+                        <span class="c1"># ms = 5, </span>
+                        <span class="c1"># linewidth = 1.0, </span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;semilogy&quot;</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">u</span><span class="o">+</span><span class="n">u_offset</span><span class="p">[</span><span class="n">offs_idx</span><span class="p">],</span>
+                        <span class="n">v</span><span class="o">+</span><span class="mf">1e-10</span><span class="p">,</span>
+                        <span class="s1">&#39;-&#39;</span><span class="o">+</span> <span class="n">marker</span><span class="p">,</span> 
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>                                
+                <span class="n">axis</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">(</span><span class="n">numticks</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span> <span class="n">subs</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">))</span>                        
+
             
         <span class="c1"># axis.plot([np.min(u), np.max(u)],[np.min(u), np.max(u)],&#39;r&#39;,</span>
                                             <span class="c1"># linestyle = (0, (5, 10)),</span>
                                             <span class="c1"># linewidth = 0.75)</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="s1">&#39; (dB)&#39;</span><span class="p">)</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="s1">&#39; (dB)&#39;</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="c1"># axis.set_xlabel(x + &#39; (dB)&#39;)</span>
+        <span class="c1"># axis.set_ylabel(y + &#39; (dB)&#39;)</span>
+
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;SNRin (dB)&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;denoising&#39;</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;QRF (dB)&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;detection&#39;</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Detection Power&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+
+
         <span class="k">return</span> <span class="kc">True</span></div>
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="ResultsInterpreter.get_snr_plot_bars"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot_bars">[docs]</a>    <span class="k">def</span> <span class="nf">get_snr_plot_bars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                             <span class="n">df</span><span class="p">,</span> 
                             <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -590,7 +627,6 @@
         <span class="k">return</span> <span class="n">barfig</span></div>
 
 <span class="c1"># --------------------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="ResultsInterpreter.get_summary_plots"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plots">[docs]</a>    <span class="k">def</span> <span class="nf">get_summary_plots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">df_rearr</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
                         <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> 
@@ -625,7 +661,7 @@
 <span class="sd">            list: A list with matplotlib figures.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="n">Nsignals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_ids</span><span class="p">)</span>
+        <span class="c1"># Nsignals = len(self.signal_ids)</span>
 
         <span class="k">if</span> <span class="n">df_rearr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">df_rearr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rearrange_data_frame</span><span class="p">()</span>
