@@ -4,9 +4,14 @@
 
 A public, open-source, `Python`-based toolbox for benchmarking multi-component signal analysis methods, implemented either in `Python` or `MATLAB`/`Octave`.
 
-The goal of this toolbox is providing the signal-processing community with a common framework that allows researcher-independent comparisons between methods and favors reproducible research.
+This toolbox provides a common framework that allows researcher-independent comparisons between methods and favors reproducible research.
 
-This [GitHub template](https://github.com/jmiramont/collab-benchmark-template) can be used to create your own collaborative benchmarks.
+Create your own collaborative benchmarks using this [GitHub template](https://github.com/jmiramont/collab-benchmark-template).
+
+## Installation using ```pip```
+```bash
+pip install mcsm-benchs
+```
 
 ## Documentation
 
