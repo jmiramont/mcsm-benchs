@@ -367,7 +367,6 @@ class ResultsInterpreter:
         return lines
 
 # --------------------------------------------------------------------------------------
-
     def save_report(self, filename=None, path='results', bars=False, link='', pm_name=None):
 
         """ This function generates a report of the results given in the Benchmark-class
@@ -541,7 +540,6 @@ class ResultsInterpreter:
         return barfig
 
 # --------------------------------------------------------------------------------------
-    @staticmethod
     def get_summary_plots(self,
                         df_rearr = None, 
                         size=(3,3), 
@@ -576,7 +574,7 @@ class ResultsInterpreter:
             list: A list with matplotlib figures.
         """
         
-        Nsignals = len(self.signal_ids)
+        # Nsignals = len(self.signal_ids)
 
         if df_rearr is None:
             df_rearr = self.rearrange_data_frame()
