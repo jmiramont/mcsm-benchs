@@ -15,13 +15,13 @@ pip install mcsm-benchs
 
 ## Documentation
 
-[![Documentation](https://github.com/jmiramont/mcsm-benchs/tree/main/docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/mcsm-benchs)
+[![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/mcsm-benchs)
 
 ## Related works
 
 [EUSIPCO 2023](https://github.com/jmiramont/benchmarks_eusipco2023)
 
-[![Gretsi 2022](https://github.com/jmiramont/mcsm-benchs/tree/main/docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
+[![Gretsi 2022](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
 
 ## More
 
