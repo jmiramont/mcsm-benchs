@@ -445,6 +445,16 @@ are NOT saved.</p>
 <dd class="field-odd"><p>_type_</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mcsm_benchs.Benchmark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mcsm_benchs.SignalBank</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span> <span class="o">=</span> <span class="n">SignalBank</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">signal_linear_chirp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1024</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">snr</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># In dB</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mixture</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">sigmerge</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span><span class="n">noise</span><span class="p">,</span><span class="n">snr</span><span class="o">=</span><span class="n">snr</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">

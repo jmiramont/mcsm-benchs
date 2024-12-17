@@ -958,6 +958,15 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            _type_: _description_</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; import mcsm_benchs.Benchmark</span>
+<span class="sd">            &gt;&gt;&gt; import mcsm_benchs.SignalBank</span>
+<span class="sd">            &gt;&gt;&gt; sb = SignalBank(N=1024)</span>
+<span class="sd">            &gt;&gt;&gt; signal = sb.signal_linear_chirp()</span>
+<span class="sd">            &gt;&gt;&gt; noise = np.random.randn(1024,)</span>
+<span class="sd">            &gt;&gt;&gt; snr = 10 # In dB</span>
+<span class="sd">            &gt;&gt;&gt; mixture = Benchmark.sigmerge(signal,noise,snr=snr)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get signal parameters.</span>
         <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
