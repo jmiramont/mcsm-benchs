@@ -34,32 +34,7 @@ from tqdm import tqdm
 
 class Benchmark:
     """
-    This class performs a number of tasks for methods comparison.
-
-    Methods
-    -------
-    input_parsing(task, methods, N, parameters, SNRin, repetitions, signal_ids, verbosity, parallelize):
-        Parse input parameters of the constructor of class Benchmark.
-    
-    check_methods_output(output,input):
-        Check that the outputs of the method to benchmark fulfill the required type and shape.
-    
-    set_comparison_function(task):
-        Set the performance function for the selected task (future tasks could easily add new performance functions)
-    
-    inner_loop(benchmark_parameters):
-        Main loop of the Benchmark.
-
-    run_test(self):
-        Run the benchmark.
-
-    save_to_file(self,filename = None):
-        Save the results to a binary file that encodes the benchmark object.
-        Notice that the methods asThe instantaneous frequency of each component.sociated with the benchmark, not being pickable objects,
-        are NOT saved.
-
-    get_results_as_df(self, results = None):
-        Get a pandas DataFrame object with the results of the benchmark.
+    This class performs a number of tasks for methods comparison. It abstracts a benchmark itself.
     
     """
 
@@ -81,6 +56,7 @@ class Benchmark:
                  description=None,
                  **kwargs
                  ):
+        
         """ Initialize the main parameters of the test bench before running the benchmark.
 
         Args:
@@ -122,6 +98,12 @@ class Benchmark:
             obj_fun (callable, optional): If None, used the default objective functions
             for benchmarking. If a function is passed as an argument, the default is
             overridden. 
+
+            write_log (bool, optional): If True, saves a log of errors and warnings. Defaults to True.
+            
+            name (str, optional): A name to identify the benchmark in collaborative repositories.
+            
+            description (str, optional): A description to show in collaborative repositories.
 
         """
 
