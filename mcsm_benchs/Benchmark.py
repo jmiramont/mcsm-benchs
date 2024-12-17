@@ -871,6 +871,15 @@ class Benchmark:
 
         Returns:
             _type_: _description_
+
+        Example:
+            >>> import mcsm_benchs.Benchmark
+            >>> import mcsm_benchs.SignalBank
+            >>> sb = SignalBank(N=1024)
+            >>> signal = sb.signal_linear_chirp()
+            >>> noise = np.random.randn(1024,)
+            >>> snr = 10 # In dB
+            >>> mixture = Benchmark.sigmerge(signal,noise,snr=snr)
         """
         # Get signal parameters.
         N = len(x1)
