@@ -85,7 +85,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for mcsm_benchs.benchmark_utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</span>
+<span></span><span class="sd">&quot;&quot;&quot; mcms-benchs: A common framework for benchmarks of multi-component signal processing methods.</span>
 
 <span class="sd">    Copyright (C) 2024  Juan Manuel Miramont-Taurel</span>
 
@@ -134,71 +134,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="n">task</span>
 
 <div class="viewcode-block" id="MethodTemplate.get_parameters"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.benchmark_utils.MethodTemplate.get_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(((),{}),)</span> </div></div>
-
-<span class="c1"># class MatlabInterface():</span>
-<span class="c1">#     &quot;&quot;&quot;_summary_</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     def __init__(self, matlab_function_name, add2path=[], matlab_warnings=False):</span>
-<span class="c1">#         &quot;&quot;&quot;_summary_</span>
-
-<span class="c1">#         Args:</span>
-<span class="c1">#             matlab_function_name (_type_): _description_</span>
-<span class="c1">#         &quot;&quot;&quot;</span>
-<span class="c1">#         self.matlab_function_name = matlab_function_name</span>
-<span class="c1">#         self.eng = matlab.engine.start_matlab()</span>
-        
-<span class="c1">#         if not matlab_warnings:</span>
-<span class="c1">#             self.eng.eval(&quot;warning(&#39;off&#39;,&#39;all&#39;);&quot;, nargout=0)</span>
-
-<span class="c1">#         self.eng.eval(&quot;addpath(&#39;../src/methods&#39;)&quot;)</span>
-<span class="c1">#         self.eng.eval(&quot;addpath(&#39;src/methods&#39;)&quot;)</span>
-        
-<span class="c1">#         for path in add2path:</span>
-<span class="c1">#             self.eng.eval(&quot;addpath(&#39;&quot;+path+&quot;&#39;)&quot;)</span>
-<span class="c1">#             self.eng.eval(&quot;addpath(genpath(&#39;&quot;+path+&quot;&#39;))&quot;)</span>
-<span class="c1">#         # sys.path.insert(0, os.path.abspath(&#39;../src/methods/&#39;))</span>
-
-<span class="c1">#     def matlab_function(self, signal, *params):</span>
-<span class="c1">#         &quot;&quot;&quot;_summary_</span>
-
-<span class="c1">#         Args:</span>
-<span class="c1">#             signal (_type_): _description_</span>
-
-<span class="c1">#         Returns:</span>
-<span class="c1">#             _type_: _description_</span>
-<span class="c1">#         &quot;&quot;&quot;</span>
-<span class="c1">#         all_params = list((signal.copy(),*params))</span>
-<span class="c1">#         params = self.pre_parameters(*all_params)</span>
-<span class="c1">#         fun_handler = getattr(self.eng, self.matlab_function_name)</span>
-<span class="c1">#         outputs = fun_handler(*params)</span>
-<span class="c1">#         if isinstance(outputs,numbers.Number):</span>
-<span class="c1">#             return outputs</span>
-        
-<span class="c1">#         if len(outputs)==1:</span>
-<span class="c1">#             outputs = outputs[0].toarray()</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             outputs = [output.toarray() for output in outputs]</span>
-<span class="c1">#         return np.array(outputs)</span>
-        
-<span class="c1">#     def pre_parameters(self, *params):</span>
-<span class="c1">#         &quot;&quot;&quot;_summary_</span>
-
-<span class="c1">#         Returns:</span>
-<span class="c1">#             _type_: _description_</span>
-<span class="c1">#         &quot;&quot;&quot;</span>
-<span class="c1">#         params_matlab = list()</span>
-<span class="c1">#         for param in params:</span>
-<span class="c1">#             if isinstance(param,np.ndarray):</span>
-<span class="c1">#                 params_matlab.append(matlab.double(vector=param.tolist()))</span>
-<span class="c1">#             if isinstance(param,list) or isinstance(param,tuple):</span>
-<span class="c1">#                 params_matlab.append(matlab.double(vector=list(param)))</span>
-<span class="c1">#             if isinstance(param,float):</span>
-<span class="c1">#                 params_matlab.append(matlab.double(param))</span>
-<span class="c1">#             if isinstance(param,int):</span>
-<span class="c1">#                 params_matlab.append(matlab.double(float(param)))</span>
-                
-<span class="c1">#         return params_matlab    </span>
+        <span class="k">return</span> <span class="p">(((),{}),)</span></div></div>
+     
 </pre></div>
 
            </div>

@@ -442,7 +442,7 @@
         <span class="k">if</span> <span class="n">link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39; [[Results .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/results.csv&#39;</span><span class="o">+</span><span class="s1">&#39;) &#39;</span>
+            <span class="n">link_text</span> <span class="o">=</span> <span class="s1">&#39; [[Results .csv]](&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s1">&#39;/results.csv&#39;</span><span class="o">+</span><span class="s1">&#39;) &#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;# Benchmark Report&#39;</span> <span class="o">+</span> <span class="n">link_text</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;## Configuration&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -655,7 +655,8 @@
                         <span class="n">errbar_fun</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ci&#39;</span><span class="p">,</span><span class="mi">95</span><span class="p">),</span>
                         <span class="n">errbar_params</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-                        <span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span>
+                        <span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;bars&#39;</span><span class="p">,</span>
+                        <span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">magnitude</span> <span class="o">=</span> <span class="s1">&#39;absolute&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates individual performance plots for each signal, displaying the </span>
 <span class="sd">        performance measure of all methods for all noise conditions.</span>
@@ -715,10 +716,9 @@
                 <span class="n">method_and_params</span> <span class="o">=</span> <span class="n">df_aux</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">a</span><span class="p">,:]</span>
                 <span class="n">df_aux</span> <span class="o">=</span> <span class="n">method_and_params</span>
 
-            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;lines&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">bars</span><span class="o">==</span><span class="kc">False</span> <span class="ow">or</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;lines&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_snr_plot</span><span class="p">(</span><span class="n">df_aux</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;SNRin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;QRF&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">&#39;bars&#39;</span><span class="p">:</span>
+            <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_snr_plot_bars</span><span class="p">(</span><span class="n">df_aux</span><span class="p">,</span> 
                                         <span class="n">x</span><span class="o">=</span><span class="s1">&#39;SNRin&#39;</span><span class="p">,</span> 
                                         <span class="n">y</span><span class="o">=</span><span class="s1">&#39;QRF&#39;</span><span class="p">,</span> 
@@ -732,7 +732,7 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">benchmark</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;detection&quot;</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Detection Power&#39;</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">])</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
