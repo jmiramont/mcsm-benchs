@@ -147,51 +147,7 @@ along with this program.  If not, see &lt;<a class="reference external" href="ht
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">Benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'denoising'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nsub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNRin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repetitions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallelize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complex_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class performs a number of tasks for methods comparison.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">input_parsing(task,</span> <span class="pre">methods,</span> <span class="pre">N,</span> <span class="pre">parameters,</span> <span class="pre">SNRin,</span> <span class="pre">repetitions,</span> <span class="pre">signal_ids,</span> <span class="pre">verbosity,</span> <span class="pre">parallelize):</span></span></dt>
-<dd><p>Parse input parameters of the constructor of class Benchmark.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">check_methods_output(output,input):</span></span></dt>
-<dd><p>Check that the outputs of the method to benchmark fulfill the required type and shape.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_comparison_function(task):</span></span></dt>
-<dd><p>Set the performance function for the selected task (future tasks could easily add new performance functions)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">inner_loop(benchmark_parameters):</span></span></dt>
-<dd><p>Main loop of the Benchmark.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">run_test(self):</span></span></dt>
-<dd><p>Run the benchmark.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">save_to_file(self,filename</span> <span class="pre">=</span> <span class="pre">None):</span></span></dt>
-<dd><p>Save the results to a binary file that encodes the benchmark object.
-Notice that the methods asThe instantaneous frequency of each component.sociated with the benchmark, not being pickable objects,
-are NOT saved.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_results_as_df(self,</span> <span class="pre">results</span> <span class="pre">=</span> <span class="pre">None):</span></span></dt>
-<dd><p>Get a pandas DataFrame object with the results of the benchmark.</p>
-</dd></dl>
-
+<p>This class performs a number of tasks for methods comparison. It abstracts a benchmark itself.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.add_new_method">
 <span class="sig-name descname"><span class="pre">add_new_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.add_new_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.add_new_method" title="Permalink to this definition"></a></dt>

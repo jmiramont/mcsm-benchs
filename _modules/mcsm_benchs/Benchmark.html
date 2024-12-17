@@ -121,32 +121,7 @@
 
 <div class="viewcode-block" id="Benchmark"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark">[docs]</a><span class="k">class</span> <span class="nc">Benchmark</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class performs a number of tasks for methods comparison.</span>
-
-<span class="sd">    Methods</span>
-<span class="sd">    -------</span>
-<span class="sd">    input_parsing(task, methods, N, parameters, SNRin, repetitions, signal_ids, verbosity, parallelize):</span>
-<span class="sd">        Parse input parameters of the constructor of class Benchmark.</span>
-<span class="sd">    </span>
-<span class="sd">    check_methods_output(output,input):</span>
-<span class="sd">        Check that the outputs of the method to benchmark fulfill the required type and shape.</span>
-<span class="sd">    </span>
-<span class="sd">    set_comparison_function(task):</span>
-<span class="sd">        Set the performance function for the selected task (future tasks could easily add new performance functions)</span>
-<span class="sd">    </span>
-<span class="sd">    inner_loop(benchmark_parameters):</span>
-<span class="sd">        Main loop of the Benchmark.</span>
-
-<span class="sd">    run_test(self):</span>
-<span class="sd">        Run the benchmark.</span>
-
-<span class="sd">    save_to_file(self,filename = None):</span>
-<span class="sd">        Save the results to a binary file that encodes the benchmark object.</span>
-<span class="sd">        Notice that the methods asThe instantaneous frequency of each component.sociated with the benchmark, not being pickable objects,</span>
-<span class="sd">        are NOT saved.</span>
-
-<span class="sd">    get_results_as_df(self, results = None):</span>
-<span class="sd">        Get a pandas DataFrame object with the results of the benchmark.</span>
+<span class="sd">    This class performs a number of tasks for methods comparison. It abstracts a benchmark itself.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -168,6 +143,7 @@
                  <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span>
                  <span class="p">):</span>
+<span class="w">        </span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize the main parameters of the test bench before running the benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -209,6 +185,12 @@
 <span class="sd">            obj_fun (callable, optional): If None, used the default objective functions</span>
 <span class="sd">            for benchmarking. If a function is passed as an argument, the default is</span>
 <span class="sd">            overridden. </span>
+
+<span class="sd">            write_log (bool, optional): If True, saves a log of errors and warnings. Defaults to True.</span>
+<span class="sd">            </span>
+<span class="sd">            name (str, optional): A name to identify the benchmark in collaborative repositories.</span>
+<span class="sd">            </span>
+<span class="sd">            description (str, optional): A description to show in collaborative repositories.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
