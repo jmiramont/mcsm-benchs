@@ -355,7 +355,7 @@ class ResultsInterpreter:
         if link is None:
             link_text = ''
         else:
-            link_text = ' [[Results .csv]]('+link+'/results.csv'+') '
+            link_text = ' [[Results .csv]]('+link+'/results.csv'+') '+'\n'
 
         lines = ['# Benchmark Report' + link_text +'\n',
                 '## Configuration' + '\n',
@@ -568,7 +568,8 @@ class ResultsInterpreter:
                         errbar_fun = ('ci',95),
                         errbar_params = None,
                         ax = None, 
-                        plot_type='lines',
+                        plot_type='bars',
+                        bars=True,
                         magnitude = 'absolute'):
         """Generates individual performance plots for each signal, displaying the 
         performance measure of all methods for all noise conditions.
@@ -628,10 +629,9 @@ class ResultsInterpreter:
                 method_and_params = df_aux.iloc[a,:]
                 df_aux = method_and_params
 
-            if plot_type == 'lines':
+            if bars==False or plot_type == 'lines':
                 self.get_snr_plot(df_aux, x='SNRin', y='QRF', hue='Method', axis = ax)
-
-            if plot_type == 'bars':
+            else:
                 self.get_snr_plot_bars(df_aux, 
                                         x='SNRin', 
                                         y='QRF', 
@@ -645,7 +645,7 @@ class ResultsInterpreter:
 
             if self.benchmark.task == "detection":
                 ax.set_ylabel('Detection Power')
-                ax.set_ylim([0, 2])
+                ax.set_ylim([0, 1.2])
 
             ax.grid(linewidth = 0.1)
             ax.set_axisbelow(True)
