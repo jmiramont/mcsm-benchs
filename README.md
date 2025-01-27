@@ -1,4 +1,5 @@
 [![Tests](https://github.com/jmiramont/mcsm-benchs/actions/workflows/tests.yml/badge.svg)](https://github.com/jmiramont/mcsm-benchs/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jmiramont/mcsm-benchs/graph/badge.svg?token=CJPPKYJD8H)](https://codecov.io/gh/jmiramont/mcsm-benchs)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # `mcsm-benchs`: A Toolbox for Benchmarking Multi-Component Signal Analysis Methods
 

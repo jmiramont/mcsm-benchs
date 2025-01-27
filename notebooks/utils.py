@@ -1,3 +1,6 @@
+""" Utilities for the examples shown in this folder.
+"""
+
 import numpy as np
 import scipy.signal as sg
 import pandas as pd
