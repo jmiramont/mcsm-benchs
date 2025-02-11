@@ -491,7 +491,7 @@ class Benchmark:
         else:
             # Add new methods to the dictionary of results
             print("- Rerun benchmark.")
-            # print('-New methods',[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])
+            print('-New methods',[method for method in self.methods if method not in self.results[self.objectiveFunction.keys()[0]][self.signal_ids.keys()[0]][self.SNRin[0]].keys()])
 
             for fun_name in self.objectiveFunction:
                 for signal_id in self.signal_ids:
@@ -505,7 +505,7 @@ class Benchmark:
                                 self.results[fun_name][signal_id][SNR][method] = {}
                                 self.elapsed_time[signal_id][method] = {}
 
-    def run_test(self):
+    def run_test(self): ## Make this a deprecation warning.
         print(
             "Method run_test() will be deprecated in newer versions. Use run() instead."
         )
@@ -563,16 +563,17 @@ class Benchmark:
                 if self.parallel_flag:
                     parallel_list = list()
                     for method in self.methods:
-                        if self.verbosity >= 2:
-                            print(
-                                "--- Parallel loop -- Method: "
-                                + method
-                                + "(all parameters)"
-                            )
-                        for p, params in enumerate(self.parameters[method]):
-                            args, kwargs = get_args_and_kwargs(params)
-                            for idx, noisy_signal in enumerate(noisy_signals):
-                                parallel_list.append([method, (args, kwargs), idx])
+                        if self.this_method_is_new[method]:
+                            if self.verbosity >= 2:
+                                print(
+                                    "--- Parallel loop -- Method: "
+                                    + method
+                                    + "(all parameters)"
+                                )
+                            for p, params in enumerate(self.parameters[method]):
+                                args, kwargs = get_args_and_kwargs(params)
+                                for idx, noisy_signal in enumerate(noisy_signals):
+                                    parallel_list.append([method, (args, kwargs), idx])
 
                     # Here implement the parallel stuff
                     pool = multiprocessing.Pool(processes=self.processes)
@@ -721,7 +722,7 @@ class Benchmark:
             a_copy.complex_noise = "NF"
 
         with open(filename + ".pkl", "wb") as f:
-            pickle.dump(a_copy.__dict__, f)
+            pickle.dump(a_copy.__dict__, f, protocol=pickle.HIGHEST_PROTOCOL)
 
         return True
 
@@ -776,7 +777,7 @@ class Benchmark:
         else:
             return data_frames
 
-    def add_new_method(self, methods, parameters=None):
+    def add_new_method(self, methods, parameters=None, perf_func=None):
         """Add new methods to an existing Benchmark.
 
         Args:
@@ -814,6 +815,7 @@ class Benchmark:
                 "Both methods and parameters dictionaries should have the same keys.\n"
             )
 
+        self.objectiveFunction = perf_func
         # New methods cannot be parallelized (for now).
         self.parallel_flag = False
 
