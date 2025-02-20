@@ -55,4 +55,45 @@ def test_benchmark_saving_and_loading():
     loaded_benchmark = Benchmark.load_benchmark('temp_bench')
     assert loaded_benchmark.N == benchmark.N, 'Loaded benchmark is deficient.'
 
+
+# Test QRF computation of the benchmark.
+def test_benchmark_sum():
+    # Create a dictionary of the methods to test.
+    method_1 = {
+        'Method 1': a_method, 
+    }
+    method_2 = {
+        'Method 2': a_method, 
+    }
+
+    SNRin= [0, 5, 10, 20]
+    print(SNRin)
+    benchmark_1 = Benchmark(task = 'detection',
+                        methods = method_1,
+                        N = 256, Nsub=128, 
+                        SNRin = SNRin, 
+                        repetitions = 30,
+                        signal_ids=['LinearChirp',],
+                        verbosity=0)
+    benchmark_1.run_test()
+
+    benchmark_2 = Benchmark(task = 'detection',
+                        methods = method_2,
+                        N = 256, Nsub=128, 
+                        SNRin = SNRin, 
+                        repetitions = 30,
+                        signal_ids=['LinearChirp',],
+                        verbosity=0)
+    benchmark_2.run_test()
+
+    benchmark = benchmark_1+benchmark_2
+    print(benchmark.methods)
+
+    # # output = benchmark.save_to_file('temp_bench')
+    # assert , 'The benchmark was not saved.'
+
+    # loaded_benchmark = Benchmark.load_benchmark('temp_bench')
+    # assert loaded_benchmark.N == benchmark.N, 'Loaded benchmark is deficient.'
+
+
 # test_benchmark_qrf()

@@ -188,20 +188,6 @@ class Signal(np.ndarray):
             axis=axis, dtype=dtype, out=out, ddof=ddof, **kwargs
         )
 
-    # def __add__(self,x):
-    #     obj = super().__add__(x)
-
-    #     # if isinstance(x, Signal):
-    #     #     if len(x) == len(x.comps[0]):
-    #     #        obj = obj.view(Signal)
-    #     #        obj._comps = []
-    #     #        obj._instf = []
-    #     #        for cp, instf in zip([*self.comps, *x.comps],
-    #     #                                             [*self.instf, *x.instf]):
-    #     #             obj.add_comp(cp, instf=instf)
-
-    #     return obj
-
     @property
     def total_comps(self):
         if self._total_comps is None:

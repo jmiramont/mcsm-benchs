@@ -118,7 +118,7 @@ class ResultsInterpreter:
 
     # --------------------------------------------------------------------------------------
 
-    def get_df_means(self, df=None, idx=0):
+    def _get_df_means(self, df=None, idx=0):
         """Generates a DataFrame of mean results to .md file.
 
         Returns:
@@ -188,7 +188,7 @@ class ResultsInterpreter:
 
     # ---------------------------------------------------------------------------------------
 
-    def get_df_std(self, df=None, varfun=None, idx=0):
+    def _get_df_std(self, df=None, varfun=None, idx=0):
         """Generates a DataFrame with a variability function from the results.
         Returns an string to create a .md file.
 
@@ -209,7 +209,7 @@ class ResultsInterpreter:
         # Choose an appropriate variability measure:
         if varfun is None:
             if self.task == "detection":  # Bonferroni corrected Clopper-Pearson CI
-                varfun = lambda x: clopper_pearson(
+                varfun = lambda x: _clopper_pearson(
                     x,
                     alpha=0.05,
                     bonferroni=self.ncomparisons,
@@ -217,7 +217,7 @@ class ResultsInterpreter:
             # For denoising or misc, use bootstrap CI.
             else:
                 # varfun = lambda x: (np.std(x),np.std(x))
-                varfun = lambda x: ci(
+                varfun = lambda x: _ci(
                     x,
                     alpha=0.05,
                     bonferroni=self.ncomparisons,
@@ -289,7 +289,7 @@ class ResultsInterpreter:
         return df_std_upper, df_std_lower
 
     # --------------------------------------------------------------------------------------
-    def get_table_means_and_std(self, link="", pm_name=None, idx=0):
+    def _get_table_means_and_std(self, link="", pm_name=None, idx=0):
         """Generates a table of mean and std results to .md file.
         Highlights the best results.
 
@@ -305,8 +305,8 @@ class ResultsInterpreter:
         output_string = ""
 
         # Get dataframes with means and some variability measure
-        dfs_means = self.get_df_means()
-        dfs_std_upper, dfs_std_lower = self.get_df_std()
+        dfs_means = self._get_df_means()
+        dfs_std_upper, dfs_std_lower = self._get_df_std()
 
         for dfu, dfl, dfm in zip(dfs_std_upper, dfs_std_lower, dfs_means):
             dfu.iloc[:, 1::] = dfu.iloc[:, 1::] + dfm.iloc[:, 1::]
@@ -395,7 +395,7 @@ class ResultsInterpreter:
         return output_string
 
     # --------------------------------------------------------------------------------------
-    def get_report_preamble(self, link=None):
+    def _get_report_preamble(self, link=None):
         """Creates the preamble of the .md file with a table summarizing the benchmark results.
 
         Returns:
@@ -468,13 +468,13 @@ class ResultsInterpreter:
         output_path = os.path.join(path, filename)
 
         # Generate table header:
-        lines = self.get_report_preamble(link=link)
+        lines = self._get_report_preamble(link=link)
         with open(output_path, "w") as f:
             f.write("\n".join(lines))
             # f.writelines(lines)
 
         # Append table under header
-        table_string = self.get_table_means_and_std(link=link, pm_name=pm_name)
+        table_string = self._get_table_means_and_std(link=link, pm_name=pm_name)
         with open(output_path, "a") as f:
             f.write(table_string)
 
@@ -772,8 +772,8 @@ class ResultsInterpreter:
         figs = []
 
         # Get dataframes with means and some variability measure (varfun)
-        dfs_means = self.get_df_means(df=df)
-        dfs_std_upper, dfs_std_lower = self.get_df_std(df=df, varfun=varfun)
+        dfs_means = self._get_df_means(df=df)
+        dfs_std_upper, dfs_std_lower = self._get_df_std(df=df, varfun=varfun)
 
         for signal_id, df_means, df_std_upper, df_std_lower in zip(
             self.signal_ids, dfs_means, dfs_std_upper, dfs_std_lower
@@ -934,7 +934,7 @@ class ResultsInterpreter:
 
 
 # Use this function only for the CP CI shown in the interactive figures using Plotly:
-def clopper_pearson(x, alpha=0.05, bonferroni=1):
+def _clopper_pearson(x, alpha=0.05, bonferroni=1):
     """
     Clopper-Pearson confidence interval for Bernoulli parameter
     alpha: confidence level
@@ -953,7 +953,7 @@ def clopper_pearson(x, alpha=0.05, bonferroni=1):
     return np.mean(x) - lb, ub - np.mean(x)
 
 
-def ci(x, alpha=0.05, bonferroni=1):
+def _ci(x, alpha=0.05, bonferroni=1):
     significance = alpha / bonferroni * 100
     lb, ub = sns.utils.ci(sns.algorithms.bootstrap(x), which=100 - significance)
     return np.mean(x) - lb, ub - np.mean(x)

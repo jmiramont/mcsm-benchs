@@ -781,13 +781,8 @@ class Benchmark:
         """Add new methods to an existing Benchmark.
 
         Args:
-            methods (_type_): _description_
-            parameters (_type_, optional): _description_. Defaults to None.
-
-        Raises:
-            ValueError: _description_
-            ValueError: _description_
-            ValueError: _description_
+            methods (_type_): A dictionary of methods.
+            parameters (_type_, optional): If necessary, a dictionary of parameters for the new methods, or new parameters to explore with already benchmarked methods. Defaults to None.
         """
         # Check methods is a dictionary and update existing dictionary of methods.
         if type(methods) is not dict:
@@ -824,7 +819,7 @@ class Benchmark:
         """Get a pandas DataFrame from a nested dictionary.
 
         Args:
-            mydic (_type_): A nested dictionary of results coming from a Benchmark object.
+            mydic (dict): A nested dictionary of results coming from a Benchmark object.
 
         Returns:
             DataFrame : A DataFrame with a column per-level in the dictionary.
@@ -963,6 +958,17 @@ class Benchmark:
 
     @staticmethod
     def compare_qrf_block(signal, method_output, tmin=None, tmax=None, **kwargs):
+        """ Compare the output SNR, i.e. qualitiy reconstruction factor (QRF) in a vectorized way for multi-component outputs.
+
+        Args:
+            signal (numpy.array or Signal): _description_
+            method_output (numpy.array): _description_
+            tmin (int, optional): tmin and tmax define a window of the signal to compare SNR. Defaults to None.
+            tmax (int, optional): tmin and tmax define a window of the signal to compare SNR. Defaults to None.
+
+        Returns:
+            dict : A dictionary with the QRF of each component.
+        """
         X = signal.comps
         # output = []
         # for Xest in method_output:
@@ -979,6 +985,17 @@ class Benchmark:
 
     @staticmethod
     def compare_instf_block(signal, method_output, tmin=None, tmax=None, **kwargs):
+        """ Compute the instantaneous frequency for multi-component outputs.
+
+        Args:
+            signal (numpy.array or Signal): _description_
+            method_output (numpy.array): _description_
+            tmin (int, optional): tmin and tmax define a window of the signal to compare SNR. Defaults to None.
+            tmax (int, optional): tmin and tmax define a window of the signal to compare SNR. Defaults to None.
+
+        Returns:
+            dict: A dictionary with the IF of each component.
+        """
         X = signal.instf
         # output = []
         # for Xest in method_output:
@@ -996,6 +1013,16 @@ class Benchmark:
 
     @staticmethod
     def sum(bench_a, bench_b):
+        """ This function is used to sum to benchmarks by overloading the + operator.
+        Summing benchmark means transfer the results of bench_b to bench_a as long as they only differ on the methods/parameters used.
+
+        Args:
+            bench_a (Benchmark): The first summand.
+            bench_b (Benchmark): The second summand.
+
+        Returns:
+            Benchmark: A Benchmark with the combined methods of bench_a and bench_b.
+        """
         assert (
             bench_a.repetitions == bench_b.repetitions
         ), "Repetitions should be same in both benchmarks."
@@ -1067,6 +1094,15 @@ Other auxiliary functions
 
 
 def mse(x, xest):
+    """ Mean square error performance function.
+
+    Args:
+        x (numpy.array): The origninal noiseless signal.
+        xest (numpy.array): An estimation of x.
+
+    Returns:
+        float: Mean square error between x and xest.
+    """
     assert len(x) == len(xest), "Should be of equal length."
     idx = np.where(abs(x) > 0)
     x_aux = x[idx]
@@ -1076,6 +1112,15 @@ def mse(x, xest):
 
 
 def corr_comps(x, xest):
+    """ Normalized correlation between x and xest.
+
+    Args:
+        x (numpy.array): The origninal noiseless signal.
+        xest (numpy.array): An estimation of x.
+
+    Returns:
+        float: Normalized correlation (between -1 and 1).
+    """
     idx = np.where(abs(x) > 0)
     x_aux = x[idx]
     xest_aux = xest[idx]
@@ -1086,6 +1131,17 @@ def corr_comps(x, xest):
 
 
 def order_components(Xest, X, minormax="max", metric=corr_comps):
+    """ This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric. 
+
+    Args:
+        Xest (numpy.array): _description_
+        X (numpy.array): _description_
+        minormax (str, optional): 'max' or 'min' according to what is needed from the given metric. Defaults to "max".
+        metric (Callable, optional): A function `m = fun(x,xest)`, with m a real number, and vectors x and xest are the noiseless component x and the estimation of x correspondingly. Defaults to correlation between components.
+
+    Returns:
+        numpy.array: A vector of lenght K, with the correspondence x[0]<->xest[order[0]].
+    """
     order = [[] for aaa in range(len(X))]
     values = np.array([[metric(x, xest) for x in X] for xest in Xest], dtype=object)
     if minormax == "max":

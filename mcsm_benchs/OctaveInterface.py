@@ -18,7 +18,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 import numbers
-from oct2py import octave
+import importlib
+
+
+# Check oct2py is installed
+try:
+    octave_is_present = importlib.util.find_spec("oct2py")
+    if octave_is_present:
+        from oct2py import octave
+
+except RuntimeError:
+    print("Oct2py or Octave installation not found.")
+
 import os
 
 
