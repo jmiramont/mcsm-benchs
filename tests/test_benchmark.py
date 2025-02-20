@@ -32,7 +32,7 @@ def test_benchmark_qrf():
     snr_error = abs(np.array(SNRin)-snr_est)
     assert np.all(snr_error<0.1), 'The noise addition is not calibrated.'
 
-# Test QRF computation of the benchmark.
+# Test Benchmark saving to file and loading again.
 def test_benchmark_saving_and_loading():
     # Create a dictionary of the methods to test.
     my_methods = {
@@ -87,13 +87,8 @@ def test_benchmark_sum():
     benchmark_2.run_test()
 
     benchmark = benchmark_1+benchmark_2
-    print(benchmark.methods)
+    assert np.all([m in benchmark_1.methods.keys() or m in benchmark_2.methods.keys() for m in benchmark.methods]) 
 
-    # # output = benchmark.save_to_file('temp_bench')
-    # assert , 'The benchmark was not saved.'
+# if __name__ == '__main__':
+#     test_benchmark_sum()
 
-    # loaded_benchmark = Benchmark.load_benchmark('temp_bench')
-    # assert loaded_benchmark.N == benchmark.N, 'Loaded benchmark is deficient.'
-
-
-# test_benchmark_qrf()
