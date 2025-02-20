@@ -45,8 +45,8 @@ This is a widely adopted strategy in neighboring fields such as optimization [@b
 This latter can synthesize several MCSs as objects from a custom `Signal` class that behave like regular arrays in Python but also contain information about the components.
 
 Additionally, `mcsm-benchs` includes a `ResultsInterpreter` class that can produce human-readable reports, the functionality of which underpins *collaborative* benchmarks.
-These can be made available via online repositories and can be periodically updated by members of the research community, fostering open and collaborative science.
-To this end, several examples are given in the documentation, as well as a GitHub repository template that relies heavily on `mcsm-benchs` and continuous integration/deployment workflows.
+These are based on online repositories (see [here](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) for an example) and can be periodically updated by members of the research community, fostering open and collaborative science.
+Several examples are given in the documentation, as well as a GitHub repository template that relies heavily on `mcsm-benchs` and continuous integration/deployment workflows, in order to automatize the process of publishing new benchmarks.
 
 # Statement of need
 
