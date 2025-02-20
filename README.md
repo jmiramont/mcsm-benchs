@@ -20,6 +20,8 @@ pip install mcsm-benchs
 
 ## Related works
 
+[Work in progress (2024)](https://arxiv.org/abs/2402.08521)
+
 [EUSIPCO 2023](https://github.com/jmiramont/benchmarks_eusipco2023)
 
 [![Gretsi 2022](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
