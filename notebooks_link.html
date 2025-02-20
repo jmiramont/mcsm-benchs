@@ -50,11 +50,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Exploring signals provided by the SignalBank class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul>
@@ -94,7 +94,7 @@
 “metadata”: {},
 “source”: [</p>
 <blockquote>
-<div><p>“# MCSM-Benchs: Creating benchmarks of MCS Methodsn”,
+<div><p>“# <cite>mcsm-benchs</cite>: Creating benchmarks of MCS Methodsn”,
 “n”,
 “We introduce a public, open-source, Python-based toolbox for benchmarking multi-component signal analysis methods, implemented either in Python or Matlab.n”,
 “n”,
@@ -138,7 +138,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 1,
+“execution_count”: 4,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -178,7 +178,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 2,
+“execution_count”: 5,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -234,7 +234,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 3,
+“execution_count”: 6,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -256,8 +256,8 @@
 “output_type”: “stream”,
 “text”: [</p>
 <blockquote>
-<div><p>“100%|██████████| 2/2 [00:00&lt;00:00,  2.27it/s]n”,
-“100%|██████████| 2/2 [00:00&lt;00:00,  2.39it/s]n”</p>
+<div><p>“100%|██████████| 2/2 [00:00&lt;00:00,  2.17it/s]n”,
+“100%|██████████| 2/2 [00:00&lt;00:00,  2.19it/s]n”</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -273,7 +273,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 3,
+“execution_count”: 6,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </div></blockquote>
@@ -300,7 +300,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 4,
+“execution_count”: 7,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -324,14 +324,634 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 5,
+“execution_count”: 8,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
 <div><dl>
 <dt>{</dt><dd><dl>
-<dt>“data”: {</dt><dd><dl class="simple">
-<dt>“text/html”: [</dt><dd><p>“&lt;div&gt;n”,
+<dt>“data”: {</dt><dd><dl>
+<dt>“application/vnd.microsoft.datawrangler.viewer.v0+json”: {</dt><dd><dl>
+<dt>“columns”: [</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“name”: “index”,
+“rawType”: “int64”,
+“type”: “integer”</p>
+</dd>
+</dl>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Method”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Parameter”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Signal_id”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Repetition”,
+“rawType”: “int64”,
+“type”: “integer”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “10”,
+“rawType”: “float64”,
+“type”: “float”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “20”,
+“rawType”: “float64”,
+“type”: “float”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>],
+“conversionMethod”: “pd.DataFrame”,
+“ref”: “ae3b3c8c-34f0-457b-bc25-fd7cdf928093”,
+“rows”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>[</dt><dd><p>“2000”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“0”,
+“11.886835659114459”,
+“22.37715108264989”</p>
+</dd>
+</dl>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2001”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“1”,
+“12.722812880140566”,
+“22.764551803585363”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2002”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“2”,
+“12.397019845144467”,
+“22.36957426399826”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2003”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“3”,
+“11.548921986599542”,
+“22.221890113454723”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2004”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“4”,
+“12.083445022222206”,
+“22.151974820017728”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2005”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“5”,
+“11.539915499209435”,
+“22.53463399279379”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2006”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“6”,
+“11.770607241799407”,
+“21.407158778601953”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2007”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“7”,
+“12.000421885788935”,
+“22.195617040199814”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2008”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“8”,
+“12.652924550241874”,
+“21.951620063076483”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2009”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“9”,
+“11.817618948427782”,
+“21.88709345740556”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2010”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“10”,
+“11.900853230162847”,
+“21.977302024204427”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2011”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“11”,
+“11.001221186309408”,
+“21.35456323414907”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2012”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“12”,
+“12.907874381154327”,
+“21.957742911019867”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2013”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“13”,
+“12.255905772305237”,
+“21.983145390884744”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2014”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“14”,
+“11.957253776232415”,
+“21.674801583988533”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2015”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“15”,
+“12.440681429480485”,
+“22.41920624855024”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2016”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“16”,
+“12.753937824574304”,
+“22.37677643772023”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2017”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“17”,
+“12.188847336244805”,
+“22.456816318445924”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2018”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“18”,
+“11.61633170042943”,
+“21.38442048453278”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2019”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“19”,
+“11.29460659033149”,
+“21.617649342457348”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2020”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“20”,
+“11.878664288767396”,
+“21.949846904186717”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2021”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“21”,
+“12.227231021522567”,
+“22.16163076673108”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2022”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“22”,
+“12.328159171861113”,
+“21.810523267392924”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2023”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“23”,
+“11.830928625729907”,
+“22.043764377267667”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2024”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“24”,
+“11.757553405878731”,
+“22.086809518009606”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2025”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“25”,
+“11.602778809406269”,
+“22.162922728620664”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2026”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“26”,
+“11.322351315128136”,
+“21.229056573057733”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2027”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“27”,
+“11.675910164139932”,
+“21.705963888256747”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2028”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“28”,
+“12.18074812360398”,
+“21.468522364267073”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2029”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“29”,
+“11.566105566657379”,
+“22.51018186552017”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2030”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“30”,
+“11.809897470131347”,
+“21.943586972996563”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2031”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“31”,
+“12.414582697613046”,
+“22.23237944545984”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2032”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“32”,
+“11.842205096048755”,
+“21.8652492247759”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2033”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“33”,
+“11.819630726493067”,
+“22.317041509046298”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2034”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“34”,
+“11.805780763174152”,
+“22.167551829970776”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2035”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“35”,
+“11.828109546201816”,
+“21.91305629389603”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2036”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“36”,
+“11.90839517056267”,
+“22.852462761172365”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2037”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“37”,
+“12.14548448227617”,
+“22.38907315081512”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2038”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“38”,
+“12.143874598997845”,
+“22.10592604370714”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2039”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“39”,
+“11.421471898983084”,
+“21.69739089982094”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2040”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“40”,
+“11.825547173046452”,
+“22.010842237646063”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2041”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“41”,
+“11.810841416294288”,
+“21.746285428594998”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2042”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“42”,
+“12.447061622080934”,
+“21.73764559882136”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2043”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“43”,
+“11.240800320186642”,
+“22.14371900944532”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2044”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“44”,
+“12.015941591158622”,
+“21.774523385501507”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2045”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“45”,
+“12.101558158573786”,
+“22.66403378633359”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2046”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“46”,
+“12.534344263609299”,
+“22.24124872924367”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2047”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“47”,
+“12.411271239591004”,
+“21.9361978584311”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2048”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“48”,
+“12.576631643326838”,
+“22.208336530986283”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2049”,
+“Method 1”,
+“((), {})”,
+“CosChirp”,
+“49”,
+“12.503972921230329”,
+“21.93850644154994”</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>],
+“shape”: {</p>
+<blockquote>
+<div><p>“columns”: 6,
+“rows”: 4000</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>},
+“text/html”: [</p>
+<blockquote>
+<div><p>“&lt;div&gt;n”,
 “&lt;style scoped&gt;n”,
 ”    .dataframe tbody tr th:only-of-type {n”,
 ”        vertical-align: middle;n”,
@@ -461,8 +1081,7 @@
 “&lt;/table&gt;n”,
 “&lt;p&gt;4000 rows × 6 columns&lt;/p&gt;n”,
 “&lt;/div&gt;”</p>
-</dd>
-</dl>
+</div></blockquote>
 <p>],
 “text/plain”: [</p>
 <blockquote>
@@ -485,7 +1104,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 5,
+“execution_count”: 8,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -504,21 +1123,21 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 6,
+“execution_count”: 9,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
 <div><dl>
 <dt>{</dt><dd><dl>
 <dt>“data”: {</dt><dd><dl class="simple">
-<dt>“text/plain”: [</dt><dd><p>“&lt;matplotlib.legend.Legend at 0x70c339bef100&gt;”</p>
+<dt>“text/plain”: [</dt><dd><p>“&lt;matplotlib.legend.Legend at 0x73e23f1644f0&gt;”</p>
 </dd>
 </dl>
 <p>]</p>
 </dd>
 </dl>
 <p>},
-“execution_count”: 6,
+“execution_count”: 9,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -600,7 +1219,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 7,
+“execution_count”: 10,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -652,7 +1271,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 8,
+“execution_count”: 11,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -697,7 +1316,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 9,
+“execution_count”: 12,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -718,8 +1337,8 @@
 “output_type”: “stream”,
 “text”: [</p>
 <blockquote>
-<div><p>“100%|██████████| 3/3 [00:00&lt;00:00, 43.98it/s]n”,
-“100%|██████████| 3/3 [00:00&lt;00:00, 50.49it/s]n”</p>
+<div><p>“100%|██████████| 3/3 [00:00&lt;00:00, 41.75it/s]n”,
+“100%|██████████| 3/3 [00:00&lt;00:00, 35.88it/s]n”</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -735,7 +1354,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 9,
+“execution_count”: 12,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </div></blockquote>
@@ -765,7 +1384,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 10,
+“execution_count”: 13,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -779,7 +1398,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 10,
+“execution_count”: 13,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -809,7 +1428,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 11,
+“execution_count”: 14,
 “metadata”: {},
 “outputs”: [],
 “source”: [</p>
@@ -833,7 +1452,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 12,
+“execution_count”: 15,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -847,7 +1466,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 12,
+“execution_count”: 15,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -868,7 +1487,7 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 13,
+“execution_count”: 16,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
@@ -900,17 +1519,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.2546579310353838,
-0.2587314605326725,
-0.18173788149175607</p>
+<dt>“array”: [</dt><dd><p>0.25533525339526264,
+0.25532646139948056,
+0.1781895750595055</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.24666885765639002,
-0.21633047597831023,
-0.21318638955959557</p>
+<div><p>0.24328108266999138,
+0.22054015818010697,
+0.21844332126035937</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -969,17 +1588,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3838028420259647,
-0.21908651263347778,
-0.332044295366952</p>
+<dt>“array”: [</dt><dd><p>0.3880843614922078,
+0.22204255688673058,
+0.3439594283095815</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.446908485211722,
-0.2239605074713964,
-0.3601053348868355</p>
+<div><p>0.45461206472486637,
+0.22583701710987825,
+0.3629904172291383</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1037,17 +1656,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.7163044479548573,
-0.41802149571100955,
-0.37794056093061457</p>
+<dt>“array”: [</dt><dd><p>0.6795066716361271,
+0.4081097977582573,
+0.3699560370633286</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.7902997778428222,
-0.470817193668168,
-0.3985244370713339</p>
+<div><p>0.7980219765142662,
+0.45582842730627604,
+0.40144849473875155</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1105,17 +1724,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3629968051472101,
-0.3250327460934095,
-0.3139188336311953</p>
+<dt>“array”: [</dt><dd><p>0.35523276540930837,
+0.3236442764990173,
+0.32131332674209645</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.42132932144545165,
-0.33260423224279023,
-0.3309743736599451</p>
+<div><p>0.42818561210567907,
+0.337393624116185,
+0.32659588399754824</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1173,17 +1792,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.5780320377008499,
-0.5097340065895928,
-0.3368902861051204</p>
+<dt>“array”: [</dt><dd><p>0.5686171515637044,
+0.5032318764489254,
+0.3470399280468861</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.5623453734171022,
-0.5120399207111959,
-0.3400656051817812</p>
+<div><p>0.5498008038819329,
+0.5271659041284451,
+0.3703993951956548</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -1241,17 +1860,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.43387471978113634,
-0.6199554799372997,
-0.33558601882322847</p>
+<dt>“array”: [</dt><dd><p>0.46607212013737787,
+0.6276696940149371,
+0.337756888106032</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.447057429191434,
-0.6266441871573427,
-0.3878734382389126</p>
+<div><p>0.43932410258376686,
+0.6358555711425673,
+0.40994052104286993</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2658,17 +3277,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3274825064785549,
-0.24041101591860325,
-0.2771494308652933</p>
+<dt>“array”: [</dt><dd><p>0.33210337783922306,
+0.24289563239050338,
+0.2671600184934597</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.3278232462698636,
-0.25830015263253614,
-0.3078161507408588</p>
+<div><p>0.33097292880088247,
+0.25683446260032383,
+0.29942744914319164</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2727,17 +3346,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3799845073167738,
-0.3666374770923646,
-0.5842019151745959</p>
+<dt>“array”: [</dt><dd><p>0.36474534057151153,
+0.36511071672864404,
+0.5679254748475948</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.40792833234883474,
-0.35294563137397006,
-0.5971331443059782</p>
+<div><p>0.42143107230137034,
+0.34730927418271307,
+0.5784789002431019</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2795,17 +3414,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.6866588492607208,
-0.7374969031162166,
-0.7602911946986559</p>
+<dt>“array”: [</dt><dd><p>0.7063570269797008,
+0.7167146478664073,
+0.7625076182571533</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.7995782408442773,
-0.6884070030500169,
-0.662668413344278</p>
+<div><p>0.8035321168830478,
+0.7103027957130283,
+0.6574205060006051</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2863,17 +3482,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.3482331448257039,
-0.34636320077343186,
-0.4548192059736422</p>
+<dt>“array”: [</dt><dd><p>0.3299345178584634,
+0.33628156487533545,
+0.45340603749250263</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.3410445602873704,
-0.34910555936037113,
-0.4682642261981158</p>
+<div><p>0.3426345189398461,
+0.3445959547065911,
+0.48339213510338297</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2931,17 +3550,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.4011941813834987,
-0.6534499437852315,
-0.7047555951566373</p>
+<dt>“array”: [</dt><dd><p>0.4187736544768068,
+0.6379221104439203,
+0.7257333797543097</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.4169941135936597,
-0.6366113696022211,
-0.6962372087139315</p>
+<div><p>0.4355373541672476,
+0.6108999343464774,
+0.6763546704056651</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -2999,17 +3618,17 @@
 “error_y”: {</p>
 <blockquote>
 <div><dl class="simple">
-<dt>“array”: [</dt><dd><p>0.398138163748889,
-0.6066595990170374,
-0.6985297201140401</p>
+<dt>“array”: [</dt><dd><p>0.404204520160623,
+0.5903476013739599,
+0.7034293647919707</p>
 </dd>
 </dl>
 <p>],
 “arrayminus”: [</p>
 <blockquote>
-<div><p>0.35668019499627945,
-0.5832542689704905,
-0.6578951872623335</p>
+<div><p>0.3619457469753047,
+0.5553824557930742,
+0.6386410696752112</p>
 </div></blockquote>
 <p>]</p>
 </div></blockquote>
@@ -4412,14 +5031,140 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 14,
+“execution_count”: 17,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
 <div><dl>
 <dt>{</dt><dd><dl>
-<dt>“data”: {</dt><dd><dl class="simple">
-<dt>“text/html”: [</dt><dd><p>“&lt;div&gt;n”,
+<dt>“data”: {</dt><dd><dl>
+<dt>“application/vnd.microsoft.datawrangler.viewer.v0+json”: {</dt><dd><dl>
+<dt>“columns”: [</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“name”: “index”,
+“rawType”: “object”,
+“type”: “string”</p>
+</dd>
+</dl>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Average time (s)”,
+“rawType”: “float64”,
+“type”: “float”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Std”,
+“rawType”: “float64”,
+“type”: “float”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>],
+“conversionMethod”: “pd.DataFrame”,
+“ref”: “309d901b-828c-479a-8bb4-82276c21353f”,
+“rows”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>[</dt><dd><p>“CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})”,
+“0.0002520402272542318”,
+“0.0001057813151042305”</p>
+</dd>
+</dl>
+<p>],
+[</p>
+<blockquote>
+<div><p>“CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})”,
+“0.0001957416534423828”,
+“1.4846159835194904e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})”,
+“0.00019838015238444012”,
+“1.8728527645949236e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})”,
+“0.00020702679951985678”,
+“1.5257712829570458e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})”,
+“0.0001777331034342448”,
+“6.846041416884378e-06”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})”,
+“0.000252691904703776”,
+“2.4388852033917898e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})”,
+“0.00016884803771972657”,
+“1.4946442785742649e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})”,
+“0.00023328463236490886”,
+“8.734713887098984e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})”,
+“0.00022013982137044272”,
+“5.38262820316306e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})”,
+“0.00020875930786132813”,
+“1.4750847855365986e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})”,
+“0.0002098401387532552”,
+“1.1094661698888454e-05”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})”,
+“0.0002258777618408203”,
+“3.5565339853728746e-05”</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>],
+“shape”: {</p>
+<blockquote>
+<div><p>“columns”: 2,
+“rows”: 12</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>},
+“text/html”: [</p>
+<blockquote>
+<div><p>“&lt;div&gt;n”,
 “&lt;style scoped&gt;n”,
 ”    .dataframe tbody tr th:only-of-type {n”,
 ”        vertical-align: middle;n”,
@@ -4444,91 +5189,90 @@
 ”  &lt;tbody&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000184&lt;/td&gt;n”,
-”      &lt;td&gt;0.000032&lt;/td&gt;n”,
+”      &lt;td&gt;0.000252&lt;/td&gt;n”,
+”      &lt;td&gt;0.000106&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000177&lt;/td&gt;n”,
-”      &lt;td&gt;0.000028&lt;/td&gt;n”,
+”      &lt;td&gt;0.000196&lt;/td&gt;n”,
+”      &lt;td&gt;0.000015&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000173&lt;/td&gt;n”,
-”      &lt;td&gt;0.000020&lt;/td&gt;n”,
-”    &lt;/tr&gt;n”,
-”    &lt;tr&gt;n”,
-”      &lt;th&gt;CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000181&lt;/td&gt;n”,
-”      &lt;td&gt;0.000014&lt;/td&gt;n”,
-”    &lt;/tr&gt;n”,
-”    &lt;tr&gt;n”,
-”      &lt;th&gt;CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000180&lt;/td&gt;n”,
-”      &lt;td&gt;0.000012&lt;/td&gt;n”,
-”    &lt;/tr&gt;n”,
-”    &lt;tr&gt;n”,
-”      &lt;th&gt;CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000195&lt;/td&gt;n”,
+”      &lt;td&gt;0.000198&lt;/td&gt;n”,
 ”      &lt;td&gt;0.000019&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
+”      &lt;th&gt;CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
+”      &lt;td&gt;0.000207&lt;/td&gt;n”,
+”      &lt;td&gt;0.000015&lt;/td&gt;n”,
+”    &lt;/tr&gt;n”,
+”    &lt;tr&gt;n”,
+”      &lt;th&gt;CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
+”      &lt;td&gt;0.000178&lt;/td&gt;n”,
+”      &lt;td&gt;0.000007&lt;/td&gt;n”,
+”    &lt;/tr&gt;n”,
+”    &lt;tr&gt;n”,
+”      &lt;th&gt;CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
+”      &lt;td&gt;0.000253&lt;/td&gt;n”,
+”      &lt;td&gt;0.000024&lt;/td&gt;n”,
+”    &lt;/tr&gt;n”,
+”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000187&lt;/td&gt;n”,
-”      &lt;td&gt;0.000031&lt;/td&gt;n”,
+”      &lt;td&gt;0.000169&lt;/td&gt;n”,
+”      &lt;td&gt;0.000015&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000171&lt;/td&gt;n”,
-”      &lt;td&gt;0.000014&lt;/td&gt;n”,
+”      &lt;td&gt;0.000233&lt;/td&gt;n”,
+”      &lt;td&gt;0.000087&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000169&lt;/td&gt;n”,
-”      &lt;td&gt;0.000013&lt;/td&gt;n”,
+”      &lt;td&gt;0.000220&lt;/td&gt;n”,
+”      &lt;td&gt;0.000054&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000187&lt;/td&gt;n”,
-”      &lt;td&gt;0.000018&lt;/td&gt;n”,
+”      &lt;td&gt;0.000209&lt;/td&gt;n”,
+”      &lt;td&gt;0.000015&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000205&lt;/td&gt;n”,
-”      &lt;td&gt;0.000032&lt;/td&gt;n”,
+”      &lt;td&gt;0.000210&lt;/td&gt;n”,
+”      &lt;td&gt;0.000011&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”    &lt;tr&gt;n”,
 ”      &lt;th&gt;LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})&lt;/th&gt;n”,
-”      &lt;td&gt;0.000188&lt;/td&gt;n”,
-”      &lt;td&gt;0.000024&lt;/td&gt;n”,
+”      &lt;td&gt;0.000226&lt;/td&gt;n”,
+”      &lt;td&gt;0.000036&lt;/td&gt;n”,
 ”    &lt;/tr&gt;n”,
 ”  &lt;/tbody&gt;n”,
 “&lt;/table&gt;n”,
 “&lt;/div&gt;”</p>
-</dd>
-</dl>
+</div></blockquote>
 <p>],
 “text/plain”: [</p>
 <blockquote>
 <div><p>”                                                Average time (s)       Stdn”,
-“CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})             0.000184  0.000032n”,
-“CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})             0.000177  0.000028n”,
-“CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})             0.000173  0.000020n”,
-“CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})             0.000181  0.000014n”,
-“CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})             0.000180  0.000012n”,
-“CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})             0.000195  0.000019n”,
-“LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})          0.000187  0.000031n”,
-“LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})          0.000171  0.000014n”,
-“LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})          0.000169  0.000013n”,
-“LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})          0.000187  0.000018n”,
-“LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})          0.000205  0.000032n”,
-“LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})          0.000188  0.000024”</p>
+“CosChirp-Method 1-((1.0,), {‘fun’: ‘hard’})             0.000252  0.000106n”,
+“CosChirp-Method 1-((2.0,), {‘fun’: ‘hard’})             0.000196  0.000015n”,
+“CosChirp-Method 1-((3.0,), {‘fun’: ‘hard’})             0.000198  0.000019n”,
+“CosChirp-Method 2-((1.0,), {‘fun’: ‘soft’})             0.000207  0.000015n”,
+“CosChirp-Method 2-((2.0,), {‘fun’: ‘soft’})             0.000178  0.000007n”,
+“CosChirp-Method 2-((3.0,), {‘fun’: ‘soft’})             0.000253  0.000024n”,
+“LinearChirp-Method 1-((1.0,), {‘fun’: ‘hard’})          0.000169  0.000015n”,
+“LinearChirp-Method 1-((2.0,), {‘fun’: ‘hard’})          0.000233  0.000087n”,
+“LinearChirp-Method 1-((3.0,), {‘fun’: ‘hard’})          0.000220  0.000054n”,
+“LinearChirp-Method 2-((1.0,), {‘fun’: ‘soft’})          0.000209  0.000015n”,
+“LinearChirp-Method 2-((2.0,), {‘fun’: ‘soft’})          0.000210  0.000011n”,
+“LinearChirp-Method 2-((3.0,), {‘fun’: ‘soft’})          0.000226  0.000036”</p>
 </div></blockquote>
 <p>]</p>
 </dd>
 </dl>
 <p>},
-“execution_count”: 14,
+“execution_count”: 17,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>
@@ -4547,14 +5291,634 @@
 {</p>
 <blockquote>
 <div><p>“cell_type”: “code”,
-“execution_count”: 15,
+“execution_count”: 18,
 “metadata”: {},
 “outputs”: [</p>
 <blockquote>
 <div><dl>
 <dt>{</dt><dd><dl>
-<dt>“data”: {</dt><dd><dl class="simple">
-<dt>“text/html”: [</dt><dd><p>“&lt;div&gt;n”,
+<dt>“data”: {</dt><dd><dl>
+<dt>“application/vnd.microsoft.datawrangler.viewer.v0+json”: {</dt><dd><dl>
+<dt>“columns”: [</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>“name”: “index”,
+“rawType”: “int64”,
+“type”: “integer”</p>
+</dd>
+</dl>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “SNRin”,
+“rawType”: “int64”,
+“type”: “integer”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Method”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Parameter”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Signal_id”,
+“rawType”: “object”,
+“type”: “string”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “Repetition”,
+“rawType”: “int64”,
+“type”: “integer”</p>
+</div></blockquote>
+<p>},
+{</p>
+<blockquote>
+<div><p>“name”: “QRF”,
+“rawType”: “float64”,
+“type”: “float”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>],
+“conversionMethod”: “pd.DataFrame”,
+“ref”: “d836c9bd-1baa-4e76-9a55-37075e40b704”,
+“rows”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>[</dt><dd><p>“0”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“0”,
+“11.886835659114459”</p>
+</dd>
+</dl>
+<p>],
+[</p>
+<blockquote>
+<div><p>“1”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“1”,
+“12.722812880140566”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“2”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“2”,
+“12.397019845144467”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“3”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“3”,
+“11.548921986599542”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“4”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“4”,
+“12.083445022222206”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“5”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“5”,
+“11.539915499209435”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“6”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“6”,
+“11.770607241799407”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“7”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“7”,
+“12.000421885788935”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“8”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“8”,
+“12.652924550241874”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“9”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“9”,
+“11.817618948427782”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“10”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“10”,
+“11.900853230162847”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“11”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“11”,
+“11.001221186309408”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“12”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“12”,
+“12.907874381154327”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“13”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“13”,
+“12.255905772305237”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“14”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“14”,
+“11.957253776232415”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“15”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“0”,
+“12.20216117002511”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“16”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“1”,
+“12.76503767249529”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“17”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“2”,
+“12.237888143510068”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“18”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“3”,
+“11.742664365607958”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“19”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“4”,
+“11.495492228825377”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“20”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“5”,
+“11.873819113795907”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“21”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“6”,
+“11.409081817341889”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“22”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“7”,
+“12.493673162333586”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“23”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“8”,
+“11.915356102761711”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“24”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“9”,
+“12.305220517973723”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“25”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“10”,
+“12.258823320829029”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“26”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“11”,
+“11.685536970919193”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“27”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“12”,
+“12.17778913222083”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“28”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“13”,
+“12.115226297294965”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“29”,
+“10”,
+“Method 1”,
+“((1.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“14”,
+“11.655592504971661”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“30”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“0”,
+“9.561175072630387”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“31”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“1”,
+“11.269130290168585”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“32”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“2”,
+“10.092591090099475”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“33”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“3”,
+“10.819378722953994”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“34”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“4”,
+“11.076254548847482”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“35”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“5”,
+“10.737653362585448”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“36”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“6”,
+“11.803498483011733”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“37”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“7”,
+“10.184236407296275”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“38”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“8”,
+“11.500399559587752”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“39”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“9”,
+“11.495303875098903”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“40”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“10”,
+“11.145443115617468”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“41”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“11”,
+“10.788586803844337”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“42”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“12”,
+“10.44825124512743”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“43”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“13”,
+“10.99206011165058”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“44”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“CosChirp”,
+“14”,
+“10.612556732729795”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“45”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“0”,
+“11.098585601233754”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“46”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“1”,
+“11.606211591389318”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“47”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“2”,
+“12.394915937542777”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“48”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“3”,
+“12.251312214520953”</p>
+</div></blockquote>
+<p>],
+[</p>
+<blockquote>
+<div><p>“49”,
+“10”,
+“Method 1”,
+“((2.0,), {‘fun’: ‘hard’})”,
+“LinearChirp”,
+“4”,
+“10.595338659287169”</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>],
+“shape”: {</p>
+<blockquote>
+<div><p>“columns”: 6,
+“rows”: 540</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+<p>},
+“text/html”: [</p>
+<blockquote>
+<div><p>“&lt;div&gt;n”,
 “&lt;style scoped&gt;n”,
 ”    .dataframe tbody tr th:only-of-type {n”,
 ”        vertical-align: middle;n”,
@@ -4684,8 +6048,7 @@
 “&lt;/table&gt;n”,
 “&lt;p&gt;540 rows × 6 columns&lt;/p&gt;n”,
 “&lt;/div&gt;”</p>
-</dd>
-</dl>
+</div></blockquote>
 <p>],
 “text/plain”: [</p>
 <blockquote>
@@ -4721,7 +6084,7 @@
 </dd>
 </dl>
 <p>},
-“execution_count”: 15,
+“execution_count”: 18,
 “metadata”: {},
 “output_type”: “execute_result”</p>
 </dd>

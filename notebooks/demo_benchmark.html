@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MCSM-Benchs: Creating benchmarks of MCS Methods &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+  <title>mcsm-benchs: Creating benchmarks of MCS Methods &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="MCSM-Benchs: Exploring signals provided by the SignalBank class" href="demo_signal_bank.html" />
+    <link rel="next" title="mcsm-benchs: Exploring signals provided by the SignalBank class" href="demo_signal_bank.html" />
     <link rel="prev" title="Installation" href="../installation.html" /> 
 </head>
 
@@ -55,11 +55,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_signal_bank.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Exploring signals provided by the SignalBank class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_noise_function.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_quering_signals.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo_other_user_inputs.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul>
@@ -80,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">MCSM-Benchs: Creating benchmarks of MCS Methods</li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/notebooks/demo_benchmark.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,8 +90,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="MCSM-Benchs:-Creating-benchmarks-of-MCS-Methods">
-<h1>MCSM-Benchs: Creating benchmarks of MCS Methods<a class="headerlink" href="#MCSM-Benchs:-Creating-benchmarks-of-MCS-Methods" title="Permalink to this heading"></a></h1>
+  <section id="mcsm-benchs:-Creating-benchmarks-of-MCS-Methods">
+<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods<a class="headerlink" href="#mcsm-benchs:-Creating-benchmarks-of-MCS-Methods" title="Permalink to this heading"></a></h1>
 <p>We introduce a public, open-source, Python-based toolbox for benchmarking multi-component signal analysis methods, implemented either in Python or Matlab.</p>
 <p>The goal of this toolbox is providing the signal-processing community with a common framework that allows researcher-independent comparisons between methods and favors reproducible research.</p>
 <p>With the purpose of making this toolbox more useful, the methods to compare, the tests, the signal generation code and the performance evaluation functions were conceived as different modules, so that one can modify them independently. The only restriction this pose is that the methods should satisfy some requirements regarding the shape of their input and output parameters.</p>
@@ -107,7 +107,7 @@ iterator with positional and/or keyword arguments. In order to know which parame
 <p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
 <p>After this, we need to create a <em>dictionary of methods</em> to pass the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object at the moment of instantiation.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
@@ -127,7 +127,7 @@ from utils import spectrogram_thresholding, get_stft
 <p>These two approaches are implemented in the python function <code class="docutils literal notranslate"><span class="pre">thresholding(signal,</span> <span class="pre">lam,</span> <span class="pre">fun='hard')</span></code> function, which receives a signal to clean, a positional argument <code class="docutils literal notranslate"><span class="pre">lam</span></code> and a keyword argument <code class="docutils literal notranslate"><span class="pre">fun</span></code> that can be either <code class="docutils literal notranslate"><span class="pre">hard</span></code> or <code class="docutils literal notranslate"><span class="pre">soft</span></code>.</p>
 <p>Our dictionary of methods will consist then in two methods: hard thresholding and soft thresholding. For both approaches, let’s use a value of <code class="docutils literal notranslate"><span class="pre">lam=1.0</span></code> for now.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>def method_1(noisy_signal, *args, **kwargs):
@@ -156,7 +156,7 @@ Once the object is created, use the class method <code class="docutils literal n
 <p><em>Remark 1: You can use the ``verbosity`` parameter to show less or more messages during the progress of the experiments. There are 6 levels of verbosity, from ``verbosity=0`` (indicate just the start and the end of the experiments) to ``verbostiy = 5`` (show each method and parameter progress)</em></p>
 <p><em>Remark 2: Parallelize the experiments is also possible by passing the parameter ``parallelize = True``.</em></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
@@ -187,12 +187,12 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 2/2 [00:00&lt;00:00,  2.27it/s]
-100%|██████████| 2/2 [00:00&lt;00:00,  2.39it/s]
+100%|██████████| 2/2 [00:00&lt;00:00,  2.17it/s]
+100%|██████████| 2/2 [00:00&lt;00:00,  2.19it/s]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -201,7 +201,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>same_benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;) # Load the benchmark from a file.
@@ -210,7 +210,7 @@ True
 </div>
 <p>Now we have the results of the test in a nested dictionary called <code class="docutils literal notranslate"><span class="pre">my_results</span></code>. In order to get the results in a human-readable way using a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, and also for further analysis and reproducibility, we can use the class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
@@ -219,7 +219,7 @@ results_df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -355,7 +355,7 @@ results_df
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sb = SignalBank(N=1024)
@@ -373,12 +373,12 @@ ax.legend()
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x70c339bef100&gt;
+&lt;matplotlib.legend.Legend at 0x73e23f1644f0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -399,7 +399,7 @@ columns show the results obtained for the SNR values used for each experiment. S
 <p>We can now see more in detail how to pass different parameters to our methods. For instance, let’s consider a function that depends on two thresholds <code class="docutils literal notranslate"><span class="pre">thr1</span></code> (a positional argument) and <code class="docutils literal notranslate"><span class="pre">thr2</span></code> (a keyword argument):</p>
 <p>Now let us create a method that wraps the previous function and then define the dictionary of methods for our benchmark. Notice that the method should distribute the parameters in the tuple <code class="docutils literal notranslate"><span class="pre">params</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def method_1(noisy_signal, *args, **kwargs):
@@ -436,7 +436,7 @@ my_methods = {
 </div>
 <p>Having done this, we can define the different combinations of parameters using the corresponding dictionary:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a dictionary of the different combinations of thresholds to test.
@@ -460,7 +460,7 @@ print(my_parameters[&#39;Method 1&#39;])
 </div>
 <p>So now we have four combinations of input parameters for <code class="docutils literal notranslate"><span class="pre">another_method()</span></code>, that will be passed one by one to the method so that all the experiments will be carried out for each of the combinations. Let us set the benchmark and run a test using this new configuration of methods and parameters. After that, we can use the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class method <code class="docutils literal notranslate"><span class="pre">get_results_as_df()</span></code> to obtain a table with the results as before:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark(task = &#39;denoising&#39;,
@@ -493,59 +493,9 @@ Running benchmark...
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 3/3 [00:00&lt;00:00, 43.98it/s]
-100%|██████████| 3/3 [00:00&lt;00:00, 50.49it/s]
+100%|██████████| 3/3 [00:00&lt;00:00, 41.75it/s]
+100%|██████████| 3/3 [00:00&lt;00:00, 35.88it/s]
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-True
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;)
-benchmark.log
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[]
-</pre></div></div>
-</div>
-<p>The experiments have been repeated for every combination of parameters, listed in the second column of the table as <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
-</pre></div>
-</div>
-</div>
-</section>
-<section id="Generating-plots-with-the-Results-Interpreter.">
-<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly and a report.
-from plotly.offline import  iplot
-interpreter = ResultsInterpreter(benchmark)
-interpreter.save_report(bars=True)
-<br/></pre></div>
-</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -558,6 +508,56 @@ True
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>benchmark = Benchmark.load_benchmark(&#39;saved_benchmark&#39;)
+benchmark.log
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[]
+</pre></div></div>
+</div>
+<p>The experiments have been repeated for every combination of parameters, listed in the second column of the table as <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_df = benchmark.get_results_as_df() # This formats the results on a DataFrame
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Generating-plots-with-the-Results-Interpreter.">
+<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Summary interactive plots with Plotly and a report.
+from plotly.offline import  iplot
+interpreter = ResultsInterpreter(benchmark)
+interpreter.save_report(bars=True)
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>figs = interpreter.get_summary_plotlys(bars=True)
@@ -587,7 +587,7 @@ for fig in figs:
 <section id="Checking-elapsed-time-for-each-method">
 <h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df = interpreter.elapsed_time_summary()
@@ -596,7 +596,7 @@ df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -625,70 +625,70 @@ df
   <tbody>
     <tr>
       <th>CosChirp-Method 1-((1.0,), {'fun': 'hard'})</th>
-      <td>0.000184</td>
-      <td>0.000032</td>
+      <td>0.000252</td>
+      <td>0.000106</td>
     </tr>
     <tr>
       <th>CosChirp-Method 1-((2.0,), {'fun': 'hard'})</th>
-      <td>0.000177</td>
-      <td>0.000028</td>
+      <td>0.000196</td>
+      <td>0.000015</td>
     </tr>
     <tr>
       <th>CosChirp-Method 1-((3.0,), {'fun': 'hard'})</th>
-      <td>0.000173</td>
-      <td>0.000020</td>
-    </tr>
-    <tr>
-      <th>CosChirp-Method 2-((1.0,), {'fun': 'soft'})</th>
-      <td>0.000181</td>
-      <td>0.000014</td>
-    </tr>
-    <tr>
-      <th>CosChirp-Method 2-((2.0,), {'fun': 'soft'})</th>
-      <td>0.000180</td>
-      <td>0.000012</td>
-    </tr>
-    <tr>
-      <th>CosChirp-Method 2-((3.0,), {'fun': 'soft'})</th>
-      <td>0.000195</td>
+      <td>0.000198</td>
       <td>0.000019</td>
     </tr>
     <tr>
+      <th>CosChirp-Method 2-((1.0,), {'fun': 'soft'})</th>
+      <td>0.000207</td>
+      <td>0.000015</td>
+    </tr>
+    <tr>
+      <th>CosChirp-Method 2-((2.0,), {'fun': 'soft'})</th>
+      <td>0.000178</td>
+      <td>0.000007</td>
+    </tr>
+    <tr>
+      <th>CosChirp-Method 2-((3.0,), {'fun': 'soft'})</th>
+      <td>0.000253</td>
+      <td>0.000024</td>
+    </tr>
+    <tr>
       <th>LinearChirp-Method 1-((1.0,), {'fun': 'hard'})</th>
-      <td>0.000187</td>
-      <td>0.000031</td>
+      <td>0.000169</td>
+      <td>0.000015</td>
     </tr>
     <tr>
       <th>LinearChirp-Method 1-((2.0,), {'fun': 'hard'})</th>
-      <td>0.000171</td>
-      <td>0.000014</td>
+      <td>0.000233</td>
+      <td>0.000087</td>
     </tr>
     <tr>
       <th>LinearChirp-Method 1-((3.0,), {'fun': 'hard'})</th>
-      <td>0.000169</td>
-      <td>0.000013</td>
+      <td>0.000220</td>
+      <td>0.000054</td>
     </tr>
     <tr>
       <th>LinearChirp-Method 2-((1.0,), {'fun': 'soft'})</th>
-      <td>0.000187</td>
-      <td>0.000018</td>
+      <td>0.000209</td>
+      <td>0.000015</td>
     </tr>
     <tr>
       <th>LinearChirp-Method 2-((2.0,), {'fun': 'soft'})</th>
-      <td>0.000205</td>
-      <td>0.000032</td>
+      <td>0.000210</td>
+      <td>0.000011</td>
     </tr>
     <tr>
       <th>LinearChirp-Method 2-((3.0,), {'fun': 'soft'})</th>
-      <td>0.000188</td>
-      <td>0.000024</td>
+      <td>0.000226</td>
+      <td>0.000036</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>interpreter.rearrange_data_frame()
@@ -696,7 +696,7 @@ df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -840,7 +840,7 @@ df
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo_signal_bank.html" class="btn btn-neutral float-right" title="MCSM-Benchs: Exploring signals provided by the SignalBank class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_signal_bank.html" class="btn btn-neutral float-right" title="mcsm-benchs: Exploring signals provided by the SignalBank class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

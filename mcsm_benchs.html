@@ -51,11 +51,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html">MCSM-Benchs: Creating benchmarks of MCS Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html">MCSM-Benchs: Exploring signals provided by the SignalBank class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html">MCSM-Benchs: Benchmarks with personalized noise-generating functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html">MCSM-Benchs: Querying Signal class attributes for more versatile benchmarks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html">MCSM-Benchs: Using user-provided signals and performance metric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Exploring signals provided by the SignalBank class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
 <ul class="current">
@@ -77,8 +77,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.ResultsInterpreter">mcsm_benchs.ResultsInterpreter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.ci"><code class="docutils literal notranslate"><span class="pre">ci()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.clopper_pearson"><code class="docutils literal notranslate"><span class="pre">clopper_pearson()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.SignalBank">mcsm_benchs.SignalBank module</a><ul>
@@ -132,7 +130,7 @@
 <section id="module-mcsm_benchs.Benchmark">
 <span id="mcsm-benchs-benchmark-module"></span><h2>mcsm_benchs.Benchmark module<a class="headerlink" href="#module-mcsm_benchs.Benchmark" title="Permalink to this heading"></a></h2>
 <p>mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</p>
-<p>Copyright (C) 2024  Juan Manuel Miramont-Taurel</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
 <p>This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -150,20 +148,13 @@ along with this program.  If not, see &lt;<a class="reference external" href="ht
 <p>This class performs a number of tasks for methods comparison. It abstracts a benchmark itself.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.add_new_method">
-<span class="sig-name descname"><span class="pre">add_new_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.add_new_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.add_new_method" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_new_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perf_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.add_new_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.add_new_method" title="Permalink to this definition"></a></dt>
 <dd><p>Add new methods to an existing Benchmark.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>methods</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>parameters</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – _description_</p></li>
-<li><p><strong>ValueError</strong> – _description_</p></li>
-<li><p><strong>ValueError</strong> – _description_</p></li>
+<li><p><strong>methods</strong> (<em>_type_</em>) – A dictionary of methods.</p></li>
+<li><p><strong>parameters</strong> (<em>_type_</em><em>, </em><em>optional</em>) – If necessary, a dictionary of parameters for the new methods, or new parameters to explore with already benchmarked methods. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -193,12 +184,46 @@ and shape.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.compare_instf_block">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compare_instf_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.compare_instf_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.compare_instf_block" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Compute the instantaneous frequency for multi-component outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>numpy.array</em><em> or </em><a class="reference internal" href="#mcsm_benchs.SignalBank.Signal" title="mcsm_benchs.SignalBank.Signal"><em>Signal</em></a>) – _description_</p></li>
+<li><p><strong>method_output</strong> (<em>numpy.array</em>) – _description_</p></li>
+<li><p><strong>tmin</strong> (<em>int</em><em>, </em><em>optional</em>) – tmin and tmax define a window of the signal to compare SNR. Defaults to None.</p></li>
+<li><p><strong>tmax</strong> (<em>int</em><em>, </em><em>optional</em>) – tmin and tmax define a window of the signal to compare SNR. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with the IF of each component.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.compare_qrf_block">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compare_qrf_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.compare_qrf_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.compare_qrf_block" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Compare the output SNR, i.e. qualitiy reconstruction factor (QRF) in a vectorized way for multi-component outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>numpy.array</em><em> or </em><a class="reference internal" href="#mcsm_benchs.SignalBank.Signal" title="mcsm_benchs.SignalBank.Signal"><em>Signal</em></a>) – _description_</p></li>
+<li><p><strong>method_output</strong> (<em>numpy.array</em>) – _description_</p></li>
+<li><p><strong>tmin</strong> (<em>int</em><em>, </em><em>optional</em>) – tmin and tmax define a window of the signal to compare SNR. Defaults to None.</p></li>
+<li><p><strong>tmax</strong> (<em>int</em><em>, </em><em>optional</em>) – tmin and tmax define a window of the signal to compare SNR. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with the QRF of each component.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.detection_perf_function">
@@ -212,7 +237,7 @@ and shape.</p>
 <dd><p>Get a pandas DataFrame from a nested dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mydic</strong> (<em>_type_</em>) – A nested dictionary of results coming from a Benchmark object.</p>
+<dd class="field-odd"><p><strong>mydic</strong> (<em>dict</em>) – A nested dictionary of results coming from a Benchmark object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame with a column per-level in the dictionary.</p>
@@ -422,7 +447,23 @@ are NOT saved.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.Benchmark.sum">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bench_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bench_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#Benchmark.sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.Benchmark.sum" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This function is used to sum to benchmarks by overloading the + operator.
+Summing benchmark means transfer the results of bench_b to bench_a as long as they only differ on the methods/parameters used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bench_a</strong> (<a class="reference internal" href="#mcsm_benchs.Benchmark.Benchmark" title="mcsm_benchs.Benchmark.Benchmark"><em>Benchmark</em></a>) – The first summand.</p></li>
+<li><p><strong>bench_b</strong> (<a class="reference internal" href="#mcsm_benchs.Benchmark.Benchmark" title="mcsm_benchs.Benchmark.Benchmark"><em>Benchmark</em></a>) – The second summand.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Benchmark with the combined methods of bench_a and bench_b.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mcsm_benchs.Benchmark.Benchmark" title="mcsm_benchs.Benchmark.Benchmark">Benchmark</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -435,7 +476,22 @@ are NOT saved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.corr_comps">
 <span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">corr_comps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#corr_comps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.corr_comps" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Normalized correlation between x and xest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.array</em>) – The origninal noiseless signal.</p></li>
+<li><p><strong>xest</strong> (<em>numpy.array</em>) – An estimation of x.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normalized correlation (between -1 and 1).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.get_args_and_kwargs">
@@ -445,18 +501,50 @@ are NOT saved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.mse">
 <span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.mse" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Mean square error performance function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.array</em>) – The origninal noiseless signal.</p></li>
+<li><p><strong>xest</strong> (<em>numpy.array</em>) – An estimation of x.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mean square error between x and xest.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.order_components">
 <span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">order_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minormax='max'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric=&lt;function</span> <span class="pre">corr_comps&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#order_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.order_components" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xest</strong> (<em>numpy.array</em>) – _description_</p></li>
+<li><p><strong>X</strong> (<em>numpy.array</em>) – _description_</p></li>
+<li><p><strong>minormax</strong> (<em>str</em><em>, </em><em>optional</em>) – ‘max’ or ‘min’ according to what is needed from the given metric. Defaults to “max”.</p></li>
+<li><p><strong>metric</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function <cite>m = fun(x,xest)</cite>, with m a real number, and vectors x and xest are the noiseless component x and the estimation of x correspondingly. Defaults to correlation between components.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of lenght K, with the correspondence x[0]&lt;-&gt;xest[order[0]].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-mcsm_benchs.MatlabInterface">
 <span id="mcsm-benchs-matlabinterface-module"></span><h2>mcsm_benchs.MatlabInterface module<a class="headerlink" href="#module-mcsm_benchs.MatlabInterface" title="Permalink to this heading"></a></h2>
 <p>mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</p>
-<p>Copyright (C) 2024  Juan Manuel Miramont-Taurel</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
 <p>This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -506,7 +594,7 @@ along with this program.  If not, see &lt;<a class="reference external" href="ht
 <section id="module-mcsm_benchs.ResultsInterpreter">
 <span id="mcsm-benchs-resultsinterpreter-module"></span><h2>mcsm_benchs.ResultsInterpreter module<a class="headerlink" href="#module-mcsm_benchs.ResultsInterpreter" title="Permalink to this heading"></a></h2>
 <p>mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</p>
-<p>Copyright (C) 2024  Juan Manuel Miramont-Taurel</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
 <p>This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -578,56 +666,9 @@ Saves a .csv file with the results per signal.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_means">
-<span class="sig-name descname"><span class="pre">get_df_means</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_df_means"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_means" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a DataFrame of mean results to .md file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>String containing the table.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std">
-<span class="sig-name descname"><span class="pre">get_df_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_df_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_df_std" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a DataFrame with a variability function from the results.
-Returns an string to create a .md file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Main DataFrame with the results. Defaults to None.</p></li>
-<li><p><strong>varfun</strong> (<em>str</em><em>, </em><em>optional</em>) – A variability function. Defaults to ‘std’, which uses numpy.std().</p></li>
-<li><p><strong>idx</strong> (<em>int</em><em>, </em><em>optional</em>) – Index of the corresponding performance function. Defaults to 0.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Two DataFrames with the lower and upper variability indicator.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">
 <span class="sig-name descname"><span class="pre">get_html_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">difference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varfun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_html_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures" title="Permalink to this definition"></a></dt>
 <dd><p>Generate .html interactive plots files with plotly to show online.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_report_preamble">
-<span class="sig-name descname"><span class="pre">get_report_preamble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_report_preamble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_report_preamble" title="Permalink to this definition"></a></dt>
-<dd><p>Creates the preamble of the .md file with a table summarizing the benchmark results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>String with the table header.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -727,21 +768,6 @@ performance measure of all methods for all noise conditions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std">
-<span class="sig-name descname"><span class="pre">get_table_means_and_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pm_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.get_table_means_and_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_table_means_and_std" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a table of mean and std results to .md file.
-Highlights the best results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>String containing the table.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame">
 <span class="sig-name descname"><span class="pre">rearrange_data_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ResultsInterpreter.rearrange_data_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame" title="Permalink to this definition"></a></dt>
 <dd><p>Rearrange DataFrame table for using Seaborn library.</p>
@@ -781,25 +807,11 @@ while a .csv file is generated with the results.</p>
 
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.ci">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchs.ResultsInterpreter.</span></span><span class="sig-name descname"><span class="pre">ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonferroni</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#ci"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.ci" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mcsm_benchs.ResultsInterpreter.clopper_pearson">
-<span class="sig-prename descclassname"><span class="pre">mcsm_benchs.ResultsInterpreter.</span></span><span class="sig-name descname"><span class="pre">clopper_pearson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bonferroni</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/ResultsInterpreter.html#clopper_pearson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.ResultsInterpreter.clopper_pearson" title="Permalink to this definition"></a></dt>
-<dd><p>Clopper-Pearson confidence interval for Bernoulli parameter
-alpha: confidence level
-k: number of successes
-n: number of observations</p>
-</dd></dl>
-
 </section>
 <section id="module-mcsm_benchs.SignalBank">
 <span id="mcsm-benchs-signalbank-module"></span><h2>mcsm_benchs.SignalBank module<a class="headerlink" href="#module-mcsm_benchs.SignalBank" title="Permalink to this heading"></a></h2>
 <p>mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</p>
-<p>Copyright (C) 2024  Juan Manuel Miramont-Taurel</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
 <p>This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -1678,7 +1690,7 @@ exp(-pi(t/T)^2). The parameter T fixes the width of the Gaussian function.</p>
 <section id="module-mcsm_benchs.benchmark_utils">
 <span id="mcsm-benchs-benchmark-utils-module"></span><h2>mcsm_benchs.benchmark_utils module<a class="headerlink" href="#module-mcsm_benchs.benchmark_utils" title="Permalink to this heading"></a></h2>
 <p>mcms-benchs: A common framework for benchmarks of multi-component signal processing methods.</p>
-<p>Copyright (C) 2024  Juan Manuel Miramont-Taurel</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
 <p>This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
