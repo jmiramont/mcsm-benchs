@@ -46,7 +46,7 @@ This latter can synthesize several MCSs as objects from a custom `Signal` class 
 
 Additionally, `mcsm-benchs` includes a `ResultsInterpreter` class that can produce human-readable reports, the functionality of which underpins *collaborative* benchmarks.
 These are based on online repositories (see [here](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) for an example) and can be periodically updated by members of the research community, fostering open and collaborative science.
-Several examples are given in the documentation, as well as a GitHub repository template that relies heavily on `mcsm-benchs` and continuous integration/deployment workflows, in order to automatize the process of publishing new benchmarks.
+Several examples are given in the documentation, as well as a GitHub [repository template](https://github.com/jmiramont/collab-benchmark-template) that relies heavily on `mcsm-benchs` and continuous integration/deployment workflows, in order to automatize the process of publishing new benchmarks.
 
 # Statement of need
 
