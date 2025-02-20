@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mcsm-benchs"
-version = "0.1.1"
+version = "0.1.2"
 description = "mcsm-benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
 # licence = "MIT"
