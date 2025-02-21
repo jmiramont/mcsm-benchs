@@ -8,12 +8,13 @@ A public, open-source, `Python`-based toolbox for benchmarking multi-component s
 This toolbox provides a common framework that allows researcher-independent comparisons between methods and favors reproducible research.
 
 Create your own collaborative benchmarks using `mcsm-benchs` and this [GitHub template](https://github.com/jmiramont/collab-benchmark-template).
-Collaborative benchmarks allows other researchers to add new methods to your benchmark via a `pull-request`. This is as easy as creating a new `.py` file with a `Python` class that wrapps a function call to your method (it doesn't matter if it is coded in `Python`, `MATLAB` or `Octave`... we wellcome all!). Template files are available for this too. Let's make collaborative science easy :).
+
+Collaborative benchmarks allows other researchers to add new methods to your benchmark via a `pull-request`. This is as easy as creating a new `.py` file with a `Python` class that wrapps a function call to your method (it doesn't matter if it is coded in `Python`, `MATLAB` or `Octave`... we wellcome all!). **Template files are available** for this too. Let's make collaborative science easy :).
 
 The GitHub workflows provided in the template can automatically publish a summary report [like this](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) of benchmark saved in your repository, as well as make interactive online plots and give access to `.csv` files with the data.
 
-
-
+>[!TIP]
+>:construction: Questions or difficulties using `mcsm-benchs`? Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
 ## Installation using ```pip```
 ```bash
