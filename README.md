@@ -14,7 +14,8 @@ Collaborative benchmarks allows other researchers to add new methods to your ben
 The GitHub workflows provided in the template can automatically publish a summary report [like this](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) of benchmark saved in your repository, as well as make interactive online plots and give access to `.csv` files with the data.
 
 >[!TIP]
->:construction: Questions or difficulties using `mcsm-benchs`? Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
+>:construction: Questions or difficulties using `mcsm-benchs`?
+> Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
 ## Installation using ```pip```
 ```bash
