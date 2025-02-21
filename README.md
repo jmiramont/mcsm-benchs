@@ -15,6 +15,7 @@ The GitHub workflows provided in the template can automatically publish a summar
 
 >[!TIP]
 >:construction: Questions or difficulties using `mcsm-benchs`?
+>
 > Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
 ## Installation using ```pip```
