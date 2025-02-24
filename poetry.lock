@@ -2398,6 +2398,20 @@ code-style = ["pre-commit (==2.12.1)"]
 rtd = ["ipython", "myst-nb", "sphinx", "sphinx-book-theme", "sphinx-examples"]
 
 [[package]]
+name = "sphinx-math-dollar"
+version = "1.2.1"
+description = "Sphinx extension to let you write LaTeX math using $$"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "sphinx-math-dollar-1.2.1.tar.gz", hash = "sha256:03427240f21fdf23c7b8415289aa1a0e307ac32c198e02f840c59a4b1b0d950c"},
+    {file = "sphinx_math_dollar-1.2.1-py3-none-any.whl", hash = "sha256:0b1523a4d7023b9020ddf3a9301f651d64427a0f1d802af534a87eaf24fbdf19"},
+]
+
+[package.dependencies]
+sphinx = "*"
+
+[[package]]
 name = "sphinx-rtd-theme"
 version = "1.3.0"
 description = "Read the Docs theme for Sphinx"
@@ -2771,4 +2785,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "ee80cc1ac1a554af2606e92655d041d9ee979b753a1d3579aefa5a655e7abefa"
+content-hash = "1be71f280bf83afaa98e2b1cda8957f5073e2ea7d6b80b7726469b30e7d16138"
