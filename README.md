@@ -29,22 +29,6 @@ pip install mcsm-benchs
 
 [![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/mcsm-benchs)
 
-## Related works
-
-[Work in progress (2024)](https://arxiv.org/abs/2402.08521)
-
-[EUSIPCO 2023](https://github.com/jmiramont/benchmarks_eusipco2023)
-
-[![Gretsi 2022](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
-
-## More
-
-:pushpin: We use [`oct2py`](https://pypi.org/project/oct2py/) to run `Octave`-based methods in `Python`.
-
-:pushpin: We use [`matlabengine`](https://pypi.org/project/matlabengine/) to run `MATLAB`-based methods in `Python`.
-
-:pushpin: We use [`plotly`](https://plotly.com/) to create online, interactive plots.
-
 ## Quick-start
 
 ### Creating a new benchmark
@@ -110,3 +94,20 @@ for fig in figs:
 
 If you use the GitHub [template for collaborative benchmarks](https://github.com/jmiramont/collab-benchmark-template), your results are automatically published if you enable GitHub sites in the repository configuration.
 Additionally, other researchers will be able to interact with your results, download `.csv` files with all the benchmark data and even add their own methods to your benchmark via a *pull-request*.
+
+
+## Related works
+
+[Work in progress (2024)](https://arxiv.org/abs/2402.08521)
+
+[EUSIPCO 2023](https://github.com/jmiramont/benchmarks_eusipco2023)
+
+[![Gretsi 2022](docs/readme_figures/gretsi_badge.svg)](https://github.com/jmiramont/gretsi_2022_benchmark)
+
+## More
+
+:pushpin: We use [`oct2py`](https://pypi.org/project/oct2py/) to run `Octave`-based methods in `Python`.
+
+:pushpin: We use [`matlabengine`](https://pypi.org/project/matlabengine/) to run `MATLAB`-based methods in `Python`.
+
+:pushpin: We use [`plotly`](https://plotly.com/) to create online, interactive plots.
