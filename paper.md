@@ -23,9 +23,9 @@ authors:
     affiliation: 2
 
 affiliations:
- - name: Université de Lille, CNRS, Centrale Lille, UMR 9189 Centre de Recherche en Informatique, Signal et Automatique de Lille (CRIStAL), F-59000, Lille, France.
+ - name: Université de Lille, CNRS, Centrale Lille, UMR 9189 Centre de Recherche en Informatique, Signal et Automatique de Lille (CRIStAL), Lille, France.
    index: 1
- - name: Nantes Université, Institut de Recherche en Énergie Électrique de Nantes Atlantique (IREENA, UR 4642), CRTT, 37 Boulevard de l'Université, CS 90406, F-44612 Saint-Nazaire, France.
+ - name: Nantes Université, Institut de Recherche en Énergie Électrique de Nantes Atlantique (IREENA, UR 4642), Saint-Nazaire, France.
    index: 2
 
 date: 26 January 2025
