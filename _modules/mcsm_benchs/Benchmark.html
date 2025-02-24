@@ -13,9 +13,9 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -46,6 +46,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
@@ -103,31 +108,33 @@
 <span class="sd">along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchs.SignalBank</span> <span class="kn">import</span> <span class="n">SignalBank</span><span class="p">,</span> <span class="n">Signal</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numbers</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mcsm_benchs.SignalBank</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalBank</span><span class="p">,</span> <span class="n">Signal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 
 <span class="c1"># from functools import partial</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
 
 <span class="c1"># from parallelbar import progress_map</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="nb">abs</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="nb">abs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
 
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 
-<div class="viewcode-block" id="Benchmark"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark">[docs]</a><span class="k">class</span> <span class="nc">Benchmark</span><span class="p">:</span>
+<div class="viewcode-block" id="Benchmark">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Benchmark</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class performs a number of tasks for methods comparison. It abstracts a benchmark itself.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">task</span><span class="o">=</span><span class="s2">&quot;denoising&quot;</span><span class="p">,</span>
         <span class="n">methods</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -225,7 +232,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of processors: &quot;</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parallel pool: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processes</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Overload the addition operator for Benchmark objects with the same parameters.</span>
 
 <span class="sd">        Args:</span>
@@ -246,7 +253,9 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="Benchmark.input_parsing"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.input_parsing">[docs]</a>    <span class="k">def</span> <span class="nf">input_parsing</span><span class="p">(</span>
+<div class="viewcode-block" id="Benchmark.input_parsing">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.input_parsing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_parsing</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">task</span><span class="p">,</span>
         <span class="n">methods</span><span class="p">,</span>
@@ -460,7 +469,10 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Benchmark.check_methods_output"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.check_methods_output">[docs]</a>    <span class="k">def</span> <span class="nf">check_methods_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.check_methods_output">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.check_methods_output">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_methods_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the outputs of the method to benchmark fulfill the required type</span>
 <span class="sd">        and shape.</span>
 
@@ -483,7 +495,10 @@
                     <span class="s2">&quot;Method&#39;s output should have the same shape as input for task=&#39;denoising&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Benchmark.set_objective_function"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.set_objective_function">[docs]</a>    <span class="k">def</span> <span class="nf">set_objective_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.set_objective_function">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.set_objective_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_objective_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the performance function for the selected task (future tasks could easily add new performance functions)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -497,7 +512,10 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">compFuncs</span><span class="p">[</span><span class="n">task</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Benchmark.inner_loop"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.inner_loop">[docs]</a>    <span class="k">def</span> <span class="nf">inner_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark_parameters</span><span class="p">,</span> <span class="n">timer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.inner_loop">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.inner_loop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benchmark_parameters</span><span class="p">,</span> <span class="n">timer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Main loop of the Benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -555,7 +573,10 @@
 
         <span class="k">return</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">elapsed</span></div>
 
-<div class="viewcode-block" id="Benchmark.set_results_dict"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.set_results_dict">[docs]</a>    <span class="k">def</span> <span class="nf">set_results_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.set_results_dict">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.set_results_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_results_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a dictionary where the results are going to be saved later.&quot;&quot;&quot;</span>
         <span class="c1"># If its a new benchmark...</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -592,13 +613,19 @@
                                 <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">fun_name</span><span class="p">][</span><span class="n">signal_id</span><span class="p">][</span><span class="n">SNR</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">[</span><span class="n">signal_id</span><span class="p">][</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="Benchmark.run_test"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run_test">[docs]</a>    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">## Make this a deprecation warning.</span>
+
+<div class="viewcode-block" id="Benchmark.run_test">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">## Make this a deprecation warning.</span>
         <span class="nb">print</span><span class="p">(</span>
             <span class="s2">&quot;Method run_test() will be deprecated in newer versions. Use run() instead.&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Benchmark.run"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.run">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the benchmark.</span>
 
 <span class="sd">        Returns:</span>
@@ -783,7 +810,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span></div>
 
-<div class="viewcode-block" id="Benchmark.save_to_file"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.save_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.save_to_file">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.save_to_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the results to a binary file that encodes the benchmark object.</span>
 <span class="sd">        Notice that the methods associated with the benchmark, not being pickable objects,</span>
 <span class="sd">        are NOT saved.</span>
@@ -813,7 +843,10 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Benchmark.get_results_as_df"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.get_results_as_df">[docs]</a>    <span class="k">def</span> <span class="nf">get_results_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.get_results_as_df">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.get_results_as_df">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results_as_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a pandas DataFrame object with the results of the benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -864,7 +897,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">data_frames</span></div>
 
-<div class="viewcode-block" id="Benchmark.add_new_method"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.add_new_method">[docs]</a>    <span class="k">def</span> <span class="nf">add_new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perf_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.add_new_method">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.add_new_method">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perf_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add new methods to an existing Benchmark.</span>
 
 <span class="sd">        Args:</span>
@@ -901,8 +937,11 @@
         <span class="c1"># New methods cannot be parallelized (for now).</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parallel_flag</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+
     <span class="c1"># Other functions:</span>
-<div class="viewcode-block" id="Benchmark.dic2df"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.dic2df">[docs]</a>    <span class="k">def</span> <span class="nf">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mydic</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.dic2df">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.dic2df">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dic2df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mydic</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a pandas DataFrame from a nested dictionary.</span>
 
 <span class="sd">        Args:</span>
@@ -922,7 +961,10 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">auxdic</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="Benchmark.generate_noise"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.generate_noise">[docs]</a>    <span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.generate_noise">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.generate_noise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a matrix of noise realizations of shape [self.repetitions,self.N].</span>
 <span class="sd">        One realization per row.</span>
 
@@ -945,9 +987,12 @@
 
         <span class="k">return</span> <span class="n">noise_matrix</span></div>
 
+
     <span class="c1"># Static methods--------------------------------------------------------------------</span>
-<div class="viewcode-block" id="Benchmark.load_benchmark"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.load_benchmark">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load_benchmark</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Benchmark.load_benchmark">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.load_benchmark">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_benchmark</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a Benchmark object from a file saved using the class method.</span>
 
 <span class="sd">        Args:</span>
@@ -961,8 +1006,11 @@
 
         <span class="k">return</span> <span class="n">Benchmark</span><span class="p">(</span><span class="o">**</span><span class="n">benchmark_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Benchmark.sigmerge"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sigmerge">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">sigmerge</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">snr</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_noise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.sigmerge">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sigmerge">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sigmerge</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">snr</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_noise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge a signal and a noise realization with a given SNR (in dB).</span>
 
 <span class="sd">        Args:</span>
@@ -1014,8 +1062,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">sig</span></div>
 
-<div class="viewcode-block" id="Benchmark.snr_comparison"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.snr_comparison">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">snr_comparison</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.snr_comparison">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.snr_comparison">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">snr_comparison</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Quality reconstruction factor for denoising performance characterization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1038,13 +1089,19 @@
 
         <span class="k">return</span> <span class="n">qrf</span></div>
 
-<div class="viewcode-block" id="Benchmark.detection_perf_function"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.detection_perf_function">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">detection_perf_function</span><span class="p">(</span><span class="n">original_signal</span><span class="p">,</span> <span class="n">detection_output</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.detection_perf_function">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.detection_perf_function">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detection_perf_function</span><span class="p">(</span><span class="n">original_signal</span><span class="p">,</span> <span class="n">detection_output</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Performance function for detection. Returns the boolean output of the detection methods.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">detection_output</span></div>
 
-<div class="viewcode-block" id="Benchmark.compare_qrf_block"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_qrf_block">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">compare_qrf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.compare_qrf_block">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_qrf_block">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_qrf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Compare the output SNR, i.e. qualitiy reconstruction factor (QRF) in a vectorized way for multi-component outputs.</span>
 
 <span class="sd">        Args:</span>
@@ -1070,8 +1127,11 @@
         <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Comp.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">qrfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qrfs</span><span class="p">))}</span>
         <span class="k">return</span> <span class="n">dict_output</span></div>
 
-<div class="viewcode-block" id="Benchmark.compare_instf_block"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_instf_block">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">compare_instf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.compare_instf_block">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.compare_instf_block">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_instf_block</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">method_output</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Compute the instantaneous frequency for multi-component outputs.</span>
 
 <span class="sd">        Args:</span>
@@ -1098,8 +1158,11 @@
         <span class="n">dict_output</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Comp.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">qrfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qrfs</span><span class="p">))}</span>
         <span class="k">return</span> <span class="n">dict_output</span></div>
 
-<div class="viewcode-block" id="Benchmark.sum"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sum">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">bench_a</span><span class="p">,</span> <span class="n">bench_b</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Benchmark.sum">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.sum">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">bench_a</span><span class="p">,</span> <span class="n">bench_b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; This function is used to sum to benchmarks by overloading the + operator.</span>
 <span class="sd">        Summing benchmark means transfer the results of bench_b to bench_a as long as they only differ on the methods/parameters used.</span>
 
@@ -1164,7 +1227,9 @@
                 <span class="n">bench_c</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">bench_b</span><span class="o">.</span><span class="n">methods_and_params_dic</span><span class="p">[</span>
                     <span class="n">method</span>
                 <span class="p">]</span>
-        <span class="k">return</span> <span class="n">bench_c</span></div></div>
+        <span class="k">return</span> <span class="n">bench_c</span></div>
+</div>
+
 
 
 <span class="sd">&quot;&quot;&quot; </span>
@@ -1180,7 +1245,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="mse"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.mse">[docs]</a><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
+<div class="viewcode-block" id="mse">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.mse">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Mean square error performance function.</span>
 
 <span class="sd">    Args:</span>
@@ -1198,7 +1265,10 @@
     <span class="k">return</span> <span class="n">error</span></div>
 
 
-<div class="viewcode-block" id="corr_comps"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.corr_comps">[docs]</a><span class="k">def</span> <span class="nf">corr_comps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
+
+<div class="viewcode-block" id="corr_comps">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.corr_comps">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">corr_comps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Normalized correlation between x and xest.</span>
 
 <span class="sd">    Args:</span>
@@ -1217,7 +1287,10 @@
     <span class="k">return</span> <span class="n">cor</span></div>
 
 
-<div class="viewcode-block" id="order_components"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.order_components">[docs]</a><span class="k">def</span> <span class="nf">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">corr_comps</span><span class="p">):</span>
+
+<div class="viewcode-block" id="order_components">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.order_components">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">corr_comps</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric. </span>
 
 <span class="sd">    Args:</span>
@@ -1246,7 +1319,10 @@
     <span class="k">return</span> <span class="n">order</span></div>
 
 
-<div class="viewcode-block" id="compute_qrf"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.compute_qrf">[docs]</a><span class="k">def</span> <span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="compute_qrf">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.compute_qrf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_qrf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_hat</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Quality reconstruction factor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1262,7 +1338,10 @@
     <span class="k">return</span> <span class="n">qrf</span></div>
 
 
-<div class="viewcode-block" id="get_args_and_kwargs"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.get_args_and_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_args_and_kwargs">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.get_args_and_kwargs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_args_and_kwargs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">params</span>
@@ -1280,6 +1359,7 @@
             <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span></div>
+
 </pre></div>
 
            </div>

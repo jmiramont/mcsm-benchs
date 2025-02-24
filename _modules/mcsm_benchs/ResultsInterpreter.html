@@ -13,9 +13,9 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -46,6 +46,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
@@ -103,18 +108,20 @@
 <span class="sd">along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">mcsm_benchs.Benchmark</span> <span class="kn">import</span> <span class="n">Benchmark</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span><span class="p">,</span> <span class="n">ticker</span> <span class="k">as</span> <span class="n">mticker</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">spst</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mcsm_benchs.Benchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">Benchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span><span class="p">,</span> <span class="n">ticker</span> <span class="k">as</span> <span class="n">mticker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spst</span>
 
 
-<div class="viewcode-block" id="ResultsInterpreter"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter">[docs]</a><span class="k">class</span> <span class="nc">ResultsInterpreter</span><span class="p">:</span>
+<div class="viewcode-block" id="ResultsInterpreter">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResultsInterpreter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This class takes a Benchmark-class object to produce a series of plots and tables</span>
 <span class="sd">    summarizing the obtained results:</span>
 
@@ -124,7 +131,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_benchmark</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_benchmark</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a_benchmark</span><span class="p">,</span> <span class="n">Benchmark</span><span class="p">):</span>
             <span class="c1"># self.results = a_benchmark.get_results_as_df()</span>
             <span class="c1"># else:</span>
@@ -149,7 +156,9 @@
 
     <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_benchmark_as_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_benchmark_as_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_benchmark_as_data_frame">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_benchmark_as_data_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_benchmark_as_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a DataFrame with the raw data produced by the benchmark with the</span>
 <span class="sd">        following format:</span>
 <span class="sd">            -------------------------------------------------------------------------</span>
@@ -165,9 +174,12 @@
 
         <span class="k">return</span> <span class="n">df</span></div>
 
+
     <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="ResultsInterpreter.rearrange_data_frame"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">rearrange_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsInterpreter.rearrange_data_frame">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.rearrange_data_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rearrange_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Rearrange DataFrame table for using Seaborn library.</span>
 
 <span class="sd">        Args:</span>
@@ -203,9 +215,10 @@
         <span class="n">df3</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SNRin&quot;</span>
         <span class="k">return</span> <span class="n">df3</span></div>
 
+
     <span class="c1"># --------------------------------------------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="nf">_get_df_means</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_df_means</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a DataFrame of mean results to .md file.</span>
 
 <span class="sd">        Returns:</span>
@@ -275,7 +288,7 @@
 
     <span class="c1"># ---------------------------------------------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="nf">_get_df_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_df_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a DataFrame with a variability function from the results.</span>
 <span class="sd">        Returns an string to create a .md file.</span>
 
@@ -376,7 +389,7 @@
         <span class="k">return</span> <span class="n">df_std_upper</span><span class="p">,</span> <span class="n">df_std_lower</span>
 
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">_get_table_means_and_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_table_means_and_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a table of mean and std results to .md file.</span>
 <span class="sd">        Highlights the best results.</span>
 
@@ -482,7 +495,7 @@
         <span class="k">return</span> <span class="n">output_string</span>
 
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">_get_report_preamble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_report_preamble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the preamble of the .md file with a table summarizing the benchmark results.</span>
 
 <span class="sd">        Returns:</span>
@@ -535,7 +548,9 @@
         <span class="k">return</span> <span class="n">lines</span>
 
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.save_report"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.save_report">[docs]</a>    <span class="k">def</span> <span class="nf">save_report</span><span class="p">(</span>
+<div class="viewcode-block" id="ResultsInterpreter.save_report">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.save_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_report</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;results&quot;</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">pm_name</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This function generates a report of the results given in the Benchmark-class</span>
@@ -567,8 +582,11 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
+
     <span class="c1"># -------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_snr_plot</span><span class="p">(</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_snr_plot</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">df</span><span class="p">,</span>
         <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -667,8 +685,11 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
+
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot_bars"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot_bars">[docs]</a>    <span class="k">def</span> <span class="nf">get_snr_plot_bars</span><span class="p">(</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_snr_plot_bars">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_snr_plot_bars">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_snr_plot_bars</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">df</span><span class="p">,</span>
         <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -720,8 +741,11 @@
 
         <span class="k">return</span> <span class="n">barfig</span></div>
 
+
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.get_summary_plots"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plots">[docs]</a>    <span class="k">def</span> <span class="nf">get_summary_plots</span><span class="p">(</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_summary_plots">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_summary_plots</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">df_rearr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
@@ -837,8 +861,11 @@
             <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Create new figure in the next interation of the loop.</span>
         <span class="k">return</span> <span class="n">list_figs</span></div>
 
+
     <span class="c1"># --------------------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ResultsInterpreter.get_summary_plotlys"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys">[docs]</a>    <span class="k">def</span> <span class="nf">get_summary_plotlys</span><span class="p">(</span>
+<div class="viewcode-block" id="ResultsInterpreter.get_summary_plotlys">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_summary_plotlys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_summary_plotlys</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">varfun</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates interactive plots with plotly.</span>
@@ -912,7 +939,10 @@
 
         <span class="k">return</span> <span class="n">figs</span></div>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_html_figures"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">[docs]</a>    <span class="k">def</span> <span class="nf">get_html_figures</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ResultsInterpreter.get_html_figures">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_html_figures">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_html_figures</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -950,7 +980,10 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="ResultsInterpreter.get_csv_files"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">[docs]</a>    <span class="k">def</span> <span class="nf">get_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ResultsInterpreter.get_csv_files">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.get_csv_files">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_csv_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a table of mean results to .md file.</span>
 <span class="sd">        Saves a .csv file with the results per signal.</span>
 
@@ -986,7 +1019,10 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="ResultsInterpreter.elapsed_time_summary"><a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.elapsed_time_summary">[docs]</a>    <span class="k">def</span> <span class="nf">elapsed_time_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ResultsInterpreter.elapsed_time_summary">
+<a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.ResultsInterpreter.ResultsInterpreter.elapsed_time_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">elapsed_time_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a DataFrame summarizing the elapsed times of the methods.</span>
 
 <span class="sd">        Returns:</span>
@@ -1017,11 +1053,13 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
         <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Average time (s)&quot;</span><span class="p">,</span> <span class="s2">&quot;Std&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">df</span></div></div>
+        <span class="k">return</span> <span class="n">df</span></div>
+</div>
+
 
 
 <span class="c1"># Use this function only for the CP CI shown in the interactive figures using Plotly:</span>
-<span class="k">def</span> <span class="nf">_clopper_pearson</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">bonferroni</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_clopper_pearson</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">bonferroni</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Clopper-Pearson confidence interval for Bernoulli parameter</span>
 <span class="sd">    alpha: confidence level</span>
@@ -1040,7 +1078,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_ci</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">bonferroni</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ci</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">bonferroni</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">significance</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="n">bonferroni</span> <span class="o">*</span> <span class="mi">100</span>
     <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ci</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">bootstrap</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">which</span><span class="o">=</span><span class="mi">100</span> <span class="o">-</span> <span class="n">significance</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>

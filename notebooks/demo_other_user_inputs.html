@@ -15,9 +15,9 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
-        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -52,6 +52,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul class="current">
@@ -91,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="mcsm-benchs:-Using-user-provided-signals-and-performance-metric">
-<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric<a class="headerlink" href="#mcsm-benchs:-Using-user-provided-signals-and-performance-metric" title="Permalink to this heading"></a></h1>
+<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric<a class="headerlink" href="#mcsm-benchs:-Using-user-provided-signals-and-performance-metric" title="Link to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> can be helpful to create benchmarks with signals and performance metrics provided by the user. This can be useful, for instance, when dealing with real-world signals and performance metrics that do not need a noiseless version of the signal.</p>
 <p>In this notebook, we create a benchmark with real-world audio signals and a performance metric that is computed based on the original signal and the processed one.</p>
 <div class="nbinput nblast docutils container">
@@ -112,7 +117,7 @@ from IPython.display import Audio
 </div>
 </div>
 <section id="1.-Creating-a-dictionary-of-methods">
-<h2>1. Creating a dictionary of methods<a class="headerlink" href="#1.-Creating-a-dictionary-of-methods" title="Permalink to this heading"></a></h2>
+<h2>1. Creating a dictionary of methods<a class="headerlink" href="#1.-Creating-a-dictionary-of-methods" title="Link to this heading"></a></h2>
 <p>Let’s create a dictionary of methods to benchmark. As as example, we will compare two strategies for spectrogram thresholding. The first one is hard thresholding, in which the thresholding function is defined as: The second one is soft thresholding, here defined as:</p>
 <p>These two approaches are implemented in the python function <code class="docutils literal notranslate"><span class="pre">thresholding(signal,</span> <span class="pre">lam,</span> <span class="pre">fun='hard')</span></code> function, which receives a signal to clean, a positional argument <code class="docutils literal notranslate"><span class="pre">lam</span></code> and a keyword argument <code class="docutils literal notranslate"><span class="pre">fun</span></code> that can be either <code class="docutils literal notranslate"><span class="pre">hard</span></code> or <code class="docutils literal notranslate"><span class="pre">soft</span></code>.</p>
 <p>Our dictionary of methods will consist then in two methods: hard thresholding and soft thresholding. For both approaches, let’s use a value of <code class="docutils literal notranslate"><span class="pre">lam=1.0</span></code> for now.</p>
@@ -142,7 +147,7 @@ my_methods = {
 </div>
 </section>
 <section id="2.-Creating-a-dictionary-of-user-provided-signals">
-<h2>2. Creating a dictionary of user-provided signals<a class="headerlink" href="#2.-Creating-a-dictionary-of-user-provided-signals" title="Permalink to this heading"></a></h2>
+<h2>2. Creating a dictionary of user-provided signals<a class="headerlink" href="#2.-Creating-a-dictionary-of-user-provided-signals" title="Link to this heading"></a></h2>
 <p>We load two synthesized speech signals, and fix the length to <code class="docutils literal notranslate"><span class="pre">N=2**13</span></code> samples. With these signals, we create a dictionary, where the key is going to be used as an identifier of the signal in the benchmark final results.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -179,9 +184,14 @@ Audio(signals_dic[&#39;speech_2&#39;], rate=fs)
 </div>
 </section>
 <section id="3.-Defining-a-performance-metric">
-<h2>3. Defining a performance metric<a class="headerlink" href="#3.-Defining-a-performance-metric" title="Permalink to this heading"></a></h2>
+<h2>3. Defining a performance metric<a class="headerlink" href="#3.-Defining-a-performance-metric" title="Link to this heading"></a></h2>
 <p>We use the Perceptual Evaluation of Speech Quality (PESQ) metric as a performance metric.</p>
-<p>To do this, we first create a wrapper <code class="docutils literal notranslate"><span class="pre">perf_fun(...)</span></code> of the function <code class="docutils literal notranslate"><span class="pre">pesq(...)</span></code>. Performarmance metrics must follow the signature <code class="docutils literal notranslate"><span class="pre">perf_fun(x,</span> <span class="pre">xest,</span> <span class="pre">**kwargs)</span></code>, where - <code class="docutils literal notranslate"><span class="pre">x</span></code> is the original signal (without added noise). - <code class="docutils literal notranslate"><span class="pre">xest</span></code> is the output of a denoising approach. - <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> is used to receive a number of extra parameters passed by the benchmark class when the function <code class="docutils literal notranslate"><span class="pre">perf_fun(...)</span></code> is called.</p>
+<p>To do this, we first create a wrapper <code class="docutils literal notranslate"><span class="pre">perf_fun(...)</span></code> of the function <code class="docutils literal notranslate"><span class="pre">pesq(...)</span></code>. Performarmance metrics must follow the signature <code class="docutils literal notranslate"><span class="pre">perf_fun(x,</span> <span class="pre">xest,</span> <span class="pre">**kwargs)</span></code>, where</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> is the original signal (without added noise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xest</span></code> is the output of a denoising approach.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> is used to receive a number of extra parameters passed by the benchmark class when the function <code class="docutils literal notranslate"><span class="pre">perf_fun(...)</span></code> is called.</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -691,7 +701,7 @@ results_df[1]
 </div>
 </section>
 <section id="Generating-plots-with-the-Results-Interpreter.">
-<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Permalink to this heading"></a></h2>
+<h2>Generating plots with the Results Interpreter.<a class="headerlink" href="#Generating-plots-with-the-Results-Interpreter." title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -725,7 +735,7 @@ for fig in figs:
 </div>
 </div>
 <section id="Checking-elapsed-time-for-each-method">
-<h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Permalink to this heading"></a></h3>
+<h3>Checking elapsed time for each method<a class="headerlink" href="#Checking-elapsed-time-for-each-method" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>

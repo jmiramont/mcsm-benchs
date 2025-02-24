@@ -1,5 +1,5 @@
-Installation
+Introduction
 ============
 
-.. include:: install.md
+.. include:: intro.md
    :parser: myst_parser.sphinx_

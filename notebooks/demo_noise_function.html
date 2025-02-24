@@ -15,9 +15,9 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
-        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -52,6 +52,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul class="current">
@@ -91,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="mcsm-benchs:-Benchmarks-with-personalized-noise-generating-functions">
-<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions<a class="headerlink" href="#mcsm-benchs:-Benchmarks-with-personalized-noise-generating-functions" title="Permalink to this heading"></a></h1>
+<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions<a class="headerlink" href="#mcsm-benchs:-Benchmarks-with-personalized-noise-generating-functions" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -108,7 +113,7 @@ from utils import spectrogram_thresholding, get_stft
 </div>
 </div>
 <section id="Creating-a-dummy-dictionary-of-methods">
-<h2>Creating a dummy dictionary of methods<a class="headerlink" href="#Creating-a-dummy-dictionary-of-methods" title="Permalink to this heading"></a></h2>
+<h2>Creating a dummy dictionary of methods<a class="headerlink" href="#Creating-a-dummy-dictionary-of-methods" title="Link to this heading"></a></h2>
 <p>First let us define a dummy method for testing. Methods should receive a numpy array with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of time samples of the signal. Additionally, they can receive any number of positional or keyword arguments to allow testing different combinations of input parameters. The shape of the output depends on the task (signal denoising or detection). So the recommended signature of a method should be the following:</p>
 <p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">a_method(noisy_signal,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code>.</p>
 <p>If one set <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code> shoud be a <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> numpy array, i.e. the same shape as the input parameter <code class="docutils literal notranslate"><span class="pre">noisy_signal</span></code>, whereas if <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code>, the output should be boolean (<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> for no signal, and <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code> otherwise).</p>
@@ -139,12 +144,12 @@ my_methods = {
 </div>
 </section>
 <section id="Benchmarks-with-different-kinds-of-noise">
-<h2>Benchmarks with different kinds of noise<a class="headerlink" href="#Benchmarks-with-different-kinds-of-noise" title="Permalink to this heading"></a></h2>
+<h2>Benchmarks with different kinds of noise<a class="headerlink" href="#Benchmarks-with-different-kinds-of-noise" title="Link to this heading"></a></h2>
 <p>Now we are ready to instantiate a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object and run a benchmark using the proposed methods.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> constructor receives a number of input parameters. The parameter <code class="docutils literal notranslate"><span class="pre">complex_noise</span></code> can be <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> indicating if the simulations are to be done using white complex Gaussian noise or not. However, if a function is passed instead of a <code class="docutils literal notranslate"><span class="pre">bool</span></code> variable, the function is called in order to obtain a different realization of noise. The noise generator function must receive an <code class="docutils literal notranslate"><span class="pre">int</span></code> variable indicating the length of the time series to generate:
 <code class="docutils literal notranslate"><span class="pre">noise</span> <span class="pre">=</span> <span class="pre">noise_generator_fun(N,)</span></code>.</p>
 <section id="Real-White-Gaussian-noise-(default)">
-<h3>Real White Gaussian noise (default)<a class="headerlink" href="#Real-White-Gaussian-noise-(default)" title="Permalink to this heading"></a></h3>
+<h3>Real White Gaussian noise (default)<a class="headerlink" href="#Real-White-Gaussian-noise-(default)" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -382,7 +387,7 @@ The test has finished.
 </div>
 </section>
 <section id="Pink-noise">
-<h3>Pink noise<a class="headerlink" href="#Pink-noise" title="Permalink to this heading"></a></h3>
+<h3>Pink noise<a class="headerlink" href="#Pink-noise" title="Link to this heading"></a></h3>
 <p>Let’s first import a function to generate colored noise, and later pass it as a parameter to the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class constructor.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:

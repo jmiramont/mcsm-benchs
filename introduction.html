@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>What is mcsm-benchs? &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+  <title>Introduction &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
@@ -22,9 +22,7 @@
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="mcsm-benchs: Creating benchmarks of MCS Methods" href="notebooks/demo_benchmark.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,13 +45,13 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#extra-functionalities">Extra functionalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
@@ -82,9 +80,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</li>
+      <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/intro.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -92,34 +90,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="what-is-mcsm-benchs">
-<h1>What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?<a class="headerlink" href="#what-is-mcsm-benchs" title="Link to this heading"></a></h1>
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<section id="what-is-mcsm-benchs">
+<h2>What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?<a class="headerlink" href="#what-is-mcsm-benchs" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> is a Python-based toolbox for benchmarking methods that aim at detecting, analyzing, and processing signals that are the addition of several individual components of interest, i.e. multi-component signals.</p>
 <p>This toolbox was born out of the necessity of simplifying systematic comparison of new approaches with existing ones in an area with vast amounts of methods like time-frequency representations of multi-component signals, which still remains a field of methodological innovation.
 Tools with similar goals are already being used in neighboring fields like optimization or machine learning.</p>
 <p><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> was designed to underpin collaborative benchmarks available through online repositories (see here a custom GitHub <a class="reference external" href="https://github.com/jmiramont/collab-benchmark-template">template</a> to create your own).</p>
 </section>
 <section id="architecture-and-basic-functionality">
-<h1>Architecture and basic functionality<a class="headerlink" href="#architecture-and-basic-functionality" title="Link to this heading"></a></h1>
+<h2>Architecture and basic functionality<a class="headerlink" href="#architecture-and-basic-functionality" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> was designed as a modular software, so that different modules can interact with each other. They may also be easily updated, or replaced, without affecting the other components in a benchmark.
 The object-oriented programming paradigm was extensively used, and the basic components of a benchmark, as well as other utilities provided by the library, are represented by different <code class="docutils literal notranslate"><span class="pre">Python</span></code> classes.</p>
 <figure class="align-center" id="block-diagram">
 <a class="reference internal image-reference" href="_images/dessin_color_2.svg"><img alt="Block diagram describing `mcsm-benchs`classes and their interaction." src="_images/dessin_color_2.svg" width="700px" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Block diagram describing <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>classes and their interaction.</span><a class="headerlink" href="#block-diagram" title="Link to this image"></a></p>
+<p><span class="caption-text">Block diagram describing <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>classes and their interaction.</span><a class="headerlink" href="#block-diagram" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p>Figure <a class="reference internal" href="#block-diagram"><span class="std std-numref">Fig. 1</span></a> shows a block diagram depicting the interactions between the main components of the toolbox and the inputs from the user.
+<p>Figure <a class="reference internal" href="intro.html#block-diagram"><span class="std std-numref">Fig. 1</span></a> shows a block diagram depicting the interactions between the main components of the toolbox and the inputs from the user.
 Optional input parameters are denoted with dotted lines.
 The three main classes of <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> are: 1) the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class, 2) the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class and 3) the <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class.
-Figure <a class="reference internal" href="#block-diagram"><span class="std std-numref">Fig. 1</span></a> also shows the four main attributes of the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class:</p>
+Figure <a class="reference internal" href="intro.html#block-diagram"><span class="std std-numref">Fig. 1</span></a> also shows the four main attributes of the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class:</p>
 <ol class="arabic simple">
 <li><p>the noise generation function.</p></li>
 <li><p>the dictionary of methods to be compared.</p></li>
 <li><p>the dictionary of performance metrics</p></li>
 <li><p>the results.</p></li>
 </ol>
-<p>Following the pipeline in <a class="reference internal" href="#block-diagram"><span class="std std-numref">Fig. 1</span></a>, the user defines a set of signals to test, or generates them using the methods provided by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.
+<p>Following the pipeline in <a class="reference internal" href="intro.html#block-diagram"><span class="std std-numref">Fig. 1</span></a>, the user defines a set of signals to test, or generates them using the methods provided by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.
 Then, the simulation parameters, such as the length of the signals, the number of noise realizations to use, etc., are passed to the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class creator and a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object is instantiated.</p>
 <p>To run the benchmark, the class method <a class="reference external" href="https://jmiramont.github.io/mcsm-benchs/mcsm_benchs.html#mcsm_benchs.Benchmark.Benchmark.run"><code class="docutils literal notranslate"><span class="pre">run(...)</span></code></a> is called, which first executes the noise generation function to create a set of noise realizations.
 Then, these realizations are added to the signals provided by the user, yielding signal-plus-noise mixtures with the specified signal-to-noise ratios (SNR, in dB).
@@ -132,7 +132,7 @@ Instead, the exception is caught internally, and a warning is shown in the stand
 Additionally, a log entry is saved with the method name and the noise realization that was used in that iteration.
 The log is a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> attribute, and can then be helpful to reproduce any particular error during the benchmarking process.</p>
 <section id="noise-generation-function">
-<h2>Noise generation function<a class="headerlink" href="#noise-generation-function" title="Link to this heading"></a></h2>
+<h3>Noise generation function<a class="headerlink" href="#noise-generation-function" title="Link to this heading"></a></h3>
 <p>A function handler to a noise generator method (or a dictionary of thse) can be passed by the user as an input parameter.
 The signature of the functions should be</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">noise_fun</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
@@ -144,7 +144,7 @@ The signature of the functions should be</p>
 By default, the benchmarks use white Gaussian noise (either complex- or real-valued according to the signal).</p>
 </section>
 <section id="dictionary-of-methods">
-<h2>Dictionary of methods<a class="headerlink" href="#dictionary-of-methods" title="Link to this heading"></a></h2>
+<h3>Dictionary of methods<a class="headerlink" href="#dictionary-of-methods" title="Link to this heading"></a></h3>
 <p>In order to make the toolbox versatile, a method is considered as a generic <code class="docutils literal notranslate"><span class="pre">Python</span></code> function with a variable number of input arguments using the following signature:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">method</span><span class="p">(</span><span class="n">noisy_signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
   <span class="o">...</span>
@@ -161,7 +161,7 @@ For <code class="docutils literal notranslate"><span class="pre">task='detection
 For <code class="docutils literal notranslate"><span class="pre">task='misc'</span></code>, the shape of the output is not limited, but it must be handled by a performance metric provided by the user, as explained in the following.</p>
 </section>
 <section id="performance-metrics">
-<h2>Performance metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h2>
+<h3>Performance metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h3>
 <p>Performance metrics are computed by generic functions that receive a vector array with the original signal <code class="docutils literal notranslate"><span class="pre">x</span></code>, the output of a method <code class="docutils literal notranslate"><span class="pre">y</span></code>, and a variable number of input parameters <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">performance_metric</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
   <span class="o">...</span>
@@ -175,16 +175,16 @@ The keys of such dictionary are used then as identifiers of the corresponding pe
 </section>
 </section>
 <section id="the-signalbank-class">
-<h1>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class<a class="headerlink" href="#the-signalbank-class" title="Link to this heading"></a></h1>
+<h2>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class<a class="headerlink" href="#the-signalbank-class" title="Link to this heading"></a></h2>
 <figure class="align-center" id="spectrograms">
 <a class="reference internal image-reference" href="_images/figure_signals_example.svg"><img alt="Spectrograms of some of the signals generated by the `SignalBank`class." src="_images/figure_signals_example.svg" width="700px" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Spectrograms of some of the signals generated by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.</span><a class="headerlink" href="#spectrograms" title="Link to this image"></a></p>
+<p><span class="caption-text">Spectrograms of some of the signals generated by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.</span><a class="headerlink" href="#spectrograms" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Noisy multi-component synthetic signals enable quantitative evaluation of the performance of a method, since both the noiseless version of the signal and the noise are known.
 The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class included in <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> can be used to generate more than $20$ multi-component signals with a variety of TF structures, which serves the purpose of standardizing benchmarks across different users by providing a common input to the methods.
-<a class="reference internal" href="#spectrograms"><span class="std std-numref">Fig. 2</span></a> displays the spectrograms of some of the available signals produced by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.</p>
+<a class="reference internal" href="intro.html#spectrograms"><span class="std std-numref">Fig. 2</span></a> displays the spectrograms of some of the available signals produced by the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class.</p>
 <p>More specifically, a discrete multi-component, amplitude-modulated, frequency-modulated (AM-FM) signal $s$ can be written as
 $$  s[n] = \sum_{j=1}^{J} s_{j}[n], \text{ with } s_{j}[n] = a_{j}[n]e^{i \phi_{j}[n]}$$
 where $n=0,1,\dots,N-1$ is the discrete time index, $J$ is the number of signal components, $s_{j}$ is an AM-FM component, and $a_{j}$ and $\phi_{j}$ are the instantaneous amplitude and phase functions of the $j$-th mode, respectively.
@@ -199,22 +199,22 @@ In practice, <code class="docutils literal notranslate"><span class="pre">Signal
 <li><p><code class="docutils literal notranslate"><span class="pre">comps</span></code>: <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array with the individual components (as independent signals).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">instf</span></code>: <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array with the instantaneous frequency of each component.</p></li>
 </ul>
-<p>Figure <a class="reference internal" href="#signal-attributes"><span class="std std-numref">Fig. 3</span></a> illustrates the attributes of a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> class instance: the signal, its individual components as well as their instantaneous frequencies, and the number of components present in the signal for each instant.</p>
+<p>Figure <a class="reference internal" href="intro.html#signal-attributes"><span class="std std-numref">Fig. 3</span></a> illustrates the attributes of a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> class instance: the signal, its individual components as well as their instantaneous frequencies, and the number of components present in the signal for each instant.</p>
 <figure class="align-center" id="signal-attributes">
 <a class="reference internal image-reference" href="_images/signals_ifs.svg"><img alt="Attributes of the `Signal`class." src="_images/signals_ifs.svg" width="700px" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Attributes of the <code class="docutils literal notranslate"><span class="pre">Signal</span></code>class. First row, left: Spectrogram of a synthetic signal with four components.  Second row, left: Number of components present in the signal at each time instant. The four remaining plots show the spectrograms of the individual components with their respective instantaneous frequencies superimposed (in dashed red lines).</span><a class="headerlink" href="#signal-attributes" title="Link to this image"></a></p>
+<p><span class="caption-text">Attributes of the <code class="docutils literal notranslate"><span class="pre">Signal</span></code>class. First row, left: Spectrogram of a synthetic signal with four components.  Second row, left: Number of components present in the signal at each time instant. The four remaining plots show the spectrograms of the individual components with their respective instantaneous frequencies superimposed (in dashed red lines).</span><a class="headerlink" href="#signal-attributes" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>and <code class="docutils literal notranslate"><span class="pre">Signal</span></code> classes are a core feature of <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> that makes it useful for evaluating the performance of MCS-based methods.</p>
 <p>For instance, the attributes of a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> object can be queried by the methods and the performance metrics when running the benchmarks.
 This is quite useful to compare not only signal detection or denoising methods but also approaches that estimate individual components or their instantaneous frequencies.
-Approaches like those described in <span id="id1">[<a class="reference internal" href="introduction.html#id66" title="Jinane Harmouche, Dominique Fourer, François Auger, Pierre Borgnat, and Patrick Flandrin. The sliding singular spectrum analysis: a data-driven nonstationary signal decomposition tool. IEEE Transactions on Signal Processing, 66(1):251–263, 2017.">HFA+17</a>, <a class="reference internal" href="introduction.html#id43" title="Quentin Legros and Dominique Fourer. A novel pseudo-bayesian approach for robust multi-ridge detection and mode retrieval. In 2021 29th European Signal Processing Conference (EUSIPCO), 1925–1929. IEEE, 2021.">LF21</a>]</span> require knowing the number of components, or the number of components for each time instant.
+Approaches like those described in <span id="id1">[<a class="reference internal" href="#id66" title="Jinane Harmouche, Dominique Fourer, François Auger, Pierre Borgnat, and Patrick Flandrin. The sliding singular spectrum analysis: a data-driven nonstationary signal decomposition tool. IEEE Transactions on Signal Processing, 66(1):251–263, 2017.">HFA+17</a>, <a class="reference internal" href="#id43" title="Quentin Legros and Dominique Fourer. A novel pseudo-bayesian approach for robust multi-ridge detection and mode retrieval. In 2021 29th European Signal Processing Conference (EUSIPCO), 1925–1929. IEEE, 2021.">LF21</a>]</span> require knowing the number of components, or the number of components for each time instant.
 These can be easily obtained from a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> class instance, and all these multi-component signal oriented methods can be benchmarked using <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>.
-Examples of such applications are introduced in <span id="id2">[<a class="reference internal" href="introduction.html#id71" title="J. M. Miramont, Q. Legros, D. Fourer, and F. Auger. Benchmarks of multi-component signal analysis methods. In EUSIPCO. 2023.">MLFA23</a>, <a class="reference internal" href="introduction.html#id73" title="Juan M Miramont, Rémi Bardenet, Pierre Chainais, and François Auger. A public benchmark for denoising and detection methods. In XXVIIIème Colloque Francophone du GRETSI, 1–4. 2022.">MBCA22</a>, <a class="reference internal" href="introduction.html#id109" title="Juan M. Miramont, Rémi Bardenet, Pierre Chainais, and Francois Auger. Benchmarking multi-component signal processing methods in the time-frequency plane. 2024. URL: https://arxiv.org/abs/2402.08521, arXiv:2402.08521.">MBCA24</a>]</span>.</p>
+Examples of such applications are introduced in <span id="id2">[<a class="reference internal" href="#id71" title="J. M. Miramont, Q. Legros, D. Fourer, and F. Auger. Benchmarks of multi-component signal analysis methods. In EUSIPCO. 2023.">MLFA23</a>, <a class="reference internal" href="#id73" title="Juan M Miramont, Rémi Bardenet, Pierre Chainais, and François Auger. A public benchmark for denoising and detection methods. In XXVIIIème Colloque Francophone du GRETSI, 1–4. 2022.">MBCA22</a>, <a class="reference internal" href="#id109" title="Juan M. Miramont, Rémi Bardenet, Pierre Chainais, and Francois Auger. Benchmarking multi-component signal processing methods in the time-frequency plane. 2024. URL: https://arxiv.org/abs/2402.08521, arXiv:2402.08521.">MBCA24</a>]</span>.</p>
 </section>
 <section id="the-resultsinterpreter-class">
-<h1>The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class<a class="headerlink" href="#the-resultsinterpreter-class" title="Link to this heading"></a></h1>
+<h2>The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class<a class="headerlink" href="#the-resultsinterpreter-class" title="Link to this heading"></a></h2>
 <p>Processing benchmark data can be a cumbersome task.
 For this reason, <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> includes a <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class that provides tools to easily process and publish results in a similar format regardless of the user.</p>
 <p>An instance of <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> is created by passing a <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> object to the class constructor, after which a variety of class methods can be used to generate reports, figures and files from the output of the performance metrics.</p>
@@ -223,12 +223,12 @@ The function <code class="docutils literal notranslate"><span class="pre">save_r
 Reports generated using <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class include links to download comma-separated values (\code{.csv}) files with the results and access to interactive plots created by the function <code class="docutils literal notranslate"><span class="pre">get_summary_plotlys(...)</span></code> using <code class="docutils literal notranslate"><span class="pre">Plotly</span></code>.
 The main goal of these reports is to be published on-line and shared with users to foster collaboration for more details on collaborative benchmarks.</p>
 <p>Confidence intervals (CI) are also shown in the plots produced by <code class="docutils literal notranslate"><span class="pre">get_summary_plotlys(...)</span></code> and <code class="docutils literal notranslate"><span class="pre">get_summary_plots(...)</span></code>.
-For <code class="docutils literal notranslate"><span class="pre">task='misc'</span></code> and <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, the $95%$ boostrap CIs are computed using <code class="docutils literal notranslate"><span class="pre">Seaborn</span></code> <span id="id3">[<a class="reference internal" href="introduction.html#id108" title="Michael L. Waskom. Seaborn: statistical data visualization. Journal of Open Source Software, 6(60):3021, 2021. URL: https://doi.org/10.21105/joss.03021, doi:10.21105/joss.03021.">Was21</a>]</span>.
+For <code class="docutils literal notranslate"><span class="pre">task='misc'</span></code> and <code class="docutils literal notranslate"><span class="pre">task='denoising'</span></code>, the $95%$ boostrap CIs are computed using <code class="docutils literal notranslate"><span class="pre">Seaborn</span></code> <span id="id3">[<a class="reference internal" href="#id108" title="Michael L. Waskom. Seaborn: statistical data visualization. Journal of Open Source Software, 6(60):3021, 2021. URL: https://doi.org/10.21105/joss.03021, doi:10.21105/joss.03021.">Was21</a>]</span>.
 For <code class="docutils literal notranslate"><span class="pre">task='detection'</span></code> the output of each method is a boolean, hence 95% Clopper-Pearson CIs are used.
 In either case, Bonferroni correction is automatically applied to account for the comparison of multiple methods for each SNR.</p>
 </section>
 <section id="extra-functionalities">
-<h1>Extra functionalities<a class="headerlink" href="#extra-functionalities" title="Link to this heading"></a></h1>
+<h2>Extra functionalities<a class="headerlink" href="#extra-functionalities" title="Link to this heading"></a></h2>
 <p>Some extra functionalities that can be of interest for users of <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> are summarized below:</p>
 <ul class="simple">
 <li><p>Methods can be run in parallel when appropriate hardware is available, reducing the benchmarking time. This can be indicated by the user as an input parameter, as well as the desired number of processes.</p></li>
@@ -236,11 +236,11 @@ In either case, Bonferroni correction is automatically applied to account for th
 <li><p><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> provides a custom <code class="docutils literal notranslate"><span class="pre">MatlabInterface</span></code> class based on  <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code>’s own <code class="docutils literal notranslate"><span class="pre">matlabengine</span></code> module, that allows straightforward use of methods implemented in <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code> directly from the <code class="docutils literal notranslate"><span class="pre">Python</span></code>-based benchmark. Restrictions on <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code>’s version may apply in this case. Similarly, a custom <code class="docutils literal notranslate"><span class="pre">OctaveInterface</span></code> class based on <code class="docutils literal notranslate"><span class="pre">oct2py</span></code> is provided to support methods implemented in <code class="docutils literal notranslate"><span class="pre">Octave</span></code>. Examples of use are given in the library documentation.</p></li>
 <li><p>Interactive figures can be easily obtained from the <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class, and added to online repositories.</p></li>
 <li><p>Even though using synthetic signals from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code>class can help standardize benchmarks created with <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>, users are not limited to the signals synthesized by this class.
-Other synthetic or real-world signals can be used when creating new benchmarks <span id="id4">[<a class="reference internal" href="introduction.html#id71" title="J. M. Miramont, Q. Legros, D. Fourer, and F. Auger. Benchmarks of multi-component signal analysis methods. In EUSIPCO. 2023.">MLFA23</a>, <a class="reference internal" href="introduction.html#id109" title="Juan M. Miramont, Rémi Bardenet, Pierre Chainais, and Francois Auger. Benchmarking multi-component signal processing methods in the time-frequency plane. 2024. URL: https://arxiv.org/abs/2402.08521, arXiv:2402.08521.">MBCA24</a>]</span>.</p></li>
+Other synthetic or real-world signals can be used when creating new benchmarks <span id="id4">[<a class="reference internal" href="#id71" title="J. M. Miramont, Q. Legros, D. Fourer, and F. Auger. Benchmarks of multi-component signal analysis methods. In EUSIPCO. 2023.">MLFA23</a>, <a class="reference internal" href="#id109" title="Juan M. Miramont, Rémi Bardenet, Pierre Chainais, and Francois Auger. Benchmarking multi-component signal processing methods in the time-frequency plane. 2024. URL: https://arxiv.org/abs/2402.08521, arXiv:2402.08521.">MBCA24</a>]</span>.</p></li>
 </ul>
 <p>\end{itemize}</p>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<h3>References<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
 <div class="docutils container" id="id5">
 <div class="citation" id="id66" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">HFA+17</a><span class="fn-bracket">]</span></span>
@@ -272,14 +272,12 @@ Other synthetic or real-world signals can be used when creating new benchmarks <
 </div>
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="notebooks/demo_benchmark.html" class="btn btn-neutral float-right" title="mcsm-benchs: Creating benchmarks of MCS Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

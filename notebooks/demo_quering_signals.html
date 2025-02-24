@@ -15,9 +15,9 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
-        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
         <script src="../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -52,6 +52,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#extra-functionalities">Extra functionalities</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul class="current">
@@ -91,7 +96,7 @@
            <div itemprop="articleBody">
              
   <section id="mcsm-benchs:-Querying-Signal-class-attributes-for-more-versatile-benchmarks">
-<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks<a class="headerlink" href="#mcsm-benchs:-Querying-Signal-class-attributes-for-more-versatile-benchmarks" title="Permalink to this heading"></a></h1>
+<h1><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks<a class="headerlink" href="#mcsm-benchs:-Querying-Signal-class-attributes-for-more-versatile-benchmarks" title="Link to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class encapsulates the signal generation code and yields a dictionary with a number of signals. In order to access those signals, the keys of this dictionary are called <code class="docutils literal notranslate"><span class="pre">signal_id</span></code>. The constructor simply takes the number <code class="docutils literal notranslate"><span class="pre">N</span></code> of samples of the desired signals.</p>
 <p>Within the <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> class, the signals obtained from the <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class are given as objects of another custom class called <code class="docutils literal notranslate"><span class="pre">Signal</span></code>. This class behaves like a regular <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array, but it also comprises a series of attributes of the signal that some methods might need. Moreover, benchmarks can be built to estimate these quantities as well.</p>
 <p>Let’s see some examples.</p>
@@ -149,7 +154,13 @@ for i,signal_id in enumerate(signal_ids):
 <img alt="../_images/notebooks_demo_quering_signals_2_0.png" src="../_images/notebooks_demo_quering_signals_2_0.png" />
 </div>
 </div>
-<p>We can now query a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> instance to obtain: - Total number of components - Number of components at each time instant - Instantaneous frequency of each component - Each individual component</p>
+<p>We can now query a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> instance to obtain:</p>
+<ul class="simple">
+<li><p>Total number of components</p></li>
+<li><p>Number of components at each time instant</p></li>
+<li><p>Instantaneous frequency of each component</p></li>
+<li><p>Each individual component</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -262,7 +273,7 @@ Total number of components: 3
 </div>
 </div>
 <section id="Benchmarking-a-component-counting-method">
-<h2>Benchmarking a component counting method<a class="headerlink" href="#Benchmarking-a-component-counting-method" title="Permalink to this heading"></a></h2>
+<h2>Benchmarking a component counting method<a class="headerlink" href="#Benchmarking-a-component-counting-method" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
