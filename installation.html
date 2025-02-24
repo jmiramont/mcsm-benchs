@@ -94,11 +94,30 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<section id="installation-using-pip">
-<h2>Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installation-using-pip" title="Link to this heading"></a></h2>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="using-pip">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#using-pip" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mcsm-benchs
 </pre></div>
 </div>
+</section>
+<section id="installation-using-poetry-for-development-mode">
+<h3>Installation using <code class="docutils literal notranslate"><span class="pre">poetry</span></code> for development mode<a class="headerlink" href="#installation-using-poetry-for-development-mode" title="Link to this heading"></a></h3>
+<p>We use <a class="reference external" href="https://python-poetry.org/docs/"><code class="docutils literal notranslate"><span class="pre">poetry</span></code></a>, a tool for dependency management and packaging in python to install the benchmarking framework. You can install <code class="docutils literal notranslate"><span class="pre">poetry</span></code> following the steps described <a class="reference external" href="https://python-poetry.org/docs/#installation">here</a>.
+Then, make <code class="docutils literal notranslate"><span class="pre">poetry</span></code> create a virtual environment and install the main dependencies of the benchmarks using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>docs
+</pre></div>
+</div>
+<blockquote>
+<div><p>[!NOTE]
+If you have <a class="reference external" href="https://www.anaconda.com/"><code class="docutils literal notranslate"><span class="pre">Anaconda</span></code></a> or <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html"><code class="docutils literal notranslate"><span class="pre">Miniconda</span></code></a> installed please disable the auto-activation of the base environment and your conda environment using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>auto_activate_base<span class="w"> </span><span class="nb">false</span>
+conda<span class="w"> </span>deactivate
+</pre></div>
+</div>
+</div></blockquote>
+</section>
 </section>
 </section>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation using pip &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+  <title>Installation &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
@@ -80,7 +80,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/install.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,11 +90,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="installation-using-pip">
-<h1>Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installation-using-pip" title="Link to this heading"></a></h1>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<section id="using-pip">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#using-pip" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mcsm-benchs
 </pre></div>
 </div>
+</section>
+<section id="installation-using-poetry-for-development-mode">
+<h2>Installation using <code class="docutils literal notranslate"><span class="pre">poetry</span></code> for development mode<a class="headerlink" href="#installation-using-poetry-for-development-mode" title="Link to this heading"></a></h2>
+<p>We use <a class="reference external" href="https://python-poetry.org/docs/"><code class="docutils literal notranslate"><span class="pre">poetry</span></code></a>, a tool for dependency management and packaging in python to install the benchmarking framework. You can install <code class="docutils literal notranslate"><span class="pre">poetry</span></code> following the steps described <a class="reference external" href="https://python-poetry.org/docs/#installation">here</a>.
+Then, make <code class="docutils literal notranslate"><span class="pre">poetry</span></code> create a virtual environment and install the main dependencies of the benchmarks using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>docs
+</pre></div>
+</div>
+<blockquote>
+<div><p>[!NOTE]
+If you have <a class="reference external" href="https://www.anaconda.com/"><code class="docutils literal notranslate"><span class="pre">Anaconda</span></code></a> or <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html"><code class="docutils literal notranslate"><span class="pre">Miniconda</span></code></a> installed please disable the auto-activation of the base environment and your conda environment using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>auto_activate_base<span class="w"> </span><span class="nb">false</span>
+conda<span class="w"> </span>deactivate
+</pre></div>
+</div>
+</div></blockquote>
+</section>
 </section>
 
 
