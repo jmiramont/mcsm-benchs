@@ -44,3 +44,69 @@ pip install mcsm-benchs
 :pushpin: We use [`matlabengine`](https://pypi.org/project/matlabengine/) to run `MATLAB`-based methods in `Python`.
 
 :pushpin: We use [`plotly`](https://plotly.com/) to create online, interactive plots.
+
+## Quick-start
+
+### Creating a new benchmark
+The following simple example shows how to create a new benchmark for comparing your methods.
+We set `task=denoising`, meaning that all methods will be compared in terms of reconstruction of the original signal from noise.
+
+Check out examples with other tasks and performance functions in the [documentation](https://jmiramont.github.io/mcsm-benchs/) of `mcsm-benchs`.
+
+```python
+from mcsm_benchs.Benchmark import Benchmark
+from mcsm_benchs.SignalBank import SignalBank
+# 1. Import (or define) the methods to be compared.
+from my_methods import method_1, method_2
+
+# 2. Create a dictionary of the methods to test.
+my_methods = { 'Method 1': method_1, 'Method 2': method_2, }
+
+# 3. Create a dictionary of signals:
+N = 1024                                    # Length of the signals
+sbank = SignalBank(N,)
+s1 = sbank.signal_exp_chirp()
+s2 = sbank.signal_linear_chirp()
+my_signals = {'Signal_1':s1, 'Signal_2':s2, }
+
+# 4. Set the benchmark parameters:
+benchmark = Benchmark(task='denoising',
+                    N=N, 
+                    repetitions = 100,
+                    SNRin=[0,10,20],        # SNR in dB.
+                    methods=my_methods, 
+                    signals=my_signals,
+                    verbosity=0
+                    )
+# 5. Launch the benchmark and save to file
+benchmark.run()                        # Run the benchmark.
+benchmark.save_to_file('saved_benchmark')   # Give a filename and save to file
+```
+
+### Processing and publishing benchmark results
+
+```python
+from mcsm_benchs.Benchmark import Benchmark
+from mcsm_benchs.ResultsInterpreter import ResultsInterpreter
+
+# 1. Load a benchmark from a file.
+benchmark = Benchmark.load('path/to/file/saved_benchmark')
+
+# 2. Create the interpreter
+interpreter = ResultsInterpreter(benchmark)
+
+# 3. Get .csv files
+interpreter.get_csv_files(path='path/to/csv/files')
+
+# 4. Generate report and interactive figures
+interpreter.save_report(path='path/to/report', bars=False)
+
+#5 Or generate interactive plots with plotly
+from plotly.offline import iplot
+figs = interpreter.get_summary_plotlys(bars=True)
+for fig in figs:
+    iplot(fig)
+```
+
+If you use the GitHub [template for collaborative benchmarks](https://github.com/jmiramont/collab-benchmark-template), your results are automatically published if you enable GitHub sites in the repository configuration.
+Additionally, other researchers will be able to interact with your results, download `.csv` files with all the benchmark data and even add their own methods to your benchmark via a *pull-request*.

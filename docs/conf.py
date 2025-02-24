@@ -22,13 +22,16 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'nbsphinx',
-    # "myst_nb",
     'myst_parser',
-    'sphinx_copybutton'
+    'sphinx_copybutton',
+    'sphinxcontrib.bibtex',
+    'sphinxemoji.sphinxemoji',
 ]
 
+bibtex_bibfiles = ['refs.bib']
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+numfig = True
 
 
 
