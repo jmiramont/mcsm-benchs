@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborative benchmarks &mdash; Multi-Component Signal Methods Benchmarks  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Multi-Component Signal Methods Benchmarks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">What is <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#architecture-and-basic-functionality">Architecture and basic functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#the-signalbank-class">The <code class="docutils literal notranslate"><span class="pre">SignalBank</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#the-resultsinterpreter-class">The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#extra-functionalities">Extra functionalities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_benchmark.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Creating benchmarks of MCS Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_signal_bank.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Exploring signals provided by the SignalBank class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_noise_function.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_quering_signals.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/demo_other_user_inputs.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">mcsm_benchs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multi-Component Signal Methods Benchmarks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Collaborative benchmarks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/collab.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="collaborative-benchmarks">
+<h1>Collaborative benchmarks<a class="headerlink" href="#collaborative-benchmarks" title="Link to this heading"></a></h1>
+<p>One main purpose of <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> is to serve as the base of \emph{collaborative} benchmarks, growing with the support of the community in order to be representative and useful \citep{benchopt}.
+One step towards this direction is the use of open-source software.</p>
+<p>Another step towards a more general adoption of this good practice is to make the benchmarks generated using <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code> available to the community using public repositories of code (like GitHub, GitLab, Codeocean, etc).
+These services provide tools designed to foster cooperation between interested members of the community.
+They also allow other users to easily add new methods and raise issues to be improved in the benchmarks.
+We thus provide a custom GitHub <a class="reference external" href="https://github.com/jmiramont/collab-benchmark-template">template repository</a>, which can be used to generate new collaborative benchmarks.
+Below we show a typical directory tree of such a repository.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>                        a-benchmark-repository
+                        ├─ results
+                        ├─ src
+                        │  ├─ methods
+                        │  └─ utilities
+                        ├─ config.yaml
+                        ├─ publish_results.py
+                        └─ run_this_benchmark.py
+</pre></div>
+</div>
+<section id="configuration-file">
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Link to this heading"></a></h2>
+<p>A configuration file <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> is included in the repository template, where the definition of the simulation parameters is encoded, as shown in the following example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.yaml file contents. </span>
+<span class="c1"># Fix benchmark parameters:</span>
+<span class="nt">N</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span><span class="w">                 </span><span class="c1"># Signal length</span>
+<span class="nt">SNRin</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># SNRs to test</span>
+<span class="nt">repetitions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">        </span><span class="c1"># Number of simulations</span>
+<span class="nt">parallelize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">      </span><span class="c1"># Run the benchmark in parallel</span>
+
+<span class="c1"># Show all messages from the benchmark</span>
+<span class="nt">verbosity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">            </span>
+
+<span class="c1"># Run again the same benchmark but with new methods:</span>
+<span class="nt">add_new_methods</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">add_new_methods:False</span></code> the benchmark is run from scratch, with the purpose of reproducing a whole set of simulations.
+By choosing <code class="docutils literal notranslate"><span class="pre">add_new_methods:True</span></code> when new methods are added to a preexisting benchmark, simulations run applying only the new approaches, extending previous results.</p>
+<p>The completed benchmarks are saved in the <code class="docutils literal notranslate"><span class="pre">results</span></code> folder.
+A website hosted in the repository, which is deployed using continuous integration and deployment workflows, is generated automatically using the functions provided in the class <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code>.
+From this site, the authors can access interactive plots that summarize the results, and download the whole set of comparisons, for each signal or the entire benchmark, in a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file format.</p>
+</section>
+<section id="adding-new-methods-to-collaborative-benchmarks">
+<h2>Adding new methods to collaborative benchmarks<a class="headerlink" href="#adding-new-methods-to-collaborative-benchmarks" title="Link to this heading"></a></h2>
+<p>In order to add a new method, a user just needs to add a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file representing the method in the <code class="docutils literal notranslate"><span class="pre">methods</span></code> folder (even for <code class="docutils literal notranslate"><span class="pre">MATLAB</span></code>/<code class="docutils literal notranslate"><span class="pre">Octave</span></code>-implemented approaches).
+The file should define a class that encapsulates the method, and should inherit from a custom abstract class <code class="docutils literal notranslate"><span class="pre">MethodTemplate</span></code> designed to force the implementation of specific class methods.
+<a class="reference external" href="https://github.com/jmiramont/collab-benchmark-template/tree/main/new_method_examples">Template files</a> and <a class="reference external" href="https://github.com/jmiramont/collab-benchmark-template/tree/main/new_method_examples">step-by-step guides</a> are provided to make this procedure very straightforward.
+An example of the content of such a file is shown below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure this file&#39;s name starts with &quot;method_*.py&quot;</span>
+
+<span class="c1"># Import here all the modules you need and the template class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mcsm_benchs.benchmark_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">MethodTemplate</span>
+
+<span class="c1"># Create here a new class that will encapsulate your method.</span>
+<span class="c1"># This class should inherit the abstract class MethodTemplate.</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NewMethod</span><span class="p">(</span><span class="n">MethodTemplate</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;a_new_method&#39;</span>    <span class="c1"># Choose a name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;misc&#39;</span>          <span class="c1"># and a task</span>
+
+    <span class="c1"># Must implement this function representing your method</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
+        <span class="o">...</span>
+
+    <span class="c1"># Optionally, implement this to pass parameters to your method:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="c1"># # Example: Combination of positional/keyword arguments:</span>
+        <span class="c1"># return [((5, 6),{&#39;a&#39;:True,&#39;b&#39;:False}), # One set of parameters.</span>
+        <span class="c1">#        ((2, 1),{&#39;a&#39;:False,&#39;b&#39;:True}), # Another set of parameters.    </span>
+        <span class="c1">#        ]</span>
+</pre></div>
+</div>
+<p>The class function <code class="docutils literal notranslate"><span class="pre">get_parameters(...)</span></code> should return a list/tuple of input arguments for the method.
+The positional arguments must be indicated in a tuple or a list, whereas the keyword arguments must be indicated using a dictionary as is custom in <code class="docutils literal notranslate"><span class="pre">Python</span></code>.
+If the method uses either just positional (resp. keyword) arguments, leave an empty tuple (resp. dictionary).</p>
+<p>To collaborate with a public benchmark, interested authors can first add the file that represents their approach to the <code class="docutils literal notranslate"><span class="pre">src/methods</span></code> folder in a local copy –commonly a <em>fork</em>– of an existing benchmark repository.
+Then, maintainers of the public benchmark can accept the changes via a <em>pull-request</em>.
+This way, public benchmarks can be updated.
+Such functionality makes it easier for a team to work together, each team member providing different methods to be compared later in a benchmark.
+Furthermore, the benchmark can be periodically run in the cloud, independently of the contributors, using continuous integration tools.</p>
+<p>Once all methods are defined, the benchmark can be run using <code class="docutils literal notranslate"><span class="pre">run_this_benchmark.py</span></code>, which automatically discovers all methods in the repository and launches the benchmark with the parameters given in the configuration file <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>.</p>
+</section>
+<section id="public-online-reports">
+<h2>Public online reports<a class="headerlink" href="#public-online-reports" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class can generate reports summarizing the main benchmark parameters and results.
+These can be made available online, along with interactive figures and <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files, which are also produced by the <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class to complement the report.</p>
+<p>When a collaborative benchmark is created using the GitHub repository template, the outputs of the <code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code> class are automatically used by the continuous integration workflow to generate and publish an online report.
+Users can interact with figures showing the results in the website or download the \code{.csv} files for further exploration.
+The goal of this tool is to complement scientific articles, easing the access to much more information than what normally fits in an article, and encouraging reproducible science.
+An example of the automatic website created with the results can be seen online <a class="reference external" href="https://jmiramont.github.io/signal-detection-benchmark">here</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Juan M. Miramont.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

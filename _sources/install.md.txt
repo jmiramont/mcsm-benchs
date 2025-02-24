@@ -15,10 +15,9 @@ Then, make ```poetry``` create a virtual environment and install the main depend
 poetry install --with docs
 ```
 
->[!NOTE]
->If you have [`Anaconda`](https://www.anaconda.com/) or [`Miniconda`](https://docs.conda.io/en/latest/miniconda.html) installed please disable the auto-activation of the base environment and your conda environment using:
->
->```bash
->conda config --set auto_activate_base false
->conda deactivate
->```
+If you have [`Anaconda`](https://www.anaconda.com/) or [`Miniconda`](https://docs.conda.io/en/latest/miniconda.html) installed please disable the auto-activation of the base environment and your conda environment using:
+
+```bash
+conda config --set auto_activate_base false
+conda deactivate
+```
