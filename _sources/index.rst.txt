@@ -14,9 +14,11 @@ The goal of this toolbox is providing the signal-processing community with a com
    :titlesonly:
 
 
-   installation
+   install.md
 
    intro.md
+
+   collab.md
 
 
 .. toctree::
