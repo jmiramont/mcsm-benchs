@@ -21,6 +21,9 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+    'sphinx.ext.mathjax',
+    'sphinx_math_dollar',
     'nbsphinx',
     'myst_parser',
     'sphinx_copybutton',
@@ -28,11 +31,11 @@ extensions = [
     'sphinxemoji.sphinxemoji',
 ]
 
+
 bibtex_bibfiles = ['refs.bib']
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 numfig = True
-
 
 
 # -- Options for HTML output -------------------------------------------------

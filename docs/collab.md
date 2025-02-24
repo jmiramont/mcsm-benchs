@@ -95,6 +95,6 @@ The `ResultsInterpreter` class can generate reports summarizing the main benchma
 These can be made available online, along with interactive figures and `.csv` files, which are also produced by the `ResultsInterpreter` class to complement the report.
 
 When a collaborative benchmark is created using the GitHub repository template, the outputs of the `ResultsInterpreter` class are automatically used by the continuous integration workflow to generate and publish an online report.
-Users can interact with figures showing the results in the website or download the \code{.csv} files for further exploration.
+Users can interact with figures showing the results in the website or download the `.csv` files for further exploration.
 The goal of this tool is to complement scientific articles, easing the access to much more information than what normally fits in an article, and encouraging reproducible science.
 An example of the automatic website created with the results can be seen online [here](https://jmiramont.github.io/signal-detection-benchmark).
