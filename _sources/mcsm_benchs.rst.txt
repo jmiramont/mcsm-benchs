@@ -20,6 +20,14 @@ mcsm\_benchs.MatlabInterface module
    :undoc-members:
    :show-inheritance:
 
+mcsm\_benchs.OctaveInterface module
+-----------------------------------
+
+.. automodule:: mcsm_benchs.OctaveInterface
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mcsm\_benchs.ResultsInterpreter module
 --------------------------------------
 

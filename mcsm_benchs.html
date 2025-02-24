@@ -80,6 +80,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.MatlabInterface.MatlabInterface"><code class="docutils literal notranslate"><span class="pre">MatlabInterface</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.OctaveInterface">mcsm_benchs.OctaveInterface module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.OctaveInterface.OctaveInterface"><code class="docutils literal notranslate"><span class="pre">OctaveInterface</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-mcsm_benchs.ResultsInterpreter">mcsm_benchs.ResultsInterpreter module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#mcsm_benchs.ResultsInterpreter.ResultsInterpreter"><code class="docutils literal notranslate"><span class="pre">ResultsInterpreter</span></code></a></li>
 </ul>
@@ -589,6 +593,42 @@ along with this program.  If not, see &lt;<a class="reference external" href="ht
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mcsm_benchs.OctaveInterface">
+<span id="mcsm-benchs-octaveinterface-module"></span><h2>mcsm_benchs.OctaveInterface module<a class="headerlink" href="#module-mcsm_benchs.OctaveInterface" title="Link to this heading"></a></h2>
+<p>mcms-benchs: A toolbox that provides a common framework for benchmarks of multi-component signal processing methods.</p>
+<p>Copyright (C) 2024  Juan Manuel Miramont</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mcsm_benchs.OctaveInterface.OctaveInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsm_benchs.OctaveInterface.</span></span><span class="sig-name descname"><span class="pre">OctaveInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">octave_function_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add2path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/OctaveInterface.html#OctaveInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.OctaveInterface.OctaveInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class offers an interface between python and Matlab to seamlessly run methods in a Benchmark.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsm_benchs.OctaveInterface.OctaveInterface.octave_function">
+<span class="sig-name descname"><span class="pre">octave_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/OctaveInterface.html#OctaveInterface.octave_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.OctaveInterface.OctaveInterface.octave_function" title="Link to this definition"></a></dt>
+<dd><p>A wrapper of a Matlab function that receives a signal to process and a variable number of positional arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>signal</strong> (<em>numpy.ndarray</em>) – A numpy array with a signal.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An equivalent array with the outputs of the Matlab function.</p>
 </dd>
 </dl>
 </dd></dl>
