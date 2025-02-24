@@ -176,8 +176,6 @@ Some extra functionalities that can be of interest for users of `mcsm-benchs` ar
 - Even though using synthetic signals from the `SignalBank`class can help standardize benchmarks created with `mcsm-benchs`, users are not limited to the signals synthesized by this class.
 Other synthetic or real-world signals can be used when creating new benchmarks {cite}`miramont2023eusipco, miramont2024`.
 
-\end{itemize}
-
 ## References
 
 ```{bibliography}
