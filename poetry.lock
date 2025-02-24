@@ -1476,24 +1476,6 @@ files = [
 ]
 
 [[package]]
-name = "parallelbar"
-version = "2.5"
-description = "Parallel processing with progress bars"
-optional = false
-python-versions = "*"
-files = [
-    {file = "parallelbar-2.5-py3-none-any.whl", hash = "sha256:2aba5064e313cdd2fe49350db512ed0d4bc779f43e370e51c44d2bac347af43e"},
-    {file = "parallelbar-2.5.tar.gz", hash = "sha256:0922b090384dc798108a8e936a8a9e08fdaa6dadc1ccf1178ff66f9dac09465e"},
-]
-
-[package.dependencies]
-colorama = "*"
-tqdm = "*"
-
-[package.extras]
-dill = ["dill"]
-
-[[package]]
 name = "parso"
 version = "0.8.4"
 description = "A Python Parser"
@@ -2789,4 +2771,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "df78356f6360e09de2d7c9f2cee5d2b7af74d96756602410986438b176a28868"
+content-hash = "ee80cc1ac1a554af2606e92655d041d9ee979b753a1d3579aefa5a655e7abefa"
