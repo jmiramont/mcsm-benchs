@@ -1,11 +1,11 @@
 
 # Collaborative benchmarks
 
-One main purpose of `mcsm-benchs` is to serve as the base of \emph{collaborative} benchmarks, growing with the support of the community in order to be representative and useful \citep{benchopt}.
+One main purpose of `mcsm-benchs` is to serve as the base of \emph{collaborative} benchmarks (a concept in {cite}`benchopt`), growing with the support of the community in order to be representative and useful.
 One step towards this direction is the use of open-source software.
 
 Another step towards a more general adoption of this good practice is to make the benchmarks generated using `mcsm-benchs` available to the community using public repositories of code (like GitHub, GitLab, Codeocean, etc).
-These services provide tools designed to foster cooperation between interested members of the community. 
+These services provide tools designed to foster cooperation between interested members of the community.
 They also allow other users to easily add new methods and raise issues to be improved in the benchmarks.
 We thus provide a custom GitHub [template repository](https://github.com/jmiramont/collab-benchmark-template), which can be used to generate new collaborative benchmarks.
 Below we show a typical directory tree of such a repository.
