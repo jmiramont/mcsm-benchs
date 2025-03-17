@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mcsm-benchs"
-version = "0.1.2"
+version = "0.1.3"
 description = "mcsm-benchs: A benchmarking toolbox for Multi-Component Signal Methods."
 authors = ["jmiramont <jmiramontt@univ-lille.fr>"]
 readme = "README.md"
@@ -11,10 +11,10 @@ repository = "https://github.com/jmiramont/mcsm-benchs"
 include = ["LICENSE",]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.11"
+python = ">=3.9"
 numpy = "^1.22.0"
 matplotlib = "^3.5.1"
-pandas = "^1.4.4"
+# pandas = "1.4.4"
 scipy = "^1.7.3"
 seaborn = ">=0.12.0"
 pytest = "^7.0.1"
