@@ -46,7 +46,7 @@ The log is a `Benchmark` attribute, and can then be helpful to reproduce any par
 
 ## Noise generation function
 
-A function handler to a noise generator method (or a dictionary of thse) can be passed by the user as an input parameter.
+A function handler to a noise generator method (or a dictionary of these) can be passed by the user as an input parameter.
 The signature of the functions should be 
 
 ```python
@@ -163,7 +163,7 @@ Reports generated using `ResultsInterpreter` class include links to download com
 The main goal of these reports is to be published on-line and shared with users to foster collaboration for more details on collaborative benchmarks.
 
 Confidence intervals (CI) are also shown in the plots produced by `get_summary_plotlys(...)` and `get_summary_plots(...)`.
-For `task='misc'` and `task='denoising'`, the $95\%$ boostrap CIs are computed using `Seaborn` {cite}`Waskom2021`.
+For `task='misc'` and `task='denoising'`, the $95\%$ bootstrap CIs are computed using `Seaborn` {cite}`Waskom2021`.
 For `task='detection'` the output of each method is a boolean, hence 95\% Clopper-Pearson CIs are used.
 In either case, Bonferroni correction is automatically applied to account for the comparison of multiple methods for each SNR.
 
