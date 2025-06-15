@@ -490,7 +490,7 @@ Summing benchmark means transfer the results of bench_b to bench_a as long as th
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>numpy.array</em>) – The origninal noiseless signal.</p></li>
+<li><p><strong>x</strong> (<em>numpy.array</em>) – The original noiseless signal.</p></li>
 <li><p><strong>xest</strong> (<em>numpy.array</em>) – An estimation of x.</p></li>
 </ul>
 </dd>
@@ -515,7 +515,7 @@ Summing benchmark means transfer the results of bench_b to bench_a as long as th
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>numpy.array</em>) – The origninal noiseless signal.</p></li>
+<li><p><strong>x</strong> (<em>numpy.array</em>) – The original noiseless signal.</p></li>
 <li><p><strong>xest</strong> (<em>numpy.array</em>) – An estimation of x.</p></li>
 </ul>
 </dd>
@@ -531,7 +531,7 @@ Summing benchmark means transfer the results of bench_b to bench_a as long as th
 <dl class="py function">
 <dt class="sig sig-object py" id="mcsm_benchs.Benchmark.order_components">
 <span class="sig-prename descclassname"><span class="pre">mcsm_benchs.Benchmark.</span></span><span class="sig-name descname"><span class="pre">order_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minormax='max'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric=&lt;function</span> <span class="pre">corr_comps&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/Benchmark.html#order_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.Benchmark.order_components" title="Link to this definition"></a></dt>
-<dd><p>This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric.</p>
+<dd><p>This functions receives a multicomponent output Xest of a method and find a correspondence with the original noiseless components X by minimizing (or maximizing) the metric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -542,7 +542,7 @@ Summing benchmark means transfer the results of bench_b to bench_a as long as th
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A vector of lenght K, with the correspondence x[0]&lt;-&gt;xest[order[0]].</p>
+<dd class="field-even"><p>A vector of length K, with the correspondence x[0]&lt;-&gt;xest[order[0]].</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.array</p>
@@ -798,8 +798,8 @@ performance measure of all methods for all noise conditions.</p>
 <li><p><strong>filter_crit</strong> (<em>str</em><em>, </em><em>optional</em>) – A criterion to use the strings passed in</p></li>
 <li><p><strong>'all'</strong> (<em>filter_str. If</em>)</p></li>
 <li><p><strong>strings</strong> (<em>only choose those methods where all the</em>)</p></li>
-<li><p><strong>'any'</strong> (<em>appear in the &quot;Method&quot; column</em><em> of </em><em>the resuls DataFrame. If</em>)</p></li>
-<li><p><strong>column.</strong> (<em>select the methods for wich any</em><em> of </em><em>the strings appear in the mentioned</em>)</p></li>
+<li><p><strong>'any'</strong> (<em>appear in the &quot;Method&quot; column</em><em> of </em><em>the results DataFrame. If</em>)</p></li>
+<li><p><strong>column.</strong> (<em>select the methods for which any</em><em> of </em><em>the strings appear in the mentioned</em>)</p></li>
 <li><p><strong>'all'.</strong> (<em>Defaults to</em>)</p></li>
 <li><p><strong>plot_type</strong> (<em>str</em><em>, </em><em>optional</em>) – _description_. Defaults to ‘lines’.</p></li>
 </ul>
@@ -1009,7 +1009,7 @@ borders of the time-frequency plane in order to reduce border effects.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">def</span> <span class="pre">check_frec_margins(self,</span> <span class="pre">instf):</span></span></dt>
 <dd><p>Check that the instantaneous frequency (if available) of a generated signal
-is withing certain margins to avoid aliasing and border effects.</p>
+is within certain margins to avoid aliasing and border effects.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1174,7 +1174,7 @@ by this signal bank, and N is the length of the signals.</p>
 <dt class="sig sig-object py" id="mcsm_benchs.SignalBank.SignalBank.check_inst_freq">
 <span class="sig-name descname"><span class="pre">check_inst_freq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsm_benchs/SignalBank.html#SignalBank.check_inst_freq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsm_benchs.SignalBank.SignalBank.check_inst_freq" title="Link to this definition"></a></dt>
 <dd><p>Check that the instantaneous frequency (if available) of a generated signal
-is withing certain margins to avoid aliasing and border effects.</p>
+is within certain margins to avoid aliasing and border effects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>instf</strong> (<em>numpy.ndarray</em>) – Instantaneous frequency of a signal.</p>

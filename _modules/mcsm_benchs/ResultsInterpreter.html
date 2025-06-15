@@ -774,7 +774,7 @@
 <span class="sd">            the methods to plot. If None, plots all the methods. Defaults to None.</span>
 <span class="sd">            filter_crit (str, optional): A criterion to use the strings passed in</span>
 <span class="sd">            filter_str. If &#39;all&#39;, only choose those methods where all the strings</span>
-<span class="sd">            appear in the &quot;Method&quot; column of the resuls DataFrame. If &#39;any&#39;, select the methods for wich any of the strings appear in the mentioned column.</span>
+<span class="sd">            appear in the &quot;Method&quot; column of the results DataFrame. If &#39;any&#39;, select the methods for which any of the strings appear in the mentioned column.</span>
 <span class="sd">            Defaults to &#39;all&#39;.</span>
 
 <span class="sd">            plot_type (str, optional): _description_. Defaults to &#39;lines&#39;.</span>
@@ -859,7 +859,7 @@
                 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
 
             <span class="n">list_figs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Create new figure in the next interation of the loop.</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Create new figure in the next iteration of the loop.</span>
         <span class="k">return</span> <span class="n">list_figs</span></div>
 
 

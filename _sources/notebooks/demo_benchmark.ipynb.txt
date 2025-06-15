@@ -33,7 +33,7 @@
     "\n",
     " `output = a_method(noisy_signal, *args, **kwargs) `.\n",
     "\n",
-    "If one set `task='denoising'`, `output` shoud be a `(N,)` numpy array, i.e. the same shape as the input parameter `noisy_signal`, whereas if `task='detection'`, the output should be boolean (`0` or `False` for no signal, and `1` or `True` otherwise).\n",
+    "If one set `task='denoising'`, `output` should be a `(N,)` numpy array, i.e. the same shape as the input parameter `noisy_signal`, whereas if `task='detection'`, the output should be boolean (`0` or `False` for no signal, and `1` or `True` otherwise).\n",
     "\n",
     "After this, we need to create a *dictionary of methods* to pass the `Benchmark` object at the moment of instantiation."
    ]

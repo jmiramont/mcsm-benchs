@@ -1252,7 +1252,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Mean square error performance function.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (numpy.array): The origninal noiseless signal.</span>
+<span class="sd">        x (numpy.array): The original noiseless signal.</span>
 <span class="sd">        xest (numpy.array): An estimation of x.</span>
 
 <span class="sd">    Returns:</span>
@@ -1273,7 +1273,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Normalized correlation between x and xest.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (numpy.array): The origninal noiseless signal.</span>
+<span class="sd">        x (numpy.array): The original noiseless signal.</span>
 <span class="sd">        xest (numpy.array): An estimation of x.</span>
 
 <span class="sd">    Returns:</span>
@@ -1292,7 +1292,7 @@
 <div class="viewcode-block" id="order_components">
 <a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.Benchmark.order_components">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">order_components</span><span class="p">(</span><span class="n">Xest</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">minormax</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">corr_comps</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric. </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; This functions receives a multicomponent output Xest of a method and find a correspondence with the original noiseless components X by minimizing (or maximizing) the metric. </span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        Xest (numpy.array): _description_</span>
@@ -1301,7 +1301,7 @@
 <span class="sd">        metric (Callable, optional): A function `m = fun(x,xest)`, with m a real number, and vectors x and xest are the noiseless component x and the estimation of x correspondingly. Defaults to correlation between components.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        numpy.array: A vector of lenght K, with the correspondence x[0]&lt;-&gt;xest[order[0]].</span>
+<span class="sd">        numpy.array: A vector of length K, with the correspondence x[0]&lt;-&gt;xest[order[0]].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">order</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">aaa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">metric</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xest</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span> <span class="k">for</span> <span class="n">xest</span> <span class="ow">in</span> <span class="n">Xest</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
