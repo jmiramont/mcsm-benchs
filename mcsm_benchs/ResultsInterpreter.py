@@ -662,7 +662,7 @@ class ResultsInterpreter:
             the methods to plot. If None, plots all the methods. Defaults to None.
             filter_crit (str, optional): A criterion to use the strings passed in
             filter_str. If 'all', only choose those methods where all the strings
-            appear in the "Method" column of the resuls DataFrame. If 'any', select the methods for wich any of the strings appear in the mentioned column.
+            appear in the "Method" column of the results DataFrame. If 'any', select the methods for which any of the strings appear in the mentioned column.
             Defaults to 'all'.
 
             plot_type (str, optional): _description_. Defaults to 'lines'.
@@ -747,7 +747,7 @@ class ResultsInterpreter:
                 fig.savefig(filename, bbox_inches="tight")
 
             list_figs.append(fig)
-            ax = None  # Create new figure in the next interation of the loop.
+            ax = None  # Create new figure in the next iteration of the loop.
         return list_figs
 
     # --------------------------------------------------------------------------------------

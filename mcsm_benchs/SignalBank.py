@@ -274,7 +274,7 @@ class SignalBank:
     -------
         def check_frec_margins(self, instf):
             Check that the instantaneous frequency (if available) of a generated signal
-            is withing certain margins to avoid aliasing and border effects.
+            is within certain margins to avoid aliasing and border effects.
 
         def generate_signal_dict(self):
             This function is used by the class constructor to generate a dictionary of
@@ -404,7 +404,7 @@ class SignalBank:
     # TODO
     def check_inst_freq(self, instf):
         """Check that the instantaneous frequency (if available) of a generated signal
-        is withing certain margins to avoid aliasing and border effects.
+        is within certain margins to avoid aliasing and border effects.
 
         Args:
             instf (numpy.ndarray): Instantaneous frequency of a signal.
