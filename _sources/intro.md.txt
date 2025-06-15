@@ -20,10 +20,10 @@ The object-oriented programming paradigm was extensively used, and the basic com
 Block diagram describing `mcsm-benchs`classes and their interaction.
 ```
 
-Figure {numref}`block-diagram` shows a block diagram depicting the interactions between the main components of the toolbox and the inputs from the user.
+{numref}`block-diagram` shows a block diagram depicting the interactions between the main components of the toolbox and the inputs from the user.
 Optional input parameters are denoted with dotted lines.
 The three main classes of `mcsm-benchs` are: 1) the `SignalBank`class, 2) the `Benchmark` class and 3) the `ResultsInterpreter` class.
-Figure {numref}`block-diagram` also shows the four main attributes of the `Benchmark` class: 
+{numref}`block-diagram` also shows the four main attributes of the `Benchmark` class: 
 1. the noise generation function.
 2. the dictionary of methods to be compared.
 3. the dictionary of performance metrics
@@ -173,7 +173,7 @@ Some extra functionalities that can be of interest for users of `mcsm-benchs` ar
 - The execution time of each method is automatically computed, allowing users to take it into account in their comparisons (not available in parallel computation).
 - `mcsm-benchs` provides a custom `MatlabInterface` class based on  `MATLAB`'s own `matlabengine` module, that allows straightforward use of methods implemented in `MATLAB` directly from the `Python`-based benchmark. Restrictions on `MATLAB`'s version may apply in this case. Similarly, a custom `OctaveInterface` class based on `oct2py` is provided to support methods implemented in `Octave`. Examples of use are given in the library documentation.
 - Interactive figures can be easily obtained from the `ResultsInterpreter` class, and added to online repositories.
-- Even though using synthetic signals from the `SignalBank`class can help standardize benchmarks created with `mcsm-benchs`, users are not limited to the signals synthesized by this class.
+- Even though using synthetic signals from the `SignalBank` class can help standardize benchmarks created with `mcsm-benchs`, users are not limited to the signals synthesized by this class.
 Other synthetic or real-world signals can be used when creating new benchmarks {cite}`miramont2023eusipco, miramont2024`.
 
 ## References
