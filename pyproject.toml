@@ -58,7 +58,7 @@ pesq = "^0.0.4"
 # [tool.poetry.group.matlab_tools.dependencies]
 # matlabengine = "9.13.6" # Check this is correct for your Matlab installation.
 
-# Developement dependencies, installed by default.
+# Development dependencies, installed by default.
 [tool.poetry.group.dev.dependencies]
 
 

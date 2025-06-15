@@ -1097,7 +1097,7 @@ def mse(x, xest):
     """ Mean square error performance function.
 
     Args:
-        x (numpy.array): The origninal noiseless signal.
+        x (numpy.array): The original noiseless signal.
         xest (numpy.array): An estimation of x.
 
     Returns:
@@ -1115,7 +1115,7 @@ def corr_comps(x, xest):
     """ Normalized correlation between x and xest.
 
     Args:
-        x (numpy.array): The origninal noiseless signal.
+        x (numpy.array): The original noiseless signal.
         xest (numpy.array): An estimation of x.
 
     Returns:
@@ -1131,7 +1131,7 @@ def corr_comps(x, xest):
 
 
 def order_components(Xest, X, minormax="max", metric=corr_comps):
-    """ This functions receives a multicomponent output Xest of a method and find a correspondance with the original noiseless components X by minimizing (or maximizing) the metric. 
+    """ This functions receives a multicomponent output Xest of a method and find a correspondence with the original noiseless components X by minimizing (or maximizing) the metric. 
 
     Args:
         Xest (numpy.array): _description_
@@ -1140,7 +1140,7 @@ def order_components(Xest, X, minormax="max", metric=corr_comps):
         metric (Callable, optional): A function `m = fun(x,xest)`, with m a real number, and vectors x and xest are the noiseless component x and the estimation of x correspondingly. Defaults to correlation between components.
 
     Returns:
-        numpy.array: A vector of lenght K, with the correspondence x[0]<->xest[order[0]].
+        numpy.array: A vector of length K, with the correspondence x[0]<->xest[order[0]].
     """
     order = [[] for aaa in range(len(X))]
     values = np.array([[metric(x, xest) for x in X] for xest in Xest], dtype=object)
