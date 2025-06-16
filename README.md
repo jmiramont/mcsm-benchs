@@ -16,15 +16,14 @@ This is as easy as creating a new `.py` file with a `Python` class that wraps a 
 The GitHub workflows provided in the template can automatically publish a summary report [like this](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) of the benchmarks saved in your repository, as well as make interactive online plots and give access to `.csv` files with the data.
 
 >[!TIP]
->:construction: Questions or difficulties using `mcsm-benchs`?
+> Questions or difficulties using `mcsm-benchs`?
 >
 > Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
 >[!TIP]
-> Do you want to contribute to `mcsm-benchs`?
+> :construction: Do you want to contribute to `mcsm-benchs`?
 >
-> Please check our [contribution guidelines]() :white_check_mark:.
-
+> Please check our [contribution guidelines](https://jmiramont.github.io/mcsm-benchs/contributions.html) :white_check_mark:.
 
 
 ## Installation using ```pip```
@@ -33,7 +32,7 @@ The GitHub workflows provided in the template can automatically publish a summar
 pip install mcsm-benchs
 ```
 
-For installation in development mode using `poetry` [check instructions in the documentations](https://jmiramont.github.io/mcsm-benchs/install.html)
+For installation in development mode using `poetry` [check instructions in the documentation](https://jmiramont.github.io/mcsm-benchs/install.html).
 
 ## Documentation
 

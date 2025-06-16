@@ -7,7 +7,7 @@ New functionality must be documented and covered by associated tests.
 
 Tests should be run locally before making a pull-request.
 
-Please check our [code of conduct](./code_of_conduct.html) before making contributions.
+Please check our [code of conduct](https://jmiramont.github.io/mcsm-benchs/code_of_conduct.html) before making contributions.
 
 ## Installation in development mode
 
