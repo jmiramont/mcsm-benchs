@@ -16,6 +16,8 @@ The goal of this toolbox is providing the signal-processing community with a com
 
    install.md
 
+   contributions.md
+
    intro.md
 
    collab.md
