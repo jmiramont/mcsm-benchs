@@ -157,17 +157,17 @@ For this reason, `mcsm-benchs` includes a `ResultsInterpreter` class that provid
 
 An instance of `ResultsInterpreter` is created by passing a `Benchmark` object to the class constructor, after which a variety of class methods can be used to generate reports, figures and files from the output of the performance metrics.
 
-As an example, the figures later discussed in Sec. \ref{sec:results} were generated using the class method `get_summary_plots(...)`.
 The function `save_report(...)` can be used to generate reports comprising the simulation parameters and a summary of the results.
-Reports generated using `ResultsInterpreter` class include links to download comma-separated values (\code{.csv}) files with the results and access to interactive plots created by the function `get_summary_plotlys(...)` using `Plotly`.
-The main goal of these reports is to be published on-line and shared with users to foster collaboration for more details on collaborative benchmarks.
+Reports generated using `ResultsInterpreter` class include links to download comma-separated values (`.csv`) files with the results and access to interactive plots created by the function `get_summary_plotlys(...)` using `Plotly`.
+The main goal of these reports is to be published online and shared with users to foster collaboration for more details on collaborative benchmarks.
 
 Confidence intervals (CI) are also shown in the plots produced by `get_summary_plotlys(...)` and `get_summary_plots(...)`.
-For `task='misc'` and `task='denoising'`, the $95\%$ bootstrap CIs are computed using `Seaborn` {cite}`Waskom2021`.
-For `task='detection'` the output of each method is a boolean, hence 95\% Clopper-Pearson CIs are used.
+For `task='misc'` and `task='denoising'`, the 95% bootstrap CIs are computed using `Seaborn` {cite}`Waskom2021`.
+For `task='detection'` the output of each method is a boolean, hence 95% Clopper-Pearson CIs are used.
 In either case, Bonferroni correction is automatically applied to account for the comparison of multiple methods for each SNR.
 
 # Extra functionalities
+
 Some extra functionalities that can be of interest for users of `mcsm-benchs` are summarized below:
 - Methods can be run in parallel when appropriate hardware is available, reducing the benchmarking time. This can be indicated by the user as an input parameter, as well as the desired number of processes.
 - The execution time of each method is automatically computed, allowing users to take it into account in their comparisons (not available in parallel computation).
