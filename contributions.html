@@ -99,18 +99,18 @@
 <p>We welcome contributions that improve <code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>. From basic functionality to new examples, you can make your contributions following the guidelines below.</p>
 <section id="generalities">
 <h2>Generalities<a class="headerlink" href="#generalities" title="Link to this heading"></a></h2>
-<p>New functionality must be documented and covered by associated tests.</p>
+<p>New functionality must be documented and covered by associated unit tests.</p>
 <p>Tests should be run locally before making a pull-request.</p>
-<p>Please check our <a class="reference external" href="https://jmiramont.github.io/mcsm-benchs/code_of_conduct.html">code of conduct</a> before making contributions.</p>
+<p>Please check our <a class="reference external" href="https://jmiramont.github.io/mcsm-benchs/code_of_conduct.html">Code of Conduct</a> before making contributions.</p>
 </section>
 <section id="installation-in-development-mode">
 <h2>Installation in development mode<a class="headerlink" href="#installation-in-development-mode" title="Link to this heading"></a></h2>
-<p>Please follow the <a class="reference external" href="https://jmiramont.github.io/mcsm-benchs/install.html">installation instructions</a> using <code class="docutils literal notranslate"><span class="pre">poetry</span></code> for development mode.</p>
+<p>Follow the <a class="reference external" href="https://jmiramont.github.io/mcsm-benchs/install.html">installation instructions</a> using <code class="docutils literal notranslate"><span class="pre">poetry</span></code> for development mode.</p>
 </section>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
 <p>All new functionality must be documented. Ideally, even for private functions, a docstring should describe how the function works and include a brief explanation of the input and output arguments.</p>
-<p>You can locally compile the documentation using</p>
+<p>You can locally build the documentation using <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>notebooks/<span class="w"> </span>docs<span class="w"> </span>-r
 <span class="nb">cd</span><span class="w"> </span>docs
 poetry<span class="w"> </span>run<span class="w"> </span>sphinx-apidoc<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>../mcsm_benchs<span class="w"> </span>
@@ -121,10 +121,11 @@ poetry<span class="w"> </span>run<span class="w"> </span>make<span class="w"> </
 </section>
 <section id="running-tests">
 <h2>Running tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h2>
-<p>Please include new tests that cover any additional functionality. Once the tests are added to the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder, run <code class="docutils literal notranslate"><span class="pre">pytest</span></code> using</p>
+<p>Please include unit tests covering any additional functionality. Once the new tests are added to the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder, run <code class="docutils literal notranslate"><span class="pre">pytest</span></code> using</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest
 </pre></div>
 </div>
+<p>All tests must pass locally <em>before</em> making a pull-request.</p>
 </section>
 </section>
 
