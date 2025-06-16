@@ -20,6 +20,13 @@ The GitHub workflows provided in the template can automatically publish a summar
 >
 > Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
+>[!TIP]
+> Do you want to contribute to `mcsm-benchs`?
+>
+> Please check our [contribution guidelines]() :white_check_mark:.
+
+
+
 ## Installation using ```pip```
 
 ```bash
