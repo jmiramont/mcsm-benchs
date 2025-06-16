@@ -50,6 +50,15 @@ def invert_stft(stft,mask=None):
 
 
 def spectrogram_thresholding(signal, coeff, fun='hard'):
+    """ Apply a threshold to the spectrogram in order to filter a signal from noise.
+    Args:
+        signal (ndarray): Input signal to filter.
+        coeff (ndarray): Coefficient for the thresholding.
+        fun (str, optional): Thresholding function. Could be 'hard' or 'soft'. Defaults to 'hard'.
+    
+    Returns:
+        xr: Numpy array with the filtered signal.    
+    """
     
         # Compute the STFT
     _, _, stft = sg.stft(signal,

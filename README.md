@@ -9,9 +9,9 @@ This toolbox provides a common framework that allows researcher-independent comp
 
 Create your own collaborative benchmarks using `mcsm-benchs` and this [GitHub template](https://github.com/jmiramont/collab-benchmark-template).
 
-Collaborative benchmarks allows other researchers to add new methods to your benchmark via a `pull-request`. 
-This is as easy as creating a new `.py` file with a `Python` class that wraps a call to your method (it doesn't matter if it is coded in `Python`, `MATLAB` or `Octave`... we wellcome all!). 
-**Template files are available** for this too. Let's make collaborative science easy :).
+Collaborative benchmarks allow other researchers to add new methods to your benchmark via a `pull-request`.
+This is as easy as creating a new `.py` file with a `Python` class that wraps a call to your method (it doesn't matter if it is coded in `Python`, `MATLAB` or `Octave`... we welcome all!).
+[**Template files are available**](https://github.com/jmiramont/collab-benchmark-template/tree/main/new_method_examples) for this too. Let's make collaborative science easy :).
 
 The GitHub workflows provided in the template can automatically publish a summary report [like this](https://jmiramont.github.io/benchmarks-detection-denoising/results_denoising.html) of the benchmarks saved in your repository, as well as make interactive online plots and give access to `.csv` files with the data.
 
@@ -21,9 +21,12 @@ The GitHub workflows provided in the template can automatically publish a summar
 > Please consider leaving [an Issue](https://github.com/jmiramont/mcsm-benchs/issues) so that we can help you and improve our software :white_check_mark:.
 
 ## Installation using ```pip```
+
 ```bash
 pip install mcsm-benchs
 ```
+
+For installation in development mode using `poetry` [check instructions in the documentations](https://jmiramont.github.io/mcsm-benchs/install.html)
 
 ## Documentation
 
@@ -32,6 +35,7 @@ pip install mcsm-benchs
 ## Quick-start
 
 ### Creating a new benchmark
+
 The following simple example shows how to create a new benchmark for comparing your methods.
 We set `task=denoising`, meaning that all methods will be compared in terms of reconstruction of the original signal from noise.
 
@@ -94,7 +98,6 @@ for fig in figs:
 
 If you use the GitHub [template for collaborative benchmarks](https://github.com/jmiramont/collab-benchmark-template), your results are automatically published if you enable GitHub sites in the repository configuration.
 Additionally, other researchers will be able to interact with your results, download `.csv` files with all the benchmark data and even add their own methods to your benchmark via a *pull-request*.
-
 
 ## Related works
 
