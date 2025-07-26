@@ -216,6 +216,12 @@ class Signal(np.ndarray):
     def instf(self):
         return self._instf
 
+    @instf.setter
+    def instf(self, value):
+        self._instf = value
+
+
+
     def add_comp(self, new_comp, **kwargs):
         """Add a new component, potentially with its instantaneous frequency. This
         latter can be added later.
@@ -255,6 +261,7 @@ class Signal(np.ndarray):
             "ndarray": self.view(np.ndarray),
             "ncomps": self.ncomps,
             "total_comps": self.total_comps,
+            "instf": self.instf,
         }
 
 

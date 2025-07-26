@@ -5,7 +5,7 @@ import numpy as np
 import scipy.signal as sg
 import pandas as pd
 
-def get_stft(signal):
+def get_stft(signal, **kwargs):
     """
     A one-sided spectrogram and stft (for real signals)
     """
@@ -13,7 +13,7 @@ def get_stft(signal):
 
     N = len(signal)
     Nfft = 2*N
-    window = sg.gaussian(Nfft, np.sqrt(Nfft/2/np.pi))
+    window = sg.windows.gaussian(Nfft, np.sqrt(Nfft/2/np.pi))
     window = window/ np.sum(window**2)
     sigaux = np.zeros((Nfft,))
     sigaux[0:N] = signal
@@ -23,7 +23,8 @@ def get_stft(signal):
                         window=window, 
                         nperseg=Nfft, 
                         noverlap=Nfft-1, 
-                        return_onesided=True
+                        return_onesided=True,
+                        **kwargs,
                         )
     stft = stft[:,0:N]
     return stft

@@ -37,10 +37,8 @@ bibliography: paper.bib
 Time-frequency (TF) representations are natural encodings of non-stationary time series, also termed signals, helping to discern patterns that reveal their time-varying frequency structure [@flandrin1998time].
 The model one usually has in mind, when discussing TF representations is a so-called multi-component signal (MCS), where the latter is thought to be the sum of several components of individual interest.
 
-MCS processing is an area with a long history which, however, remains a field of methodological innovation [@bardenet2018zeros; @colominas2020fully; @kreme2020filtering; @bardenet2021time; @legros2022instantaneous; @legros2022time; @ghosh2022signal; @pascal2022covariant; @pascalfamille].
-In such a context, systematically comparing existing methods while keeping a record of how they performed on a predefined set of representative problems, i.e. benchmarking, can shed light on novel avenues of research and set clear baselines for new approaches.
-This is a widely adopted strategy in neighboring fields such as optimization [@bartz2020benchmarking; @hansen2021coco; @benchopt] and machine learning [@mattson2020mlperf], yet there are no benchmarking tools for MCS processing.
 `mcsm-benchs` is an open-source Python library for creating reproducible benchmarks of methods that aim at extracting information from MCSs.
+
 `Benchmark` objects can be created by simply passing a series of simulation parameters, a dictionary of methods and a set of performance metrics, while a `SignalBank` instance can be used to standardize comparisons across benchmarks.
 The `SignalBank` class can synthesize several MCSs as objects from a custom `Signal` class that behave like regular arrays in Python but also contain information about the components.
 
@@ -49,6 +47,10 @@ These are based on online repositories (see [here](https://jmiramont.github.io/b
 Several examples are given in the [documentation](https://jmiramont.github.io/mcsm-benchs/), as well as a GitHub [repository template](https://github.com/jmiramont/collab-benchmark-template) that relies heavily on `mcsm-benchs` and continuous integration/deployment workflows, in order to automatize the process of publishing new benchmarks.
 
 # Statement of need
+
+MCS processing is an area with a long history which, however, remains a field of methodological innovation [@bardenet2018zeros; @colominas2020fully; @kreme2020filtering; @bardenet2021time; @legros2022instantaneous; @legros2022time; @ghosh2022signal; @pascal2022covariant; @pascalfamille].
+In such a context, systematically comparing existing methods while keeping a record of how they performed on a predefined set of representative problems, i.e. benchmarking, can shed light on novel avenues of research and set clear baselines for new approaches.
+This is a widely adopted strategy in neighboring fields such as optimization [@bartz2020benchmarking; @hansen2021coco; @benchopt] and machine learning [@mattson2020mlperf], yet there are no benchmarking tools for MCS processing.
 
 `mcsm-benchs` brings to the table a common framework to easily carry out extensive comparisons between MCS-based approaches in a unified and objective way.
 It can be used to benchmark any number of approaches and create clear baselines for new methods that are accessible to the whole research community.
@@ -67,6 +69,6 @@ Finally, in order to ease the adoption of this package by the community, `mcsm-b
 
 # Acknowledgements
 This work was supported by grant ERC-2019-STG-851866, and French projects ANR20-CHIA-0002 and ASCETE-ANR19-CE48-0001.
-JMM would like to thank Yusuf Yiğit Pilavcı for his valuable insight.
+JMM would like to thank Guillaume Gautier and Yusuf Yiğit Pilavcı for their valuable insight.
 
 # References

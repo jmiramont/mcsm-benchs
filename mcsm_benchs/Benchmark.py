@@ -278,7 +278,11 @@ class Benchmark:
             for key in signal_ids:
                 s = signal_ids[key]
                 assert N == len(s), "Input signal length should be N"
-                signal_dic[key] = Signal(s)
+                if isinstance(signal_ids[key],Signal):
+                    signal_dic[key] = s
+                else:
+                    signal_dic[key] = Signal(s)
+                
 
             self.signal_dic = signal_dic
             self.signal_ids = signal_ids
@@ -434,6 +438,7 @@ class Benchmark:
         noisy_signal = Signal(self.noisy_signals[idx])
         noisy_signal.ncomps = self.base_signal_info["ncomps"]
         noisy_signal.total_comps = self.base_signal_info["total_comps"]
+        noisy_signal.instf = self.base_signal_info["instf"]
 
         try:
             args, kwargs = params
@@ -1000,7 +1005,7 @@ class Benchmark:
         # output = []
         # for Xest in method_output:
         order = order_components(method_output, X, minormax="min", metric=mse)
-        Xaux = method_output[order]
+        Xaux = [method_output[i] for i in order]
         qrfs = []
         for x, xaux in zip(X, Xaux):
             indx = np.where(np.abs(x) > 0)
@@ -1092,7 +1097,6 @@ Other auxiliary functions
 ----------------------------------------------------------------------------------------
 """
 
-
 def mse(x, xest):
     """ Mean square error performance function.
 
@@ -1153,7 +1157,8 @@ def order_components(Xest, X, minormax="max", metric=corr_comps):
 
     while np.any(np.array([k == [] for k in order], dtype=object)):
         ind = np.unravel_index(fun(values, axis=None), values.shape)
-        if (ind[0] not in order) and (order[ind[1]] == []):
+        # if (ind[0] not in order) and (order[ind[1]] == []):
+        if (order[ind[1]] == []):
             order[ind[1]] = ind[0]
         values[ind] = factor * np.inf
     return order
