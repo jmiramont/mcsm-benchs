@@ -30,8 +30,10 @@ The goal of this toolbox is providing the signal-processing community with a com
 
    notebooks/demo_benchmark.ipynb
    notebooks/demo_signal_bank.ipynb
+   notebooks/demo_detection.ipynb
    notebooks/demo_noise_function.ipynb
    notebooks/demo_quering_signals.ipynb
+   notebooks/demo_if_estimation.ipynb
    notebooks/demo_other_user_inputs.ipynb
 
 .. toctree::
