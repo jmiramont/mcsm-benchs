@@ -607,9 +607,7 @@ class Benchmark:
 
                             if self.task == "component_denoising":
                                 extrargs = {"tmin": self.tmin, "tmax": self.tmax}
-                                method_output = [
-                                    [] for aaa in range(noisy_signals.shape[0])
-                                ]
+                                method_output = []
 
                             if self.task == "inst_frequency":
                                 extrargs = {"tmin": self.tmin, "tmax": self.tmax}
@@ -978,7 +976,7 @@ class Benchmark:
         # output = []
         # for Xest in method_output:
         order = order_components(method_output, X)
-        Xaux = method_output[order]
+        Xaux = [method_output[i] for i in order]
         qrfs = []
         for x, xaux in zip(X, Xaux):
             indx = np.where(np.abs(x) > 0)
@@ -1155,11 +1153,11 @@ def order_components(Xest, X, minormax="max", metric=corr_comps):
         fun = np.argmin
         factor = 1
 
-    while np.any(np.array([k == [] for k in order], dtype=object)):
+    while np.any(np.array([k == [] for k in order])):
         ind = np.unravel_index(fun(values, axis=None), values.shape)
         # if (ind[0] not in order) and (order[ind[1]] == []):
         if (order[ind[1]] == []):
-            order[ind[1]] = ind[0]
+            order[ind[1]] = int(ind[0])
         values[ind] = factor * np.inf
     return order
 

@@ -39,7 +39,7 @@ def invert_stft(stft,mask=None):
 
     N = stft.shape[1]
     Nfft = 2*N
-    window = sg.gaussian(Nfft, np.sqrt(Nfft/2/np.pi))
+    window = sg.windows.gaussian(Nfft, np.sqrt(Nfft/2/np.pi))
     window = window/window.sum()
     stftaux = np.zeros((stft.shape[0],Nfft), dtype=complex)
     stftaux[:,0:N] = stft*mask.astype(float)
