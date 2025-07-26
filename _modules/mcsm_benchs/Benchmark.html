@@ -62,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_noise_function.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarks with personalized noise-generating functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_quering_signals.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Querying Signal class attributes for more versatile benchmarks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_if_estimation.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarking methods for instantaneous frequency estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_component_estim.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Benchmarking methods for component retrieval</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/demo_other_user_inputs.html"><code class="docutils literal notranslate"><span class="pre">mcsm-benchs</span></code>: Using user-provided signals and performance metric</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Packages:</span></p>
@@ -725,9 +726,7 @@
 
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;component_denoising&quot;</span><span class="p">:</span>
                                 <span class="n">extrargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tmin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="s2">&quot;tmax&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">}</span>
-                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[</span>
-                                    <span class="p">[]</span> <span class="k">for</span> <span class="n">aaa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">noisy_signals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                                <span class="p">]</span>
+                                <span class="n">method_output</span> <span class="o">=</span> <span class="p">[]</span>
 
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;inst_frequency&quot;</span><span class="p">:</span>
                                 <span class="n">extrargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tmin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="s2">&quot;tmax&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">}</span>
@@ -1126,7 +1125,7 @@
         <span class="c1"># output = []</span>
         <span class="c1"># for Xest in method_output:</span>
         <span class="n">order</span> <span class="o">=</span> <span class="n">order_components</span><span class="p">(</span><span class="n">method_output</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-        <span class="n">Xaux</span> <span class="o">=</span> <span class="n">method_output</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">Xaux</span> <span class="o">=</span> <span class="p">[</span><span class="n">method_output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
         <span class="n">qrfs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">xaux</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Xaux</span><span class="p">):</span>
             <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
@@ -1319,11 +1318,11 @@
         <span class="n">fun</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">k</span> <span class="o">==</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)):</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">k</span> <span class="o">==</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">order</span><span class="p">])):</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="c1"># if (ind[0] not in order) and (order[ind[1]] == []):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="p">[]):</span>
-            <span class="n">order</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">order</span><span class="p">[</span><span class="n">ind</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">values</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="k">return</span> <span class="n">order</span></div>
 
