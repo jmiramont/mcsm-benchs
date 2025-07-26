@@ -318,6 +318,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">instf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instf</span>
 
+    <span class="nd">@instf</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">instf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instf</span> <span class="o">=</span> <span class="n">value</span>
+
+
+
 <div class="viewcode-block" id="Signal.add_comp">
 <a class="viewcode-back" href="../../mcsm_benchs.html#mcsm_benchs.SignalBank.Signal.add_comp">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_comp</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -368,6 +374,7 @@
             <span class="s2">&quot;ndarray&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
             <span class="s2">&quot;ncomps&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncomps</span><span class="p">,</span>
             <span class="s2">&quot;total_comps&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_comps</span><span class="p">,</span>
+            <span class="s2">&quot;instf&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">instf</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
 
