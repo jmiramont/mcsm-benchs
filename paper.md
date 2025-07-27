@@ -50,9 +50,11 @@ Several examples are given in the [documentation](https://jmiramont.github.io/mc
 
 MCS processing is an area with a long history which, however, remains a field of methodological innovation [@bardenet2018zeros; @colominas2020fully; @kreme2020filtering; @bardenet2021time; @legros2022instantaneous; @legros2022time; @ghosh2022signal; @pascal2022covariant; @pascalfamille].
 In such a context, systematically comparing existing methods while keeping a record of how they performed on a predefined set of representative problems, i.e. benchmarking, can shed light on novel avenues of research and set clear baselines for new approaches.
-This is a widely adopted strategy in neighboring fields such as optimization [@bartz2020benchmarking; @hansen2021coco; @benchopt] and machine learning [@mattson2020mlperf], yet there are no benchmarking tools for MCS processing.
+This is a widely adopted strategy in neighboring fields such as optimization [@bartz2020benchmarking; @hansen2021coco; @benchopt] and machine learning [@mattson2020mlperf], yet, to the best of our knowledge, there are no benchmarking tools for MCS processing.
 
-`mcsm-benchs` brings to the table a common framework to easily carry out extensive comparisons between MCS-based approaches in a unified and objective way.
+Ideally, researchers would show the superior performance of their novel techniques by 1) selecting a number of competing approaches to compare with; 2) choosing synthetic or real-world signals that pose a challenge to the selected methods; 3) contaminate the signals white or colored noise and 4) compare the performance of the novel approaches under different signal-to-noise ratios. There are two problems with this pipeline. First, it is sometimes not clear which are the state-of-the-art methods. Second, the comparisons are commonly limited to very few signals selected to show the strengths of the new method.
+
+`mcsm-benchs` brings to the table a common framework to easily carry out extensive comparisons between MCS-based approaches in a unified and *objective* way.
 It can be used to benchmark any number of approaches and create clear baselines for new methods that are accessible to the whole research community.
 
 The toolbox is versatile enough to allow comparisons between many kinds of methods.
