@@ -1,5 +1,7 @@
 [![Tests](https://github.com/jmiramont/mcsm-benchs/actions/workflows/tests.yml/badge.svg)](https://github.com/jmiramont/mcsm-benchs/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jmiramont/mcsm-benchs/graph/badge.svg?token=CJPPKYJD8H)](https://codecov.io/gh/jmiramont/mcsm-benchs) [![Documentation](docs/readme_figures/docs_badge.svg)](https://jmiramont.github.io/mcsm-benchs)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17122672.svg)](https://doi.org/10.5281/zenodo.17122672)
+
 
 # `mcsm-benchs`: A Toolbox for Benchmarking Multi-Component Signal Analysis Methods
 
