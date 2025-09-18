@@ -35,7 +35,7 @@ bibliography: paper.bib
 # Summary
 
 Time-frequency (TF) representations are natural encodings of non-stationary time series, also termed signals, helping to discern patterns that reveal their time-varying frequency structure [@flandrin1998time].
-The model one usually has in mind, when discussing TF representations is a so-called multi-component signal (MCS), where the latter is thought to be the sum of several components of individual interest.
+The model one usually has in mind when discussing TF representations is a so-called multi-component signal (MCS), where the latter is thought to be the sum of several components of individual interest.
 
 `mcsm-benchs` is an open-source Python library for creating reproducible benchmarks of methods that aim at extracting information from MCSs.
 
@@ -58,9 +58,9 @@ Ideally, researchers would show the superior performance of their novel techniqu
 It can be used to benchmark any number of approaches and create clear baselines for new methods that are accessible to the whole research community.
 
 The toolbox is versatile enough to allow comparisons between many kinds of methods.
-For instance, `mcsm-benchs` was used to compare statistical tests for signal detection [@miramont2022public], and for denoising of synthetic and realistic signals under different scenarios, such as white noise or even real-world noises [@miramont2024].
+For instance, `mcsm-benchs` was used to compare statistical tests for signal detection [@miramont2022public] and for denoising of synthetic and realistic signals under different scenarios, such as white noise or even real-world noises [@miramont2024].
 As another example, many approaches within MCS processing focus instead on retrieving individual components and estimating their instantaneous frequencies.
-These methods can be easily benchmarked using `mcsm-benchs` as well (see @miramont2023eusipco).
+These methods can be easily benchmarked using `mcsm-benchs` as well [see @miramont2023eusipco].
 
 While the aforementioned cases illustrate the most typical applications in MCS processing, methods are in fact always treated like *black boxes* by `mcsm-benchs`.
 The only constraint imposed by the software is that the outputs of a method should match the inputs of the performance metrics given by the user.
