@@ -48,13 +48,13 @@ Several examples are given in the [documentation](https://jmiramont.github.io/mc
 
 # Statement of need
 
-MCS processing is an area with a long history which, however, remains a field of methodological innovation [@bardenet2018zeros; @colominas2020fully; @kreme2020filtering; @bardenet2021time; @legros2022instantaneous; @legros2022time; @ghosh2022signal; @pascal2022covariant; @pascalfamille].
-In such a context, systematically comparing existing methods while keeping a record of how they performed on a predefined set of representative problems, i.e. benchmarking, can shed light on novel avenues of research and set clear baselines for new approaches.
+MCS processing is an area with a long history, and is still a field of methodological innovation [@bardenet2018zeros; @colominas2020fully; @kreme2020filtering; @bardenet2021time; @legros2022instantaneous; @legros2022time; @ghosh2022signal; @pascal2022covariant; @pascalfamille].
+In such a context, systematically comparing existing methods while keeping a record of how they performed on a predefined set of representative problems, i.e., benchmarking, can shed light on novel avenues of research and set clear baselines for new approaches.
 This is a widely adopted strategy in neighboring fields such as optimization [@bartz2020benchmarking; @hansen2021coco; @benchopt] and machine learning [@mattson2020mlperf], yet, to the best of our knowledge, there are no benchmarking tools for MCS processing.
 
-Ideally, researchers would show the superior performance of their novel techniques by 1) selecting a number of competing approaches to compare with; 2) choosing synthetic or real-world signals that pose a challenge to the selected methods; 3) contaminate the signals white or colored noise and 4) compare the performance of the novel approaches under different signal-to-noise ratios. There are two problems with this pipeline. First, it is sometimes not clear which are the state-of-the-art methods. Second, the comparisons are commonly limited to very few signals selected to show the strengths of the new method.
+Ideally, researchers would show the superior performance of their novel techniques by 1) selecting a number of competing approaches to compare with, 2) choosing synthetic or real-world signals that pose a challenge to the selected methods, 3) contaminating the signals with white or colored noise, and 4) comparing the performance of the novel approaches under different signal-to-noise ratios. There are two problems with this pipeline. First, it is sometimes not clear which the state-of-the-art methods are. Second, the comparisons are commonly limited to very few signals selected to show the strengths of the new method.
 
-`mcsm-benchs` brings to the table a common framework to easily carry out extensive comparisons between MCS-based approaches in a unified and *objective* way.
+`mcsm-benchs` brings a common framework to the table to easily carry out extensive comparisons between MCS-based approaches in a unified and *objective* way.
 It can be used to benchmark any number of approaches and create clear baselines for new methods that are accessible to the whole research community.
 
 The toolbox is versatile enough to allow comparisons between many kinds of methods.
@@ -64,8 +64,8 @@ These methods can be easily benchmarked using `mcsm-benchs` as well [see @miramo
 
 While the aforementioned cases illustrate the most typical applications in MCS processing, methods are in fact always treated like *black boxes* by `mcsm-benchs`.
 The only constraint imposed by the software is that the outputs of a method should match the inputs of the performance metrics given by the user.
-Thanks to this feature, `mcsm-benchs` has a significant potential, as it could be used to systematically compare any signal processing algorithm.
-Large studies of methods for specific applications can thus be created and kept updated by the signal processing community using `mcsm-benchs`, hopefully leading to widely adopted procedures for evaluating new approaches that are transparent, less time-consuming and straightforward for researchers to use.
+Thanks to this feature, `mcsm-benchs` has significant potential, as it could be used to systematically compare any signal processing algorithm.
+Large studies of methods for specific applications can thus be created and kept updated by the signal processing community using `mcsm-benchs`, hopefully leading to widely adopted procedures for evaluating new approaches that are transparent, less time-consuming, and straightforward for researchers to use.
 
 Finally, in order to ease the adoption of this package by the community, `mcsm-benchs` also supports methods coded in `Octave`/`Matlab`, so that these can be seamlessly integrated into Python-based benchmarks.
 
